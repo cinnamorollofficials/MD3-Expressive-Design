@@ -11,19 +11,29 @@ const THEMES: { name: ThemeName; cls: string; label: string }[] = [
 
 export function ThemeSwitcher() {
   const { theme, mode, setTheme, toggleMode } = useTheme();
+  const currentTheme = THEMES.find(t => t.name === theme) || THEMES[0];
+
   return (
     <div className={styles.root}>
-      <span className={styles.label}>Theme</span>
-      <div className={styles.swatchRow}>
-        {THEMES.map(t => (
-          <button
-            key={t.name}
-            type="button"
-            aria-label={t.label}
-            className={cn(styles.swatch, t.cls, theme === t.name && styles.active)}
-            onClick={() => setTheme(t.name)}
-          />
-        ))}
+      <div className={styles.themeDropdownContainer}>
+        <button type="button" className={styles.dropdownTrigger}>
+          <Icon name="palette" size={20} />
+          <span>Theme: {currentTheme.label}</span>
+          <Icon name="arrow_drop_down" size={18} />
+        </button>
+        <div className={styles.dropdownMenu}>
+          {THEMES.map(t => (
+            <button
+              key={t.name}
+              type="button"
+              className={cn(styles.dropdownItem, theme === t.name && styles.dropdownItemActive)}
+              onClick={() => setTheme(t.name)}
+            >
+              <span className={cn(styles.menuSwatch, t.cls)} />
+              {t.label}
+            </button>
+          ))}
+        </div>
       </div>
       <div className={styles.divider} />
       <button
