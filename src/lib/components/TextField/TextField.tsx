@@ -28,7 +28,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(function T
 
   return (
     <div className={cn(styles.root, className)}>
-      <div className={cn(styles.field, styles[variant], focused && styles.focused, error && styles.error)}>
+      <div className={cn(styles.field, styles[variant], focused && styles.focused, error && styles.error, leadingIcon && styles.hasLeading)}>
         {leadingIcon && <span className={styles.leading}><Icon name={leadingIcon} size={24} /></span>}
         <input
           ref={ref}
@@ -45,6 +45,13 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(function T
           <label htmlFor={inputId} className={cn(styles.label, floated && styles.floated)}>
             {label}
           </label>
+        )}
+        {variant === 'outlined' && label && (
+          <fieldset className={styles.outline} aria-hidden="true">
+            <legend className={cn(styles.legend, floated && styles.legendFloated)}>
+              <span>{label}</span>
+            </legend>
+          </fieldset>
         )}
         {trailingIcon && <span className={styles.trailing}><Icon name={trailingIcon} size={24} /></span>}
       </div>
