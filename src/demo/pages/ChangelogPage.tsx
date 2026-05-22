@@ -30,7 +30,7 @@ export function ChangelogPage() {
               <CardContent>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8, marginBottom: 8 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <CardTitle>v0.2.0</CardTitle>
+                    <CardTitle>v0.2.1</CardTitle>
                     <span style={{
                       background: 'var(--md-sys-color-primary-container)',
                       color: 'var(--md-sys-color-on-primary-container)',

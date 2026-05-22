@@ -19,8 +19,8 @@ export function InstallationPage() {
         subtitle="Get started integrating Material Design 3 Expressive components into your React project."
       />
 
-      {/* Package manager grids */}
-      <section style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 16 }}>
+      {/* Package manager list */}
+      <section style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
         <Card variant="outlined">
           <CardContent>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>

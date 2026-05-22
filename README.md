@@ -14,23 +14,34 @@ Peer dependencies: `react@^18.3.1 || ^19` and `react-dom@^18.3.1 || ^19`.
 
 ## Usage
 
-Import the bundled stylesheet once at your app root:
+Import the stylesheet at your entry point, wrap your application root with `ThemeProvider`, and use components/hooks anywhere inside:
 
 ```tsx
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { ThemeProvider, Button, Card, CardContent, CardTitle, useTheme } from '@hadi_gunawan/md3-expressive-ds';
 import '@hadi_gunawan/md3-expressive-ds/style.css';
 
-import { Button, Card, CardContent, CardTitle, useTheme } from '@hadi_gunawan/md3-expressive-ds';
-
-export function Demo() {
-  useTheme(); // applies data-theme and data-mode on <html>
+function MainApp() {
+  const { theme, toggleMode } = useTheme(); // Retrieves state from provider context
 
   return (
     <Card variant="filled">
       <CardContent>
-        <CardTitle>Hello MD3</CardTitle>
-        <Button variant="filled">Get started</Button>
+        <CardTitle>Hello MD3 (Theme: {theme})</CardTitle>
+        <Button variant="filled" onClick={toggleMode}>
+          Toggle Dark Mode
+        </Button>
       </CardContent>
     </Card>
+  );
+}
+
+export function App() {
+  return (
+    <ThemeProvider>
+      <MainApp />
+    </ThemeProvider>
   );
 }
 ```
