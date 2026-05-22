@@ -11,7 +11,7 @@ export function ChangelogPage() {
 
       <DemoSection title="Releases Timeline">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: '100%' }}>
-          {/* v0.1.0 */}
+          {/* v0.2.0 */}
           <div style={{ display: 'flex', gap: 16 }}>
             {/* Timeline track node */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -30,7 +30,7 @@ export function ChangelogPage() {
               <CardContent>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8, marginBottom: 8 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <CardTitle>v0.1.0</CardTitle>
+                    <CardTitle>v0.2.0</CardTitle>
                     <span style={{
                       background: 'var(--md-sys-color-primary-container)',
                       color: 'var(--md-sys-color-on-primary-container)',
@@ -41,6 +41,43 @@ export function ChangelogPage() {
                     }}>
                       Latest
                     </span>
+                  </div>
+                  <span style={{ font: 'var(--md-sys-typescale-label-medium)', color: 'var(--md-sys-color-on-surface-variant)' }}>May 22, 2026</span>
+                </div>
+                <CardBody>
+                  <strong>Theme Architecture Refactoring & React 19 Upgrade</strong>
+                  <ul style={{ paddingLeft: 20, margin: '8px 0 0 0', display: 'flex', flexDirection: 'column', gap: 4 }}>
+                    <li><strong>Centralized Theme State:</strong> Introduced <code>ThemeProvider</code> and <code>ThemeContext</code> to sync state reactively across consumer components.</li>
+                    <li><strong>Flashing Prevention (FOUC):</strong> Defined all color tokens at the <code>:root</code> level of <code>light-purple.css</code> to ensure robust CSS fallbacks before JS hydration.</li>
+                    <li><strong>React 19 Compatibility:</strong> Upgraded developer dependencies and type packages to React 19, resolving dual-instance issues on local linking.</li>
+                    <li><strong>TextField Refinements:</strong> Set default width to <code>100%</code>, increased outlined border to <code>1.5px</code> for better accessibility, and implemented dynamic <code>--md-tf-surface</code> color customizer fallback for floating labels.</li>
+                    <li><strong>Button Improvements:</strong> Added <code>border: none</code> to default buttons to prevent default browser border overlays in filled/tonal variants.</li>
+                  </ul>
+                </CardBody>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* v0.1.0 */}
+          <div style={{ display: 'flex', gap: 16 }}>
+            {/* Timeline track node */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <div style={{
+                width: 12,
+                height: 12,
+                borderRadius: '50%',
+                background: 'var(--md-sys-color-outline)',
+                border: '2px solid var(--md-sys-color-outline-variant)'
+              }} />
+              <div style={{ flex: 1, width: 2, background: 'var(--md-sys-color-outline-variant)', marginTop: 8 }} />
+            </div>
+
+            {/* Version content */}
+            <Card variant="outlined" style={{ flex: 1, opacity: 0.9 }}>
+              <CardContent>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8, marginBottom: 8 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <CardTitle>v0.1.0</CardTitle>
                   </div>
                   <span style={{ font: 'var(--md-sys-typescale-label-medium)', color: 'var(--md-sys-color-on-surface-variant)' }}>May 22, 2026</span>
                 </div>
