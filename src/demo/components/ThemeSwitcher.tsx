@@ -13,7 +13,7 @@ export function ThemeSwitcher() {
   const { theme, mode, setTheme, toggleMode } = useTheme();
   return (
     <div className={styles.root}>
-      <div className={styles.label}>Theme</div>
+      <span className={styles.label}>Theme</span>
       <div className={styles.swatchRow}>
         {THEMES.map(t => (
           <button
@@ -25,9 +25,14 @@ export function ThemeSwitcher() {
           />
         ))}
       </div>
-      <button type="button" className={styles.modeBtn} onClick={toggleMode}>
-        <Icon name={mode === 'light' ? 'dark_mode' : 'light_mode'} size={18} />
-        {mode === 'light' ? 'Dark' : 'Light'} mode
+      <div className={styles.divider} />
+      <button
+        type="button"
+        className={styles.modeBtn}
+        onClick={toggleMode}
+        title={mode === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
+      >
+        <Icon name={mode === 'light' ? 'dark_mode' : 'light_mode'} size={20} />
       </button>
     </div>
   );

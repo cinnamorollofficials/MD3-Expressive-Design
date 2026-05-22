@@ -1,28 +1,70 @@
-.root { display: flex; flex-direction: column; gap: 12px; padding: 16px; }
-.label { font: var(--md-sys-typescale-label-medium); color: var(--md-sys-color-on-surface-variant); }
-.swatchRow { display: flex; gap: 8px; }
+.root {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 16px;
+  padding: 0;
+}
+
+.label {
+  font: var(--md-sys-typescale-label-large);
+  color: var(--md-sys-color-on-surface-variant);
+  font-weight: 500;
+}
+
+.swatchRow {
+  display: flex;
+  gap: 8px;
+}
+
 .swatch {
-  width: 32px;
-  height: 32px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   border: 2px solid transparent;
   cursor: pointer;
   transition: transform var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-spring);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
 }
-.swatch:hover { transform: scale(1.1); }
-.swatch.active { border-color: var(--md-sys-color-primary); }
+
+.swatch:hover {
+  transform: scale(1.15);
+}
+
+.swatch.active {
+  border-color: var(--md-sys-color-surface);
+  outline: 2px solid var(--md-sys-color-primary);
+}
+
 .purple { background: #6750a4; }
 .ocean { background: #00658f; }
 .forest { background: #2e6a47; }
 
+.divider {
+  width: 1px;
+  height: 20px;
+  background-color: var(--md-sys-color-outline-variant);
+}
+
 .modeBtn {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  border-radius: var(--md-sys-shape-corner-full);
-  background: var(--md-sys-color-surface-container);
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--md-sys-color-surface-container-high);
   color: var(--md-sys-color-on-surface);
-  font: var(--md-sys-typescale-label-large);
+  border: none;
+  cursor: pointer;
+  transition: all var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard);
 }
-.modeBtn:hover { background: var(--md-sys-color-surface-container-high); }
+
+.modeBtn:hover {
+  background: var(--md-sys-color-surface-container-highest);
+  transform: translateY(-1px);
+}
+
+.modeBtn:active {
+  transform: translateY(0);
+}

@@ -10,6 +10,7 @@ import { CommunicationPage } from './demo/pages/CommunicationPage';
 import { ContentPage } from './demo/pages/ContentPage';
 import { ShopDashboardPage } from './demo/examples/ShopDashboardPage';
 import { CompanyProfilePage } from './demo/examples/CompanyProfilePage';
+import { ExamplesPage } from './demo/pages/ExamplesPage';
 import { useTheme } from './lib/hooks/useTheme';
 
 export interface ComponentDef {
@@ -126,7 +127,7 @@ export const COMPONENT_GROUPS: GroupDef[] = [
 ];
 
 const getPageAndComponent = (hash: string) => {
-  if (hash === 'overview' || hash === 'shop-dashboard' || hash === 'company-profile') {
+  if (hash === 'overview' || hash === 'examples' || hash === 'shop-dashboard' || hash === 'company-profile') {
     return { page: hash, activeComponent: undefined };
   }
   for (const group of COMPONENT_GROUPS) {
@@ -167,6 +168,7 @@ export function App() {
     case 'navigation': content = <NavigationPage activeComponent={activeComponent} />; break;
     case 'communication': content = <CommunicationPage activeComponent={activeComponent} />; break;
     case 'content': content = <ContentPage activeComponent={activeComponent} />; break;
+    case 'examples': content = <ExamplesPage onNavigate={navigate} />; break;
     case 'shop-dashboard': content = <ShopDashboardPage />; break;
     case 'company-profile': content = <CompanyProfilePage />; break;
     default: content = <OverviewPage />;
