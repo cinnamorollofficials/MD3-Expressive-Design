@@ -13,9 +13,23 @@ import { CompanyProfilePage } from './demo/examples/CompanyProfilePage';
 import { ExamplesPage } from './demo/pages/ExamplesPage';
 import { useTheme } from './lib/hooks/useTheme';
 
+// Import new guide pages
+import { InstallationPage } from './demo/pages/InstallationPage';
+import { ColorsPage } from './demo/pages/ColorsPage';
+import { TypographyPage } from './demo/pages/TypographyPage';
+import { MotionPage } from './demo/pages/MotionPage';
+import { IconsPage } from './demo/pages/IconsPage';
+import { DesignTokensPage } from './demo/pages/DesignTokensPage';
+import { ChangelogPage } from './demo/pages/ChangelogPage';
+
+// Import new shell components
+import { ComponentDocViewer } from './demo/components/ComponentDocViewer';
+import { CommandPalette } from './demo/components/CommandPalette';
+
 export interface ComponentDef {
   id: string;
   label: string;
+  status?: 'stable' | 'beta' | 'experimental';
 }
 
 export interface GroupDef {
@@ -31,12 +45,12 @@ export const COMPONENT_GROUPS: GroupDef[] = [
     label: 'Buttons',
     icon: 'smart_button',
     components: [
-      { id: 'button', label: 'Button' },
-      { id: 'icon-button', label: 'IconButton' },
-      { id: 'fab', label: 'FAB' },
-      { id: 'fab-menu', label: 'FABMenu' },
-      { id: 'split-button', label: 'SplitButton' },
-      { id: 'segmented-button', label: 'SegmentedButton' },
+      { id: 'button', label: 'Button', status: 'stable' },
+      { id: 'icon-button', label: 'IconButton', status: 'stable' },
+      { id: 'fab', label: 'FAB', status: 'stable' },
+      { id: 'fab-menu', label: 'FABMenu', status: 'stable' },
+      { id: 'split-button', label: 'SplitButton', status: 'stable' },
+      { id: 'segmented-button', label: 'SegmentedButton', status: 'stable' },
     ],
   },
   {
@@ -44,13 +58,13 @@ export const COMPONENT_GROUPS: GroupDef[] = [
     label: 'Containment',
     icon: 'view_quilt',
     components: [
-      { id: 'card', label: 'Card' },
-      { id: 'dialog', label: 'Dialog' },
-      { id: 'bottom-sheet', label: 'BottomSheet' },
-      { id: 'side-sheet', label: 'SideSheet' },
-      { id: 'snackbar', label: 'Snackbar' },
-      { id: 'tooltip', label: 'Tooltip' },
-      { id: 'menu', label: 'Menu' },
+      { id: 'card', label: 'Card', status: 'stable' },
+      { id: 'dialog', label: 'Dialog', status: 'stable' },
+      { id: 'bottom-sheet', label: 'BottomSheet', status: 'stable' },
+      { id: 'side-sheet', label: 'SideSheet', status: 'stable' },
+      { id: 'snackbar', label: 'Snackbar', status: 'stable' },
+      { id: 'tooltip', label: 'Tooltip', status: 'stable' },
+      { id: 'menu', label: 'Menu', status: 'stable' },
     ],
   },
   {
@@ -58,10 +72,10 @@ export const COMPONENT_GROUPS: GroupDef[] = [
     label: 'Selection',
     icon: 'check_box',
     components: [
-      { id: 'checkbox', label: 'Checkbox' },
-      { id: 'radio', label: 'Radio' },
-      { id: 'switch', label: 'Switch' },
-      { id: 'chip', label: 'Chip' },
+      { id: 'checkbox', label: 'Checkbox', status: 'stable' },
+      { id: 'radio', label: 'Radio', status: 'stable' },
+      { id: 'switch', label: 'Switch', status: 'stable' },
+      { id: 'chip', label: 'Chip', status: 'stable' },
     ],
   },
   {
@@ -69,15 +83,15 @@ export const COMPONENT_GROUPS: GroupDef[] = [
     label: 'Inputs',
     icon: 'edit_note',
     components: [
-      { id: 'text-field', label: 'TextField' },
-      { id: 'search', label: 'Search' },
-      { id: 'slider', label: 'Slider' },
-      { id: 'select', label: 'Select' },
-      { id: 'combobox', label: 'Combobox' },
-      { id: 'number-input', label: 'NumberInput' },
-      { id: 'rating', label: 'Rating' },
-      { id: 'date-picker', label: 'DatePicker' },
-      { id: 'time-picker', label: 'TimePicker' },
+      { id: 'text-field', label: 'TextField', status: 'stable' },
+      { id: 'search', label: 'Search', status: 'stable' },
+      { id: 'slider', label: 'Slider', status: 'stable' },
+      { id: 'select', label: 'Select', status: 'stable' },
+      { id: 'combobox', label: 'Combobox', status: 'stable' },
+      { id: 'number-input', label: 'NumberInput', status: 'stable' },
+      { id: 'rating', label: 'Rating', status: 'stable' },
+      { id: 'date-picker', label: 'DatePicker', status: 'stable' },
+      { id: 'time-picker', label: 'TimePicker', status: 'stable' },
     ],
   },
   {
@@ -85,12 +99,12 @@ export const COMPONENT_GROUPS: GroupDef[] = [
     label: 'Navigation',
     icon: 'menu',
     components: [
-      { id: 'top-app-bar', label: 'TopAppBar' },
-      { id: 'navigation-bar', label: 'NavigationBar' },
-      { id: 'navigation-rail', label: 'NavigationRail' },
-      { id: 'navigation-drawer', label: 'NavigationDrawer' },
-      { id: 'tabs', label: 'Tabs' },
-      { id: 'toolbar', label: 'Toolbar' },
+      { id: 'top-app-bar', label: 'TopAppBar', status: 'stable' },
+      { id: 'navigation-bar', label: 'NavigationBar', status: 'stable' },
+      { id: 'navigation-rail', label: 'NavigationRail', status: 'stable' },
+      { id: 'navigation-drawer', label: 'NavigationDrawer', status: 'stable' },
+      { id: 'tabs', label: 'Tabs', status: 'stable' },
+      { id: 'toolbar', label: 'Toolbar', status: 'stable' },
     ],
   },
   {
@@ -98,10 +112,10 @@ export const COMPONENT_GROUPS: GroupDef[] = [
     label: 'Communication',
     icon: 'notifications',
     components: [
-      { id: 'badge', label: 'Badge' },
-      { id: 'progress-indicator', label: 'ProgressIndicator' },
-      { id: 'loading-indicator', label: 'LoadingIndicator' },
-      { id: 'banner', label: 'Banner' },
+      { id: 'badge', label: 'Badge', status: 'stable' },
+      { id: 'progress-indicator', label: 'ProgressIndicator', status: 'stable' },
+      { id: 'loading-indicator', label: 'LoadingIndicator', status: 'stable' },
+      { id: 'banner', label: 'Banner', status: 'stable' },
     ],
   },
   {
@@ -109,25 +123,31 @@ export const COMPONENT_GROUPS: GroupDef[] = [
     label: 'Content',
     icon: 'view_list',
     components: [
-      { id: 'avatar', label: 'Avatar' },
-      { id: 'breadcrumbs', label: 'Breadcrumbs' },
-      { id: 'stepper', label: 'Stepper' },
-      { id: 'pagination', label: 'Pagination' },
-      { id: 'skeleton', label: 'Skeleton' },
-      { id: 'empty-state', label: 'EmptyState' },
-      { id: 'data-table', label: 'DataTable' },
-      { id: 'timeline', label: 'Timeline' },
-      { id: 'accordion', label: 'Accordion' },
-      { id: 'tree', label: 'Tree' },
-      { id: 'list', label: 'List' },
-      { id: 'divider', label: 'Divider' },
-      { id: 'carousel', label: 'Carousel' },
+      { id: 'avatar', label: 'Avatar', status: 'stable' },
+      { id: 'breadcrumbs', label: 'Breadcrumbs', status: 'stable' },
+      { id: 'stepper', label: 'Stepper', status: 'stable' },
+      { id: 'pagination', label: 'Pagination', status: 'stable' },
+      { id: 'skeleton', label: 'Skeleton', status: 'stable' },
+      { id: 'empty-state', label: 'EmptyState', status: 'stable' },
+      { id: 'data-table', label: 'DataTable', status: 'stable' },
+      { id: 'timeline', label: 'Timeline', status: 'stable' },
+      { id: 'accordion', label: 'Accordion', status: 'stable' },
+      { id: 'tree', label: 'Tree', status: 'stable' },
+      { id: 'list', label: 'List', status: 'stable' },
+      { id: 'divider', label: 'Divider', status: 'stable' },
+      { id: 'carousel', label: 'Carousel', status: 'stable' },
     ],
   },
 ];
 
 const getPageAndComponent = (hash: string) => {
-  if (hash === 'overview' || hash === 'examples' || hash === 'shop-dashboard' || hash === 'company-profile') {
+  const extraPages = [
+    'overview', 'installation', 'tokens', 'typography', 'colors',
+    'motion', 'icons', 'changelog', 'examples', 'shop-dashboard',
+    'company-profile'
+  ];
+
+  if (extraPages.includes(hash)) {
     return { page: hash, activeComponent: undefined };
   }
   for (const group of COMPONENT_GROUPS) {
@@ -145,22 +165,44 @@ const getPageAndComponent = (hash: string) => {
 export function App() {
   useTheme(); // ensures data-theme/data-mode are applied
   const [currentHash, setCurrentHash] = useState<string>(() => window.location.hash.replace(/^#/, '') || 'overview');
+  const [commandOpen, setCommandOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const onHash = () => setCurrentHash(window.location.hash.replace(/^#/, '') || 'overview');
+    const onHash = () => {
+      setLoading(true);
+      const timer = setTimeout(() => setLoading(false), 200); // skeleton fake speed
+      setCurrentHash(window.location.hash.replace(/^#/, '') || 'overview');
+      return () => clearTimeout(timer);
+    };
     window.addEventListener('hashchange', onHash);
     return () => window.removeEventListener('hashchange', onHash);
+  }, []);
+
+  // listen to Ctrl+K key shortcut
+  useEffect(() => {
+    const handleGlobalKeys = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+        e.preventDefault();
+        setCommandOpen(true);
+      }
+    };
+    window.addEventListener('keydown', handleGlobalKeys);
+    return () => window.removeEventListener('keydown', handleGlobalKeys);
   }, []);
 
   const navigate = (id: string) => {
     window.location.hash = id;
     setCurrentHash(id);
+    // Automatically scroll to top on navigate
+    window.scrollTo({ top: 0 });
   };
 
   const { page, activeComponent } = getPageAndComponent(currentHash);
 
   let content;
   switch (page) {
+    // Categories pages
     case 'buttons': content = <ButtonsPage activeComponent={activeComponent} />; break;
     case 'containment': content = <ContainmentPage activeComponent={activeComponent} />; break;
     case 'selection': content = <SelectionPage activeComponent={activeComponent} />; break;
@@ -168,21 +210,88 @@ export function App() {
     case 'navigation': content = <NavigationPage activeComponent={activeComponent} />; break;
     case 'communication': content = <CommunicationPage activeComponent={activeComponent} />; break;
     case 'content': content = <ContentPage activeComponent={activeComponent} />; break;
+
+    // Custom docs pages
+    case 'installation': content = <InstallationPage />; break;
+    case 'colors': content = <ColorsPage />; break;
+    case 'typography': content = <TypographyPage />; break;
+    case 'motion': content = <MotionPage />; break;
+    case 'icons': content = <IconsPage />; break;
+    case 'tokens': content = <DesignTokensPage />; break;
+    case 'changelog': content = <ChangelogPage />; break;
+
+    // Examples
     case 'examples': content = <ExamplesPage onNavigate={navigate} />; break;
     case 'shop-dashboard': content = <ShopDashboardPage />; break;
     case 'company-profile': content = <CompanyProfilePage />; break;
     default: content = <OverviewPage />;
   }
 
+  // Wrap detailed per-component page with playground layout
+  if (activeComponent) {
+    content = <ComponentDocViewer id={activeComponent}>{content}</ComponentDocViewer>;
+  }
+
   return (
-    <DemoLayout
-      current={currentHash}
-      activeGroup={page}
-      activeComponent={activeComponent}
-      onNavigate={navigate}
-      groups={COMPONENT_GROUPS}
-    >
-      {content}
-    </DemoLayout>
+    <div style={{ position: 'relative' }}>
+      <DemoLayout
+        current={currentHash}
+        activeGroup={page}
+        activeComponent={activeComponent}
+        onNavigate={navigate}
+        groups={COMPONENT_GROUPS}
+        onSearchClick={() => setCommandOpen(true)}
+      >
+        {loading ? (
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+            {/* Skeleton Loading Card */}
+            <div style={{
+              height: 48,
+              width: '40%',
+              borderRadius: 8,
+              background: 'var(--md-sys-color-surface-container-high)',
+              animation: 'pulse 1.5s infinite ease-in-out'
+            }} />
+            <div style={{
+              height: 180,
+              width: '100%',
+              borderRadius: 16,
+              background: 'var(--md-sys-color-surface-container-high)',
+              animation: 'pulse 1.5s infinite ease-in-out'
+            }} />
+            <div style={{
+              height: 32,
+              width: '65%',
+              borderRadius: 8,
+              background: 'var(--md-sys-color-surface-container-high)',
+              animation: 'pulse 1.5s infinite ease-in-out'
+            }} />
+            <div style={{
+              height: 300,
+              width: '100%',
+              borderRadius: 16,
+              background: 'var(--md-sys-color-surface-container-high)',
+              animation: 'pulse 1.5s infinite ease-in-out'
+            }} />
+          </div>
+        ) : content}
+      </DemoLayout>
+
+      {/* Global search overlay command palette */}
+      <CommandPalette
+        open={commandOpen}
+        onClose={() => setCommandOpen(false)}
+        onNavigate={navigate}
+      />
+
+      <style>{`
+        @keyframes pulse {
+          0% { opacity: 0.6; }
+          50% { opacity: 0.9; }
+          100% { opacity: 0.6; }
+        }
+      `}</style>
+    </div>
   );
 }
+

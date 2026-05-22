@@ -10,15 +10,16 @@ const THEMES: { name: ThemeName; cls: string; label: string }[] = [
 ];
 
 export function ThemeSwitcher() {
-  const { theme, mode, setTheme, toggleMode } = useTheme();
-  const currentTheme = THEMES.find(t => t.name === theme) || THEMES[0];
+  const { theme, mode, setTheme, toggleMode, seedColor, setSeedColor } = useTheme();
+  const currentTheme = THEMES.find(t => t.name === theme);
+  const themeLabel = currentTheme ? currentTheme.label : 'Custom';
 
   return (
     <div className={styles.root}>
       <div className={styles.themeDropdownContainer}>
         <button type="button" className={styles.dropdownTrigger}>
           <Icon name="palette" size={20} />
-          <span>Theme: {currentTheme.label}</span>
+          <span>Theme: {themeLabel}</span>
           <Icon name="arrow_drop_down" size={18} />
         </button>
         <div className={styles.dropdownMenu}>
@@ -33,6 +34,21 @@ export function ThemeSwitcher() {
               {t.label}
             </button>
           ))}
+          <div className={styles.menuDivider} />
+          <div className={cn(styles.customColorItem, theme === 'custom' && styles.dropdownItemActive)}>
+            <label className={styles.customColorLabel}>
+              <span className={styles.colorPickerWrapper}>
+                <input
+                  type="color"
+                  value={seedColor}
+                  onChange={(e) => setSeedColor(e.target.value)}
+                  className={styles.colorInput}
+                />
+                <span className={cn(styles.menuSwatch)} style={{ backgroundColor: seedColor }} />
+              </span>
+              <span className={styles.customColorText}>Custom Seed</span>
+            </label>
+          </div>
         </div>
       </div>
       <div className={styles.divider} />
@@ -47,3 +63,4 @@ export function ThemeSwitcher() {
     </div>
   );
 }
+
