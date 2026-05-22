@@ -80,17 +80,24 @@ export function InstallationPage() {
       </section>
 
       {/* Steps */}
-      <DemoSection title="1. Import the Stylesheet" description="Import the global theme design tokens and styles in your app entrypoint file (e.g. index.tsx or App.tsx).">
+      <DemoSection title="1. Import Stylesheet & Wrap with ThemeProvider" description="Import the global theme tokens/styles and wrap your App root with ThemeProvider.">
         <CodeBlock
           code={`// src/main.tsx or src/index.tsx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
+import { ThemeProvider } from '@hadi_gunawan/md3-expressive-ds';
 
 // Import stylesheet assets
 import '@hadi_gunawan/md3-expressive-ds/style.css';
 
-ReactDOM.createRoot(document.getElementById('root')!).render(<App />);`}
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <ThemeProvider>
+      <App />
+    </ThemeProvider>
+  </React.StrictMode>
+);`}
           language="jsx"
           showLineNumbers
         />

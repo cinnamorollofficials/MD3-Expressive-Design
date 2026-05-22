@@ -1,6 +1,6 @@
 {
   "name": "@hadi_gunawan/md3-expressive-ds",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "A React + TypeScript component library implementing Google's Material Design 3 Expressive patterns - 40+ components, 6 preset themes, and a CSS custom property token system.",
   "type": "module",
   "private": false,
@@ -59,9 +59,11 @@
     "class-variance-authority": "^0.7.0"
   },
   "devDependencies": {
-    "@types/react": "^18.3.12",
-    "@types/react-dom": "^18.3.1",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react-swc": "^3.7.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "typescript": "^5.6.3",
     "vite": "^5.4.10",
     "vite-plugin-dts": "^4.3.0"

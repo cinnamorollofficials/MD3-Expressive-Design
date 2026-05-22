@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { createContext, useCallback, useContext, useEffect, useState, ReactNode, createElement } from 'react';
 
 export type ThemeName = 'purple' | 'ocean' | 'forest' | 'custom';
 export type ThemeMode = 'light' | 'dark';
@@ -185,7 +185,24 @@ const apply = (s: ThemeState) => {
   }
 };
 
-export function useTheme() {
+// Apply theme immediately (synchronously) when the module is first imported.
+// This ensures data-theme / data-mode are on <html> before React's first render,
+// so CSS custom property tokens (borders, colors, etc.) are always resolved.
+apply(read());
+
+export interface ThemeContextValue {
+  theme: ThemeName;
+  mode: ThemeMode;
+  seedColor: string;
+  setTheme: (theme: ThemeName) => void;
+  setMode: (mode: ThemeMode) => void;
+  toggleMode: () => void;
+  setSeedColor: (seedColor: string) => void;
+}
+
+const ThemeContext = createContext<ThemeContextValue | null>(null);
+
+function useThemeState(): ThemeContextValue {
   const [state, setState] = useState<ThemeState>(read);
 
   useEffect(() => {
@@ -202,4 +219,21 @@ export function useTheme() {
   const setSeedColor = useCallback((seedColor: string) => setState(s => ({ ...s, theme: 'custom', seedColor })), []);
 
   return { ...state, setTheme, setMode, toggleMode, setSeedColor };
+}
+
+export interface ThemeProviderProps {
+  children: ReactNode;
+}
+
+export function ThemeProvider({ children }: ThemeProviderProps) {
+  const value = useThemeState();
+  return createElement(ThemeContext.Provider, { value }, children);
+}
+
+export function useTheme() {
+  const context = useContext(ThemeContext);
+  if (!context) {
+    throw new Error('useTheme must be used within a ThemeProvider');
+  }
+  return context;
 }
