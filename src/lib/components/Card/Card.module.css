@@ -9,13 +9,24 @@
               background-color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard);
 }
 
-.elevated { background: var(--md-sys-color-surface-container-low); box-shadow: var(--md-sys-elevation-1); }
+.elevated {
+  background: var(--md-sys-color-surface-container-low);
+  --md-tf-surface: var(--md-sys-color-surface-container-low);
+  box-shadow: var(--md-sys-elevation-1);
+}
 .elevated.interactive:hover { box-shadow: var(--md-sys-elevation-2); }
 
-.filled { background: var(--md-sys-color-surface-container-highest); }
+.filled {
+  background: var(--md-sys-color-surface-container-highest);
+  --md-tf-surface: var(--md-sys-color-surface-container-highest);
+}
 .filled.interactive:hover { background: color-mix(in srgb, var(--md-sys-color-on-surface) 8%, var(--md-sys-color-surface-container-highest)); }
 
-.outlined { background: var(--md-sys-color-surface); border: 1px solid var(--md-sys-color-outline-variant); }
+.outlined {
+  background: var(--md-sys-color-surface);
+  --md-tf-surface: var(--md-sys-color-surface);
+  border: 1px solid var(--md-sys-color-outline-variant);
+}
 .outlined.interactive:hover { background: color-mix(in srgb, var(--md-sys-color-on-surface) 8%, var(--md-sys-color-surface)); }
 
 .interactive { cursor: pointer; }

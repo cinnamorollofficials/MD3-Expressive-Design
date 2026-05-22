@@ -2,6 +2,7 @@
   width: 360px;
   padding: 12px;
   background: var(--md-sys-color-surface-container-low);
+  --md-tf-surface: var(--md-sys-color-surface-container-low);
   color: var(--md-sys-color-on-surface);
   border-radius: 0 var(--md-sys-shape-corner-xl) var(--md-sys-shape-corner-xl) 0;
   display: flex;

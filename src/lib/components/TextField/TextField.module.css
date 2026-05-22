@@ -72,7 +72,7 @@
   color: var(--md-sys-color-primary);
 }
 .outlined .label.floated {
-  background: var(--md-tf-surface, var(--md-sys-color-surface-container-lowest, var(--md-sys-color-surface)));
+  background: var(--md-tf-surface, var(--md-sys-color-surface, var(--md-sys-color-background, #fff)));
 }
 .error .label.floated { color: var(--md-sys-color-error); }
 

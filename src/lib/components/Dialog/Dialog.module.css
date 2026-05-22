@@ -12,6 +12,7 @@
 
 .dialog {
   background: var(--md-sys-color-surface-container-high);
+  --md-tf-surface: var(--md-sys-color-surface-container-high);
   color: var(--md-sys-color-on-surface);
   border-radius: var(--md-sys-shape-corner-xl);
   padding: 24px;

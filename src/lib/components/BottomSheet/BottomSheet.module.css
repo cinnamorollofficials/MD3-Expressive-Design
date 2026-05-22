@@ -13,6 +13,7 @@
   right: 0;
   bottom: 0;
   background: var(--md-sys-color-surface-container-low);
+  --md-tf-surface: var(--md-sys-color-surface-container-low);
   color: var(--md-sys-color-on-surface);
   border-radius: var(--md-sys-shape-corner-xl) var(--md-sys-shape-corner-xl) 0 0;
   box-shadow: var(--md-sys-elevation-3);
