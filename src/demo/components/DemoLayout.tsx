@@ -33,6 +33,14 @@ export function DemoLayout({
   const [isCollapsed, setIsCollapsed] = useState(() => {
     return localStorage.getItem('md3_docs_sidebar_collapsed') === 'true';
   });
+  const [showDevBanner, setShowDevBanner] = useState(() => {
+    return localStorage.getItem('md3_docs_dev_banner_dismissed') !== 'true';
+  });
+
+  const handleDismissDevBanner = () => {
+    setShowDevBanner(false);
+    localStorage.setItem('md3_docs_dev_banner_dismissed', 'true');
+  };
 
   const startResizing = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -362,6 +370,25 @@ export function DemoLayout({
             <ThemeSwitcher />
           </div>
         </header>
+
+        {showDevBanner && (
+          <div className={styles.devBanner}>
+            <div className={styles.devBannerContent}>
+              <Icon name="construction" size={20} className={styles.devBannerIcon} />
+              <span className={styles.devBannerText}>
+                <strong>Under Development:</strong> This project is currently in active development. The UI components, design tokens, and APIs are subject to change.
+              </span>
+            </div>
+            <button
+              type="button"
+              className={styles.devBannerCloseBtn}
+              onClick={handleDismissDevBanner}
+              title="Dismiss warning notification"
+            >
+              <Icon name="close" size={18} />
+            </button>
+          </div>
+        )}
 
         <main className={styles.content}>{children}</main>
       </div>

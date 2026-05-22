@@ -350,3 +350,64 @@
   transform: scale(1.05);
 }
 
+.devBanner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 32px;
+  background: var(--md-sys-color-tertiary-container);
+  color: var(--md-sys-color-on-tertiary-container);
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
+  font: var(--md-sys-typescale-body-medium);
+  gap: 16px;
+  animation: slideDown var(--md-sys-motion-duration-medium1) var(--md-sys-motion-easing-emphasized);
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.devBannerContent {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.devBannerIcon {
+  flex-shrink: 0;
+  color: var(--md-sys-color-tertiary);
+}
+
+.devBannerText {
+  line-height: 1.5;
+}
+
+.devBannerCloseBtn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--md-sys-shape-corner-full);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--md-sys-color-on-tertiary-container);
+  opacity: 0.7;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.devBannerCloseBtn:hover {
+  background: color-mix(in srgb, var(--md-sys-color-on-tertiary-container) 12%, transparent);
+  opacity: 1;
+}
+
+
