@@ -1,0 +1,51 @@
+.root {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  user-select: none;
+  font: var(--md-sys-typescale-body-medium);
+  color: var(--md-sys-color-on-surface);
+}
+.root.disabled { opacity: 0.38; cursor: not-allowed; }
+
+.track {
+  position: relative;
+  width: 52px;
+  height: 32px;
+  background: var(--md-sys-color-surface-container-highest);
+  border: 2px solid var(--md-sys-color-outline);
+  border-radius: var(--md-sys-shape-corner-full);
+  transition:
+    background-color var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard),
+    border-color var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-standard);
+}
+
+.thumb {
+  position: absolute;
+  top: 50%;
+  left: 6px;
+  width: 16px;
+  height: 16px;
+  background: var(--md-sys-color-outline);
+  border-radius: 50%;
+  transform: translateY(-50%);
+  transition:
+    left var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized),
+    width var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-spring),
+    height var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-spring),
+    background-color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard);
+}
+
+.checked {
+  background: var(--md-sys-color-primary);
+  border-color: var(--md-sys-color-primary);
+}
+.checked .thumb {
+  left: 28px;
+  width: 24px;
+  height: 24px;
+  background: var(--md-sys-color-on-primary);
+}
+
+.input { position: absolute; opacity: 0; pointer-events: none; }

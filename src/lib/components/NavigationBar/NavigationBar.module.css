@@ -1,0 +1,43 @@
+.bar {
+  display: flex;
+  height: 80px;
+  background: var(--md-sys-color-surface-container);
+  padding: 12px 8px;
+  gap: 4px;
+  border-radius: var(--md-sys-shape-corner-lg);
+}
+
+.item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 0;
+  background: transparent;
+  color: var(--md-sys-color-on-surface-variant);
+  cursor: pointer;
+  position: relative;
+}
+
+.indicator {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  height: 32px;
+  width: 64px;
+  border-radius: var(--md-sys-shape-corner-full);
+  transition:
+    background-color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard),
+    width var(--md-sys-motion-duration-medium3) var(--md-sys-motion-easing-emphasized);
+}
+
+.item:hover .indicator { background: color-mix(in srgb, var(--md-sys-color-on-surface) 8%, transparent); }
+
+.selected .indicator {
+  background: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+}
+.selected { color: var(--md-sys-color-on-surface); }
+
+.label { font: var(--md-sys-typescale-label-medium); }

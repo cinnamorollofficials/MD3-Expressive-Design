@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx tsc *)",
+      "Bash(echo \"EXIT=$?\")",
+      "Bash(npx vite *)",
+      "Bash(rm -rf dist)",
+      "Bash(echo \"TS_EXIT=$?\")",
+      "Bash(npm pack *)",
+      "WebFetch(domain:docs.npmjs.com)",
+      "WebFetch(domain:www.npmjs.com)"
+    ]
+  }
+}

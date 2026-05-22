@@ -1,0 +1,21 @@
+.root {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  font: var(--md-sys-typescale-body-medium);
+  color: var(--md-sys-color-on-surface-variant);
+}
+.crumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  border-radius: var(--md-sys-shape-corner-xs);
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+.crumb:hover { background: color-mix(in srgb, var(--md-sys-color-on-surface) 8%, transparent); }
+.crumb.current { color: var(--md-sys-color-on-surface); font-weight: 500; cursor: default; }
+.sep { display: inline-flex; align-items: center; color: var(--md-sys-color-outline); }

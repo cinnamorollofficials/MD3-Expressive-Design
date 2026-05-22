@@ -1,0 +1,34 @@
+.scrim {
+  position: fixed;
+  inset: 0;
+  background: color-mix(in srgb, var(--md-sys-color-scrim) 32%, transparent);
+  z-index: 1000;
+  animation: fadeIn var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized);
+}
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+.sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: var(--md-sys-color-surface-container-low);
+  color: var(--md-sys-color-on-surface);
+  border-radius: var(--md-sys-shape-corner-xl) var(--md-sys-shape-corner-xl) 0 0;
+  box-shadow: var(--md-sys-elevation-3);
+  padding: 16px;
+  z-index: 1001;
+  max-height: 80vh;
+  overflow: auto;
+  animation: slide var(--md-sys-motion-duration-long2) var(--md-sys-motion-easing-emphasized-decelerate);
+}
+@keyframes slide { from { transform: translateY(100%); } to { transform: none; } }
+
+.handle {
+  width: 32px;
+  height: 4px;
+  background: var(--md-sys-color-on-surface-variant);
+  border-radius: var(--md-sys-shape-corner-full);
+  margin: 0 auto 16px;
+  opacity: 0.4;
+}

@@ -1,0 +1,28 @@
+.root {
+  display: block;
+  background: var(--md-sys-color-surface-container-high);
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--md-sys-shape-corner-sm);
+}
+.root::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in srgb, var(--md-sys-color-on-surface) 6%, transparent) 50%,
+    transparent 100%
+  );
+  transform: translateX(-100%);
+  animation: shimmer 1.6s var(--md-sys-motion-easing-standard) infinite;
+}
+@keyframes shimmer {
+  100% { transform: translateX(100%); }
+}
+
+.text { height: 1em; border-radius: var(--md-sys-shape-corner-xs); }
+.circular { border-radius: 50%; }
+.rectangular { border-radius: var(--md-sys-shape-corner-sm); }
+.rounded { border-radius: var(--md-sys-shape-corner-lg); }

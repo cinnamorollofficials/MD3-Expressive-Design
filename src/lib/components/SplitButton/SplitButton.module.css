@@ -1,0 +1,70 @@
+.root {
+  position: relative;
+  display: inline-flex;
+  gap: 2px;
+}
+
+.lead, .trail {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  height: 40px;
+  background: var(--md-sys-color-primary);
+  color: var(--md-sys-color-on-primary);
+  font: var(--md-sys-typescale-label-large);
+  letter-spacing: 0.1px;
+  cursor: pointer;
+  transition:
+    border-radius var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized),
+    background-color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard);
+}
+.lead { padding: 0 24px; border-radius: var(--md-sys-shape-corner-full) var(--md-sys-shape-corner-sm) var(--md-sys-shape-corner-sm) var(--md-sys-shape-corner-full); }
+.trail { padding: 0 12px; border-radius: var(--md-sys-shape-corner-sm) var(--md-sys-shape-corner-full) var(--md-sys-shape-corner-full) var(--md-sys-shape-corner-sm); }
+
+.open .trail { border-radius: var(--md-sys-shape-corner-md); }
+.lead:active, .trail:active { border-radius: var(--md-sys-shape-corner-md); }
+
+.lead::before, .trail::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard);
+}
+.lead:hover::before, .trail:hover::before { opacity: var(--md-sys-state-hover-opacity); }
+
+.menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  min-width: 180px;
+  background: var(--md-sys-color-surface-container);
+  color: var(--md-sys-color-on-surface);
+  border-radius: var(--md-sys-shape-corner-xs);
+  box-shadow: var(--md-sys-elevation-2);
+  padding: 8px 0;
+  z-index: 50;
+  transform-origin: top right;
+  animation: enter var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized);
+}
+@keyframes enter {
+  from { opacity: 0; transform: scale(0.9); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+.menuItem {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0 16px;
+  height: 48px;
+  text-align: left;
+  font: var(--md-sys-typescale-label-large);
+  cursor: pointer;
+}
+.menuItem:hover { background: color-mix(in srgb, var(--md-sys-color-on-surface) 8%, transparent); }

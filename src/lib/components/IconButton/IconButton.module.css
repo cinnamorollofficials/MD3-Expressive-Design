@@ -1,0 +1,50 @@
+.btn {
+  position: relative;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: var(--md-sys-shape-corner-full);
+  cursor: pointer;
+  color: var(--md-sys-color-on-surface-variant);
+  transition:
+    background-color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard),
+    color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard),
+    border-radius var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized),
+    transform var(--md-sys-motion-duration-short4) var(--md-sys-motion-easing-spring);
+}
+.btn:disabled { pointer-events: none; opacity: 0.38; }
+.btn:active:not(:disabled) {
+  border-radius: var(--md-sys-shape-corner-md);
+  transform: scale(0.92);
+}
+
+.btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: currentColor;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard);
+}
+.btn:hover::before { opacity: var(--md-sys-state-hover-opacity); }
+.btn:focus-visible::before { opacity: var(--md-sys-state-focus-opacity); }
+
+/* variants */
+.standard { background: transparent; }
+.filled { background: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary); }
+.tonal { background: var(--md-sys-color-secondary-container); color: var(--md-sys-color-on-secondary-container); }
+.outlined { background: transparent; border: 1px solid var(--md-sys-color-outline); color: var(--md-sys-color-on-surface-variant); }
+
+/* toggle on state for toggle variant */
+.toggleOn.standard { color: var(--md-sys-color-primary); }
+.toggleOn.filled { background: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary); }
+.toggleOn.tonal { background: var(--md-sys-color-secondary-container); color: var(--md-sys-color-on-secondary-container); }
+.toggleOn.outlined { background: var(--md-sys-color-inverse-surface); color: var(--md-sys-color-inverse-on-surface); border-color: transparent; }
+
+.sizeXs { width: 32px; height: 32px; }
+.sizeMd { width: 56px; height: 56px; }
+.sizeLg { width: 96px; height: 96px; }

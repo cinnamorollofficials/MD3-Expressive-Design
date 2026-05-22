@@ -1,0 +1,87 @@
+.root {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px 16px 16px 20px;
+  border-radius: 16px;
+  background: var(--md-sys-color-surface-container);
+  color: var(--md-sys-color-on-surface);
+  border: 1px solid var(--md-sys-color-outline-variant);
+}
+
+.icon {
+  flex: 0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+
+.content {
+  flex: 1 1 auto;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.title {
+  font: var(--md-sys-typescale-title-medium);
+  color: inherit;
+}
+
+.body {
+  font: var(--md-sys-typescale-body-medium);
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+.actions {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: 4px;
+}
+
+.dismiss {
+  flex: 0 0 auto;
+  align-self: flex-start;
+  margin-top: -4px;
+  margin-right: -4px;
+}
+
+/* Variants — tint icon + border using the matching color role. Background
+   stays a neutral container so the banner reads as informational, not as a
+   solid color block. */
+.info .icon { color: var(--md-sys-color-primary); }
+
+.success {
+  background: color-mix(in srgb, var(--md-sys-color-tertiary-container) 60%, var(--md-sys-color-surface-container));
+  border-color: var(--md-sys-color-tertiary);
+}
+.success .icon { color: var(--md-sys-color-tertiary); }
+
+.warning {
+  background: color-mix(in srgb, var(--md-sys-color-secondary-container) 55%, var(--md-sys-color-surface-container));
+  border-color: var(--md-sys-color-secondary);
+}
+.warning .icon { color: var(--md-sys-color-secondary); }
+
+.error {
+  background: var(--md-sys-color-error-container);
+  color: var(--md-sys-color-on-error-container);
+  border-color: var(--md-sys-color-error);
+}
+.error .icon { color: var(--md-sys-color-error); }
+.error .body { color: var(--md-sys-color-on-error-container); }
+
+@media (max-width: 600px) {
+  .root {
+    flex-wrap: wrap;
+  }
+  .actions {
+    width: 100%;
+    justify-content: flex-end;
+    margin-left: 0;
+  }
+}

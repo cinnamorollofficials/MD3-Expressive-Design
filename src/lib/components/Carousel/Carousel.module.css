@@ -1,0 +1,38 @@
+.root {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding: 4px 0 12px;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.root::-webkit-scrollbar { display: none; }
+
+.item {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  border-radius: var(--md-sys-shape-corner-lg);
+  overflow: hidden;
+  position: relative;
+  background: var(--md-sys-color-surface-container-high);
+  color: var(--md-sys-color-on-surface);
+  transition:
+    transform var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized),
+    border-radius var(--md-sys-motion-duration-medium3) var(--md-sys-motion-easing-emphasized);
+}
+
+.uncontained .item { width: 240px; height: 240px; }
+.hero .item { width: 320px; height: 400px; }
+.multibrowse .item { width: 160px; height: 200px; }
+
+.item img { width: 100%; height: 100%; object-fit: cover; }
+
+.label {
+  position: absolute;
+  left: 16px;
+  bottom: 16px;
+  color: #fff;
+  font: var(--md-sys-typescale-title-medium);
+  text-shadow: 0 1px 2px rgba(0,0,0,0.5);
+}

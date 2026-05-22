@@ -1,0 +1,88 @@
+.root {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  color: var(--md-sys-color-on-surface);
+}
+
+.item {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 12px;
+  padding-bottom: 20px;
+}
+.item:last-child { padding-bottom: 0; }
+
+.rail {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.marker {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--md-sys-color-surface-container-high);
+  color: var(--md-sys-color-on-surface);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  flex: 0 0 auto;
+}
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+}
+
+.connector {
+  flex: 1 1 auto;
+  width: 2px;
+  margin-top: 4px;
+  background: var(--md-sys-color-outline-variant);
+  border-radius: 2px;
+  min-height: 12px;
+}
+
+.body {
+  min-width: 0;
+  padding-top: 2px;
+}
+.head {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+.title { font: var(--md-sys-typescale-title-small); }
+.meta {
+  font: var(--md-sys-typescale-label-small);
+  color: var(--md-sys-color-on-surface-variant);
+}
+.content {
+  margin-top: 4px;
+  font: var(--md-sys-typescale-body-medium);
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+/* Tones */
+.tone_neutral {}
+.tone_primary { background: var(--md-sys-color-primary); color: var(--md-sys-color-on-primary); border-color: transparent; }
+.tone_success { background: var(--md-sys-color-tertiary); color: var(--md-sys-color-on-tertiary); border-color: transparent; }
+.tone_warning { background: var(--md-sys-color-secondary); color: var(--md-sys-color-on-secondary); border-color: transparent; }
+.tone_error   { background: var(--md-sys-color-error);     color: var(--md-sys-color-on-error);     border-color: transparent; }
+
+/* Alternating layout — only used on wider viewports; falls back to left
+   alignment under 720px because zigzagging in a narrow column is unreadable. */
+@media (min-width: 720px) {
+  .alt .item { grid-template-columns: 1fr 28px 1fr; gap: 16px; }
+  .alt .side_left .rail { grid-column: 2; }
+  .alt .side_left .body { grid-column: 3; text-align: left; }
+  .alt .side_right .rail { grid-column: 2; }
+  .alt .side_right .body { grid-column: 1; text-align: right; grid-row: 1; }
+  .alt .side_right .head { justify-content: flex-end; }
+}

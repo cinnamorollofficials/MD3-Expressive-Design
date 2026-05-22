@@ -1,0 +1,66 @@
+{
+  "name": "@hadi_gunawan/md3-expressive-ds",
+  "version": "0.1.0",
+  "description": "A React + TypeScript component library implementing Google's Material Design 3 Expressive specification — ~50 components, 6 preset themes, full design token system.",
+  "type": "module",
+  "private": false,
+  "license": "MIT",
+  "author": "hadi_gunawan",
+  "keywords": [
+    "react",
+    "typescript",
+    "material-design",
+    "material-design-3",
+    "md3",
+    "design-system",
+    "components",
+    "component-library",
+    "ui",
+    "expressive"
+  ],
+  "sideEffects": [
+    "*.css",
+    "./dist/styles.js"
+  ],
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./style.css": "./dist/style.css",
+    "./styles.js": "./dist/styles.js"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "build:lib": "tsc --noEmit && vite build --config vite.config.lib.ts",
+    "prepublishOnly": "npm run build:lib",
+    "preview": "vite preview"
+  },
+  "peerDependencies": {
+    "react": "^18.3.1 || ^19.0.0",
+    "react-dom": "^18.3.1 || ^19.0.0"
+  },
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "class-variance-authority": "^0.7.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react-swc": "^3.7.1",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.10",
+    "vite-plugin-dts": "^4.3.0"
+  }
+}

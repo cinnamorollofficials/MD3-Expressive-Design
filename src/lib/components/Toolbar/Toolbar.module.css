@@ -1,0 +1,18 @@
+.bar {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 12px;
+  background: var(--md-sys-color-surface-container);
+  border-radius: var(--md-sys-shape-corner-full);
+  box-shadow: var(--md-sys-elevation-2);
+}
+.vibrant { background: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-primary-container); }
+
+.docked {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+}

@@ -1,0 +1,61 @@
+.linear {
+  position: relative;
+  width: 240px;
+  height: 4px;
+  background: var(--md-sys-color-surface-container-highest);
+  border-radius: var(--md-sys-shape-corner-full);
+  overflow: hidden;
+}
+.linearFill {
+  height: 100%;
+  background: var(--md-sys-color-primary);
+  border-radius: inherit;
+  transition: width var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized);
+}
+.linearIndeterminate::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--md-sys-color-primary);
+  animation: linearSlide 2s var(--md-sys-motion-easing-standard) infinite;
+  width: 30%;
+  border-radius: inherit;
+}
+@keyframes linearSlide {
+  0% { left: -30%; }
+  100% { left: 100%; }
+}
+
+/* Expressive wavy linear */
+.wavy { height: 12px; overflow: visible; background: transparent; }
+.wavyTrack { stroke: var(--md-sys-color-surface-container-highest); stroke-width: 4; fill: none; stroke-linecap: round; }
+.wavyFill { stroke: var(--md-sys-color-primary); stroke-width: 4; fill: none; stroke-linecap: round; }
+
+.circular {
+  width: 48px;
+  height: 48px;
+  display: inline-block;
+}
+.circularSvg { width: 100%; height: 100%; transform: rotate(-90deg); }
+.circularTrack { stroke: var(--md-sys-color-surface-container-highest); stroke-width: 4; fill: none; }
+.circularFill {
+  stroke: var(--md-sys-color-primary);
+  stroke-width: 4;
+  fill: none;
+  stroke-linecap: round;
+  transition: stroke-dashoffset var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized);
+}
+.circularIndeterminate {
+  animation: spin 1.5s linear infinite;
+}
+.circularIndeterminate .circularFill {
+  animation: dash 1.5s ease-in-out infinite;
+  stroke-dasharray: 1, 200;
+  stroke-dashoffset: 0;
+}
+@keyframes spin { to { transform: rotate(270deg); } }
+@keyframes dash {
+  0% { stroke-dasharray: 1, 200; stroke-dashoffset: 0; }
+  50% { stroke-dasharray: 90, 200; stroke-dashoffset: -35; }
+  100% { stroke-dasharray: 90, 200; stroke-dashoffset: -125; }
+}
