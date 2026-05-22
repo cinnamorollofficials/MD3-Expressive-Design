@@ -26,6 +26,10 @@
   border: none;
   outline: none;
 }
+.unit:focus,
+.unit:focus-visible {
+  outline: none;
+}
 .unit.active { background: var(--md-sys-color-primary-container); color: var(--md-sys-color-on-primary-container); }
 .sep { font: var(--md-sys-typescale-display-medium); }
 

@@ -32,6 +32,10 @@
   outline: none;
   -moz-appearance: textfield;
 }
+.value:focus,
+.value:focus-visible {
+  outline: none;
+}
 .value::-webkit-outer-spin-button,
 .value::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; }
 

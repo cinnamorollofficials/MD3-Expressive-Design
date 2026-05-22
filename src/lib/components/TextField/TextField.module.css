@@ -45,6 +45,10 @@
   color: inherit;
   font: var(--md-sys-typescale-body-large);
 }
+.input:focus,
+.input:focus-visible {
+  outline: none;
+}
 .input::placeholder { color: var(--md-sys-color-on-surface-variant); }
 
 .label {
