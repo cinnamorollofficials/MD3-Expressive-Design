@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useId, useMemo, useRef, useState } from 'react';
 import { cn } from '../../utils/cn';
 import { TextField, type TextFieldVariant } from '../TextField';
 import { Icon } from '../Icon';
@@ -30,6 +30,7 @@ export function Combobox<T extends string = string>({
   helperText, error, leadingIcon, className,
 }: ComboboxProps<T>) {
   const rootRef = useRef<HTMLDivElement>(null);
+  const listboxId = useId();
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(0);
   const selected = options.find(o => o.value === value);
@@ -41,6 +42,8 @@ export function Combobox<T extends string = string>({
     () => options.filter(o => o.label.toLowerCase().includes(query.toLowerCase())),
     [options, query],
   );
+  const activeOption = filtered[active];
+  const optionId = (optionValue: string) => `${listboxId}-option-${optionValue}`;
 
   useEffect(() => {
     if (!open) return;
@@ -61,7 +64,7 @@ export function Combobox<T extends string = string>({
   };
 
   const onKey = (e: React.KeyboardEvent) => {
-    if (e.key === 'ArrowDown') { e.preventDefault(); setOpen(true); setActive(a => Math.min(filtered.length - 1, a + 1)); }
+    if (e.key === 'ArrowDown') { e.preventDefault(); setOpen(true); setActive(a => Math.min(Math.max(0, filtered.length - 1), a + 1)); }
     else if (e.key === 'ArrowUp') { e.preventDefault(); setActive(a => Math.max(0, a - 1)); }
     else if (e.key === 'Enter')   { e.preventDefault(); if (filtered[active]) choose(filtered[active]); }
     else if (e.key === 'Escape')  { setOpen(false); }
@@ -71,6 +74,12 @@ export function Combobox<T extends string = string>({
     <div ref={rootRef} className={cn(selectStyles.root, className)} style={{ width: 240 }}>
       <div onKeyDown={onKey}>
         <TextField
+          role="combobox"
+          aria-autocomplete="list"
+          aria-expanded={open}
+          aria-controls={open && filtered.length > 0 ? listboxId : undefined}
+          aria-activedescendant={open && activeOption ? optionId(activeOption.value) : undefined}
+          aria-haspopup="listbox"
           label={label}
           variant={variant}
           value={query}
@@ -84,10 +93,11 @@ export function Combobox<T extends string = string>({
         />
       </div>
       {open && filtered.length > 0 && (
-        <ul role="listbox" className={selectStyles.menu}>
+        <ul id={listboxId} role="listbox" className={selectStyles.menu}>
           {filtered.map((o, i) => (
             <li key={o.value}>
               <button
+                id={optionId(o.value)}
                 role="option"
                 aria-selected={value === o.value}
                 className={cn(

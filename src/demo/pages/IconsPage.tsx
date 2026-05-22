@@ -33,7 +33,7 @@ export function IconsPage() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
       <PageTitle
         title="Icon Gallery"
-        subtitle="Search and explore icons powered by Google's Material Symbols Outlined. Click any icon to copy the JSX React component tag."
+        subtitle="Search and explore icons powered by Google's Material Symbols Rounded. Click any icon to copy the JSX React component tag."
       />
 
       {/* Search inputs */}

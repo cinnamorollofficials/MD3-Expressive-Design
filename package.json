@@ -1,7 +1,7 @@
 {
   "name": "@hadi_gunawan/md3-expressive-ds",
   "version": "0.1.0",
-  "description": "A React + TypeScript component library implementing Google's Material Design 3 Expressive specification — ~50 components, 6 preset themes, full design token system.",
+  "description": "A React + TypeScript component library implementing Google's Material Design 3 Expressive patterns - 40+ components, 6 preset themes, and a CSS custom property token system.",
   "type": "module",
   "private": false,
   "license": "MIT",
@@ -42,6 +42,9 @@
   },
   "scripts": {
     "dev": "vite",
+    "typecheck": "tsc --noEmit",
+    "audit:docs": "node scripts/audit-docs.mjs",
+    "test": "npm run typecheck && npm run audit:docs",
     "build": "tsc --noEmit && vite build",
     "build:lib": "tsc --noEmit && vite build --config vite.config.lib.ts",
     "prepublishOnly": "npm run build:lib",

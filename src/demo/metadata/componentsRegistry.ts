@@ -179,7 +179,7 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentMetadata> = {
     description: 'Switches toggle the state of a single setting on or off immediately.',
     props: [
       { name: 'checked', type: 'boolean', default: 'required', description: 'Active toggle state.' },
-      { name: 'onChange', type: '(c: boolean) => void', default: 'required', description: 'State modification handler.' },
+      { name: 'onChange', type: 'ChangeEventHandler<HTMLInputElement>', default: 'required', description: 'Native checkbox change handler. Read the next value from event.target.checked.' },
       { name: 'disabled', type: 'boolean', default: 'false', description: 'Whether the switch is interactable.' },
       { name: 'label', type: 'string', default: 'undefined', description: 'Optional inline text label.' },
     ],
@@ -204,7 +204,7 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentMetadata> = {
     description: 'Checkboxes let users select one or more items from a set, or toggle sub-choices.',
     props: [
       { name: 'checked', type: 'boolean', default: 'required', description: 'Selection state.' },
-      { name: 'onChange', type: '(c: boolean) => void', default: 'required', description: 'Change handler.' },
+      { name: 'onChange', type: 'ChangeEventHandler<HTMLInputElement>', default: 'required', description: 'Native checkbox change handler. Read the next value from event.target.checked.' },
       { name: 'disabled', type: 'boolean', default: 'false', description: 'Interaction disable flag.' },
       { name: 'label', type: 'string', default: 'undefined', description: 'Adjacent label text.' },
       { name: 'indeterminate', type: 'boolean', default: 'false', description: 'Enables partial hierarchical checked representation.' },
@@ -232,10 +232,9 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentMetadata> = {
       { name: 'label', type: 'string', default: 'required', description: 'Floating label text.' },
       { name: 'placeholder', type: 'string', default: 'undefined', description: 'Hint text.' },
       { name: 'error', type: 'boolean', default: 'false', description: 'Triggers invalid visual state.' },
-      { name: 'errorText', type: 'string', default: 'undefined', description: 'Text displayed below when error is true.' },
-      { name: 'supportingText', type: 'string', default: 'undefined', description: 'Optional guide text displayed below.' },
-      { name: 'prefixIcon', type: 'string', default: 'undefined', description: 'Left aligned Material icon.' },
-      { name: 'suffixIcon', type: 'string', default: 'undefined', description: 'Right aligned Material icon.' },
+      { name: 'helperText', type: 'string', default: 'undefined', description: 'Optional guide or error text displayed below the input.' },
+      { name: 'leadingIcon', type: 'string', default: 'undefined', description: 'Left aligned Material icon.' },
+      { name: 'trailingIcon', type: 'string', default: 'undefined', description: 'Right aligned Material icon.' },
     ],
     keyboard: [{ key: 'Escape', action: 'Clears input text if clearable.' }],
     aria: [{ name: 'aria-invalid', description: 'Set to true when the input is in an error state.' }],
@@ -248,8 +247,8 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentMetadata> = {
       { name: 'placeholder', label: 'Placeholder', type: 'text', defaultValue: 'e.g. johndoe123' },
       { name: 'error', label: 'Has Error', type: 'boolean', defaultValue: false },
       { name: 'errorText', label: 'Error Text', type: 'text', defaultValue: 'This username is already taken.' },
-      { name: 'prefixIcon', label: 'Prefix Icon', type: 'select', options: ['', 'person', 'email', 'phone', 'lock'], defaultValue: 'person' },
-      { name: 'suffixIcon', label: 'Suffix Icon', type: 'select', options: ['', 'check', 'error', 'close', 'visibility'], defaultValue: '' },
+      { name: 'leadingIcon', label: 'Leading Icon', type: 'select', options: ['', 'person', 'email', 'phone', 'lock'], defaultValue: 'person' },
+      { name: 'trailingIcon', label: 'Trailing Icon', type: 'select', options: ['', 'check', 'error', 'close', 'visibility'], defaultValue: '' },
     ],
   },
   slider: {
@@ -259,7 +258,7 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentMetadata> = {
     description: 'Sliders let users make selections from a range of values along a bar.',
     props: [
       { name: 'value', type: 'number', default: 'required', description: 'Current numeric value.' },
-      { name: 'onChange', type: '(v: number) => void', default: 'required', description: 'Slider slide change callback.' },
+      { name: 'onChange', type: 'ChangeEventHandler<HTMLInputElement>', default: 'required', description: 'Native range input change handler. Read the next value from event.target.value.' },
       { name: 'min', type: 'number', default: '0', description: 'Minimum bounds.' },
       { name: 'max', type: 'number', default: '100', description: 'Maximum bounds.' },
       { name: 'step', type: 'number', default: '1', description: 'Steps size scale.' },
@@ -288,8 +287,10 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentMetadata> = {
     status: 'stable',
     description: 'Badges display notifications, counts, or small status details next to another element.',
     props: [
-      { name: 'value', type: 'string | number', default: 'undefined', description: 'Count or label to display inside. If empty, renders a small dot badge.' },
-      { name: 'color', type: "'primary' | 'error' | 'secondary'", default: "'error'", description: 'Color style background.' },
+      { name: 'count', type: 'string | number', default: 'undefined', description: 'Count or label to display inside. If empty, renders a small dot badge.' },
+      { name: 'dot', type: 'boolean', default: 'false', description: 'Forces compact dot display.' },
+      { name: 'max', type: 'number', default: '99', description: 'Maximum numeric count before rendering a + suffix.' },
+      { name: 'ariaLabel', type: 'string', default: 'derived', description: 'Accessible announcement for the badge value.' },
     ],
     keyboard: [],
     aria: [{ name: 'aria-label', description: 'Wrap parents with label describing notifications count.' }],
@@ -297,8 +298,9 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentMetadata> = {
       { do: 'Use small badges for subtle notification signals.', dont: 'Put long sentences inside badges; stick to 1-3 digits or characters.' },
     ],
     playgroundControls: [
-      { name: 'value', label: 'Badge Value', type: 'text', defaultValue: '99+' },
-      { name: 'color', label: 'Badge Color', type: 'select', options: ['primary', 'error', 'secondary'], defaultValue: 'error' },
+      { name: 'count', label: 'Badge Count', type: 'text', defaultValue: '99+' },
+      { name: 'dot', label: 'Dot Only', type: 'boolean', defaultValue: false },
+      { name: 'max', label: 'Max Count', type: 'number', defaultValue: 99 },
     ],
   },
   avatar: {
@@ -309,8 +311,11 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentMetadata> = {
     props: [
       { name: 'src', type: 'string', default: 'undefined', description: 'Image URL source.' },
       { name: 'alt', type: 'string', default: 'undefined', description: 'Alternative label text.' },
-      { name: 'initials', type: 'string', default: 'undefined', description: 'Initials shown when image fails or is absent.' },
-      { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: 'Size diameter dimension.' },
+      { name: 'name', type: 'string', default: 'undefined', description: 'Name used to generate initials when no image or icon is provided.' },
+      { name: 'icon', type: 'string', default: 'undefined', description: 'Material icon fallback when no image is provided.' },
+      { name: 'size', type: "'xs' | 'sm' | 'md' | 'lg' | 'xl'", default: "'md'", description: 'Size diameter dimension.' },
+      { name: 'shape', type: "'circle' | 'square' | 'rounded'", default: "'circle'", description: 'Avatar container geometry.' },
+      { name: 'tone', type: '1 | 2 | 3 | 4', default: '1', description: 'Token-backed color tone for generated initials.' },
     ],
     keyboard: [],
     aria: [{ name: 'role="img"', description: 'Ensures the avatar structure is announced as an image.' }],
@@ -319,13 +324,654 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentMetadata> = {
     ],
     playgroundControls: [
       { name: 'src', label: 'Image Source (Empty to fallback)', type: 'text', defaultValue: '' },
-      { name: 'initials', label: 'Initials Fallback', type: 'text', defaultValue: 'HG' },
-      { name: 'size', label: 'Avatar Size', type: 'select', options: ['sm', 'md', 'lg'], defaultValue: 'md' },
+      { name: 'name', label: 'Name Fallback', type: 'text', defaultValue: 'Hadi Gunawan' },
+      { name: 'size', label: 'Avatar Size', type: 'select', options: ['xs', 'sm', 'md', 'lg', 'xl'], defaultValue: 'md' },
+      { name: 'shape', label: 'Shape', type: 'select', options: ['circle', 'square', 'rounded'], defaultValue: 'circle' },
     ],
   },
 };
 
-// Fill in other components with default empty structures so TS compiles and users see basic pages
+const COMMON_CLASS_PROP: PropDef = {
+  name: 'className',
+  type: 'string',
+  default: 'undefined',
+  description: 'Optional CSS class for layout or local styling overrides.',
+};
+
+const COMPONENT_DOC_BLUEPRINTS: Record<string, Omit<ComponentMetadata, 'id' | 'label'>> = {
+  'fab-menu': {
+    status: 'beta',
+    description: 'FAB menus reveal a small set of related high-emphasis actions from a floating trigger.',
+    props: [
+      { name: 'items', type: 'FABMenuItem[]', default: 'required', description: 'Actions shown when the menu expands.' },
+      { name: 'open', type: 'boolean', default: 'internal', description: 'Expansion state when controlled externally by the caller.' },
+      COMMON_CLASS_PROP,
+    ],
+    keyboard: [
+      { key: 'Enter / Space', action: 'Activates the FAB trigger or focused menu action.' },
+      { key: 'Tab', action: 'Moves through visible actions when the menu is open.' },
+    ],
+    aria: [
+      { name: 'aria-expanded', description: 'Communicates whether the action menu is currently open.' },
+      { name: 'aria-hidden', description: 'Hides collapsed action items from assistive technologies.' },
+    ],
+    doDonts: [
+      { do: 'Use for a short family of closely related primary actions.', dont: 'Use it as a replacement for long overflow menus.' },
+    ],
+  },
+  'split-button': {
+    status: 'stable',
+    description: 'Split buttons pair a primary action with a menu of alternate related actions.',
+    props: [
+      { name: 'label', type: 'string', default: 'required', description: 'Primary action label.' },
+      { name: 'startIcon', type: 'string', default: 'undefined', description: 'Optional Material icon before the primary label.' },
+      { name: 'onClick', type: '() => void', default: 'undefined', description: 'Primary action callback.' },
+      { name: 'options', type: 'SplitButtonOption[]', default: 'required', description: 'Secondary menu actions.' },
+    ],
+    keyboard: [
+      { key: 'Arrow Down', action: 'Opens the alternate action menu and focuses the first item.' },
+      { key: 'Escape', action: 'Closes the menu.' },
+    ],
+    aria: [
+      { name: 'aria-haspopup="menu"', description: 'Identifies the trailing button as a menu trigger.' },
+      { name: 'role="menuitem"', description: 'Applied to each secondary action.' },
+    ],
+    doDonts: [
+      { do: 'Keep the primary action predictable and the alternate actions closely related.', dont: 'Hide destructive actions behind an ambiguous trailing arrow.' },
+    ],
+  },
+  'segmented-button': {
+    status: 'stable',
+    description: 'Segmented buttons select one or multiple options from a compact set.',
+    props: [
+      { name: 'options', type: 'SegmentedOption[]', default: 'required', description: 'Segments with values, labels, and optional icons.' },
+      { name: 'value', type: 'string | string[]', default: 'required', description: 'Selected segment value or values.' },
+      { name: 'multiple', type: 'boolean', default: 'false', description: 'Allows multiple segments to be selected.' },
+      COMMON_CLASS_PROP,
+    ],
+    keyboard: [{ key: 'Tab + Space/Enter', action: 'Focuses and toggles a segment.' }],
+    aria: [
+      { name: 'role="radiogroup"', description: 'Used for single-select segments.' },
+      { name: 'aria-pressed', description: 'Used for multi-select toggle segments.' },
+    ],
+    doDonts: [
+      { do: 'Use for 2-5 mutually related choices.', dont: 'Use for navigation across unrelated app sections.' },
+    ],
+  },
+  'bottom-sheet': {
+    status: 'beta',
+    description: 'Bottom sheets present contextual content from the bottom edge while keeping the current task nearby.',
+    props: [
+      { name: 'open', type: 'boolean', default: 'required', description: 'Controls sheet visibility.' },
+      { name: 'onClose', type: '() => void', default: 'required', description: 'Called when Escape or the scrim closes the sheet.' },
+      { name: 'children', type: 'ReactNode', default: 'undefined', description: 'Sheet content.' },
+    ],
+    keyboard: [
+      { key: 'Escape', action: 'Closes the sheet.' },
+      { key: 'Tab', action: 'Keeps focus inside while open.' },
+    ],
+    aria: [{ name: 'role="dialog"', description: 'Announces the sheet as a modal surface.' }],
+    doDonts: [
+      { do: 'Use for short contextual workflows or secondary choices.', dont: 'Use for deeply nested forms that need a full page.' },
+    ],
+  },
+  'side-sheet': {
+    status: 'beta',
+    description: 'Side sheets reveal supporting content or filters from a screen edge.',
+    props: [
+      { name: 'open', type: 'boolean', default: 'required', description: 'Controls sheet visibility.' },
+      { name: 'side', type: "'left' | 'right'", default: "'right'", description: 'Edge where the sheet appears.' },
+      { name: 'onClose', type: '() => void', default: 'required', description: 'Called when the sheet should close.' },
+    ],
+    keyboard: [
+      { key: 'Escape', action: 'Closes the sheet.' },
+      { key: 'Tab', action: 'Keeps focus inside while open.' },
+    ],
+    aria: [{ name: 'aria-modal="true"', description: 'Marks the side sheet as modal while open.' }],
+    doDonts: [
+      { do: 'Use for filters, details, or supporting panels on wider layouts.', dont: 'Use when the content is essential primary navigation.' },
+    ],
+  },
+  snackbar: {
+    status: 'stable',
+    description: 'Snackbars provide brief status updates with an optional low-emphasis action.',
+    props: [
+      { name: 'message', type: 'ReactNode', default: 'required', description: 'Short feedback text.' },
+      { name: 'action', type: 'ReactNode', default: 'undefined', description: 'Optional action such as Undo.' },
+      COMMON_CLASS_PROP,
+    ],
+    keyboard: [{ key: 'Tab', action: 'Focuses an action if one is present.' }],
+    aria: [{ name: 'role="status"', description: 'Announces non-critical updates politely.' }],
+    doDonts: [
+      { do: 'Keep messages concise and time-bound.', dont: 'Use snackbars for blocking decisions.' },
+    ],
+  },
+  tooltip: {
+    status: 'stable',
+    description: 'Tooltips label or explain compact controls on hover or focus.',
+    props: [
+      { name: 'content', type: 'ReactNode', default: 'required', description: 'Tooltip label or rich content.' },
+      { name: 'children', type: 'ReactNode', default: 'required', description: 'Trigger element.' },
+      COMMON_CLASS_PROP,
+    ],
+    keyboard: [{ key: 'Focus', action: 'Shows the tooltip for keyboard users.' }],
+    aria: [{ name: 'role="tooltip"', description: 'Identifies the popup as tooltip content.' }],
+    doDonts: [
+      { do: 'Use for icon-only controls and compact affordances.', dont: 'Put essential instructions only in a tooltip.' },
+    ],
+  },
+  menu: {
+    status: 'stable',
+    description: 'Menus show a temporary list of actions or choices anchored to a trigger.',
+    props: [
+      { name: 'trigger', type: '(props) => ReactNode', default: 'required', description: 'Render prop that receives menu trigger accessibility handlers.' },
+      { name: 'items', type: 'MenuItem[]', default: 'required', description: 'Menu rows, icons, disabled states, and dividers.' },
+    ],
+    keyboard: [
+      { key: 'Arrow Down / Arrow Up', action: 'Moves focus through menu items.' },
+      { key: 'Escape', action: 'Closes the menu.' },
+    ],
+    aria: [
+      { name: 'aria-haspopup="menu"', description: 'Applied to the trigger.' },
+      { name: 'role="menu"', description: 'Applied to the popup container.' },
+    ],
+    doDonts: [
+      { do: 'Use menus for compact contextual actions.', dont: 'Use menus for complex forms or long browsing experiences.' },
+    ],
+  },
+  radio: {
+    status: 'stable',
+    description: 'Radio buttons select exactly one option from a related set.',
+    props: [
+      { name: 'checked', type: 'boolean', default: 'required', description: 'Whether the option is selected.' },
+      { name: 'onChange', type: 'ChangeEventHandler<HTMLInputElement>', default: 'required', description: 'Native radio change handler.' },
+      { name: 'label', type: 'string', default: 'undefined', description: 'Inline label text.' },
+      COMMON_CLASS_PROP,
+    ],
+    keyboard: [{ key: 'Arrow keys / Space', action: 'Follows native radio input behavior.' }],
+    aria: [{ name: 'type="radio"', description: 'Uses native radio semantics.' }],
+    doDonts: [
+      { do: 'Group radio buttons with a clear fieldset or label.', dont: 'Use radios when multiple answers can be selected.' },
+    ],
+  },
+  chip: {
+    status: 'stable',
+    description: 'Chips represent compact inputs, filters, suggestions, or actions.',
+    props: [
+      { name: 'kind', type: "'assist' | 'filter' | 'input' | 'suggestion'", default: "'assist'", description: 'Chip interaction pattern.' },
+      { name: 'selected', type: 'boolean', default: 'false', description: 'Selected state for filter/input chips.' },
+      { name: 'onClose', type: '() => void', default: 'undefined', description: 'Renders a remove affordance for input chips.' },
+      COMMON_CLASS_PROP,
+    ],
+    keyboard: [{ key: 'Enter / Space', action: 'Activates or toggles the chip.' }],
+    aria: [
+      { name: 'role="checkbox"', description: 'Used by selectable filter/input chips.' },
+      { name: 'aria-checked', description: 'Reflects chip selection state.' },
+    ],
+    doDonts: [
+      { do: 'Use chips to make small pieces of state visible and easy to adjust.', dont: 'Use chips for long-form commands.' },
+    ],
+  },
+  search: {
+    status: 'stable',
+    description: 'Search fields help users enter queries and refine content in the current surface.',
+    props: [
+      { name: 'value', type: 'string', default: 'required', description: 'Current query text.' },
+      { name: 'onChange', type: 'ChangeEventHandler<HTMLInputElement>', default: 'required', description: 'Native input change handler.' },
+      { name: 'placeholder', type: 'string', default: 'undefined', description: 'Short query hint.' },
+      COMMON_CLASS_PROP,
+    ],
+    keyboard: [{ key: 'Escape', action: 'Commonly clears or exits search when wired by the caller.' }],
+    aria: [{ name: 'type="search"', description: 'Uses native search input semantics.' }],
+    doDonts: [
+      { do: 'Place search close to the content it filters.', dont: 'Use generic placeholder text when the searchable scope is narrow.' },
+    ],
+  },
+  select: {
+    status: 'stable',
+    description: 'Select lets users choose one value from a bounded list of options.',
+    props: [
+      { name: 'options', type: 'SelectOption[]', default: 'required', description: 'Available choices.' },
+      { name: 'value', type: 'string', default: 'undefined', description: 'Selected option value.' },
+      { name: 'onChange', type: '(value: string) => void', default: 'undefined', description: 'Called with the selected value.' },
+      { name: 'disabled', type: 'boolean', default: 'false', description: 'Disables the trigger.' },
+      COMMON_CLASS_PROP,
+    ],
+    keyboard: [
+      { key: 'Arrow Down / Arrow Up', action: 'Opens and moves through options.' },
+      { key: 'Enter', action: 'Selects the active option.' },
+      { key: 'Escape', action: 'Closes the listbox.' },
+    ],
+    aria: [
+      { name: 'role="combobox"', description: 'Applied to the readonly trigger input.' },
+      { name: 'role="listbox"', description: 'Applied to the option popup.' },
+      { name: 'aria-activedescendant', description: 'Tracks the keyboard-active option.' },
+    ],
+    doDonts: [
+      { do: 'Use select for short, known option sets.', dont: 'Use select when users need to search many options; use Combobox.' },
+    ],
+  },
+  combobox: {
+    status: 'stable',
+    description: 'Combobox combines text entry with filtered option selection.',
+    props: [
+      { name: 'options', type: 'ComboboxOption[]', default: 'required', description: 'Choices available for filtering.' },
+      { name: 'value', type: 'string', default: 'undefined', description: 'Selected option value.' },
+      { name: 'strict', type: 'boolean', default: 'true', description: 'Restricts committed values to listed options.' },
+      { name: 'onChange', type: '(value?: string) => void', default: 'undefined', description: 'Called when an option is selected or cleared in free-entry mode.' },
+      COMMON_CLASS_PROP,
+    ],
+    keyboard: [
+      { key: 'Arrow Down / Arrow Up', action: 'Moves through filtered options.' },
+      { key: 'Enter', action: 'Chooses the active option.' },
+      { key: 'Escape', action: 'Closes the popup.' },
+    ],
+    aria: [
+      { name: 'aria-autocomplete="list"', description: 'Communicates filtered suggestions.' },
+      { name: 'aria-expanded', description: 'Reflects popup visibility.' },
+    ],
+    doDonts: [
+      { do: 'Use comboboxes for medium or searchable option sets.', dont: 'Use a combobox for two or three static choices.' },
+    ],
+  },
+  'number-input': {
+    status: 'stable',
+    description: 'Number inputs provide typed numeric entry with increment and decrement controls.',
+    props: [
+      { name: 'value', type: 'number', default: 'required', description: 'Current numeric value.' },
+      { name: 'onChange', type: '(value: number) => void', default: 'required', description: 'Called with the next value.' },
+      { name: 'min / max / step', type: 'number', default: 'native defaults', description: 'Numeric constraints.' },
+      COMMON_CLASS_PROP,
+    ],
+    keyboard: [{ key: 'Arrow Up / Arrow Down', action: 'Uses native number input stepping.' }],
+    aria: [{ name: 'aria-label', description: 'Increment and decrement buttons include accessible labels.' }],
+    doDonts: [
+      { do: 'Use for exact numeric values.', dont: 'Use for approximate ranges where Slider is faster.' },
+    ],
+  },
+  rating: {
+    status: 'stable',
+    description: 'Ratings visualize a bounded score, commonly using star icons.',
+    props: [
+      { name: 'value', type: 'number', default: 'required', description: 'Current rating.' },
+      { name: 'max', type: 'number', default: '5', description: 'Maximum score.' },
+      { name: 'readOnly', type: 'boolean', default: 'false', description: 'Disables editing.' },
+      COMMON_CLASS_PROP,
+    ],
+    keyboard: [{ key: 'Tab', action: 'Focuses editable rating controls when available.' }],
+    aria: [{ name: 'aria-label', description: 'Announces the score as value out of max.' }],
+    doDonts: [
+      { do: 'Use ratings for subjective scores.', dont: 'Use stars to show precise operational metrics.' },
+    ],
+  },
+  'date-picker': {
+    status: 'beta',
+    description: 'Date pickers collect calendar dates with Material-styled fields and panels.',
+    props: [
+      { name: 'value', type: 'Date | string', default: 'undefined', description: 'Selected date.' },
+      { name: 'onChange', type: '(value) => void', default: 'undefined', description: 'Called when the date changes.' },
+      COMMON_CLASS_PROP,
+    ],
+    keyboard: [{ key: 'Tab / Enter / Escape', action: 'Moves through controls, selects dates, or closes overlays.' }],
+    aria: [{ name: 'aria-label', description: 'Calendar controls should expose clear date labels.' }],
+    doDonts: [
+      { do: 'Use for dates that benefit from calendar context.', dont: 'Force calendar picking for familiar typed dates like birthdays.' },
+    ],
+  },
+  'time-picker': {
+    status: 'beta',
+    description: 'Time pickers collect time values with touch-friendly Material controls.',
+    props: [
+      { name: 'value', type: 'string', default: 'undefined', description: 'Selected time.' },
+      { name: 'onChange', type: '(value: string) => void', default: 'undefined', description: 'Called when the time changes.' },
+      COMMON_CLASS_PROP,
+    ],
+    keyboard: [{ key: 'Tab / Enter / Escape', action: 'Moves through controls, confirms values, or closes overlays.' }],
+    aria: [{ name: 'aria-label', description: 'Inputs should announce hour, minute, and period meaningfully.' }],
+    doDonts: [
+      { do: 'Use when time precision and format matter.', dont: 'Use a time picker for broad time-of-day categories.' },
+    ],
+  },
+  'top-app-bar': {
+    status: 'stable',
+    description: 'Top app bars hold page titles, navigation affordances, and key actions.',
+    props: [
+      { name: 'title', type: 'ReactNode', default: 'required', description: 'Current screen title.' },
+      { name: 'navigationIcon', type: 'ReactNode', default: 'undefined', description: 'Optional leading navigation action.' },
+      { name: 'actions', type: 'ReactNode', default: 'undefined', description: 'Trailing actions.' },
+      COMMON_CLASS_PROP,
+    ],
+    keyboard: [{ key: 'Tab', action: 'Moves across interactive actions.' }],
+    aria: [{ name: 'header / nav landmarks', description: 'Use surrounding landmarks in app shells when appropriate.' }],
+    doDonts: [
+      { do: 'Keep actions high frequency and screen-specific.', dont: 'Overload the top bar with every available command.' },
+    ],
+  },
+  'navigation-bar': {
+    status: 'stable',
+    description: 'Navigation bars provide compact bottom navigation for up to five destinations.',
+    props: [
+      { name: 'items', type: 'NavigationItem[]', default: 'required', description: 'Destinations with icons and labels.' },
+      { name: 'value', type: 'string', default: 'required', description: 'Active destination value.' },
+      { name: 'onChange', type: '(value: string) => void', default: 'required', description: 'Called when a destination is selected.' },
+    ],
+    keyboard: [{ key: 'Tab + Enter/Space', action: 'Focuses and activates destinations.' }],
+    aria: [
+      { name: 'role="tablist"', description: 'Models destinations as mutually exclusive selections.' },
+      { name: 'aria-selected', description: 'Marks the active destination.' },
+    ],
+    doDonts: [
+      { do: 'Use for primary destinations on compact screens.', dont: 'Show more than five destinations.' },
+    ],
+  },
+  'navigation-rail': {
+    status: 'stable',
+    description: 'Navigation rails provide vertical primary navigation for medium-width layouts.',
+    props: [
+      { name: 'items', type: 'NavigationItem[]', default: 'required', description: 'Destinations with icons and labels.' },
+      { name: 'value', type: 'string', default: 'required', description: 'Active destination value.' },
+      { name: 'onChange', type: '(value: string) => void', default: 'required', description: 'Called when a destination is selected.' },
+    ],
+    keyboard: [{ key: 'Tab + Enter/Space', action: 'Focuses and activates destinations.' }],
+    aria: [{ name: 'role="tablist"', description: 'Models primary destination selection.' }],
+    doDonts: [
+      { do: 'Use when side space is available.', dont: 'Use rail and bottom nav at the same breakpoint.' },
+    ],
+  },
+  'navigation-drawer': {
+    status: 'beta',
+    description: 'Navigation drawers expose app destinations and hierarchy in a side panel.',
+    props: [
+      { name: 'items', type: 'NavigationItem[]', default: 'required', description: 'Drawer destinations.' },
+      { name: 'open', type: 'boolean', default: 'variant dependent', description: 'Visibility for modal drawers.' },
+      COMMON_CLASS_PROP,
+    ],
+    keyboard: [{ key: 'Escape', action: 'Closes modal drawers when wired by the caller.' }],
+    aria: [{ name: 'nav', description: 'Drawer content should be exposed as navigation.' }],
+    doDonts: [
+      { do: 'Use drawers for broad app structures.', dont: 'Use them for one-off contextual actions.' },
+    ],
+  },
+  tabs: {
+    status: 'stable',
+    description: 'Tabs switch between related views at the same hierarchy level.',
+    props: [
+      { name: 'items', type: 'TabItem[]', default: 'required', description: 'Tabs with values, labels, and optional icons.' },
+      { name: 'value', type: 'string', default: 'required', description: 'Selected tab value.' },
+      { name: 'onChange', type: '(value: string) => void', default: 'required', description: 'Called when the active tab changes.' },
+      { name: 'ariaLabel', type: 'string', default: 'undefined', description: 'Accessible name for the tab list.' },
+    ],
+    keyboard: [
+      { key: 'Arrow Left / Arrow Right', action: 'Moves between tabs.' },
+      { key: 'Home / End', action: 'Moves to the first or last tab.' },
+    ],
+    aria: [
+      { name: 'role="tablist"', description: 'Groups related tabs.' },
+      { name: 'role="tab"', description: 'Applied to each tab button.' },
+    ],
+    doDonts: [
+      { do: 'Use tabs for peer content views.', dont: 'Use tabs for sequential steps.' },
+    ],
+  },
+  toolbar: {
+    status: 'stable',
+    description: 'Toolbars group compact actions into an expressive command cluster.',
+    props: [
+      { name: 'children', type: 'ReactNode', default: 'required', description: 'Toolbar controls.' },
+      { name: 'vibrant', type: 'boolean', default: 'false', description: 'Applies a more expressive color treatment.' },
+      { name: 'docked', type: 'boolean', default: 'false', description: 'Uses a docked layout treatment.' },
+      COMMON_CLASS_PROP,
+    ],
+    keyboard: [{ key: 'Tab', action: 'Moves through toolbar controls.' }],
+    aria: [{ name: 'role="toolbar"', description: 'Identifies the grouped command surface.' }],
+    doDonts: [
+      { do: 'Group commands that are used together.', dont: 'Mix unrelated navigation and editing controls.' },
+    ],
+  },
+  'progress-indicator': {
+    status: 'stable',
+    description: 'Progress indicators show determinate or indeterminate task progress.',
+    props: [
+      { name: 'value', type: 'number', default: '0', description: 'Progress value from 0 to 100.' },
+      { name: 'indeterminate', type: 'boolean', default: 'false', description: 'Shows ongoing progress without a known value.' },
+      { name: 'variant', type: "'linear' | 'circular' | 'wavy'", default: "'linear'", description: 'Progress presentation.' },
+      COMMON_CLASS_PROP,
+    ],
+    keyboard: [],
+    aria: [
+      { name: 'role="progressbar"', description: 'Announces progress state.' },
+      { name: 'aria-valuenow', description: 'Provided for determinate progress.' },
+    ],
+    doDonts: [
+      { do: 'Use determinate progress when the amount of work is known.', dont: 'Show fake precision for unknown work.' },
+    ],
+  },
+  'loading-indicator': {
+    status: 'stable',
+    description: 'Expressive loading indicators use morphing shapes to communicate ongoing work.',
+    props: [
+      { name: 'size', type: 'number', default: '48', description: 'Rendered indicator size in pixels.' },
+      { name: 'aria-label', type: 'string', default: "'Loading'", description: 'Accessible loading label.' },
+      COMMON_CLASS_PROP,
+    ],
+    keyboard: [],
+    aria: [{ name: 'role="progressbar"', description: 'Announces loading state.' }],
+    doDonts: [
+      { do: 'Use for short waiting states where a determinate value is unavailable.', dont: 'Use animated loading indicators when content can render skeleton placeholders.' },
+    ],
+  },
+  banner: {
+    status: 'stable',
+    description: 'Banners display important contextual messages with optional actions.',
+    props: [
+      { name: 'variant', type: "'info' | 'warning' | 'error' | 'success'", default: "'info'", description: 'Message tone.' },
+      { name: 'children', type: 'ReactNode', default: 'required', description: 'Banner message.' },
+      { name: 'actions', type: 'ReactNode', default: 'undefined', description: 'Optional response actions.' },
+      COMMON_CLASS_PROP,
+    ],
+    keyboard: [{ key: 'Tab', action: 'Moves to banner actions.' }],
+    aria: [
+      { name: 'role="alert"', description: 'Used for warning and error banners.' },
+      { name: 'role="status"', description: 'Used for non-critical banners.' },
+    ],
+    doDonts: [
+      { do: 'Use for persistent, contextual information.', dont: 'Use banners for transient success feedback better suited to snackbars.' },
+    ],
+  },
+  breadcrumbs: {
+    status: 'stable',
+    description: 'Breadcrumbs show the current page location inside a hierarchy.',
+    props: [
+      { name: 'items', type: 'BreadcrumbItem[]', default: 'required', description: 'Hierarchy links.' },
+      COMMON_CLASS_PROP,
+    ],
+    keyboard: [{ key: 'Tab', action: 'Moves through breadcrumb links.' }],
+    aria: [
+      { name: 'aria-label="Breadcrumb"', description: 'Names the navigation landmark.' },
+      { name: 'aria-current="page"', description: 'Marks the current location.' },
+    ],
+    doDonts: [
+      { do: 'Use for deep hierarchies.', dont: 'Use breadcrumbs as the only navigation system.' },
+    ],
+  },
+  stepper: {
+    status: 'beta',
+    description: 'Steppers show progress through a multi-step workflow.',
+    props: [
+      { name: 'steps', type: 'StepperStep[]', default: 'required', description: 'Step labels and optional metadata.' },
+      { name: 'current', type: 'number', default: '0', description: 'Current step index.' },
+      COMMON_CLASS_PROP,
+    ],
+    keyboard: [{ key: 'Tab', action: 'Moves through interactive step controls when enabled.' }],
+    aria: [{ name: 'aria-current="step"', description: 'Recommended for the active step.' }],
+    doDonts: [
+      { do: 'Use for linear workflows with clear progress.', dont: 'Use for arbitrary navigation.' },
+    ],
+  },
+  pagination: {
+    status: 'stable',
+    description: 'Pagination moves through discrete pages of content.',
+    props: [
+      { name: 'page', type: 'number', default: 'required', description: 'Current page.' },
+      { name: 'count', type: 'number', default: 'required', description: 'Total page count.' },
+      { name: 'onChange', type: '(page: number) => void', default: 'required', description: 'Called when the page changes.' },
+      COMMON_CLASS_PROP,
+    ],
+    keyboard: [{ key: 'Tab + Enter/Space', action: 'Focuses and activates page controls.' }],
+    aria: [
+      { name: 'aria-label="Pagination"', description: 'Names the pagination nav.' },
+      { name: 'aria-current="page"', description: 'Marks the current page.' },
+    ],
+    doDonts: [
+      { do: 'Use when users need stable page positions.', dont: 'Use pagination for tiny result sets.' },
+    ],
+  },
+  skeleton: {
+    status: 'stable',
+    description: 'Skeletons reserve layout space while content is loading.',
+    props: [
+      { name: 'variant', type: "'text' | 'rect' | 'circle'", default: "'text'", description: 'Placeholder shape.' },
+      { name: 'width / height', type: 'number | string', default: 'undefined', description: 'Placeholder dimensions.' },
+      COMMON_CLASS_PROP,
+    ],
+    keyboard: [],
+    aria: [{ name: 'aria-hidden="true"', description: 'Skeletons are decorative loading placeholders.' }],
+    doDonts: [
+      { do: 'Match skeleton shape to the final content.', dont: 'Show skeletons indefinitely without loading state messaging.' },
+    ],
+  },
+  'empty-state': {
+    status: 'stable',
+    description: 'Empty states explain why content is missing and offer a useful next action.',
+    props: [
+      { name: 'title', type: 'ReactNode', default: 'required', description: 'Primary empty-state message.' },
+      { name: 'description', type: 'ReactNode', default: 'undefined', description: 'Supporting context.' },
+      { name: 'action', type: 'ReactNode', default: 'undefined', description: 'Optional next action.' },
+      COMMON_CLASS_PROP,
+    ],
+    keyboard: [{ key: 'Tab', action: 'Focuses the action when present.' }],
+    aria: [{ name: 'role="status"', description: 'Politely announces the empty state.' }],
+    doDonts: [
+      { do: 'Give users a clear next step.', dont: 'Blame the user or leave the surface blank.' },
+    ],
+  },
+  'data-table': {
+    status: 'stable',
+    description: 'Data tables present structured rows with sorting and optional selection.',
+    props: [
+      { name: 'columns', type: 'DataTableColumn<T>[]', default: 'required', description: 'Column definitions and cell renderers.' },
+      { name: 'rows', type: 'T[]', default: 'required', description: 'Table data.' },
+      { name: 'sort', type: '{ columnId: string; direction: SortDirection } | null', default: 'internal', description: 'Controlled sort state.' },
+      { name: 'selected', type: 'Set<string | number>', default: 'undefined', description: 'Selected row keys.' },
+      COMMON_CLASS_PROP,
+    ],
+    keyboard: [{ key: 'Tab + Enter/Space', action: 'Focuses sort buttons and row checkboxes.' }],
+    aria: [
+      { name: 'aria-sort', description: 'Reflects column sort direction.' },
+      { name: 'aria-selected', description: 'Marks selected rows.' },
+    ],
+    doDonts: [
+      { do: 'Use for comparable structured data.', dont: 'Use tables for card-like editorial content.' },
+    ],
+  },
+  timeline: {
+    status: 'stable',
+    description: 'Timelines show ordered events or milestones.',
+    props: [
+      { name: 'items', type: 'TimelineItem[]', default: 'required', description: 'Events with labels, metadata, and tone.' },
+      COMMON_CLASS_PROP,
+    ],
+    keyboard: [],
+    aria: [{ name: 'list semantics', description: 'Use surrounding labels for event groups when needed.' }],
+    doDonts: [
+      { do: 'Use for chronological or process history.', dont: 'Use timelines for unrelated cards.' },
+    ],
+  },
+  accordion: {
+    status: 'stable',
+    description: 'Accordions expand and collapse sections of related content.',
+    props: [
+      { name: 'items', type: 'AccordionItem[]', default: 'required', description: 'Expandable sections.' },
+      { name: 'multiple', type: 'boolean', default: 'false', description: 'Allows more than one section open.' },
+      COMMON_CLASS_PROP,
+    ],
+    keyboard: [{ key: 'Enter / Space', action: 'Toggles the focused section header.' }],
+    aria: [
+      { name: 'aria-expanded', description: 'Reflects whether a section is open.' },
+      { name: 'aria-controls', description: 'Connects header buttons to panels.' },
+    ],
+    doDonts: [
+      { do: 'Use for scannable optional details.', dont: 'Hide primary task content inside accordions by default.' },
+    ],
+  },
+  tree: {
+    status: 'stable',
+    description: 'Trees display nested hierarchical data with expandable branches.',
+    props: [
+      { name: 'nodes', type: 'TreeNode[]', default: 'required', description: 'Hierarchical nodes.' },
+      { name: 'selectedId', type: 'string', default: 'undefined', description: 'Selected node id.' },
+      { name: 'onSelect', type: '(node: TreeNode) => void', default: 'undefined', description: 'Called when a node is selected.' },
+      COMMON_CLASS_PROP,
+    ],
+    keyboard: [
+      { key: 'Arrow Left / Arrow Right', action: 'Collapses or expands branches.' },
+      { key: 'Enter / Space', action: 'Selects the focused node.' },
+    ],
+    aria: [
+      { name: 'role="tree"', description: 'Identifies hierarchical navigation.' },
+      { name: 'role="treeitem"', description: 'Applied to nodes.' },
+    ],
+    doDonts: [
+      { do: 'Use for real hierarchy.', dont: 'Use a tree for flat menus.' },
+    ],
+  },
+  list: {
+    status: 'stable',
+    description: 'Lists arrange related rows of text, icons, and actions.',
+    props: [
+      { name: 'children', type: 'ReactNode', default: 'required', description: 'List items.' },
+      COMMON_CLASS_PROP,
+    ],
+    keyboard: [{ key: 'Tab', action: 'Moves through interactive controls inside list items.' }],
+    aria: [
+      { name: 'role="list"', description: 'Applied to the list container.' },
+      { name: 'role="listitem"', description: 'Applied to each row.' },
+    ],
+    doDonts: [
+      { do: 'Use lists for repeated homogeneous content.', dont: 'Use lists where tabular comparison is the main task.' },
+    ],
+  },
+  divider: {
+    status: 'stable',
+    description: 'Dividers separate content groups with a low-emphasis line.',
+    props: [
+      { name: 'orientation', type: "'horizontal' | 'vertical'", default: "'horizontal'", description: 'Divider direction.' },
+      COMMON_CLASS_PROP,
+    ],
+    keyboard: [],
+    aria: [{ name: 'role="separator"', description: 'Identifies the visual separation.' }],
+    doDonts: [
+      { do: 'Use sparingly to clarify grouping.', dont: 'Use dividers as decoration between every element.' },
+    ],
+  },
+  carousel: {
+    status: 'beta',
+    description: 'Carousels browse a horizontal set of visual items.',
+    props: [
+      { name: 'items', type: 'ReactNode[]', default: 'required', description: 'Slides or cards to browse.' },
+      { name: 'variant', type: 'string', default: 'default', description: 'Carousel layout treatment.' },
+      COMMON_CLASS_PROP,
+    ],
+    keyboard: [{ key: 'Tab + button activation', action: 'Moves through carousel controls when present.' }],
+    aria: [{ name: 'role="region"', description: 'Names the carousel browsing area.' }],
+    doDonts: [
+      { do: 'Use for visual browsing where adjacent items matter.', dont: 'Hide critical content off-screen in a carousel.' },
+    ],
+  },
+};
+
+// Fill in remaining components with per-component blueprints. Unknown ids are marked
+// experimental so placeholder coverage cannot masquerade as complete documentation.
 export const getComponentMetadata = (id: string): ComponentMetadata => {
   const existing = COMPONENTS_REGISTRY[id];
   if (existing) return existing;
@@ -336,11 +982,20 @@ export const getComponentMetadata = (id: string): ComponentMetadata => {
     .map(word => word.charAt(0).toUpperCase() + word.slice(1))
     .join('');
 
+  const blueprint = COMPONENT_DOC_BLUEPRINTS[id];
+  if (blueprint) {
+    return {
+      id,
+      label,
+      ...blueprint,
+    };
+  }
+
   return {
     id,
     label,
-    status: 'stable',
-    description: `Detailed documentation and live previews for the ${label} component.`,
+    status: 'experimental',
+    description: `${label} is available in the package, but its full API, accessibility, and usage documentation still needs a dedicated review.`,
     props: [
       { name: 'children', type: 'ReactNode', default: 'undefined', description: 'Content nested inside the component.' },
       { name: 'className', type: 'string', default: 'undefined', description: 'Custom CSS override selector.' },

@@ -1,68 +1,149 @@
-.root {
-  position: relative;
-  background: var(--md-sys-color-surface-container-highest);
-  color: var(--md-sys-color-on-surface);
-  border-radius: var(--md-sys-shape-corner-md);
-  padding: 16px;
-  padding-right: 96px; /* leave space for the copy button at all viewport sizes */
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', monospace;
-  font-size: 13px;
-  line-height: 1.5;
-  overflow-x: auto;
+.wrapper {
+  background: var(--md-sys-color-surface-container-lowest);
   border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: var(--md-sys-shape-corner-medium);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
 }
 
-.copy {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  appearance: none;
-  border: 0;
-  background: var(--md-sys-color-surface-container);
+:global([data-mode="dark"]) .wrapper {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 16px;
+  background: var(--md-sys-color-surface-container-low);
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
+}
+
+.langBadge {
+  font: var(--md-sys-typescale-label-small);
   color: var(--md-sys-color-on-surface-variant);
-  padding: 6px 12px;
-  font: var(--md-sys-typescale-label-medium);
-  border-radius: var(--md-sys-shape-corner-full);
-  display: inline-flex;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.copyBtn {
+  background: transparent;
+  border: none;
+  display: flex;
   align-items: center;
   gap: 6px;
+  color: var(--md-sys-color-on-surface-variant);
+  font: var(--md-sys-typescale-label-medium);
+  padding: 4px 8px;
+  border-radius: var(--md-sys-shape-corner-small);
   cursor: pointer;
-  opacity: 0.55;
-  transition:
-    opacity var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard),
-    background-color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard),
-    color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard);
+  transition: all 0.2s ease;
 }
 
-.root:hover .copy,
-.copy:focus-visible {
-  opacity: 1;
+.copyBtn:hover {
+  background: color-mix(in srgb, var(--md-sys-color-on-surface) 8%, transparent);
+  color: var(--md-sys-color-on-surface);
 }
 
-.copy:hover {
-  background: var(--md-sys-color-surface-container-high);
-  opacity: 1;
+.scrollArea {
+  overflow-x: auto;
+  width: 100%;
 }
 
-.copy:focus-visible {
-  outline: 2px solid var(--md-sys-color-primary);
-  outline-offset: 2px;
+.pre {
+  margin: 0;
+  padding: 16px;
+  font-family: 'Roboto Mono', 'Fira Code', 'Courier New', Courier, monospace;
+  font-size: 13.5px;
+  line-height: 1.6;
 }
 
-.copy:active {
-  transform: scale(0.97);
+.code {
+  color: var(--md-sys-color-on-surface);
+  white-space: pre;
 }
 
-.copied {
-  background: var(--md-sys-color-primary-container);
-  color: var(--md-sys-color-on-primary-container);
-  opacity: 1;
+.table {
+  width: 100%;
+  border-collapse: collapse;
 }
-.copied:hover { background: var(--md-sys-color-primary-container); }
 
-.error {
-  background: var(--md-sys-color-error-container);
-  color: var(--md-sys-color-on-error-container);
-  opacity: 1;
+.lineRow {
+  transition: background 0.15s ease;
 }
-.error:hover { background: var(--md-sys-color-error-container); }
+
+.lineRow:hover {
+  background: color-mix(in srgb, var(--md-sys-color-primary) 4%, transparent);
+}
+
+.lineNo {
+  padding-right: 16px;
+  color: var(--md-sys-color-on-surface-variant);
+  opacity: 0.4;
+  text-align: right;
+  user-select: none;
+  width: 24px;
+  border-right: 1px solid var(--md-sys-color-outline-variant);
+}
+
+.lineContent {
+  padding-left: 16px;
+  white-space: pre;
+}
+
+/* Syntax Highlighting Colors */
+.comment {
+  color: var(--md-sys-color-on-surface-variant);
+  opacity: 0.65;
+  font-style: italic;
+}
+
+.string {
+  color: #1a7f37; /* Clean green for light mode */
+}
+
+:global([data-mode="dark"]) .string {
+  color: #56d364; /* Vibrant green for dark mode */
+}
+
+.tag {
+  color: var(--md-sys-color-primary);
+  font-weight: 600;
+}
+
+.attr {
+  color: var(--md-sys-color-tertiary);
+}
+
+.keyword {
+  color: var(--md-sys-color-secondary);
+  font-weight: 600;
+}
+
+.boolean {
+  color: #b05700;
+}
+
+:global([data-mode="dark"]) .boolean {
+  color: #ff9d42;
+}
+
+.number {
+  color: #0550ae;
+}
+
+:global([data-mode="dark"]) .number {
+  color: #79c0ff;
+}
+
+.punctuation {
+  color: var(--md-sys-color-on-surface);
+  opacity: 0.8;
+}
+
+.identifier {
+  color: var(--md-sys-color-tertiary);
+  font-weight: 500;
+}

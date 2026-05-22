@@ -19,7 +19,7 @@ const sizeClass: Record<ButtonSize, string> = {
 };
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
-  { variant = 'filled', size = 'sm', startIcon, endIcon, className, children, ...rest },
+  { variant = 'filled', size = 'md', startIcon, endIcon, className, children, ...rest },
   ref,
 ) {
   const iconSize = size === 'xs' ? 18 : size === 'lg' ? 28 : size === 'xl' ? 32 : 20;

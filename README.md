@@ -1,8 +1,8 @@
 # @hadi_gunawan/md3-expressive-ds
 
-A React + TypeScript component library implementing Google's **Material Design 3 Expressive** specification.
+A React + TypeScript component library inspired by Google's **Material Design 3 Expressive** direction: dynamic color, expressive motion, flexible shapes, and adaptive component patterns for modern product UIs.
 
-~50 components, six preset themes (Purple / Ocean / Forest, light + dark), and the full MD3 token system as CSS custom properties.
+The package includes 40+ components, six preset themes (Purple / Ocean / Forest, light + dark), and a CSS custom property token system.
 
 ## Install
 
@@ -14,16 +14,16 @@ Peer dependencies: `react@^18.3.1 || ^19` and `react-dom@^18.3.1 || ^19`.
 
 ## Usage
 
+Import the bundled stylesheet once at your app root:
+
 ```tsx
-// Import the stylesheet ONCE at your app root. It carries the design tokens
-// (--md-sys-color-*, --md-sys-shape-*, --md-sys-motion-*, etc.), the six
-// built-in themes, typography, and a CSS reset.
 import '@hadi_gunawan/md3-expressive-ds/style.css';
 
 import { Button, Card, CardContent, CardTitle, useTheme } from '@hadi_gunawan/md3-expressive-ds';
 
 export function Demo() {
-  useTheme(); // applies data-theme / data-mode on <html> from localStorage
+  useTheme(); // applies data-theme and data-mode on <html>
+
   return (
     <Card variant="filled">
       <CardContent>
@@ -35,28 +35,69 @@ export function Demo() {
 }
 ```
 
-To pick a theme manually instead of using the `useTheme` hook, set the data attributes yourself:
+## Required Icon Font
+
+Components that render icons expect Google's Material Symbols Rounded font to be available. Add this to your HTML shell or self-host the font in your app:
+
+```html
+<link
+  href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap"
+  rel="stylesheet"
+/>
+```
+
+## Theming
+
+Use the built-in themes with attributes on the root element:
 
 ```html
 <html data-theme="ocean" data-mode="dark">
 ```
 
-Themes: `purple` (default) · `ocean` · `forest`. Modes: `light` · `dark`.
+Themes: `purple` (default), `ocean`, `forest`, `custom`.
+Modes: `light`, `dark`.
 
-## What's inside
+The stylesheet exposes Material-style CSS variables such as:
 
-About 50 components grouped by MD3 category:
+```css
+--md-sys-color-primary
+--md-sys-color-on-primary
+--md-sys-color-surface-container
+--md-sys-shape-corner-lg
+--md-sys-motion-duration-medium2
+--md-sys-typescale-body-medium
+```
 
-- **Buttons & actions** — Button, IconButton, FAB, FABMenu, SplitButton, SegmentedButton
-- **Containment** — Card, Chip, Banner, Divider, Accordion
-- **Selection** — Checkbox, Radio, Switch, Slider, Rating
-- **Input** — TextField, Search, Select, Combobox, NumberInput, DatePicker, TimePicker
-- **Navigation** — TopAppBar, Toolbar, Tabs, NavigationBar, NavigationRail, NavigationDrawer, Breadcrumbs, Pagination, Stepper
-- **Communication** — Snackbar, Dialog, BottomSheet, SideSheet, Tooltip, Menu, Badge, ProgressIndicator, LoadingIndicator (Expressive shape-morph), EmptyState
-- **Content** — List, Avatar, AvatarGroup, Skeleton, Carousel, DataTable, Timeline, Tree, Icon
+`useTheme().setSeedColor('#6750a4')` generates a custom HSL-based palette and writes CSS variables to `<html>`. This is intentionally lightweight; if you need exact Android dynamic color parity, wire your palette through Material Color Utilities and set the same CSS variables.
 
-Hooks: `useTheme`, `useRipple`, `useFocusTrap`. Utility: `cn`.
+## SSR Notes
+
+`useTheme` is safe to import during SSR, but it applies attributes and local storage only in the browser. In Next.js/Remix, call it from a client component or set `data-theme` and `data-mode` in your document shell to avoid a flash before hydration.
+
+## What's Inside
+
+- **Buttons & actions**: Button, IconButton, FAB, FABMenu, SplitButton, SegmentedButton
+- **Containment**: Card, Chip, Banner, Divider, Accordion
+- **Selection**: Checkbox, Radio, Switch, Slider, Rating
+- **Input**: TextField, Search, Select, Combobox, NumberInput, DatePicker, TimePicker
+- **Navigation**: TopAppBar, Toolbar, Tabs, NavigationBar, NavigationRail, NavigationDrawer, Breadcrumbs, Pagination, Stepper
+- **Communication**: Snackbar, Dialog, BottomSheet, SideSheet, Tooltip, Menu, Badge, ProgressIndicator, LoadingIndicator, EmptyState
+- **Content**: List, Avatar, AvatarGroup, Skeleton, Carousel, DataTable, Timeline, Tree, Icon
+
+Hooks: `useTheme`, `useRipple`, `useFocusTrap`.
+Utility: `cn`.
+
+## Quality Checks
+
+```bash
+npm run typecheck
+npm run audit:docs
+npm test
+npm run build:lib
+```
+
+`audit:docs` verifies that every demo component has explicit documentation metadata.
 
 ## License
 
-MIT © hadi_gunawan
+MIT (c) hadi_gunawan

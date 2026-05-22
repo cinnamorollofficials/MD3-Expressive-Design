@@ -1,4 +1,4 @@
-import { ReactNode, useState, useMemo } from 'react';
+import { ReactNode, useEffect, useState, useMemo } from 'react';
 import { getComponentMetadata, ComponentMetadata } from '../metadata/componentsRegistry';
 import { Icon } from '../../lib/components/Icon';
 import { cn } from '../../lib/utils/cn';
@@ -6,6 +6,7 @@ import {
   Button, IconButton, FAB, Card, CardContent, CardTitle, CardBody,
   Switch, Checkbox, TextField, Slider, Badge, Avatar
 } from '../../lib';
+import { CodeBlock } from './CodeBlock';
 import styles from './ComponentDocViewer.module.css';
 
 interface ComponentDocViewerProps {
@@ -35,9 +36,9 @@ export function ComponentDocViewer({ id, children }: ComponentDocViewerProps) {
   const [playgroundProps, setPlaygroundProps] = useState<Record<string, any>>(initialPlaygroundValues);
 
   // Reset props when component changes
-  useState(() => {
+  useEffect(() => {
     setPlaygroundProps(initialPlaygroundValues);
-  });
+  }, [initialPlaygroundValues]);
 
   const handlePropChange = (name: string, value: any) => {
     setPlaygroundProps(prev => ({ ...prev, [name]: value }));
@@ -126,8 +127,8 @@ export function ComponentDocViewer({ id, children }: ComponentDocViewerProps) {
             placeholder={playgroundProps.placeholder || undefined}
             error={playgroundProps.error}
             helperText={playgroundProps.errorText || undefined}
-            leadingIcon={playgroundProps.prefixIcon || undefined}
-            trailingIcon={playgroundProps.suffixIcon || undefined}
+            leadingIcon={playgroundProps.leadingIcon || undefined}
+            trailingIcon={playgroundProps.trailingIcon || undefined}
             onChange={(e) => handlePropChange('value', e.target.value)}
           />
         );
@@ -149,7 +150,9 @@ export function ComponentDocViewer({ id, children }: ComponentDocViewerProps) {
       case 'badge':
         return (
           <Badge
-            count={playgroundProps.value || undefined}
+            count={playgroundProps.count || undefined}
+            dot={playgroundProps.dot}
+            max={playgroundProps.max}
           >
             <IconButton icon="notifications" label="Notifications" variant="outlined" />
           </Badge>
@@ -158,8 +161,9 @@ export function ComponentDocViewer({ id, children }: ComponentDocViewerProps) {
         return (
           <Avatar
             src={playgroundProps.src || undefined}
-            name={playgroundProps.initials || undefined}
+            name={playgroundProps.name || undefined}
             size={playgroundProps.size}
+            shape={playgroundProps.shape}
             alt="Playground Avatar"
           />
         );
@@ -201,7 +205,7 @@ export function ComponentDocViewer({ id, children }: ComponentDocViewerProps) {
       return `<Card ${propsStr}>\n  <CardContent>\n    <CardTitle>Title</CardTitle>\n    <CardBody>Body text</CardBody>\n  </CardContent>\n</Card>`;
     }
     if (id === 'badge') {
-      return `<div style={{ position: 'relative' }}>\n  <IconButton icon="notifications" label="Notifications" />\n  <Badge ${propsStr} style={{ position: 'absolute', top: 0, right: 0 }} />\n</div>`;
+      return `<Badge ${propsStr}>\n  <IconButton icon="notifications" label="Notifications" />\n</Badge>`;
     }
     return `<${name} ${propsStr} />`;
   }, [id, playgroundProps, metadata]);
@@ -213,7 +217,7 @@ export function ComponentDocViewer({ id, children }: ComponentDocViewerProps) {
 <html>
 <head>
   <title>MD3 Expressive Sandbox</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&display=swap" rel="stylesheet">
 </head>
 <body>
   <div id="root"></div>
@@ -462,11 +466,8 @@ ReactDOM.createRoot(document.getElementById('root')!).render(<App />);`,
 
             {/* Generated Code Block */}
             {generatedCode && (
-              <div className={styles.codeSnippetContainer}>
-                <div className={styles.codeHeader}>JSX Code</div>
-                <pre className={styles.codeSnippet}>
-                  <code>{generatedCode}</code>
-                </pre>
+              <div style={{ marginTop: 16 }}>
+                <CodeBlock code={generatedCode} language="jsx" showLineNumbers />
               </div>
             )}
           </div>

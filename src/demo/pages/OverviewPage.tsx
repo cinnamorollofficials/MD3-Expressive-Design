@@ -52,7 +52,8 @@ export function OverviewPage() {
 
       <DemoSection
         title="Quick start"
-        code={`import { Button, Card } from './lib';
+        code={`import '@hadi_gunawan/md3-expressive-ds/style.css';
+import { Button, Card } from '@hadi_gunawan/md3-expressive-ds';
 
 <Button variant="filled" startIcon="favorite">Like</Button>
 <Button variant="tonal">Tonal</Button>

@@ -14,9 +14,10 @@ export interface TabsProps<T extends string = string> {
   value: T;
   onChange: (v: T) => void;
   variant?: 'primary' | 'secondary';
+  ariaLabel?: string;
 }
 
-export function Tabs<T extends string = string>({ items, value, onChange, variant = 'primary' }: TabsProps<T>) {
+export function Tabs<T extends string = string>({ items, value, onChange, variant = 'primary', ariaLabel }: TabsProps<T>) {
   const barRef = useRef<HTMLDivElement>(null);
   const [ind, setInd] = useState<{ left: number; width: number }>({ left: 0, width: 0 });
 
@@ -28,18 +29,43 @@ export function Tabs<T extends string = string>({ items, value, onChange, varian
     if (tab) setInd({ left: tab.offsetLeft, width: tab.offsetWidth });
   }, [value, items]);
 
+  const focusTab = (index: number) => {
+    const tab = barRef.current?.querySelectorAll<HTMLButtonElement>(`.${styles.tab}`)[index];
+    tab?.focus();
+  };
+
+  const moveSelection = (nextIndex: number) => {
+    if (items.length === 0) return;
+    const clamped = (nextIndex + items.length) % items.length;
+    onChange(items[clamped].value);
+    requestAnimationFrame(() => focusTab(clamped));
+  };
+
   return (
-    <div ref={barRef} className={cn(styles.bar, variant === 'secondary' && styles.secondary)} role="tablist">
+    <div
+      ref={barRef}
+      className={cn(styles.bar, variant === 'secondary' && styles.secondary)}
+      role="tablist"
+      aria-label={ariaLabel}
+    >
       {items.map(it => {
         const selected = it.value === value;
+        const index = items.findIndex(item => item.value === it.value);
         return (
           <button
             key={it.value}
             type="button"
             role="tab"
             aria-selected={selected}
+            tabIndex={selected ? 0 : -1}
             className={cn(styles.tab, selected && styles.selected)}
             onClick={() => onChange(it.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'ArrowRight') { e.preventDefault(); moveSelection(index + 1); }
+              if (e.key === 'ArrowLeft') { e.preventDefault(); moveSelection(index - 1); }
+              if (e.key === 'Home') { e.preventDefault(); moveSelection(0); }
+              if (e.key === 'End') { e.preventDefault(); moveSelection(items.length - 1); }
+            }}
           >
             {it.icon && <Icon name={it.icon} size={20} filled={selected} />}
             {it.label}

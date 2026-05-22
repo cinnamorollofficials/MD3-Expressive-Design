@@ -40,3 +40,14 @@ html, body {
   transition: opacity var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard);
   border-radius: inherit;
 }
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

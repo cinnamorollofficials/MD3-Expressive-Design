@@ -145,8 +145,12 @@ function generateThemeColors(seedColor: string, mode: 'light' | 'dark'): Record<
 }
 
 const read = (): ThemeState => {
+  if (typeof window === 'undefined' || !window.localStorage) {
+    return { theme: 'purple', mode: 'light', seedColor: '#6750a4' };
+  }
+
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = window.localStorage.getItem(STORAGE_KEY);
     if (raw) {
       const parsed = JSON.parse(raw);
       return {
@@ -160,6 +164,8 @@ const read = (): ThemeState => {
 };
 
 const apply = (s: ThemeState) => {
+  if (typeof document === 'undefined') return;
+
   document.documentElement.setAttribute('data-theme', s.theme);
   document.documentElement.setAttribute('data-mode', s.mode);
 
@@ -184,7 +190,7 @@ export function useTheme() {
 
   useEffect(() => {
     apply(state);
-    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch {}
+    try { window.localStorage?.setItem(STORAGE_KEY, JSON.stringify(state)); } catch {}
   }, [state]);
 
   const setTheme = useCallback((theme: ThemeName) => setState(s => ({ ...s, theme })), []);
@@ -197,4 +203,3 @@ export function useTheme() {
 
   return { ...state, setTheme, setMode, toggleMode, setSeedColor };
 }
-
