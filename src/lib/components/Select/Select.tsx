@@ -23,11 +23,15 @@ export interface SelectProps<T extends string = string> {
   error?: boolean;
   leadingIcon?: string;
   className?: string;
+  minWidth?: string | number;
+  width?: string | number;
+  size?: 'small' | 'medium' | 'large';
 }
 
 export function Select<T extends string = string>({
   options, value, onChange, label, variant, placeholder,
   disabled, helperText, error, leadingIcon, className,
+  minWidth, width, size = 'large',
 }: SelectProps<T>) {
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(-1);
@@ -35,6 +39,7 @@ export function Select<T extends string = string>({
   const listboxId = useId();
   const selected = options.find(o => o.value === value);
   const activeOption = active >= 0 ? options[active] : undefined;
+
 
   const optionId = (optionValue: string) => `${listboxId}-option-${optionValue}`;
   const firstEnabledIndex = () => Math.max(0, options.findIndex(o => !o.disabled));
@@ -86,8 +91,18 @@ export function Select<T extends string = string>({
     }
   };
 
+  const containerStyle: React.CSSProperties = {
+    width: typeof width === 'number' ? `${width}px` : width,
+    minWidth: typeof minWidth === 'number' ? `${minWidth}px` : minWidth,
+  };
+
   return (
-    <div ref={rootRef} className={cn(styles.root, className)}>
+    <div
+      ref={rootRef}
+      className={cn(styles.root, className)}
+      style={containerStyle}
+      data-md3-component="select"
+    >
       <div
         className={styles.trigger}
         onClick={() => !disabled && setOpen(o => !o)}
@@ -109,10 +124,11 @@ export function Select<T extends string = string>({
           error={error}
           leadingIcon={leadingIcon}
           trailingIcon={open ? 'arrow_drop_up' : 'arrow_drop_down'}
+          size={size}
         />
       </div>
       {open && (
-        <ul id={listboxId} role="listbox" className={styles.menu}>
+        <ul id={listboxId} role="listbox" className={cn(styles.menu, size && styles[size])}>
           {options.map((o, i) => (
             <li key={o.value}>
               <button
@@ -124,13 +140,14 @@ export function Select<T extends string = string>({
                   styles.option,
                   value === o.value && styles.selected,
                   i === active && styles.active,
+                  size && styles[size],
                 )}
                 onClick={() => choose(o)}
                 onMouseEnter={() => { if (!o.disabled) setActive(i); }}
               >
-                {o.icon && <Icon name={o.icon} size={20} />}
+                {o.icon && <Icon name={o.icon} size={size === 'small' ? 16 : 20} />}
                 <span style={{ flex: 1 }}>{o.label}</span>
-                {value === o.value && <Icon name="check" size={20} />}
+                {value === o.value && <Icon name="check" size={size === 'small' ? 16 : 20} />}
               </button>
             </li>
           ))}
@@ -139,3 +156,4 @@ export function Select<T extends string = string>({
     </div>
   );
 }
+

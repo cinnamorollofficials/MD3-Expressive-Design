@@ -2,11 +2,13 @@ import { createContext, useCallback, useContext, useEffect, useState, ReactNode,
 
 export type ThemeName = 'purple' | 'ocean' | 'forest' | 'custom';
 export type ThemeMode = 'light' | 'dark';
+export type ThemePreference = 'light' | 'dark' | 'system';
 
 const STORAGE_KEY = 'md3-theme';
 
 interface ThemeState {
   theme: ThemeName;
+  preference: ThemePreference;
   mode: ThemeMode;
   seedColor: string;
 }
@@ -146,21 +148,33 @@ function generateThemeColors(seedColor: string, mode: 'light' | 'dark'): Record<
 
 const read = (): ThemeState => {
   if (typeof window === 'undefined' || !window.localStorage) {
-    return { theme: 'purple', mode: 'light', seedColor: '#6750a4' };
+    return { theme: 'purple', preference: 'system', mode: 'light', seedColor: '#6750a4' };
   }
 
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
     if (raw) {
       const parsed = JSON.parse(raw);
+      const preference: ThemePreference = parsed.preference || parsed.mode || 'system';
+      
+      let computedMode: ThemeMode = 'light';
+      if (preference === 'system') {
+        computedMode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      } else {
+        computedMode = preference;
+      }
+
       return {
         theme: parsed.theme || 'purple',
-        mode: parsed.mode || 'light',
+        preference,
+        mode: computedMode,
         seedColor: parsed.seedColor || '#6750a4',
       };
     }
   } catch {}
-  return { theme: 'purple', mode: 'light', seedColor: '#6750a4' };
+  
+  const systemMode = (typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+  return { theme: 'purple', preference: 'system', mode: systemMode, seedColor: '#6750a4' };
 };
 
 const apply = (s: ThemeState) => {
@@ -168,6 +182,7 @@ const apply = (s: ThemeState) => {
 
   document.documentElement.setAttribute('data-theme', s.theme);
   document.documentElement.setAttribute('data-mode', s.mode);
+  document.documentElement.setAttribute('data-preference', s.preference);
 
   // Generate a dummy light set of colors to get the list of keys to clear
   const dummyColors = generateThemeColors('#6750a4', 'light');
@@ -186,16 +201,16 @@ const apply = (s: ThemeState) => {
 };
 
 // Apply theme immediately (synchronously) when the module is first imported.
-// This ensures data-theme / data-mode are on <html> before React's first render,
-// so CSS custom property tokens (borders, colors, etc.) are always resolved.
 apply(read());
 
 export interface ThemeContextValue {
   theme: ThemeName;
   mode: ThemeMode;
+  preference: ThemePreference;
   seedColor: string;
   setTheme: (theme: ThemeName) => void;
   setMode: (mode: ThemeMode) => void;
+  setPreference: (preference: ThemePreference) => void;
   toggleMode: () => void;
   setSeedColor: (seedColor: string) => void;
 }
@@ -205,20 +220,75 @@ const ThemeContext = createContext<ThemeContextValue | null>(null);
 function useThemeState(): ThemeContextValue {
   const [state, setState] = useState<ThemeState>(read);
 
+  // Menyinkronkan mode visual jika preference diubah atau prefers-color-scheme dari OS berubah
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+    
+    const handler = () => {
+      if (state.preference === 'system') {
+        const systemMode = mediaQuery.matches ? 'dark' : 'light';
+        setState(s => ({ ...s, mode: systemMode }));
+      }
+    };
+
+    if (state.preference === 'system') {
+      const systemMode = mediaQuery.matches ? 'dark' : 'light';
+      if (state.mode !== systemMode) {
+        setState(s => ({ ...s, mode: systemMode }));
+      }
+      mediaQuery.addEventListener('change', handler);
+    }
+    
+    return () => mediaQuery.removeEventListener('change', handler);
+  }, [state.preference, state.mode]);
+
   useEffect(() => {
     apply(state);
     try { window.localStorage?.setItem(STORAGE_KEY, JSON.stringify(state)); } catch {}
   }, [state]);
 
   const setTheme = useCallback((theme: ThemeName) => setState(s => ({ ...s, theme })), []);
-  const setMode = useCallback((mode: ThemeMode) => setState(s => ({ ...s, mode })), []);
+  
+  const setPreference = useCallback((preference: ThemePreference) => {
+    setState(s => {
+      let nextMode: ThemeMode = s.mode;
+      if (preference === 'system') {
+        nextMode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      } else {
+        nextMode = preference;
+      }
+      return { ...s, preference, mode: nextMode };
+    });
+  }, []);
+
+  const setMode = useCallback((mode: ThemeMode) => {
+    // setMode dipetakan langsung ke setPreference demi kompatibilitas kode consumer lama
+    setPreference(mode as ThemePreference);
+  }, [setPreference]);
+
   const toggleMode = useCallback(
-    () => setState(s => ({ ...s, mode: s.mode === 'light' ? 'dark' : 'light' })),
+    () => setState(s => {
+      const nextMode: ThemeMode = s.mode === 'light' ? 'dark' : 'light';
+      return { ...s, preference: nextMode, mode: nextMode };
+    }),
     [],
   );
+  
   const setSeedColor = useCallback((seedColor: string) => setState(s => ({ ...s, theme: 'custom', seedColor })), []);
 
-  return { ...state, setTheme, setMode, toggleMode, setSeedColor };
+  return {
+    theme: state.theme,
+    mode: state.mode,
+    preference: state.preference,
+    seedColor: state.seedColor,
+    setTheme,
+    setMode,
+    setPreference,
+    toggleMode,
+    setSeedColor
+  };
 }
 
 export interface ThemeProviderProps {
@@ -237,3 +307,4 @@ export function useTheme() {
   }
   return context;
 }
+

@@ -6,6 +6,15 @@
   height: 40px;
 }
 
+/* Mengatur tinggi penuh anak langsung dan memosisikan border kiri */
+.group > * {
+  height: 100%;
+  border-left: 1px solid var(--md-sys-color-outline);
+}
+.group > *:first-child {
+  border-left: none;
+}
+
 .seg {
   position: relative;
   overflow: hidden;
@@ -14,19 +23,27 @@
   justify-content: center;
   gap: 8px;
   padding: 0 16px;
+  height: 100%;
+  border: none; /* Hilangkan border internal button */
   background: transparent;
   color: var(--md-sys-color-on-surface);
   font: var(--md-sys-typescale-label-large);
   letter-spacing: 0.1px;
   cursor: pointer;
-  border-left: 1px solid var(--md-sys-color-outline);
   transition: background-color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard);
 }
-.seg:first-child { border-left: none; }
 .seg:hover { background: color-mix(in srgb, var(--md-sys-color-on-surface) 8%, transparent); }
+
+/* Item Ikon Saja (Tanpa Label Teks) */
+.seg.iconOnly {
+  aspect-ratio: 1 / 1;
+  width: 40px;
+  padding: 0;
+}
 
 .selected {
   background: var(--md-sys-color-secondary-container);
   color: var(--md-sys-color-on-secondary-container);
 }
 .selected:hover { background: color-mix(in srgb, var(--md-sys-color-on-secondary-container) 8%, var(--md-sys-color-secondary-container)); }
+

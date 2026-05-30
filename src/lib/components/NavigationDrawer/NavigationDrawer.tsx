@@ -12,10 +12,15 @@ export interface DrawerItem<T extends string = string> {
   badge?: string | number;
 }
 
+export type DrawerNavItem<T extends string = string> = DrawerItem<T>; // Alias ekspor
+
+
 export interface DrawerSection<T extends string = string> {
   title?: string;
   items: DrawerItem<T>[];
 }
+
+export type NavSection<T extends string = string> = DrawerSection<T>; // Alias ekspor
 
 interface BaseProps<T extends string = string> {
   sections: DrawerSection<T>[];
@@ -28,10 +33,12 @@ export interface NavigationDrawerProps<T extends string = string> extends BasePr
   modal?: boolean;
   open?: boolean;
   onClose?: () => void;
+  className?: string;
+  style?: React.CSSProperties;
 }
 
 export function NavigationDrawer<T extends string = string>({
-  sections, value, onChange, header, modal, open, onClose,
+  sections, value, onChange, header, modal, open, onClose, className, style,
 }: NavigationDrawerProps<T>) {
   const trap = useFocusTrap<HTMLElement>(!!(modal && open));
   useEffect(() => {
@@ -42,7 +49,12 @@ export function NavigationDrawer<T extends string = string>({
   }, [modal, open, onClose]);
 
   const inner = (
-    <nav ref={trap as React.RefObject<HTMLElement>} className={cn(styles.drawer, modal && styles.modal)}>
+    <nav
+      ref={trap as React.RefObject<HTMLElement>}
+      className={cn(styles.drawer, modal && styles.modal, className)}
+      style={style}
+      data-md3-component="navigation-drawer"
+    >
       {header}
       {sections.map((s, i) => (
         <div key={i}>
@@ -77,3 +89,4 @@ export function NavigationDrawer<T extends string = string>({
     document.body,
   );
 }
+

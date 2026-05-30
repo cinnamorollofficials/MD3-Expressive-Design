@@ -12,10 +12,11 @@ export interface TextFieldProps extends Omit<InputHTMLAttributes<HTMLInputElemen
   trailingIcon?: string;
   helperText?: string;
   error?: boolean;
+  size?: 'small' | 'medium' | 'large';
 }
 
 export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(function TextField(
-  { label, variant = 'outlined', leadingIcon, trailingIcon, helperText, error, className, value, defaultValue, onFocus, onBlur, id, ...rest },
+  { label, variant = 'outlined', leadingIcon, trailingIcon, helperText, error, className, value, defaultValue, onFocus, onBlur, id, size = 'large', ...rest },
   ref,
 ) {
   const autoId = useId();
@@ -27,13 +28,13 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(function T
   const floated = focused || (current != null && String(current).length > 0) || !!rest.placeholder;
 
   return (
-    <div className={cn(styles.root, className)}>
-      <div className={cn(styles.field, styles[variant], focused && styles.focused, error && styles.error, leadingIcon && styles.hasLeading)}>
-        {leadingIcon && <span className={styles.leading}><Icon name={leadingIcon} size={24} /></span>}
+    <div className={cn(styles.root, styles[size], className)} data-md3-component="text-field">
+      <div className={cn(styles.field, styles[variant], focused && styles.focused, error && styles.error, leadingIcon && styles.hasLeading, styles[size])}>
+        {leadingIcon && <span className={styles.leading}><Icon name={leadingIcon} size={size === 'small' ? 18 : 24} /></span>}
         <input
           ref={ref}
           id={inputId}
-          className={styles.input}
+          className={cn(styles.input, styles[size])}
           value={isControlled ? value : undefined}
           defaultValue={isControlled ? undefined : defaultValue}
           onChange={(e) => { if (!isControlled) setInternal(e.target.value); rest.onChange?.(e); }}
@@ -42,20 +43,21 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(function T
           {...rest}
         />
         {label && (
-          <label htmlFor={inputId} className={cn(styles.label, floated && styles.floated)}>
+          <label htmlFor={inputId} className={cn(styles.label, floated && styles.floated, styles[size])}>
             {label}
           </label>
         )}
         {variant === 'outlined' && label && (
           <fieldset className={styles.outline} aria-hidden="true">
-            <legend className={cn(styles.legend, floated && styles.legendFloated)}>
+            <legend className={cn(styles.legend, floated && styles.legendFloated, styles[size])}>
               <span>{label}</span>
             </legend>
           </fieldset>
         )}
-        {trailingIcon && <span className={styles.trailing}><Icon name={trailingIcon} size={24} /></span>}
+        {trailingIcon && <span className={styles.trailing}><Icon name={trailingIcon} size={size === 'small' ? 18 : 24} /></span>}
       </div>
       {helperText && <div className={cn(styles.helper, error && styles.error)}>{helperText}</div>}
     </div>
   );
 });
+

@@ -1,15 +1,22 @@
-.root { position: relative; display: inline-block; width: 240px; }
+.root {
+  position: relative;
+  display: inline-block;
+  width: var(--md3-select-width, 240px);
+}
+
 .menu {
   position: absolute;
   top: calc(100% + 4px);
   left: 0;
-  right: 0;
+  min-width: 100%;
+  width: max-content; /* Memisahkan lebar dropdown dari trigger */
+  max-width: 320px;
   background: var(--md-sys-color-surface-container);
   color: var(--md-sys-color-on-surface);
   border-radius: var(--md-sys-shape-corner-xs);
   box-shadow: var(--md-sys-elevation-2);
-  padding: 8px 0;
-  z-index: 100;
+  padding: 4px 0;
+  z-index: 1000; /* Dinaikkan agar di atas element lain */
   max-height: 280px;
   overflow-y: auto;
   transform-origin: top;
@@ -35,5 +42,20 @@
 .option.active { background: color-mix(in srgb, var(--md-sys-color-on-surface) 8%, transparent); }
 .option:disabled { opacity: 0.38; pointer-events: none; }
 
+/* Opsi Ukuran Kecil */
+.option.small {
+  height: 32px;
+  padding: 0 8px;
+  gap: 8px;
+  font: var(--md-sys-typescale-body-medium);
+}
+.option.medium {
+  height: 38px;
+  padding: 0 12px;
+  gap: 10px;
+  font: var(--md-sys-typescale-body-medium);
+}
+
 .trigger { width: 100%; }
 .trigger input { cursor: pointer; }
+

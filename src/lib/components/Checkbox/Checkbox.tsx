@@ -24,7 +24,10 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Che
   };
 
   return (
-    <label className={cn(styles.root, disabled && styles.disabled, className)}>
+    <label
+      className={cn(styles.root, disabled && styles.disabled, !label && styles.iconOnly, className)}
+      data-md3-component="checkbox"
+    >
       <input
         ref={setRef}
         type="checkbox"
@@ -40,7 +43,8 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Che
           <Icon name="check" size={14} className={styles.check} weight={700} />
         ) : null}
       </span>
-      {label}
+      {label && <span className={styles.labelText}>{label}</span>}
     </label>
   );
 });
+

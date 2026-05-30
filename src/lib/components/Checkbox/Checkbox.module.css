@@ -9,6 +9,11 @@
 }
 .root.disabled { opacity: 0.38; cursor: not-allowed; }
 
+.root.iconOnly {
+  gap: 0;
+  padding: 0;
+}
+
 .box {
   position: relative;
   width: 18px;
@@ -45,4 +50,16 @@
   pointer-events: none;
 }
 
+/* Ring outline fokus saat diakses via keyboard */
+.input:focus-visible + .box {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+}
+
 .check { color: var(--md-sys-color-on-primary); }
+
+.labelText {
+  display: inline-block;
+  line-height: 1;
+}
+

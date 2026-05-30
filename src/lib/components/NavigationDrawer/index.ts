@@ -1,1 +1,3 @@
-export { NavigationDrawer, type NavigationDrawerProps, type DrawerItem, type DrawerSection } from './NavigationDrawer';
+export { NavigationDrawer, type NavigationDrawerProps, type DrawerItem, type DrawerSection, type DrawerNavItem, type NavSection } from './NavigationDrawer';
+
+

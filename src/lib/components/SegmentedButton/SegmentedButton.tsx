@@ -1,11 +1,13 @@
 import { cn } from '../../utils/cn';
 import { Icon } from '../Icon';
+import { Tooltip } from '../Tooltip';
 import styles from './SegmentedButton.module.css';
 
 export interface SegmentedOption<T extends string = string> {
   value: T;
-  label: string;
+  label?: string; // Diubah ke opsional
   icon?: string;
+  tooltip?: string; // Tambahkan dukungan tooltip
 }
 
 export interface SegmentedButtonProps<T extends string = string> {
@@ -28,21 +30,45 @@ export function SegmentedButton<T extends string = string>({
     }
   };
   return (
-    <div role={multiple ? 'group' : 'radiogroup'} className={styles.group}>
-      {options.map(o => (
-        <button
-          key={o.value}
-          type="button"
-          role={multiple ? 'button' : 'radio'}
-          aria-checked={isSelected(o.value)}
-          aria-pressed={multiple ? isSelected(o.value) : undefined}
-          className={cn(styles.seg, isSelected(o.value) && styles.selected)}
-          onClick={() => handle(o.value)}
-        >
-          {isSelected(o.value) ? <Icon name="check" size={18} /> : o.icon && <Icon name={o.icon} size={18} />}
-          {o.label}
-        </button>
-      ))}
+    <div
+      role={multiple ? 'group' : 'radiogroup'}
+      className={styles.group}
+      data-md3-component="segmented-button"
+    >
+      {options.map(o => {
+        const buttonSelected = isSelected(o.value);
+        const hasLabel = !!o.label;
+        const buttonElement = (
+          <button
+            key={o.value}
+            type="button"
+            role={multiple ? 'button' : 'radio'}
+            aria-checked={buttonSelected}
+            aria-pressed={multiple ? buttonSelected : undefined}
+            data-md3-component="segmented-button-item"
+            className={cn(
+              styles.seg,
+              buttonSelected && styles.selected,
+              !hasLabel && styles.iconOnly
+            )}
+            onClick={() => handle(o.value)}
+          >
+            {buttonSelected ? <Icon name="check" size={18} /> : o.icon && <Icon name={o.icon} size={18} />}
+            {o.label}
+          </button>
+        );
+
+        if (o.tooltip) {
+          return (
+            <Tooltip key={o.value} label={o.tooltip} placement="auto">
+              {buttonElement}
+            </Tooltip>
+          );
+        }
+
+        return buttonElement;
+      })}
     </div>
   );
 }
+

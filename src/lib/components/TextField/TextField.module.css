@@ -21,6 +21,19 @@
   transition: background-color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard);
 }
 
+.field.small {
+  height: 32px;
+  padding: 0 8px;
+  gap: 8px;
+}
+
+.field.medium {
+  height: 40px;
+  padding: 0 12px;
+  gap: 10px;
+}
+
+
 /* filled */
 .filled {
   background: var(--md-sys-color-surface-container-highest);
@@ -93,6 +106,13 @@
   color: inherit;
   font: var(--md-sys-typescale-body-large);
 }
+.input.small {
+  font: var(--md-sys-typescale-body-medium);
+}
+.input.medium {
+  font: var(--md-sys-typescale-body-medium);
+}
+
 .input:focus,
 .input:focus-visible {
   outline: none;
@@ -115,11 +135,25 @@
     left var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard),
     color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard);
 }
+.label.small {
+  font: var(--md-sys-typescale-body-medium);
+}
+.label.medium {
+  font: var(--md-sys-typescale-body-medium);
+}
+
 .label.floated {
   top: 0;
   font-size: 12px;
   color: var(--md-sys-color-on-surface-variant);
 }
+.label.floated.small {
+  font-size: 10px;
+}
+.label.floated.medium {
+  font-size: 11px;
+}
+
 .focused .label.floated {
   color: var(--md-sys-color-primary);
 }
@@ -136,3 +170,4 @@
   color: var(--md-sys-color-on-surface-variant);
 }
 .helper.error { color: var(--md-sys-color-error); }
+

@@ -63,7 +63,8 @@ export * from './components/Accordion';
 export * from './components/Tree';
 
 export { useTheme, ThemeProvider } from './hooks/useTheme';
-export type { ThemeName, ThemeMode, ThemeContextValue, ThemeProviderProps } from './hooks/useTheme';
+export type { ThemeName, ThemeMode, ThemePreference, ThemeContextValue, ThemeProviderProps } from './hooks/useTheme';
+
 export { useRipple } from './hooks/useRipple';
 export { useFocusTrap } from './hooks/useFocusTrap';
 export { cn } from './utils/cn';
