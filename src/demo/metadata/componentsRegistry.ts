@@ -384,11 +384,12 @@ const COMPONENT_DOC_BLUEPRINTS: Record<string, Omit<ComponentMetadata, 'id' | 'l
     status: 'stable',
     description: 'Segmented buttons select one or multiple options from a compact set.',
     props: [
-      { name: 'options', type: 'SegmentedOption[]', default: 'required', description: 'Segments with values, labels, and optional icons.' },
+      { name: 'options', type: 'SegmentedOption[]', default: 'required', description: 'Segments with values, optional labels, optional icons, and optional tooltips.' },
       { name: 'value', type: 'string | string[]', default: 'required', description: 'Selected segment value or values.' },
       { name: 'multiple', type: 'boolean', default: 'false', description: 'Allows multiple segments to be selected.' },
       COMMON_CLASS_PROP,
     ],
+
     keyboard: [{ key: 'Tab + Space/Enter', action: 'Focuses and toggles a segment.' }],
     aria: [
       { name: 'role="radiogroup"', description: 'Used for single-select segments.' },
@@ -450,8 +451,11 @@ const COMPONENT_DOC_BLUEPRINTS: Record<string, Omit<ComponentMetadata, 'id' | 'l
     status: 'stable',
     description: 'Tooltips label or explain compact controls on hover or focus.',
     props: [
-      { name: 'content', type: 'ReactNode', default: 'required', description: 'Tooltip label or rich content.' },
-      { name: 'children', type: 'ReactNode', default: 'required', description: 'Trigger element.' },
+      { name: 'label', type: 'ReactNode', default: 'required', description: 'Tooltip text or element.' },
+      { name: 'title', type: 'string', default: 'undefined', description: 'Headline title for rich tooltips.' },
+      { name: 'rich', type: 'boolean', default: 'false', description: 'Uses rich styling layout.' },
+      { name: 'placement', type: "'top' | 'bottom' | 'left' | 'right' | 'auto'", default: "'top'", description: 'Preferred direction of the tooltip popup.' },
+      { name: 'children', type: 'ReactNode', default: 'required', description: 'Target trigger element.' },
       COMMON_CLASS_PROP,
     ],
     keyboard: [{ key: 'Focus', action: 'Shows the tooltip for keyboard users.' }],
@@ -465,8 +469,11 @@ const COMPONENT_DOC_BLUEPRINTS: Record<string, Omit<ComponentMetadata, 'id' | 'l
     description: 'Menus show a temporary list of actions or choices anchored to a trigger.',
     props: [
       { name: 'trigger', type: '(props) => ReactNode', default: 'required', description: 'Render prop that receives menu trigger accessibility handlers.' },
-      { name: 'items', type: 'MenuItem[]', default: 'required', description: 'Menu rows, icons, disabled states, and dividers.' },
+      { name: 'items', type: 'MenuItem[]', default: 'required', description: 'Menu rows, icons, disabled states, and dividers with optional labels.' },
+      { name: 'align', type: "'left' | 'right' | 'auto'", default: "'left'", description: 'Alignment of the dropdown menu.' },
+      { name: 'usePortal', type: 'boolean', default: 'true', description: 'Render menu inside document.body portal.' },
     ],
+
     keyboard: [
       { key: 'Arrow Down / Arrow Up', action: 'Moves focus through menu items.' },
       { key: 'Escape', action: 'Closes the menu.' },
@@ -535,8 +542,12 @@ const COMPONENT_DOC_BLUEPRINTS: Record<string, Omit<ComponentMetadata, 'id' | 'l
       { name: 'value', type: 'string', default: 'undefined', description: 'Selected option value.' },
       { name: 'onChange', type: '(value: string) => void', default: 'undefined', description: 'Called with the selected value.' },
       { name: 'disabled', type: 'boolean', default: 'false', description: 'Disables the trigger.' },
+      { name: 'minWidth', type: 'string | number', default: 'undefined', description: 'Minimum width of the select container.' },
+      { name: 'width', type: 'string | number', default: 'undefined', description: 'Explicit width of the select container.' },
+      { name: 'size', type: "'small' | 'medium' | 'large'", default: "'large'", description: 'Height and padding density size.' },
       COMMON_CLASS_PROP,
     ],
+
     keyboard: [
       { key: 'Arrow Down / Arrow Up', action: 'Opens and moves through options.' },
       { key: 'Enter', action: 'Selects the active option.' },
@@ -636,9 +647,11 @@ const COMPONENT_DOC_BLUEPRINTS: Record<string, Omit<ComponentMetadata, 'id' | 'l
     status: 'stable',
     description: 'Top app bars hold page titles, navigation affordances, and key actions.',
     props: [
-      { name: 'title', type: 'ReactNode', default: 'required', description: 'Current screen title.' },
-      { name: 'navigationIcon', type: 'ReactNode', default: 'undefined', description: 'Optional leading navigation action.' },
-      { name: 'actions', type: 'ReactNode', default: 'undefined', description: 'Trailing actions.' },
+      { name: 'variant', type: "'small' | 'center' | 'medium' | 'large'", default: "'small'", description: 'TopAppBar layout variant style.' },
+      { name: 'title', type: 'ReactNode', default: 'required', description: 'Headline title.' },
+      { name: 'start', type: 'ReactNode', default: 'undefined', description: 'Left-aligned leading element (navigation button, logo).' },
+      { name: 'end', type: 'ReactNode', default: 'undefined', description: 'Right-aligned actions list container.' },
+      { name: 'scrolled', type: 'boolean', default: 'false', description: 'Triggers scrolled background elevation style.' },
       COMMON_CLASS_PROP,
     ],
     keyboard: [{ key: 'Tab', action: 'Moves across interactive actions.' }],
@@ -647,6 +660,7 @@ const COMPONENT_DOC_BLUEPRINTS: Record<string, Omit<ComponentMetadata, 'id' | 'l
       { do: 'Keep actions high frequency and screen-specific.', dont: 'Overload the top bar with every available command.' },
     ],
   },
+
   'navigation-bar': {
     status: 'stable',
     description: 'Navigation bars provide compact bottom navigation for up to five destinations.',
@@ -682,8 +696,13 @@ const COMPONENT_DOC_BLUEPRINTS: Record<string, Omit<ComponentMetadata, 'id' | 'l
     status: 'beta',
     description: 'Navigation drawers expose app destinations and hierarchy in a side panel.',
     props: [
-      { name: 'items', type: 'NavigationItem[]', default: 'required', description: 'Drawer destinations.' },
-      { name: 'open', type: 'boolean', default: 'variant dependent', description: 'Visibility for modal drawers.' },
+      { name: 'sections', type: 'NavSection[]', default: 'required', description: 'Sections containing list destinations.' },
+      { name: 'value', type: 'string', default: 'required', description: 'Active destination key value.' },
+      { name: 'onChange', type: '(v: string) => void', default: 'required', description: 'Selection state change listener.' },
+      { name: 'header', type: 'ReactNode', default: 'undefined', description: 'Header content shown above the destination items.' },
+      { name: 'modal', type: 'boolean', default: 'false', description: 'Renders the drawer as a modal slide-out panel.' },
+      { name: 'open', type: 'boolean', default: 'false', description: 'Controls visibility of the modal drawer.' },
+      { name: 'onClose', type: '() => void', default: 'undefined', description: 'Close action handler triggered by scrim click or Escape.' },
       COMMON_CLASS_PROP,
     ],
     keyboard: [{ key: 'Escape', action: 'Closes modal drawers when wired by the caller.' }],
@@ -692,6 +711,7 @@ const COMPONENT_DOC_BLUEPRINTS: Record<string, Omit<ComponentMetadata, 'id' | 'l
       { do: 'Use drawers for broad app structures.', dont: 'Use them for one-off contextual actions.' },
     ],
   },
+
   tabs: {
     status: 'stable',
     description: 'Tabs switch between related views at the same hierarchy level.',
