@@ -11,7 +11,7 @@ export function ChangelogPage() {
 
       <DemoSection title="Releases Timeline">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: '100%' }}>
-          {/* v0.2.0 */}
+          {/* v0.2.2 */}
           <div style={{ display: 'flex', gap: 16 }}>
             {/* Timeline track node */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -30,7 +30,8 @@ export function ChangelogPage() {
               <CardContent>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8, marginBottom: 8 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <CardTitle>v0.2.1</CardTitle>
+                    <CardTitle>v0.2.3</CardTitle>
+
                     <span style={{
                       background: 'var(--md-sys-color-primary-container)',
                       color: 'var(--md-sys-color-on-primary-container)',
@@ -41,6 +42,45 @@ export function ChangelogPage() {
                     }}>
                       Latest
                     </span>
+                  </div>
+                  <span style={{ font: 'var(--md-sys-typescale-label-medium)', color: 'var(--md-sys-color-on-surface-variant)' }}>May 30, 2026</span>
+                </div>
+                <CardBody>
+                  <strong>Custom MD3 Expressive Component Improvements & Fixes</strong>
+                  <ul style={{ paddingLeft: 20, margin: '8px 0 0 0', display: 'flex', flexDirection: 'column', gap: 4 }}>
+                    <li><strong>Portal & Alignment Menu:</strong> Added <code>align</code> and <code>usePortal</code> props to <code>Menu</code>. Dropdowns are now rendered into portals to avoid container overflow and z-index overlaps in tables and headers.</li>
+                    <li><strong>Tooltip Enhancements:</strong> Integrated <code>placement</code> controls with smart viewport collision detection (auto-flip) and cascade color protection wrapper.</li>
+                    <li><strong>Sized Select Trigger:</strong> Added <code>minWidth</code>, <code>width</code>, and <code>size</code> props to <code>Select</code>, automatically resizing the internal <code>TextField</code> and isolating dropdown list dimensions.</li>
+                    <li><strong>Flexible SegmentedButton:</strong> Made labels optional for icon-only segments, added internal tooltip integration, and solved border divider rendering conflicts.</li>
+                    <li><strong>System Theme Preference:</strong> Enhanced <code>useTheme</code> hook to support <code>system</code> theme preference that dynamically syncs with OS media queries.</li>
+                    <li><strong>Prop Forwarding & Target Selectors:</strong> Enabled HTMLAttributes propagation, forwarding <code>className</code>/<code>style</code>, and appended stable <code>data-md3-component</code> selectors to layout wrappers.</li>
+                    <li><strong>Checkbox Adjustments:</strong> Handled standalone flex gap alignment and added focus-ring visible outlines.</li>
+                  </ul>
+                </CardBody>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* v0.2.1 */}
+          <div style={{ display: 'flex', gap: 16 }}>
+            {/* Timeline track node */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <div style={{
+                width: 12,
+                height: 12,
+                borderRadius: '50%',
+                background: 'var(--md-sys-color-outline)',
+                border: '2px solid var(--md-sys-color-outline-variant)'
+              }} />
+              <div style={{ flex: 1, width: 2, background: 'var(--md-sys-color-outline-variant)', marginTop: 8 }} />
+            </div>
+
+            {/* Version content */}
+            <Card variant="outlined" style={{ flex: 1, opacity: 0.9 }}>
+              <CardContent>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8, marginBottom: 8 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <CardTitle>v0.2.1</CardTitle>
                   </div>
                   <span style={{ font: 'var(--md-sys-typescale-label-medium)', color: 'var(--md-sys-color-on-surface-variant)' }}>May 22, 2026</span>
                 </div>
@@ -57,6 +97,7 @@ export function ChangelogPage() {
               </CardContent>
             </Card>
           </div>
+
 
           {/* v0.1.0 */}
           <div style={{ display: 'flex', gap: 16 }}>
