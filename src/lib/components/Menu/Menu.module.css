@@ -21,15 +21,21 @@
 }
 
 .menuAlignLeft {
-  left: 0;
-  right: auto;
   transform-origin: top left;
 }
 
 .menuAlignRight {
+  transform-origin: top right;
+}
+
+.menu:not(.portalMenu).menuAlignLeft {
+  left: 0;
+  right: auto;
+}
+
+.menu:not(.portalMenu).menuAlignRight {
   left: auto;
   right: 0;
-  transform-origin: top right;
 }
 
 .item {

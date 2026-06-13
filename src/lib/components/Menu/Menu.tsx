@@ -27,7 +27,7 @@ export interface MenuProps {
   usePortal?: boolean;
 }
 
-export function Menu({ trigger, items, align = 'left', usePortal = true }: MenuProps) {
+export function Menu({ trigger, items, align = 'auto', usePortal = true }: MenuProps) {
   const [open, setOpen] = useState(false);
   const [computedAlign, setComputedAlign] = useState<'left' | 'right'>('left');
   const [portalStyle, setPortalStyle] = useState<React.CSSProperties>({});
@@ -96,6 +96,12 @@ export function Menu({ trigger, items, align = 'left', usePortal = true }: MenuP
           if (finalAlign === 'right') {
             left = triggerRect.right + scrollLeft - menuWidth;
           }
+
+          // Bound within viewport horizontally with a safe margin
+          const margin = 12;
+          const minLeft = scrollLeft + margin;
+          const maxLeft = scrollLeft + window.innerWidth - menuWidth - margin;
+          left = Math.max(minLeft, Math.min(maxLeft, left));
 
           setPortalStyle({
             position: 'absolute',
