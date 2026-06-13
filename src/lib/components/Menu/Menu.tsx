@@ -25,9 +25,10 @@ export interface MenuProps {
   items: MenuItem[];
   align?: 'left' | 'right' | 'auto';
   usePortal?: boolean;
+  className?: string;
 }
 
-export function Menu({ trigger, items, align = 'auto', usePortal = true }: MenuProps) {
+export function Menu({ trigger, items, align = 'auto', usePortal = true, className }: MenuProps) {
   const [open, setOpen] = useState(false);
   const [computedAlign, setComputedAlign] = useState<'left' | 'right'>('left');
   const [portalStyle, setPortalStyle] = useState<React.CSSProperties>({});
@@ -148,7 +149,8 @@ export function Menu({ trigger, items, align = 'auto', usePortal = true }: MenuP
         styles.menu,
         usePortal && styles.portalMenu,
         computedAlign === 'right' && styles.menuAlignRight,
-        computedAlign === 'left' && styles.menuAlignLeft
+        computedAlign === 'left' && styles.menuAlignLeft,
+        className
       )}
       style={usePortal ? portalStyle : undefined}
     >
