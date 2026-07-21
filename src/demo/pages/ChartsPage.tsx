@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AreaChart, StackedAreaChart, Card, CardContent, Button, SegmentedButton } from '../../lib';
+import { AreaChart, StackedAreaChart, DifferenceChart, Card, CardContent, Button, SegmentedButton } from '../../lib';
 import { DemoSection, PageTitle } from '../components/DemoSection';
 
 // Sample datasets
@@ -115,6 +115,34 @@ const generateUnemploymentData = () => {
 };
 
 const UNEMPLOYMENT_DATA = generateUnemploymentData();
+
+const generateDifferenceData = () => {
+  const data = [];
+  const startDate = new Date('2011-10-01');
+  const days = 365;
+  for (let i = 0; i < days; i++) {
+    const date = new Date(startDate);
+    date.setDate(startDate.getDate() + i);
+    const dateStr = date.toISOString().split('T')[0];
+    const t = i / days;
+    
+    // SF: relatively flat, minor variations, around 55F
+    const sf = 55 + Math.sin(t * Math.PI * 8) * 3 + Math.random() * 2;
+    
+    // NY: highly seasonal, peaks in July (t=0.8), troughs in Jan (t=0.3)
+    const nyBase = 53 - Math.cos((t - 0.05) * Math.PI * 2) * 20;
+    const ny = nyBase + Math.sin(t * Math.PI * 50) * 1.5 + Math.random() * 3;
+    
+    data.push({
+      date: dateStr,
+      SF: Math.round(sf * 10) / 10,
+      NY: Math.round(ny * 10) / 10,
+    });
+  }
+  return data;
+};
+
+const DIFFERENCE_DATA = generateDifferenceData();
 
 export function ChartsPage({ activeComponent }: { activeComponent?: string }) {
   const [selectedMetric, setSelectedMetric] = useState('pageViews');
@@ -463,6 +491,44 @@ const browserData = [
                   xFormatter={(val) => String(new Date(val).getFullYear())}
                   title="Unemployed Persons by Industry"
                   subtitle="Simulation matching the official D3.js Streamgraph layout (2000 - 2010)"
+                />
+              </CardContent>
+            </Card>
+          </div>
+        </DemoSection>
+      )}
+
+      {(showAll || activeComponent === 'difference-chart') && (
+        <DemoSection
+          title="Difference Chart"
+          description="Difference charts display the variation between two overlapping time series, visually highlighting positive (blue) and negative (orange) areas using clip-path intersections."
+          code={`import { DifferenceChart } from '@hadi_gunawan/md3-expressive-ds';
+
+<DifferenceChart
+  data={temperatureData}
+  xKey="date"
+  y0Key="SF"
+  y1Key="NY"
+  y0Label="San Francisco"
+  y1Label="New York"
+  title="New York vs San Francisco Temperature Difference"
+  subtitle="Difference in temperature (F) over a one-year sequence"
+  yFormatter={(val) => \`\${val}°F\`}
+/>`}
+        >
+          <div style={{ width: '100%' }}>
+            <Card variant="outlined" style={{ padding: 16 }}>
+              <CardContent>
+                <DifferenceChart
+                  data={DIFFERENCE_DATA}
+                  xKey="date"
+                  y0Key="SF"
+                  y1Key="NY"
+                  y0Label="San Francisco"
+                  y1Label="New York"
+                  title="New York vs San Francisco Temperature Difference"
+                  subtitle="Daily comparison matching the official D3.js Difference Chart (October 2011 - September 2012)"
+                  yFormatter={(val) => `${val}°F`}
                 />
               </CardContent>
             </Card>

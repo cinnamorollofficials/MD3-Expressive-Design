@@ -1,0 +1,197 @@
+.root {
+  position: relative;
+  width: 100%;
+  font-family: var(--md-sys-typescale-body-medium-font-family, inherit);
+  display: flex;
+  flex-direction: column;
+}
+
+.chartContainer {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.svg {
+  display: block;
+  overflow: visible;
+  user-select: none;
+}
+
+/* Axis styles */
+.axis {
+  font-size: var(--md-sys-typescale-label-small-font-size, 11px);
+  font-weight: var(--md-sys-typescale-label-small-font-weight, 500);
+  line-height: var(--md-sys-typescale-label-small-line-height, 16px);
+  color: var(--md-sys-color-on-surface-variant);
+  fill: currentColor;
+}
+
+.axisLine {
+  stroke: var(--md-sys-color-outline-variant);
+  stroke-width: 1px;
+}
+
+.axisTickLine {
+  stroke: var(--md-sys-color-outline-variant);
+  stroke-width: 1px;
+}
+
+.axisText {
+  fill: var(--md-sys-color-on-surface-variant);
+}
+
+/* Grid lines */
+.gridLine {
+  stroke: var(--md-sys-color-outline-variant);
+  stroke-opacity: 0.3;
+  stroke-width: 1px;
+  stroke-dasharray: 2 2;
+}
+
+/* Difference paths */
+.positiveArea {
+  fill-opacity: 0.7;
+}
+
+.negativeArea {
+  fill-opacity: 0.7;
+}
+
+.line0 {
+  fill: none;
+  stroke: var(--md-sys-color-on-surface, #1d1b20);
+  stroke-width: 1.5px;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.line1 {
+  fill: none;
+  stroke: var(--md-sys-color-outline-variant, #79747e);
+  stroke-width: 1px;
+  stroke-dasharray: 2 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+/* Legend styling */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 12px;
+  margin-bottom: 4px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--md-sys-typescale-label-medium-font-size, 12px);
+  color: var(--md-sys-color-on-surface-variant);
+  cursor: default;
+}
+
+.legendColor {
+  width: 12px;
+  height: 12px;
+  border-radius: var(--md-sys-shape-corner-xs, 4px);
+}
+
+.legendLine0 {
+  width: 16px;
+  height: 2px;
+  background-color: var(--md-sys-color-on-surface, #1d1b20);
+}
+
+.legendLine1 {
+  width: 16px;
+  height: 2px;
+  border-bottom: 1px dashed var(--md-sys-color-outline-variant, #79747e);
+}
+
+/* Interactive elements */
+.overlay {
+  fill: none;
+  pointer-events: all;
+  cursor: crosshair;
+}
+
+.hoverLine {
+  stroke: var(--md-sys-color-outline);
+  stroke-width: 1.5px;
+  stroke-dasharray: 4 4;
+  pointer-events: none;
+}
+
+.hoverDot {
+  stroke: var(--md-sys-color-surface);
+  stroke-width: 2px;
+  pointer-events: none;
+  filter: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.2));
+}
+
+/* Tooltip */
+.tooltip {
+  position: absolute;
+  pointer-events: none;
+  background-color: var(--md-sys-color-surface-container-high);
+  color: var(--md-sys-color-on-surface);
+  padding: 10px 14px;
+  border-radius: var(--md-sys-shape-corner-md, 8px);
+  box-shadow: 0px 4px 8px -2px rgba(0, 0, 0, 0.1), 0px 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  font-size: var(--md-sys-typescale-body-small-font-size, 12px);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transform: translate(-50%, -100%);
+  margin-top: -12px;
+  white-space: nowrap;
+  transition: left 0.1s ease-out, top 0.1s ease-out;
+}
+
+.tooltipTitle {
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface);
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
+  padding-bottom: 4px;
+  margin-bottom: 2px;
+}
+
+.tooltipRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.tooltipLabelGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tooltipValue {
+  font-weight: 600;
+}
+
+/* Header */
+.header {
+  margin-bottom: 12px;
+}
+
+.title {
+  margin: 0;
+  color: var(--md-sys-color-on-surface);
+  font-size: var(--md-sys-typescale-title-medium-font-size, 16px);
+  font-weight: var(--md-sys-typescale-title-medium-font-weight, 600);
+}
+
+.subtitle {
+  margin: 4px 0 0 0;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-body-small-font-size, 12px);
+}

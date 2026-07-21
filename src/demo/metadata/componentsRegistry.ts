@@ -505,6 +505,43 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentMetadata> = {
       { name: 'interactive', label: 'Hover Tooltip & Tracker', type: 'boolean', defaultValue: true },
     ],
   },
+  'difference-chart': {
+    id: 'difference-chart',
+    label: 'Difference Chart',
+    status: 'beta',
+    description: 'Difference charts display the variation between two overlapping time series, highlighting positive and negative gaps.',
+    props: [
+      { name: 'data', type: 'any[]', default: 'required', description: 'Array of data points to visualize.' },
+      { name: 'xKey', type: 'string', default: 'required', description: 'The property key in each data object for the X-axis coordinate.' },
+      { name: 'y0Key', type: 'string', default: 'required', description: 'Key of the first series (drawn with bold outline).' },
+      { name: 'y1Key', type: 'string', default: 'required', description: 'Key of the second series (comparison target).' },
+      { name: 'y0Label', type: 'string', default: "'Series A'", description: 'Display label for the first series.' },
+      { name: 'y1Label', type: 'string', default: "'Series B'", description: 'Display label for the second series.' },
+      { name: 'height', type: 'number', default: '300', description: 'Chart drawing height in pixels.' },
+      { name: 'curve', type: "'linear' | 'monotone' | 'step'", default: "'monotone'", description: 'Interpolation function style for drawing paths.' },
+      { name: 'showGrid', type: 'boolean', default: 'true', description: 'Whether to overlay background grid lines.' },
+      { name: 'showAxes', type: 'boolean', default: 'true', description: 'Whether to show the X and Y axes.' },
+      { name: 'colors', type: 'colors object', default: 'DEFAULT_COLORS', description: 'Custom colors for positive (y0 > y1) and negative (y0 < y1) fills.' },
+      { name: 'interactive', type: 'boolean', default: 'true', description: 'Enables hover interaction tracking line and dual markers tooltip.' },
+      { name: 'title', type: 'string', default: 'undefined', description: 'Main title header text.' },
+      { name: 'subtitle', type: 'string', default: 'undefined', description: 'Secondary descriptive text below title.' },
+    ],
+    keyboard: [
+      { key: 'Mouse Move / Hover', action: 'Positions the horizontal tracking line and renders details tooltip card with comparative values and gap metrics.' },
+    ],
+    aria: [
+      { name: 'role="img"', description: 'Identifies the chart vector as an graphical image representation.' },
+    ],
+    doDonts: [
+      { do: 'Use difference charts when tracking variations between two overlapping metrics (e.g. actual vs normal temperature) is key.', dont: 'Use difference charts if comparing more than two series, as clip-paths cannot easily segment three or more overlaps.' },
+    ],
+    playgroundControls: [
+      { name: 'curve', label: 'Curve Interpolation', type: 'select', options: ['monotone', 'linear', 'step'], defaultValue: 'monotone' },
+      { name: 'showGrid', label: 'Show Grid Lines', type: 'boolean', defaultValue: true },
+      { name: 'showAxes', label: 'Show Axes', type: 'boolean', defaultValue: true },
+      { name: 'interactive', label: 'Hover Tooltip & Tracker', type: 'boolean', defaultValue: true },
+    ],
+  },
 };
 
 const COMMON_CLASS_PROP: PropDef = {

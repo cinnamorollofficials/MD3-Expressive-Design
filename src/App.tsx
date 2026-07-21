@@ -149,6 +149,7 @@ export const COMPONENT_GROUPS: GroupDef[] = [
       { id: 'stacked-area-chart', label: 'Stacked Area Chart', status: 'beta' },
       { id: 'normalized-stacked-area-chart', label: 'Normalized Stacked Area Chart', status: 'beta' },
       { id: 'streamgraph', label: 'Streamgraph', status: 'beta' },
+      { id: 'difference-chart', label: 'Difference Chart', status: 'beta' },
     ],
   },
 ];
