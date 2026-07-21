@@ -1964,7 +1964,33 @@ const COMPONENT_DOC_BLUEPRINTS: Record<string, Omit<ComponentMetadata, 'id' | 'l
       { name: 'interactive', label: 'Interactive', type: 'boolean', defaultValue: true },
     ],
   },
+  'sunburst-chart': {
+    status: 'beta',
+    description: 'A sunburst diagram visualizes hierarchical partitions using concentric rings divided into arc segments proportional to node values.',
+    props: [
+      { name: 'data', type: 'SunburstNode', default: 'required', description: 'Root node object with name, optional value, category, and children array.' },
+      { name: 'radius', type: 'number', default: '420', description: 'Outer radius in pixels.' },
+      { name: 'height', type: 'number', default: '880', description: 'Chart canvas height in pixels.' },
+      { name: 'interactive', type: 'boolean', default: 'true', description: 'Enables arc hover highlight, subtree zoom on click, and popup tooltip.' },
+      { name: 'title', type: 'string', default: 'undefined', description: 'Main title above chart.' },
+      { name: 'subtitle', type: 'string', default: 'undefined', description: 'Secondary subtitle text.' },
+    ],
+    keyboard: [
+      { key: 'Click Arc', action: 'Zooms into selected subtree; clicking center circle resets zoom.' },
+      { key: 'Mouse Hover Arc', action: 'Highlights arc slice, dims others, and displays full node path and value in tooltip.' },
+    ],
+    aria: [
+      { name: 'data-md3-component="sunburst-chart"', description: 'Identifies root element as a Sunburst Diagram component.' },
+    ],
+    doDonts: [
+      { do: 'Use sunburst diagrams to show proportion breakdown across multiple nested levels simultaneously.', dont: 'Use sunburst diagrams for linear sequence breakdowns — use sankey or funnel charts instead.' },
+    ],
+    playgroundControls: [
+      { name: 'interactive', label: 'Interactive', type: 'boolean', defaultValue: true },
+    ],
+  },
 };
+
 
 
 

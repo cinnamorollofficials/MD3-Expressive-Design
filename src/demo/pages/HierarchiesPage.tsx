@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react';
 import * as d3 from 'd3';
-import { Treemap, TreemapNode, IndentedTree, IndentedTreeNode, TidyTree, TidyTreeNode, RadialTree, RadialTreeNode, Card, CardContent } from '../../lib';
+import { Treemap, TreemapNode, IndentedTree, IndentedTreeNode, TidyTree, TidyTreeNode, RadialTree, RadialTreeNode, SunburstChart, SunburstNode, Card, CardContent } from '../../lib';
 import { DemoSection, PageTitle } from '../components/DemoSection';
+
 
 
 
@@ -236,6 +237,23 @@ export function HierarchiesPage({ activeComponent }: HierarchiesPageProps) {
     </div>
   );
 
+  const renderSunburst = () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <Card variant="outlined" style={{ padding: 24 }}>
+        <CardContent>
+          <SunburstChart
+            title="Flare Package Partition Structure (Sunburst Diagram)"
+            subtitle="Radial partition layout dividing concentric ring arcs proportionally to package node size. Click any arc slice to zoom into its subtree, or click the center circle to reset."
+            data={flareData}
+            height={880}
+            interactive={true}
+            valueFormatter={(v) => d3.format(',.0f')(v)}
+          />
+        </CardContent>
+      </Card>
+    </div>
+  );
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
       <PageTitle
@@ -278,9 +296,19 @@ export function HierarchiesPage({ activeComponent }: HierarchiesPageProps) {
           {renderRadialTree()}
         </DemoSection>
       )}
+
+      {(!activeComponent || activeComponent === 'sunburst-chart') && (
+        <DemoSection
+          title="Sunburst Diagram"
+          description="Radial partition chart dividing concentric rings into arcs proportional to node size, with interactive subtree zoom."
+        >
+          {renderSunburst()}
+        </DemoSection>
+      )}
     </div>
   );
 }
+
 
 
 

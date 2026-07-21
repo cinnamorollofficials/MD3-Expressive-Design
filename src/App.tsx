@@ -222,6 +222,7 @@ export const COMPONENT_GROUPS: GroupDef[] = [
       { id: 'indented-tree', label: 'Indented Tree', status: 'beta' },
       { id: 'tidy-tree', label: 'Tidy Tree', status: 'beta' },
       { id: 'radial-tree', label: 'Radial Tidy Tree', status: 'beta' },
+      { id: 'sunburst-chart', label: 'Sunburst Diagram', status: 'beta' },
     ],
   },
 ];
