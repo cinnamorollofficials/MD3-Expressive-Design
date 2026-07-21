@@ -127,6 +127,23 @@
   stroke-width: 0.35px;
 }
 
+.sphereOutline {
+  fill: none;
+  stroke: var(--md-sys-color-on-surface, #000000);
+  stroke-width: 1px;
+  pointer-events: none;
+}
+
+.graticule {
+  fill: none;
+  stroke: var(--md-sys-color-outline-variant);
+  stroke-width: 0.5px;
+  stroke-dasharray: 2 2;
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+
 /* Tooltip */
 .tooltip {
   position: absolute;

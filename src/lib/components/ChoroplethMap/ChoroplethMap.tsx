@@ -39,6 +39,11 @@ export interface ChoroplethMapProps {
   title?: string;
   /** Subtitle description */
   subtitle?: string;
+  /** Whether to render spherical globe outline (useful for global maps with equalEarth / naturalEarth) */
+  showSphereOutline?: boolean;
+
+  /** Whether to render background graticule grid lines */
+  showGraticule?: boolean;
   /** Custom value formatter */
   valueFormatter?: (val: number) => string;
   /** Whether interactive hover tooltips and highlights are enabled */
@@ -63,11 +68,14 @@ export function ChoroplethMap({
   legendTitle = 'Unemployment rate (%)',
   title,
   subtitle,
+  showSphereOutline = false,
+  showGraticule = false,
   valueFormatter,
   interactive = true,
   onFeatureClick,
   className,
 }: ChoroplethMapProps) {
+
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState(800);
 
@@ -175,7 +183,7 @@ export function ChoroplethMap({
   const innerWidth = Math.max(100, containerWidth - margin.left - margin.right);
   const innerHeight = Math.max(100, height - margin.top - margin.bottom);
 
-  const { pathGenerator, borderPathD } = useMemo(() => {
+  const pathGenResult = useMemo(() => {
     // Check if topology is pre-projected in 975x610 pixel space (e.g. counties-albers-10m.json)
     // Quantized topologies (counties-10m.json) have coordinates in degrees [lon, lat],
     // so only use null projection if the topology object explicitly contains 'albers'.
@@ -228,10 +236,13 @@ export function ChoroplethMap({
 
     const pathGen = geo.geoPath().projection(proj);
     const borderD = borderMesh ? pathGen(borderMesh) : null;
+    const sphereD = pathGen({ type: 'Sphere' });
+    const gratD = pathGen(geo.geoGraticule10());
 
-    return { pathGenerator: pathGen, borderPathD: borderD };
+    return { pathGenerator: pathGen, borderPathD: borderD, sphereOutlineD: sphereD, graticuleD: gratD };
   }, [geojson, projectionType, features, borderMesh, innerWidth, innerHeight]);
 
+  const { pathGenerator, borderPathD, sphereOutlineD, graticuleD } = pathGenResult;
 
   const fmtVal = useCallback(
     (v: number) => (valueFormatter ? valueFormatter(v) : `${v.toFixed(1)}%`),
@@ -261,6 +272,30 @@ export function ChoroplethMap({
     },
     [featureIdKey]
   );
+
+  // Enhanced feature data lookup supporting numeric ISO string padding (e.g. "076" vs "76") & names
+  const getFeatureDataItem = useCallback(
+    (feat: any): FeatureData | undefined => {
+      if (!feat) return undefined;
+      const id1 = feat[featureIdKey] !== undefined ? String(feat[featureIdKey]) : '';
+      const id2 = feat.properties && feat.properties[featureIdKey] !== undefined ? String(feat.properties[featureIdKey]) : '';
+      const featId = feat.id !== undefined ? String(feat.id) : '';
+      const featIdNum = feat.id !== undefined ? String(Number(feat.id)) : '';
+      const name = feat.properties?.name || '';
+
+      return (
+        dataMap.get(id1) ||
+        dataMap.get(id2) ||
+        dataMap.get(featId) ||
+        dataMap.get(featIdNum) ||
+        dataMap.get(name) ||
+        dataMap.get(name.toLowerCase())
+      );
+    },
+    [dataMap, featureIdKey]
+  );
+
+
 
   return (
     <div className={cn(styles.root, className)} ref={containerRef} data-md3-component="choropleth-map">
@@ -304,20 +339,23 @@ export function ChoroplethMap({
       >
         <svg className={styles.svg} width={containerWidth} height={height}>
           <g transform={`translate(${margin.left}, ${margin.top})`}>
-            {/* Features (Counties/Regions Polygons) */}
+            {/* Background Graticule Grid Lines */}
+            {showGraticule && graticuleD && <path className={styles.graticule} d={graticuleD} />}
+
+            {/* Features (Counties/Regions/Countries Polygons) */}
             <g className="features-layer">
               {features.map((feat, idx) => {
-                const fId = getFeatureId(feat);
-                const dItem = dataMap.get(fId);
+                const dItem = getFeatureDataItem(feat);
                 const pathD = pathGenerator(feat);
                 if (!pathD) return null;
 
                 const isHovered = hoveredFeature === feat;
                 const fillColor = dItem ? colorScale(dItem.value) : undefined;
+                const fId = feat.id || feat.properties?.name || idx;
 
                 return (
                   <path
-                    key={fId || idx}
+                    key={fId}
                     className={cn(
                       dItem ? styles.featurePath : styles.missingPath,
                       hoveredFeature && !isHovered && styles.featureDimmed
@@ -342,7 +380,13 @@ export function ChoroplethMap({
 
             {/* State/Country Mesh Borders Overlay */}
             {borderPathD && <path className={styles.borderPath} d={borderPathD} />}
+
+            {/* Spherical Globe Outer Boundary Line */}
+            {showSphereOutline && sphereOutlineD && (
+              <path className={styles.sphereOutline} d={sphereOutlineD} />
+            )}
           </g>
+
         </svg>
 
         {/* Hover Tooltip */}

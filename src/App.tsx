@@ -207,6 +207,7 @@ export const COMPONENT_GROUPS: GroupDef[] = [
     icon: 'map',
     components: [
       { id: 'choropleth', label: 'Choropleth Map', status: 'beta' },
+      { id: 'world-choropleth', label: 'World Choropleth', status: 'beta' },
     ],
   },
 ];
