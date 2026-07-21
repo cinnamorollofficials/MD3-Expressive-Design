@@ -362,7 +362,8 @@ export function DemoLayout({
           {/* Header Action Items (Right Aligned) */}
           <div className={styles.headerActions}>
             {/* Version badge */}
-            <span className={styles.versionBadge}>v0.1.0</span>
+            <span className={styles.versionBadge}>v0.5.0</span>
+
 
             {/* GitHub link icon */}
             <a
