@@ -57,6 +57,65 @@ const MISSING_DATA = [
   { time: '10:50', signal: 90 },
 ];
 
+const UNEMPLOYED_INDUSTRIES = [
+  'Retail',
+  'Manufacturing',
+  'Services',
+  'Construction',
+  'Finance',
+  'Education',
+  'Government',
+  'Agriculture',
+  'Other'
+];
+
+const UNEMPLOYED_COLORS = [
+  '#4eb3a9', // teal
+  '#5985ab', // steel blue
+  '#91735d', // greyish brown
+  '#4671a3', // royal blue
+  '#f09438', // orange
+  '#a37aa3', // purple
+  '#e3be58', // yellow
+  '#d65a60', // red
+  '#5aa663'  // green
+];
+
+const generateUnemploymentData = () => {
+  const data = [];
+  const startYear = 2000;
+  const endYear = 2010;
+
+  for (let year = startYear; year <= endYear; year++) {
+    const months = year === endYear ? 1 : 12;
+    for (let month = 0; month < months; month++) {
+      const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-01`;
+      const t = ((year - startYear) * 12 + month) / (10 * 12);
+      
+      // Mimic growing baseline + spike at 2008 recession (around t=0.8) with higher density waves
+      const base = 5000 + Math.sin(t * Math.PI * 18) * 800 + Math.sin(t * Math.PI * 48) * 200 + (t > 0.8 ? (t - 0.8) * 16000 : 0);
+      
+      const row: any = { date: dateStr };
+      let sum = 0;
+      
+      UNEMPLOYED_INDUSTRIES.forEach((ind, idx) => {
+        const phase = (idx / UNEMPLOYED_INDUSTRIES.length) * Math.PI * 2;
+        // Denser oscillation for each industry category
+        const share = 0.11 + 0.06 * Math.sin(t * Math.PI * 22 + phase) + 0.02 * Math.cos(t * Math.PI * 44 - phase);
+        row[ind] = Math.round(base * share);
+        sum += row[ind];
+      });
+      
+      row[UNEMPLOYED_INDUSTRIES[UNEMPLOYED_INDUSTRIES.length - 1]] += Math.max(0, Math.round(base - sum));
+      
+      data.push(row);
+    }
+  }
+  return data;
+};
+
+const UNEMPLOYMENT_DATA = generateUnemploymentData();
+
 export function ChartsPage({ activeComponent }: { activeComponent?: string }) {
   const [selectedMetric, setSelectedMetric] = useState('pageViews');
   const [curveType, setCurveType] = useState<'linear' | 'monotone' | 'step'>('monotone');
@@ -368,6 +427,42 @@ const browserData = [
                   normalized={true}
                   title="Browser Proportional Share (100% Stacked)"
                   subtitle="Normalized stacked tracking showing proportional composition"
+                />
+              </CardContent>
+            </Card>
+          </div>
+        </DemoSection>
+      )}
+
+      {(showAll || activeComponent === 'streamgraph') && (
+        <DemoSection
+          title="Streamgraph"
+          description="Streamgraphs are a type of stacked area chart displaced around a central axis, resulting in flowing, organic waves. They are ideal for visualizing transaction volume changes or organic metric trends over time."
+          code={`import { StackedAreaChart } from '@hadi_gunawan/md3-expressive-ds';
+
+// Industries: 'Retail', 'Manufacturing', 'Services', 'Construction', 'Finance', 'Education', 'Government', 'Agriculture', 'Other'
+<StackedAreaChart
+  data={unemploymentData}
+  xKey="date"
+  yKeys={industriesList}
+  colors={customColors}
+  stream={true}
+  title="Unemployed Persons by Industry"
+  subtitle="Central axis wiggle offset showing industry composition (2000-2010)"
+/>`}
+        >
+          <div style={{ width: '100%' }}>
+            <Card variant="outlined" style={{ padding: 16 }}>
+              <CardContent>
+                <StackedAreaChart
+                  data={UNEMPLOYMENT_DATA}
+                  xKey="date"
+                  yKeys={UNEMPLOYED_INDUSTRIES}
+                  colors={UNEMPLOYED_COLORS}
+                  stream={true}
+                  xFormatter={(val) => String(new Date(val).getFullYear())}
+                  title="Unemployed Persons by Industry"
+                  subtitle="Simulation matching the official D3.js Streamgraph layout (2000 - 2010)"
                 />
               </CardContent>
             </Card>

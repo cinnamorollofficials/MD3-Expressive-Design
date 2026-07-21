@@ -36,6 +36,8 @@ export interface StackedAreaChartProps {
   yFormatter?: (val: any) => string;
   /** Represent stack layers as percentages of the cumulative total (100% stacked area chart) */
   normalized?: boolean;
+  /** Displace layers around a central axis to form an organic streamgraph layout */
+  stream?: boolean;
   /** Additional CSS class name */
   className?: string;
 }
@@ -67,6 +69,7 @@ export function StackedAreaChart({
   xFormatter,
   yFormatter,
   normalized = false,
+  stream = false,
   className,
 }: StackedAreaChartProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -113,9 +116,12 @@ export function StackedAreaChart({
       .value((d, key) => Number(d[key]) || 0);
     if (normalized) {
       stackGen.offset(d3.stackOffsetExpand);
+    } else if (stream) {
+      stackGen.offset(d3.stackOffsetWiggle);
+      stackGen.order(d3.stackOrderInsideOut);
     }
     return stackGen(parsedData);
-  }, [parsedData, yKeys, normalized]);
+  }, [parsedData, yKeys, normalized, stream]);
 
   // Dimensions of drawing area
   const innerWidth = Math.max(0, containerWidth - margin.left - margin.right);
@@ -146,14 +152,27 @@ export function StackedAreaChart({
         .padding(0.1);
     }
 
-    const yMax = normalized ? 1 : (d3.max(stackedSeries, series => d3.max(series, d => d[1])) || 0);
-    const yScale = d3.scaleLinear()
-      .domain([0, normalized ? 1 : yMax * 1.05]) // add 5% headroom if not normalized
-      .range([innerHeight, 0])
-      .nice();
+    let yScale: d3.ScaleLinear<number, number>;
+    if (normalized) {
+      yScale = d3.scaleLinear()
+        .domain([0, 1])
+        .range([innerHeight, 0]);
+    } else if (stream) {
+      const yMin = d3.min(stackedSeries, series => d3.min(series, d => d[0])) || 0;
+      const yMax = d3.max(stackedSeries, series => d3.max(series, d => d[1])) || 0;
+      yScale = d3.scaleLinear()
+        .domain([yMin, yMax])
+        .range([innerHeight, 0]);
+    } else {
+      const yMax = d3.max(stackedSeries, series => d3.max(series, d => d[1])) || 0;
+      yScale = d3.scaleLinear()
+        .domain([0, yMax * 1.05]) // add 5% headroom if not normalized
+        .range([innerHeight, 0])
+        .nice();
+    }
 
     return { xScale, yScale, isDate, isNumeric };
-  }, [parsedData, stackedSeries, innerWidth, innerHeight, normalized]);
+  }, [parsedData, stackedSeries, innerWidth, innerHeight, normalized, stream]);
 
   // Curve interpolator lookup
   const curveInterpolator = useMemo(() => {
@@ -287,6 +306,8 @@ export function StackedAreaChart({
         label = yFormatter(val);
       } else if (normalized) {
         label = `${Math.round(val * 100)}%`;
+      } else if (stream) {
+        label = numberFormatter(Math.abs(val));
       } else {
         label = String(val);
       }
@@ -295,7 +316,7 @@ export function StackedAreaChart({
         label,
       };
     });
-  }, [scales, yFormatter, normalized]);
+  }, [scales, yFormatter, normalized, stream]);
 
   // Hover details calculation
   const hoverDetails = useMemo(() => {
@@ -416,13 +437,15 @@ export function StackedAreaChart({
               {/* Y Axis ticks & label */}
               {showAxes && (
                 <g className={styles.axis}>
-                  <line 
-                    className={styles.axisLine} 
-                    x1={0} 
-                    y1={0} 
-                    x2={0} 
-                    y2={innerHeight} 
-                  />
+                  {!stream && (
+                    <line 
+                      className={styles.axisLine} 
+                      x1={0} 
+                      y1={0} 
+                      x2={0} 
+                      y2={innerHeight} 
+                    />
+                  )}
                   {yTicksData.map((tick, i) => (
                     <g key={i} transform={`translate(0, ${tick.pos})`}>
                       <line 
@@ -448,13 +471,15 @@ export function StackedAreaChart({
               {/* X Axis ticks & label */}
               {showAxes && (
                 <g className={styles.axis} transform={`translate(0, ${innerHeight})`}>
-                  <line 
-                    className={styles.axisLine} 
-                    x1={0} 
-                    y1={0} 
-                    x2={innerWidth} 
-                    y2={0} 
-                  />
+                  {!stream && (
+                    <line 
+                      className={styles.axisLine} 
+                      x1={0} 
+                      y1={0} 
+                      x2={innerWidth} 
+                      y2={0} 
+                    />
+                  )}
                   {xTicksData.map((tick, i) => (
                     <g key={i} transform={`translate(${tick.pos}, 0)`}>
                       <line 

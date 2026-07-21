@@ -470,6 +470,41 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentMetadata> = {
       { name: 'interactive', label: 'Hover Tooltip & Tracker', type: 'boolean', defaultValue: true },
     ],
   },
+  streamgraph: {
+    id: 'streamgraph',
+    label: 'Streamgraph',
+    status: 'beta',
+    description: 'Streamgraphs stack multiple layers around a central wiggling axis to create flowing, waves-based data visualizations.',
+    props: [
+      { name: 'data', type: 'any[]', default: 'required', description: 'Array of data points to visualize.' },
+      { name: 'xKey', type: 'string', default: 'required', description: 'The property key in each data object for the X-axis coordinate.' },
+      { name: 'yKeys', type: 'string[]', default: 'required', description: 'The keys of the multiple data series to stack.' },
+      { name: 'legendLabels', type: 'string[]', default: 'undefined', description: 'Array of custom user-friendly labels corresponding to yKeys.' },
+      { name: 'height', type: 'number', default: '300', description: 'Chart drawing height in pixels.' },
+      { name: 'curve', type: "'linear' | 'monotone' | 'step'", default: "'monotone'", description: 'Interpolation function style for drawing paths.' },
+      { name: 'showGrid', type: 'boolean', default: 'true', description: 'Whether to overlay background grid lines.' },
+      { name: 'showAxes', type: 'boolean', default: 'true', description: 'Whether to show the X and Y axes.' },
+      { name: 'colors', type: 'string[]', default: 'DEFAULT_PALETTE', description: 'Array of custom colors to fill layers.' },
+      { name: 'interactive', type: 'boolean', default: 'true', description: 'Enables hover interaction tracking line and legend-rows tooltip.' },
+      { name: 'title', type: 'string', default: 'undefined', description: 'Main title header text.' },
+      { name: 'subtitle', type: 'string', default: 'undefined', description: 'Secondary descriptive text below title.' },
+    ],
+    keyboard: [
+      { key: 'Mouse Move / Hover', action: 'Positions the horizontal tracking line and renders details tooltip card with stacked raw values.' },
+    ],
+    aria: [
+      { name: 'role="img"', description: 'Identifies the chart vector as an graphical image representation.' },
+    ],
+    doDonts: [
+      { do: 'Use streamgraphs to illustrate aggregate organic flow and proportional balance over time.', dont: 'Use streamgraphs if reading exact value totals or layer baselines is necessary, as wiggling coordinates hide zero baselines.' },
+    ],
+    playgroundControls: [
+      { name: 'curve', label: 'Curve Interpolation', type: 'select', options: ['monotone', 'linear', 'step'], defaultValue: 'monotone' },
+      { name: 'showGrid', label: 'Show Grid Lines', type: 'boolean', defaultValue: true },
+      { name: 'showAxes', label: 'Show Axes', type: 'boolean', defaultValue: true },
+      { name: 'interactive', label: 'Hover Tooltip & Tracker', type: 'boolean', defaultValue: true },
+    ],
+  },
 };
 
 const COMMON_CLASS_PROP: PropDef = {
