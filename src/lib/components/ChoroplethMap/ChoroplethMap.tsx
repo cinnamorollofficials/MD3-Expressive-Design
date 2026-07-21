@@ -176,8 +176,21 @@ export function ChoroplethMap({
   const innerHeight = Math.max(100, height - margin.top - margin.bottom);
 
   const { pathGenerator, borderPathD } = useMemo(() => {
-    let proj: geo.GeoProjection;
+    // Check if topology is pre-projected in pixel space (e.g. counties-albers-10m.json)
+    const isPreprojected =
+      geojson &&
+      geojson.objects &&
+      Object.keys(geojson.objects).some((k) => k.includes('albers'));
 
+
+    if (isPreprojected) {
+      const pathGen = geo.geoPath(null);
+      const borderD = borderMesh ? pathGen(borderMesh) : null;
+      return { pathGenerator: pathGen, borderPathD: borderD };
+    }
+
+
+    let proj: geo.GeoProjection;
     switch (projectionType) {
       case 'mercator':
         proj = geo.geoMercator();
@@ -195,15 +208,26 @@ export function ChoroplethMap({
     }
 
     if (features.length > 0) {
-      const collection = { type: 'FeatureCollection', features };
-      proj.fitSize([innerWidth, innerHeight], collection as any);
+      try {
+        const collection = { type: 'FeatureCollection', features };
+        proj.fitExtent(
+          [
+            [15, 15],
+            [innerWidth - 15, innerHeight - 15],
+          ],
+          collection as any
+        );
+      } catch (err) {
+        console.warn('Map projection fit error:', err);
+      }
     }
 
     const pathGen = geo.geoPath().projection(proj);
     const borderD = borderMesh ? pathGen(borderMesh) : null;
 
     return { pathGenerator: pathGen, borderPathD: borderD };
-  }, [projectionType, features, borderMesh, innerWidth, innerHeight]);
+  }, [geojson, projectionType, features, borderMesh, innerWidth, innerHeight]);
+
 
   const fmtVal = useCallback(
     (v: number) => (valueFormatter ? valueFormatter(v) : `${v.toFixed(1)}%`),
