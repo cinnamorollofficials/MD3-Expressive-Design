@@ -1,4 +1,4 @@
-import { BarChart, HorizontalBarChart, DivergingBarChart, StackedBarChart, Card, CardContent } from '../../lib';
+import { BarChart, HorizontalBarChart, DivergingBarChart, StackedBarChart, TimelineChart, Card, CardContent } from '../../lib';
 import { DemoSection, PageTitle } from '../components/DemoSection';
 
 // Letter frequency data matching the official D3 bar chart example
@@ -110,6 +110,39 @@ const BROWSER_SHARE_DATA = [
   { month: 'May', Chrome: 67, Safari: 17, Firefox: 7, Edge: 6, Other: 3 },
   { month: 'Jun', Chrome: 68, Safari: 16, Firefox: 7, Edge: 6, Other: 3 },
   { month: 'Jul', Chrome: 66, Safari: 18, Firefox: 7, Edge: 6, Other: 3 },
+];
+
+const WORLD_HISTORY_DATA = [
+  { id: 'meso', civilization: 'Mesopotamian civilization', start: -3500, end: -539, region: 'Near East' },
+  { id: 'egypt', civilization: 'Egyptian civilization', start: -3100, end: -30, region: 'Mediterranean' },
+  { id: 'indus', civilization: 'Indus civilization', start: -2500, end: -1700, region: 'South Asia' },
+  { id: 'aegean', civilization: 'Aegean civilization', start: -2500, end: -1100, region: 'Mediterranean' },
+  { id: 'china', civilization: 'Ancient China', start: -2070, end: 1912, region: 'East Asia' },
+  { id: 'nubia', civilization: 'Early Nubian civilization', start: -2000, end: -1000, region: 'Near East' },
+  { id: 'mesoamer', civilization: 'Formative age of Mesoamerica', start: -2000, end: 250, region: 'Mesoamerica' },
+  { id: 'vedic', civilization: 'Vedic age', start: -1500, end: -500, region: 'South Asia' },
+  { id: 'greek', civilization: 'Greek age', start: -1100, end: -146, region: 'Mediterranean' },
+  { id: 'andean', civilization: 'Ancient Andean region', start: -1000, end: 500, region: 'Mesoamerica' },
+  { id: 'steppe', civilization: 'Ancient Steppe empires', start: -1000, end: 500, region: 'Central Asia' },
+  { id: 'kush', civilization: 'Kush', start: -1000, end: 350, region: 'Near East' },
+  { id: 'persia1', civilization: 'First Persian Empire', start: -550, end: -330, region: 'Near East' },
+  { id: 'india_k', civilization: 'Indian kingdom age', start: -500, end: 500, region: 'South Asia' },
+  { id: 'rome_r', civilization: 'Roman Republic', start: -509, end: -27, region: 'Mediterranean' },
+  { id: 'inter_p', civilization: 'Inter-Persian period', start: -330, end: 224, region: 'Near East' },
+  { id: 'ptolemaic', civilization: 'Ptolemaic Egypt', start: -305, end: -30, region: 'Mediterranean' },
+  { id: 'persia2', civilization: 'Second Persian Empire', start: 224, end: 651, region: 'Near East' },
+  { id: 'byz_egypt', civilization: 'Roman > Byzantine Egypt', start: 30, end: 641, region: 'Mediterranean' },
+  { id: 'rome_e', civilization: 'Roman Empire', start: -27, end: 476, region: 'Mediterranean' },
+  { id: 'mesoamer_c', civilization: 'Classic age of Mesoamerica', start: 250, end: 900, region: 'Mesoamerica' },
+  { id: 'aksum', civilization: 'Peak of Aksum', start: 100, end: 940, region: 'Near East' },
+  { id: 'turkic', civilization: 'Age of Turkic empires', start: 552, end: 999, region: 'Central Asia' },
+  { id: 'yamato', civilization: 'Formative Japan (Yamato)', start: 250, end: 710, region: 'East Asia' },
+  { id: 'm_andean', civilization: 'Medieval Andean region', start: 500, end: 1532, region: 'Mesoamerica' },
+  { id: 'm_china', civilization: 'Medieval China', start: 581, end: 1368, region: 'East Asia' },
+  { id: 'm_europe', civilization: 'Medieval Europe', start: 476, end: 1500, region: 'Europe' },
+  { id: 'w_africa', civilization: 'Pre-colonial West Africa', start: 500, end: 1900, region: 'Africa' },
+  { id: 'caliphate', civilization: 'Age of united Caliphate', start: 632, end: 935, region: 'Near East' },
+  { id: 'heian', civilization: 'Heian age', start: 794, end: 1185, region: 'East Asia' }
 ];
 
 export function BarChartsPage({ activeComponent }: { activeComponent?: string }) {
@@ -318,6 +351,49 @@ const data = [
                   subtitle="Relative percentage contribution by month (normalized to 100%)"
                   horizontal={true}
                   height={360}
+                />
+              </CardContent>
+            </Card>
+          </div>
+        </DemoSection>
+      )}
+
+      {(showAll || activeComponent === 'timeline-chart') && (
+        <DemoSection
+          title="World History Timeline"
+          description="A timeline chart displays chronological durations of historical events or civilisations from a start to an end boundary. Supports custom region coloring, top year axis (BC/AD), interactive tracker line, and multi-mode sorting (time, duration, name)."
+          code={`import { TimelineChart } from '@hadi_gunawan/md3-expressive-ds';
+
+const data = [
+  { id: 'meso', civilization: 'Mesopotamian civilization', start: -3500, end: -539, region: 'Near East' },
+  { id: 'egypt', civilization: 'Egyptian civilization', start: -3100, end: -30, region: 'Mediterranean' },
+  // ...
+];
+
+<TimelineChart
+  data={data}
+  idKey="id"
+  labelKey="civilization"
+  startKey="start"
+  endKey="end"
+  categoryKey="region"
+  title="World History Timeline"
+  subtitle="Timeline of ancient and medieval civilisations"
+/>`}
+        >
+          <div style={{ width: '100%' }}>
+            <Card variant="outlined" style={{ padding: 16 }}>
+              <CardContent>
+                <TimelineChart
+                  data={WORLD_HISTORY_DATA}
+                  idKey="id"
+                  labelKey="civilization"
+                  startKey="start"
+                  endKey="end"
+                  categoryKey="region"
+                  title="World History Timeline"
+                  subtitle="Ancient and medieval civilisations (3500 BC – 2000 AD). Hover over bars to track specific dates and highlight alignment axes."
+                  height={800}
                 />
               </CardContent>
             </Card>

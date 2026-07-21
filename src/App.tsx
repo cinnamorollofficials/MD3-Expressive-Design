@@ -163,6 +163,7 @@ export const COMPONENT_GROUPS: GroupDef[] = [
       { id: 'diverging-bar-chart', label: 'Diverging Bar Chart', status: 'beta' },
       { id: 'stacked-bar-chart', label: 'Stacked Bar Chart', status: 'beta' },
       { id: 'normalized-stacked-bar-chart', label: 'Normalized Stacked Bar Chart', status: 'beta' },
+      { id: 'timeline-chart', label: 'World History Timeline', status: 'beta' },
     ],
   },
 ];

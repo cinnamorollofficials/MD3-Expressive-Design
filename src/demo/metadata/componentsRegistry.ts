@@ -731,6 +731,43 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentMetadata> = {
       { name: 'interactive', label: 'Hover Tooltip & Tracker', type: 'boolean', defaultValue: true },
     ],
   },
+  'timeline-chart': {
+    id: 'timeline-chart',
+    label: 'World History Timeline',
+    status: 'beta',
+    description: 'A timeline chart showing duration events or civilisations from a start to an end boundary. Supports custom region coloring, top year axis (BC/AD), interactive tracker line, and multi-mode sorting (time, duration, name).',
+    props: [
+      { name: 'data', type: 'any[]', default: 'required', description: 'Array of data objects containing duration events.' },
+      { name: 'idKey', type: 'string', default: 'required', description: 'Unique identifier key for each timeline row.' },
+      { name: 'labelKey', type: 'string', default: 'required', description: 'Key of the text label for the bar.' },
+      { name: 'startKey', type: 'string', default: 'required', description: 'Key of the start year (negative for BC, positive for AD).' },
+      { name: 'endKey', type: 'string', default: 'required', description: 'Key of the end year (negative for BC, positive for AD).' },
+      { name: 'categoryKey', type: 'string', default: 'undefined', description: 'Optional key of the category/region for bar coloring.' },
+      { name: 'colors', type: 'string[]', default: 'DEFAULT_COLORS', description: 'Custom array of hex colors for region mapping.' },
+      { name: 'height', type: 'number', default: '680', description: 'Height of the chart drawing area in pixels.' },
+      { name: 'showGrid', type: 'boolean', default: 'true', description: 'Whether to show vertical grid reference lines.' },
+      { name: 'showAxes', type: 'boolean', default: 'true', description: 'Whether to show the top year axis.' },
+      { name: 'interactive', type: 'boolean', default: 'true', description: 'Enables hover tooltips and interactive tracking line.' },
+      { name: 'title', type: 'string', default: 'undefined', description: 'Optional chart title.' },
+      { name: 'subtitle', type: 'string', default: 'undefined', description: 'Optional subtitle below the title.' },
+    ],
+    keyboard: [
+      { key: 'Mouse Move / Hover Bar', action: 'Renders the detailed tooltip showing labels, regions, and dates. Aligns the dashed vertical tracker line.' },
+      { key: 'Select Sort Mode', action: 'Re-orders timeline rows dynamically by start time, duration, or alphabetical name.' },
+    ],
+    aria: [
+      { name: 'data-md3-component="timeline-chart"', description: 'Identifies the root element as a timeline chart component.' },
+    ],
+    doDonts: [
+      { do: 'Provide sorting controls to allow users to organize timelines chronologically or by size.', dont: 'Use timeline charts when events only have single point-in-time dates; use scatter plots or timeline markers instead.' },
+      { do: 'Use colors to group timeline items by meaningful categories (e.g., regions or types).', dont: 'Overcrowd the chart with too many categories or overlapping series.' },
+    ],
+    playgroundControls: [
+      { name: 'showGrid', label: 'Show Grid Lines', type: 'boolean', defaultValue: true },
+      { name: 'showAxes', label: 'Show Axes', type: 'boolean', defaultValue: true },
+      { name: 'interactive', label: 'Hover Tooltip & Tracker', type: 'boolean', defaultValue: true },
+    ],
+  },
 };
 
 const COMMON_CLASS_PROP: PropDef = {

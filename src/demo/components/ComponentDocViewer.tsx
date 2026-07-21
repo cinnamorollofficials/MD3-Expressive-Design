@@ -5,7 +5,7 @@ import { cn } from '../../lib/utils/cn';
 import {
   Button, IconButton, FAB, Card, CardContent, CardTitle, CardBody,
   Switch, Checkbox, TextField, Slider, Badge, Avatar,
-  AreaChart, StackedAreaChart, DifferenceChart, BarChart, HorizontalBarChart, DivergingBarChart, StackedBarChart
+  AreaChart, StackedAreaChart, DifferenceChart, BarChart, HorizontalBarChart, DivergingBarChart, StackedBarChart, TimelineChart
 } from '../../lib';
 import { CodeBlock } from './CodeBlock';
 import styles from './ComponentDocViewer.module.css';
@@ -88,6 +88,14 @@ const PLAYGROUND_STACKED_BAR_DATA = [
   { month: 'Mar', Chrome: 64, Safari: 19, Firefox: 8, Edge: 6, Other: 3 },
   { month: 'Apr', Chrome: 65, Safari: 18, Firefox: 8, Edge: 6, Other: 3 },
   { month: 'May', Chrome: 67, Safari: 17, Firefox: 7, Edge: 6, Other: 3 },
+];
+
+const PLAYGROUND_TIMELINE_DATA = [
+  { id: 'meso', name: 'Mesopotamia', start: -3500, end: -500, region: 'Near East' },
+  { id: 'egypt', name: 'Egypt', start: -3100, end: -30, region: 'Mediterranean' },
+  { id: 'indus', name: 'Indus Valley', start: -2500, end: -1700, region: 'South Asia' },
+  { id: 'china', name: 'Ancient China', start: -2000, end: 1900, region: 'East Asia' },
+  { id: 'rome', name: 'Rome', start: -500, end: 500, region: 'Mediterranean' },
 ];
 
 interface ComponentDocViewerProps {
@@ -421,6 +429,23 @@ export function ComponentDocViewer({ id, children }: ComponentDocViewerProps) {
               keys={['Chrome', 'Safari', 'Firefox', 'Edge', 'Other']}
               normalized={true}
               horizontal={playgroundProps.horizontal}
+              showGrid={playgroundProps.showGrid}
+              showAxes={playgroundProps.showAxes}
+              interactive={playgroundProps.interactive}
+              height={240}
+            />
+          </div>
+        );
+      case 'timeline-chart':
+        return (
+          <div style={{ width: '100%', height: 280, padding: '0 16px' }}>
+            <TimelineChart
+              data={PLAYGROUND_TIMELINE_DATA}
+              idKey="id"
+              labelKey="name"
+              startKey="start"
+              endKey="end"
+              categoryKey="region"
               showGrid={playgroundProps.showGrid}
               showAxes={playgroundProps.showAxes}
               interactive={playgroundProps.interactive}
