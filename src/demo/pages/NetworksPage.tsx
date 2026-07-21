@@ -1,6 +1,63 @@
 import { useState } from 'react';
-import { ForceDirectedGraph, DisjointForceDirectedGraph, Card, CardContent } from '../../lib';
+import { ForceDirectedGraph, DisjointForceDirectedGraph, DirectedForceGraph, Card, CardContent } from '../../lib';
 import { DemoSection, PageTitle } from '../components/DemoSection';
+
+// Mobile Patent Suits dataset matching official D3 reference
+const PATENT_SUITS_DATA = {
+  nodes: [
+    { id: 'Apple', label: 'Apple' },
+    { id: 'HTC', label: 'HTC' },
+    { id: 'Huawei', label: 'Huawei' },
+    { id: 'RIM', label: 'RIM' },
+    { id: 'LG', label: 'LG' },
+    { id: 'Motorola', label: 'Motorola' },
+    { id: 'Nokia', label: 'Nokia' },
+    { id: 'Qualcomm', label: 'Qualcomm' },
+    { id: 'Samsung', label: 'Samsung' },
+    { id: 'Sony', label: 'Sony' },
+    { id: 'ZTE', label: 'ZTE' },
+    { id: 'Ericsson', label: 'Ericsson' },
+    { id: 'Google', label: 'Google' },
+    { id: 'Oracle', label: 'Oracle' },
+    { id: 'Microsoft', label: 'Microsoft' },
+    { id: 'Amazon', label: 'Amazon' },
+    { id: 'Barnes & Noble', label: 'Barnes & Noble' },
+    { id: 'Foxconn', label: 'Foxconn' },
+    { id: 'Inventec', label: 'Inventec' },
+    { id: 'Kodak', label: 'Kodak' },
+  ],
+  links: [
+    { source: 'Microsoft', target: 'Amazon', type: 'licensing' },
+    { source: 'Microsoft', target: 'HTC', type: 'licensing' },
+    { source: 'Samsung', target: 'Apple', type: 'suit' },
+    { source: 'Motorola', target: 'Apple', type: 'suit' },
+    { source: 'Motorola', target: 'Microsoft', type: 'suit' },
+    { source: 'Nokia', target: 'Apple', type: 'suit' },
+    { source: 'Nokia', target: 'Qualcomm', type: 'suit' },
+    { source: 'Apple', target: 'Motorola', type: 'suit' },
+    { source: 'Apple', target: 'HTC', type: 'suit' },
+    { source: 'Apple', target: 'Nokia', type: 'resolved' },
+    { source: 'Apple', target: 'Samsung', type: 'suit' },
+    { source: 'HTC', target: 'Apple', type: 'suit' },
+    { source: 'Kodak', target: 'RIM', type: 'suit' },
+    { source: 'Kodak', target: 'Apple', type: 'suit' },
+    { source: 'Kodak', target: 'LG', type: 'suit' },
+    { source: 'LG', target: 'Kodak', type: 'resolved' },
+    { source: 'RIM', target: 'Kodak', type: 'suit' },
+    { source: 'Sony', target: 'LG', type: 'licensing' },
+    { source: 'Qualcomm', target: 'Nokia', type: 'resolved' },
+    { source: 'Samsung', target: 'Kodak', type: 'suit' },
+    { source: 'Kodak', target: 'Samsung', type: 'resolved' },
+    { source: 'Huawei', target: 'ZTE', type: 'suit' },
+    { source: 'ZTE', target: 'Huawei', type: 'suit' },
+    { source: 'Ericsson', target: 'ZTE', type: 'suit' },
+    { source: 'Oracle', target: 'Google', type: 'suit' },
+    { source: 'Microsoft', target: 'Barnes & Noble', type: 'suit' },
+    { source: 'Microsoft', target: 'Foxconn', type: 'suit' },
+    { source: 'Microsoft', target: 'Inventec', type: 'suit' },
+  ],
+};
+
 
 // Disjoint graph dataset matching D3 disjoint force-directed reference
 const DISJOINT_GRAPH_DATA = (() => {
@@ -328,6 +385,29 @@ export function NetworksPage({ activeComponent }: NetworksPageProps) {
     </div>
   );
 
+  const renderMobilePatentSuits = () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <Card variant="outlined" style={{ padding: 24 }}>
+        <CardContent>
+          <DirectedForceGraph
+            title="Mobile Patent Suits Network"
+            subtitle="Directed graph showing patent litigations, licensing agreements, and resolved suits between major technology companies. Uses curved SVG arc paths and arrowhead markers."
+            nodes={PATENT_SUITS_DATA.nodes}
+            links={PATENT_SUITS_DATA.links}
+            height={560}
+            nodeRadius={5}
+            linkDistance={95}
+            chargeStrength={-350}
+            showLabels={true}
+            showLegend={true}
+            draggable={true}
+            zoomable={true}
+          />
+        </CardContent>
+      </Card>
+    </div>
+  );
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
       <PageTitle
@@ -352,8 +432,18 @@ export function NetworksPage({ activeComponent }: NetworksPageProps) {
           {renderDisjointForceDirectedGraph()}
         </DemoSection>
       )}
+
+      {(!activeComponent || activeComponent === 'mobile-patent-suits') && (
+        <DemoSection
+          title="Mobile Patent Suits (Directed Graph)"
+          description="Directed graph visualization with curved arc links and directional arrow markers representing lawsuits, licensing, and settlements."
+        >
+          {renderMobilePatentSuits()}
+        </DemoSection>
+      )}
     </div>
   );
 }
+
 
 

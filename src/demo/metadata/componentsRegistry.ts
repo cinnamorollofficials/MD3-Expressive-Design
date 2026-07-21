@@ -1542,7 +1542,46 @@ const COMPONENT_DOC_BLUEPRINTS: Record<string, Omit<ComponentMetadata, 'id' | 'l
       { name: 'interactive', label: 'Hover Tooltip', type: 'boolean', defaultValue: true },
     ],
   },
+  'mobile-patent-suits': {
+    status: 'beta',
+    description: 'A directed force-directed graph with curved arc paths and arrowhead markers representing relationships (e.g., patent lawsuits, licensing, settlements) between mobile technology companies.',
+    props: [
+      { name: 'nodes', type: 'NetworkNode[]', default: 'required', description: 'Array of company node objects.' },
+      { name: 'links', type: 'DirectedLink[]', default: 'required', description: 'Array of directed link objects with type attribute (suit, licensing, resolved).' },
+      { name: 'height', type: 'number', default: '540', description: 'Chart drawing height in pixels.' },
+      { name: 'nodeRadius', type: 'number | ((node) => number)', default: '5', description: 'Radius of node circles in pixels.' },
+      { name: 'linkDistance', type: 'number', default: '90', description: 'Target distance between linked nodes.' },
+      { name: 'chargeStrength', type: 'number', default: '-300', description: 'Electrostatic repulsion strength.' },
+      { name: 'collideRadius', type: 'number', default: '6', description: 'Collision buffer radius around node circles.' },
+      { name: 'showLabels', type: 'boolean', default: 'true', description: 'Whether to show node text labels.' },
+      { name: 'showLegend', type: 'boolean', default: 'true', description: 'Whether to show link types legend below graph.' },
+      { name: 'draggable', type: 'boolean', default: 'true', description: 'Enables dragging nodes.' },
+      { name: 'zoomable', type: 'boolean', default: 'true', description: 'Enables zooming and panning.' },
+      { name: 'interactive', type: 'boolean', default: 'true', description: 'Enables node hover highlighting and tooltips.' },
+      { name: 'title', type: 'string', default: 'undefined', description: 'Optional title text.' },
+      { name: 'subtitle', type: 'string', default: 'undefined', description: 'Optional secondary description text.' },
+    ],
+    keyboard: [
+      { key: 'Mouse Drag Node', action: 'Repositions a node in the physical simulation space.' },
+      { key: 'Scroll Wheel', action: 'Zooms in or out of the network diagram.' },
+      { key: 'Double Click', action: 'Resets the zoom scale and pan translation.' },
+    ],
+    aria: [
+      { name: 'data-md3-component="directed-force-graph"', description: 'Identifies the root element as a directed force-directed graph.' },
+    ],
+    doDonts: [
+      { do: 'Use curved arc links to prevent overlapping when bidirectional links exist between nodes.', dont: 'Use straight lines for bidirectional directed relationships.' },
+    ],
+    playgroundControls: [
+      { name: 'showLabels', label: 'Show Labels', type: 'boolean', defaultValue: true },
+      { name: 'showLegend', label: 'Show Legend', type: 'boolean', defaultValue: true },
+      { name: 'draggable', label: 'Draggable Nodes', type: 'boolean', defaultValue: true },
+      { name: 'zoomable', label: 'Zoom & Pan', type: 'boolean', defaultValue: true },
+      { name: 'interactive', label: 'Hover Tooltip', type: 'boolean', defaultValue: true },
+    ],
+  },
 };
+
 
 
 

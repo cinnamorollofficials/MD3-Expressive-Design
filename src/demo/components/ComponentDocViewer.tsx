@@ -5,8 +5,9 @@ import { cn } from '../../lib/utils/cn';
 import {
   Button, IconButton, FAB, Card, CardContent, CardTitle, CardBody,
   Switch, Checkbox, TextField, Slider, Badge, Avatar,
-  AreaChart, StackedAreaChart, DifferenceChart, BarChart, HorizontalBarChart, DivergingBarChart, StackedBarChart, TimelineChart, CalendarChart, ForceDirectedGraph, DisjointForceDirectedGraph
+  AreaChart, StackedAreaChart, DifferenceChart, BarChart, HorizontalBarChart, DivergingBarChart, StackedBarChart, TimelineChart, CalendarChart, ForceDirectedGraph, DisjointForceDirectedGraph, DirectedForceGraph
 } from '../../lib';
+
 
 
 import { CodeBlock } from './CodeBlock';
@@ -540,6 +541,22 @@ export function ComponentDocViewer({ id, children }: ComponentDocViewerProps) {
             />
           </div>
         );
+      case 'mobile-patent-suits':
+        return (
+          <div style={{ width: '100%', padding: '0 16px' }}>
+            <DirectedForceGraph
+              nodes={PLAYGROUND_NETWORK_DATA.nodes}
+              links={PLAYGROUND_NETWORK_DATA.links.map((l) => ({ ...l, type: Number(l.source) % 2 === 0 ? 'suit' : 'licensing' }))}
+              showLabels={playgroundProps.showLabels}
+              showLegend={playgroundProps.showLegend}
+              draggable={playgroundProps.draggable}
+              zoomable={playgroundProps.zoomable}
+              interactive={playgroundProps.interactive}
+              height={320}
+            />
+          </div>
+        );
+
 
 
       default:
