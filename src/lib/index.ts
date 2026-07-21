@@ -84,6 +84,8 @@ export * from './components/Histogram';
 export * from './components/KernelDensityEstimation';
 export * from './components/HexbinChart';
 export * from './components/QQPlot';
+export * from './components/ChoroplethMap';
+
 
 
 

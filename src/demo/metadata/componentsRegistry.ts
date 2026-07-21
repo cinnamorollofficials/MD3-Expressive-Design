@@ -1825,7 +1825,39 @@ const COMPONENT_DOC_BLUEPRINTS: Record<string, Omit<ComponentMetadata, 'id' | 'l
       { name: 'showControls', label: 'Show Bins Slider', type: 'boolean', defaultValue: true },
     ],
   },
+  choropleth: {
+    status: 'beta',
+    description: 'A choropleth map renders geographic regions (counties, states, countries) shaded in proportion to a numeric variable using GeoJSON polygons and D3 cartographic projections.',
+    props: [
+      { name: 'geojson', type: 'GeoJSON | TopoJSON', default: 'required', description: 'GeoJSON FeatureCollection or TopoJSON Topology containing region polygons.' },
+      { name: 'data', type: 'FeatureData[]', default: 'required', description: 'Array of data objects mapping region ID to numeric value and display name.' },
+      { name: 'featureIdKey', type: 'string', default: "'id'", description: 'Property key in GeoJSON feature to match with data ID.' },
+      { name: 'projection', type: "'albersUsa' | 'mercator' | 'equalEarth' | 'naturalEarth'", default: "'albersUsa'", description: 'Cartographic projection mapping geographic coordinates to screen space.' },
+      { name: 'colorScheme', type: "'blues' | 'greens' | 'reds' | 'viridis' | 'spectral'", default: "'blues'", description: 'Sequential or diverging color scale for shading regions.' },
+      { name: 'numThresholds', type: 'number', default: '8', description: 'Number of discrete color threshold steps displayed in legend bar.' },
+      { name: 'legendTitle', type: 'string', default: "'Unemployment rate (%)'", description: 'Title text displayed above the top legend bar.' },
+      { name: 'height', type: 'number', default: '580', description: 'Map drawing height in pixels.' },
+      { name: 'interactive', type: 'boolean', default: 'true', description: 'Enables hover region highlight, dimming, and popup tooltip.' },
+      { name: 'title', type: 'string', default: 'undefined', description: 'Main title above map.' },
+      { name: 'subtitle', type: 'string', default: 'undefined', description: 'Secondary subtitle description.' },
+    ],
+    keyboard: [
+      { key: 'Mouse Hover Region', action: 'Highlights region border, dims non-hovered regions, and displays tooltip with value.' },
+    ],
+    aria: [
+      { name: 'data-md3-component="choropleth-map"', description: 'Identifies root element as a Choropleth Map component.' },
+    ],
+    doDonts: [
+      { do: 'Use choropleth maps for standardized rates, percentages, or densities across geographic boundaries.', dont: 'Use choropleth maps for raw total counts without normalizing for population size.' },
+    ],
+    playgroundControls: [
+      { name: 'projection', label: 'Projection', type: 'select', options: ['albersUsa', 'mercator', 'equalEarth', 'naturalEarth'], defaultValue: 'albersUsa' },
+      { name: 'colorScheme', label: 'Color Scheme', type: 'select', options: ['blues', 'greens', 'reds', 'viridis', 'spectral'], defaultValue: 'blues' },
+      { name: 'interactive', label: 'Hover Tooltip', type: 'boolean', defaultValue: true },
+    ],
+  },
 };
+
 
 
 

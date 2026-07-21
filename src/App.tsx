@@ -25,6 +25,8 @@ import { ChartsPage } from './demo/pages/ChartsPage';
 import { BarChartsPage } from './demo/pages/BarChartsPage';
 import { NetworksPage } from './demo/pages/NetworksPage';
 import { AnalysisPage } from './demo/pages/AnalysisPage';
+import { MapsPage } from './demo/pages/MapsPage';
+
 
 
 
@@ -199,6 +201,14 @@ export const COMPONENT_GROUPS: GroupDef[] = [
       { id: 'qq-plot', label: 'Q-Q Plot', status: 'beta' },
     ],
   },
+  {
+    id: 'maps',
+    label: 'Maps',
+    icon: 'map',
+    components: [
+      { id: 'choropleth', label: 'Choropleth Map', status: 'beta' },
+    ],
+  },
 ];
 
 
@@ -285,6 +295,7 @@ export function App() {
     case 'bar-charts': content = <BarChartsPage activeComponent={activeComponent} />; break;
     case 'networks': content = <NetworksPage activeComponent={activeComponent} />; break;
     case 'analysis': content = <AnalysisPage activeComponent={activeComponent} />; break;
+    case 'maps': content = <MapsPage activeComponent={activeComponent} />; break;
 
 
 
