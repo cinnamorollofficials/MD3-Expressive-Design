@@ -177,9 +177,11 @@ export const COMPONENT_GROUPS: GroupDef[] = [
       { id: 'force-directed-graph', label: 'Force-Directed Graph', status: 'beta' },
       { id: 'disjoint-force-directed-graph', label: 'Disjoint Force-Directed Graph', status: 'beta' },
       { id: 'mobile-patent-suits', label: 'Mobile Patent Suits', status: 'beta' },
+      { id: 'arc-diagram', label: 'Arc Diagram', status: 'beta' },
     ],
   },
 ];
+
 
 
 

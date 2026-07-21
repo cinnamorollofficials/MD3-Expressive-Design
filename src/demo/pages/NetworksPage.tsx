@@ -1,6 +1,7 @@
 import { useState } from 'react';
-import { ForceDirectedGraph, DisjointForceDirectedGraph, DirectedForceGraph, Card, CardContent } from '../../lib';
+import { ForceDirectedGraph, DisjointForceDirectedGraph, DirectedForceGraph, ArcDiagram, Card, CardContent } from '../../lib';
 import { DemoSection, PageTitle } from '../components/DemoSection';
+
 
 // Mobile Patent Suits dataset matching official D3 reference
 const PATENT_SUITS_DATA = {
@@ -408,6 +409,27 @@ export function NetworksPage({ activeComponent }: NetworksPageProps) {
     </div>
   );
 
+  const renderArcDiagram = () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <Card variant="outlined" style={{ padding: 24 }}>
+        <CardContent>
+          <ArcDiagram
+            title="Les Misérables Character Co-occurrences (Arc Diagram)"
+            subtitle="1D layout of character nodes arranged vertically by group with semicircular arcs connecting character appearances. Hover over nodes or arcs to highlight relationship clusters."
+            nodes={LES_MISERABLES_DATA.nodes}
+            links={LES_MISERABLES_DATA.links}
+            orientation="vertical"
+            order="group"
+            height={900}
+            nodeRadius={4}
+            showLabels={true}
+            showLegend={true}
+          />
+        </CardContent>
+      </Card>
+    </div>
+  );
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
       <PageTitle
@@ -441,9 +463,19 @@ export function NetworksPage({ activeComponent }: NetworksPageProps) {
           {renderMobilePatentSuits()}
         </DemoSection>
       )}
+
+      {(!activeComponent || activeComponent === 'arc-diagram') && (
+        <DemoSection
+          title="Arc Diagram"
+          description="One-dimensional layout placing nodes linearly along an axis with semicircular arcs connecting related node pairs."
+        >
+          {renderArcDiagram()}
+        </DemoSection>
+      )}
     </div>
   );
 }
+
 
 
 

@@ -1580,7 +1580,40 @@ const COMPONENT_DOC_BLUEPRINTS: Record<string, Omit<ComponentMetadata, 'id' | 'l
       { name: 'interactive', label: 'Hover Tooltip', type: 'boolean', defaultValue: true },
     ],
   },
+  'arc-diagram': {
+    status: 'beta',
+    description: 'A 1D network visualization placing nodes along a linear axis (vertical or horizontal) with semicircular arc paths connecting related node pairs. Useful for discovering clusters and sequential relationships.',
+    props: [
+      { name: 'nodes', type: 'NetworkNode[]', default: 'required', description: 'Array of node objects.' },
+      { name: 'links', type: 'NetworkLink[]', default: 'required', description: 'Array of link objects.' },
+      { name: 'orientation', type: "'vertical' | 'horizontal'", default: "'vertical'", description: 'Layout axis orientation.' },
+      { name: 'order', type: "'group' | 'name' | 'id' | 'none'", default: "'group'", description: 'Node sorting strategy along the axis.' },
+      { name: 'height', type: 'number', default: '720', description: 'Chart drawing height in pixels.' },
+      { name: 'nodeRadius', type: 'number | ((node) => number)', default: '4', description: 'Radius of node circles in pixels.' },
+      { name: 'showLabels', type: 'boolean', default: 'true', description: 'Whether to show node text labels.' },
+      { name: 'showLegend', type: 'boolean', default: 'true', description: 'Whether to show group legend below graph.' },
+      { name: 'interactive', type: 'boolean', default: 'true', description: 'Enables node and arc hover highlighting and tooltips.' },
+      { name: 'title', type: 'string', default: 'undefined', description: 'Optional main title above chart.' },
+      { name: 'subtitle', type: 'string', default: 'undefined', description: 'Optional secondary subtitle text.' },
+    ],
+    keyboard: [
+      { key: 'Mouse Hover Node', action: 'Highlights connected arcs and endpoint nodes.' },
+      { key: 'Mouse Hover Arc', action: 'Displays relationship details and connected endpoints.' },
+    ],
+    aria: [
+      { name: 'data-md3-component="arc-diagram"', description: 'Identifies the root element as an arc diagram.' },
+    ],
+    doDonts: [
+      { do: 'Order nodes by group or cluster to reduce arc crossing clutter.', dont: 'Use random node ordering on dense networks which creates visual noise.' },
+    ],
+    playgroundControls: [
+      { name: 'showLabels', label: 'Show Labels', type: 'boolean', defaultValue: true },
+      { name: 'showLegend', label: 'Show Legend', type: 'boolean', defaultValue: true },
+      { name: 'interactive', label: 'Hover Tooltip', type: 'boolean', defaultValue: true },
+    ],
+  },
 };
+
 
 
 

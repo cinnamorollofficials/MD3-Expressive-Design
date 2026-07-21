@@ -5,8 +5,9 @@ import { cn } from '../../lib/utils/cn';
 import {
   Button, IconButton, FAB, Card, CardContent, CardTitle, CardBody,
   Switch, Checkbox, TextField, Slider, Badge, Avatar,
-  AreaChart, StackedAreaChart, DifferenceChart, BarChart, HorizontalBarChart, DivergingBarChart, StackedBarChart, TimelineChart, CalendarChart, ForceDirectedGraph, DisjointForceDirectedGraph, DirectedForceGraph
+  AreaChart, StackedAreaChart, DifferenceChart, BarChart, HorizontalBarChart, DivergingBarChart, StackedBarChart, TimelineChart, CalendarChart, ForceDirectedGraph, DisjointForceDirectedGraph, DirectedForceGraph, ArcDiagram
 } from '../../lib';
+
 
 
 
@@ -556,6 +557,20 @@ export function ComponentDocViewer({ id, children }: ComponentDocViewerProps) {
             />
           </div>
         );
+      case 'arc-diagram':
+        return (
+          <div style={{ width: '100%', padding: '0 16px' }}>
+            <ArcDiagram
+              nodes={PLAYGROUND_NETWORK_DATA.nodes}
+              links={PLAYGROUND_NETWORK_DATA.links}
+              showLabels={playgroundProps.showLabels}
+              showLegend={playgroundProps.showLegend}
+              interactive={playgroundProps.interactive}
+              height={360}
+            />
+          </div>
+        );
+
 
 
 
