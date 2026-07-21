@@ -1,4 +1,4 @@
-import { BarChart, HorizontalBarChart, DivergingBarChart, Card, CardContent } from '../../lib';
+import { BarChart, HorizontalBarChart, DivergingBarChart, StackedBarChart, Card, CardContent } from '../../lib';
 import { DemoSection, PageTitle } from '../components/DemoSection';
 
 // Letter frequency data matching the official D3 bar chart example
@@ -100,6 +100,16 @@ const STATE_POPULATION_CHANGE = [
   { state: 'California',     change: +2157700 },
   { state: 'Florida',        change: +2679427 },
   { state: 'Texas',          change: +3999935 },
+];
+
+const BROWSER_SHARE_DATA = [
+  { month: 'Jan', Chrome: 65, Safari: 18, Firefox: 8, Edge: 5, Other: 4 },
+  { month: 'Feb', Chrome: 66, Safari: 17, Firefox: 9, Edge: 5, Other: 3 },
+  { month: 'Mar', Chrome: 64, Safari: 19, Firefox: 8, Edge: 6, Other: 3 },
+  { month: 'Apr', Chrome: 65, Safari: 18, Firefox: 8, Edge: 6, Other: 3 },
+  { month: 'May', Chrome: 67, Safari: 17, Firefox: 7, Edge: 6, Other: 3 },
+  { month: 'Jun', Chrome: 68, Safari: 16, Firefox: 7, Edge: 6, Other: 3 },
+  { month: 'Jul', Chrome: 66, Safari: 18, Firefox: 7, Edge: 6, Other: 3 },
 ];
 
 export function BarChartsPage({ activeComponent }: { activeComponent?: string }) {
@@ -228,6 +238,86 @@ const data = [
                     return val >= 0 ? `+${k}K` : `-${k}K`;
                   }}
                   height={1100}
+                />
+              </CardContent>
+            </Card>
+          </div>
+        </DemoSection>
+      )}
+
+      {(showAll || activeComponent === 'stacked-bar-chart') && (
+        <DemoSection
+          title="Stacked Bar Chart"
+          description="Stacked bar charts stack multiple numeric series representing parts of a whole category cumulatively. Supports interactive legend filtering where series can be dynamically toggled."
+          code={`import { StackedBarChart } from '@hadi_gunawan/md3-expressive-ds';
+
+const data = [
+  { month: 'Jan', Chrome: 65, Safari: 18, Firefox: 8, Edge: 5, Other: 4 },
+  { month: 'Feb', Chrome: 66, Safari: 17, Firefox: 9, Edge: 5, Other: 3 },
+  // ...
+];
+
+<StackedBarChart
+  data={data}
+  categoryKey="month"
+  keys={['Chrome', 'Safari', 'Firefox', 'Edge', 'Other']}
+  title="Browser Market Share"
+  subtitle="Absolute cumulative user shares by month"
+  horizontal={true}
+/>`}
+        >
+          <div style={{ width: '100%' }}>
+            <Card variant="outlined" style={{ padding: 16 }}>
+              <CardContent>
+                <StackedBarChart
+                  data={BROWSER_SHARE_DATA}
+                  categoryKey="month"
+                  keys={['Chrome', 'Safari', 'Firefox', 'Edge', 'Other']}
+                  title="Browser Market Share"
+                  subtitle="Absolute cumulative user shares by month"
+                  horizontal={true}
+                  height={360}
+                />
+              </CardContent>
+            </Card>
+          </div>
+        </DemoSection>
+      )}
+
+      {(showAll || activeComponent === 'normalized-stacked-bar-chart') && (
+        <DemoSection
+          title="Normalized Stacked Bar Chart"
+          description="Normalized stacked bar charts display the relative percentage contribution of each series to the whole category, totaling exactly 100%. Replicates the D3.js percentage stacking structure."
+          code={`import { StackedBarChart } from '@hadi_gunawan/md3-expressive-ds';
+
+const data = [
+  { month: 'Jan', Chrome: 65, Safari: 18, Firefox: 8, Edge: 5, Other: 4 },
+  { month: 'Feb', Chrome: 66, Safari: 17, Firefox: 9, Edge: 5, Other: 3 },
+  // ...
+];
+
+<StackedBarChart
+  data={data}
+  categoryKey="month"
+  keys={['Chrome', 'Safari', 'Firefox', 'Edge', 'Other']}
+  normalized={true}
+  title="Browser Market Share Trends"
+  subtitle="Relative percentage contribution by month"
+  horizontal={true}
+/>`}
+        >
+          <div style={{ width: '100%' }}>
+            <Card variant="outlined" style={{ padding: 16 }}>
+              <CardContent>
+                <StackedBarChart
+                  data={BROWSER_SHARE_DATA}
+                  categoryKey="month"
+                  keys={['Chrome', 'Safari', 'Firefox', 'Edge', 'Other']}
+                  normalized={true}
+                  title="Browser Market Share Trends"
+                  subtitle="Relative percentage contribution by month (normalized to 100%)"
+                  horizontal={true}
+                  height={360}
                 />
               </CardContent>
             </Card>

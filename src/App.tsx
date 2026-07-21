@@ -161,6 +161,8 @@ export const COMPONENT_GROUPS: GroupDef[] = [
       { id: 'bar-chart', label: 'Bar Chart', status: 'beta' },
       { id: 'horizontal-bar-chart', label: 'Horizontal Bar Chart', status: 'beta' },
       { id: 'diverging-bar-chart', label: 'Diverging Bar Chart', status: 'beta' },
+      { id: 'stacked-bar-chart', label: 'Stacked Bar Chart', status: 'beta' },
+      { id: 'normalized-stacked-bar-chart', label: 'Normalized Stacked Bar Chart', status: 'beta' },
     ],
   },
 ];

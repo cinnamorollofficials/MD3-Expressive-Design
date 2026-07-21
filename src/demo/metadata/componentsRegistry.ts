@@ -658,6 +658,79 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentMetadata> = {
       { name: 'interactive', label: 'Hover Tooltip', type: 'boolean', defaultValue: true },
     ],
   },
+  'stacked-bar-chart': {
+    id: 'stacked-bar-chart',
+    label: 'Stacked Bar Chart',
+    status: 'beta',
+    description: 'A stacked bar chart comparing cumulative contributions of different series within a category. Supports vertical or horizontal layouts, custom series colors, and interactive legend toggles.',
+    props: [
+      { name: 'data', type: 'any[]', default: 'required', description: 'Array of data objects containing category and value keys.' },
+      { name: 'categoryKey', type: 'string', default: 'required', description: 'Key in data objects for the category labels.' },
+      { name: 'keys', type: 'string[]', default: 'required', description: 'Keys of numeric values to stack cumulatively.' },
+      { name: 'normalized', type: 'boolean', default: 'false', description: 'If true, normalizes values to percentage sums equaling 100%.' },
+      { name: 'horizontal', type: 'boolean', default: 'true', description: 'If true, renders horizontal bar columns; vertical if false.' },
+      { name: 'height', type: 'number', default: '400', description: 'Chart drawing height in pixels.' },
+      { name: 'showGrid', type: 'boolean', default: 'true', description: 'Whether to overlay background reference grid lines.' },
+      { name: 'showAxes', type: 'boolean', default: 'true', description: 'Whether to show the category and value axes.' },
+      { name: 'colors', type: 'string[]', default: 'DEFAULT_COLORS', description: 'Predefined color array mapping each key to a visual layer.' },
+      { name: 'interactive', type: 'boolean', default: 'true', description: 'Enables hover tooltips revealing layer names and exact contributions.' },
+      { name: 'title', type: 'string', default: 'undefined', description: 'Optional chart header title.' },
+      { name: 'subtitle', type: 'string', default: 'undefined', description: 'Optional chart subtitle description.' },
+    ],
+    keyboard: [
+      { key: 'Mouse Click Legend', action: 'Toggles the visibility of specific series keys in the layout stack dynamically.' },
+      { key: 'Mouse Hover Bar', action: 'Renders the precise numeric contribution and percentage share of the segment.' },
+    ],
+    aria: [
+      { name: 'data-md3-component="stacked-bar-chart"', description: 'Identifies the root element as a stacked bar chart component.' },
+    ],
+    doDonts: [
+      { do: 'Use stacked bar charts to compare whole categories and understand category breakdowns.', dont: 'Use stacked bar charts when category totals are not comparable or meaningful.' },
+      { do: 'Provide distinct, highly contrasting colors for each stacked key segment.', dont: 'Stack more than 6-7 categories as they become difficult for users to visually decode.' },
+    ],
+    playgroundControls: [
+      { name: 'horizontal', label: 'Horizontal Orientation', type: 'boolean', defaultValue: true },
+      { name: 'showGrid', label: 'Show Grid Lines', type: 'boolean', defaultValue: true },
+      { name: 'showAxes', label: 'Show Axes', type: 'boolean', defaultValue: true },
+      { name: 'interactive', label: 'Hover Tooltip & Tracker', type: 'boolean', defaultValue: true },
+    ],
+  },
+  'normalized-stacked-bar-chart': {
+    id: 'normalized-stacked-bar-chart',
+    label: 'Normalized Stacked Bar Chart',
+    status: 'beta',
+    description: 'A stacked bar chart normalized to relative percentages totaling 100%. Replicates the D3.js percentage stacking structure.',
+    props: [
+      { name: 'data', type: 'any[]', default: 'required', description: 'Array of data objects containing category and value keys.' },
+      { name: 'categoryKey', type: 'string', default: 'required', description: 'Key in data objects for the category labels.' },
+      { name: 'keys', type: 'string[]', default: 'required', description: 'Keys of numeric values to stack cumulatively.' },
+      { name: 'normalized', type: 'boolean', default: 'true', description: 'Set to true for percentage stacking totaling 100%.' },
+      { name: 'horizontal', type: 'boolean', default: 'true', description: 'If true, renders horizontal bar columns; vertical if false.' },
+      { name: 'height', type: 'number', default: '400', description: 'Chart drawing height in pixels.' },
+      { name: 'showGrid', type: 'boolean', default: 'true', description: 'Whether to overlay background reference grid lines.' },
+      { name: 'showAxes', type: 'boolean', default: 'true', description: 'Whether to show the category and value axes.' },
+      { name: 'colors', type: 'string[]', default: 'DEFAULT_COLORS', description: 'Predefined color array mapping each key to a visual layer.' },
+      { name: 'interactive', type: 'boolean', default: 'true', description: 'Enables hover tooltips revealing layer names and exact contributions.' },
+      { name: 'title', type: 'string', default: 'undefined', description: 'Optional chart header title.' },
+      { name: 'subtitle', type: 'string', default: 'undefined', description: 'Optional chart subtitle description.' },
+    ],
+    keyboard: [
+      { key: 'Mouse Click Legend', action: 'Toggles the visibility of specific series keys in the layout stack dynamically.' },
+      { key: 'Mouse Hover Bar', action: 'Renders the precise numeric contribution and percentage share of the segment.' },
+    ],
+    aria: [
+      { name: 'data-md3-component="stacked-bar-chart"', description: 'Identifies the root element as a stacked bar chart component.' },
+    ],
+    doDonts: [
+      { do: 'Use normalized stacked bar charts to emphasize shares of the whole category over absolute magnitudes.', dont: 'Use if the absolute sums of categories are the key comparison metric.' },
+    ],
+    playgroundControls: [
+      { name: 'horizontal', label: 'Horizontal Orientation', type: 'boolean', defaultValue: true },
+      { name: 'showGrid', label: 'Show Grid Lines', type: 'boolean', defaultValue: true },
+      { name: 'showAxes', label: 'Show Axes', type: 'boolean', defaultValue: true },
+      { name: 'interactive', label: 'Hover Tooltip & Tracker', type: 'boolean', defaultValue: true },
+    ],
+  },
 };
 
 const COMMON_CLASS_PROP: PropDef = {

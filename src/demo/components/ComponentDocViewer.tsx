@@ -5,7 +5,7 @@ import { cn } from '../../lib/utils/cn';
 import {
   Button, IconButton, FAB, Card, CardContent, CardTitle, CardBody,
   Switch, Checkbox, TextField, Slider, Badge, Avatar,
-  AreaChart, StackedAreaChart, DifferenceChart, BarChart, HorizontalBarChart, DivergingBarChart
+  AreaChart, StackedAreaChart, DifferenceChart, BarChart, HorizontalBarChart, DivergingBarChart, StackedBarChart
 } from '../../lib';
 import { CodeBlock } from './CodeBlock';
 import styles from './ComponentDocViewer.module.css';
@@ -80,6 +80,14 @@ const PLAYGROUND_DIVERGING_DATA = [
   { state: 'Ohio',          change: +152394 },
   { state: 'Florida',       change: +2679427 },
   { state: 'Texas',         change: +3999935 },
+];
+
+const PLAYGROUND_STACKED_BAR_DATA = [
+  { month: 'Jan', Chrome: 65, Safari: 18, Firefox: 8, Edge: 5, Other: 4 },
+  { month: 'Feb', Chrome: 66, Safari: 17, Firefox: 9, Edge: 5, Other: 3 },
+  { month: 'Mar', Chrome: 64, Safari: 19, Firefox: 8, Edge: 6, Other: 3 },
+  { month: 'Apr', Chrome: 65, Safari: 18, Firefox: 8, Edge: 6, Other: 3 },
+  { month: 'May', Chrome: 67, Safari: 17, Firefox: 7, Edge: 6, Other: 3 },
 ];
 
 interface ComponentDocViewerProps {
@@ -386,6 +394,37 @@ export function ComponentDocViewer({ id, children }: ComponentDocViewerProps) {
               }}
               legendLabels={['Gain', 'Loss']}
               height={300}
+            />
+          </div>
+        );
+      case 'stacked-bar-chart':
+        return (
+          <div style={{ width: '100%', height: 280, padding: '0 16px' }}>
+            <StackedBarChart
+              data={PLAYGROUND_STACKED_BAR_DATA}
+              categoryKey="month"
+              keys={['Chrome', 'Safari', 'Firefox', 'Edge', 'Other']}
+              horizontal={playgroundProps.horizontal}
+              showGrid={playgroundProps.showGrid}
+              showAxes={playgroundProps.showAxes}
+              interactive={playgroundProps.interactive}
+              height={240}
+            />
+          </div>
+        );
+      case 'normalized-stacked-bar-chart':
+        return (
+          <div style={{ width: '100%', height: 280, padding: '0 16px' }}>
+            <StackedBarChart
+              data={PLAYGROUND_STACKED_BAR_DATA}
+              categoryKey="month"
+              keys={['Chrome', 'Safari', 'Firefox', 'Edge', 'Other']}
+              normalized={true}
+              horizontal={playgroundProps.horizontal}
+              showGrid={playgroundProps.showGrid}
+              showAxes={playgroundProps.showAxes}
+              interactive={playgroundProps.interactive}
+              height={240}
             />
           </div>
         );
