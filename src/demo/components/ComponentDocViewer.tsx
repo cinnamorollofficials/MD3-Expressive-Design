@@ -5,7 +5,7 @@ import { cn } from '../../lib/utils/cn';
 import {
   Button, IconButton, FAB, Card, CardContent, CardTitle, CardBody,
   Switch, Checkbox, TextField, Slider, Badge, Avatar,
-  AreaChart, StackedAreaChart, DifferenceChart, BarChart, HorizontalBarChart
+  AreaChart, StackedAreaChart, DifferenceChart, BarChart, HorizontalBarChart, DivergingBarChart
 } from '../../lib';
 import { CodeBlock } from './CodeBlock';
 import styles from './ComponentDocViewer.module.css';
@@ -67,6 +67,19 @@ const PLAYGROUND_HBAR_DATA = [
   { country: 'Indonesia', value: 277.5 },
   { country: 'Pakistan', value: 240.5 },
   { country: 'Brazil', value: 215.3 },
+];
+
+const PLAYGROUND_DIVERGING_DATA = [
+  { state: 'Puerto Rico',   change: -532045 },
+  { state: 'Illinois',      change: -158011 },
+  { state: 'Connecticut',   change: -60928 },
+  { state: 'Kansas',        change: -61196 },
+  { state: 'Hawaii',        change: +55571 },
+  { state: 'New York',      change: +75428 },
+  { state: 'Pennsylvania',  change: +99010 },
+  { state: 'Ohio',          change: +152394 },
+  { state: 'Florida',       change: +2679427 },
+  { state: 'Texas',         change: +3999935 },
 ];
 
 interface ComponentDocViewerProps {
@@ -353,6 +366,26 @@ export function ComponentDocViewer({ id, children }: ComponentDocViewerProps) {
               color="var(--md-sys-color-primary)"
               xFormatter={(v) => `${v}M`}
               height={220}
+            />
+          </div>
+        );
+      case 'diverging-bar-chart':
+        return (
+          <div style={{ width: '100%', height: 320, padding: '0 16px' }}>
+            <DivergingBarChart
+              data={PLAYGROUND_DIVERGING_DATA}
+              yKey="state"
+              xKey="change"
+              showGrid={playgroundProps.showGrid}
+              showAxes={playgroundProps.showAxes}
+              showValueLabels={playgroundProps.showValueLabels}
+              interactive={playgroundProps.interactive}
+              xFormatter={(val) => {
+                const k = Math.round(Math.abs(val) / 1000);
+                return val >= 0 ? `+${k}K` : `-${k}K`;
+              }}
+              legendLabels={['Gain', 'Loss']}
+              height={300}
             />
           </div>
         );

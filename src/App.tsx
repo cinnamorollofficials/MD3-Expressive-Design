@@ -160,6 +160,7 @@ export const COMPONENT_GROUPS: GroupDef[] = [
     components: [
       { id: 'bar-chart', label: 'Bar Chart', status: 'beta' },
       { id: 'horizontal-bar-chart', label: 'Horizontal Bar Chart', status: 'beta' },
+      { id: 'diverging-bar-chart', label: 'Diverging Bar Chart', status: 'beta' },
     ],
   },
 ];

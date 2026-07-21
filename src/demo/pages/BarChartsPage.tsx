@@ -1,4 +1,4 @@
-import { BarChart, HorizontalBarChart, Card, CardContent } from '../../lib';
+import { BarChart, HorizontalBarChart, DivergingBarChart, Card, CardContent } from '../../lib';
 import { DemoSection, PageTitle } from '../components/DemoSection';
 
 // Letter frequency data matching the official D3 bar chart example
@@ -43,6 +43,63 @@ const POPULATION_DATA = [
   { country: 'Bangladesh', population: 172.9 },
   { country: 'Russia', population: 144.4 },
   { country: 'Ethiopia', population: 126.5 },
+];
+
+// US state population change 2010–2020 (sorted from most loss to most gain)
+// Matches the canonical D3 diverging bar chart reference
+const STATE_POPULATION_CHANGE = [
+  { state: 'Puerto Rico',    change: -532045 },
+  { state: 'Illinois',       change: -158011 },
+  { state: 'West Virginia',  change: -59929 },
+  { state: 'Connecticut',    change: -60928 },
+  { state: 'Vermont',        change: -1752 },
+  { state: 'Rhode Island',   change: -4787 },
+  { state: 'Mississippi',    change: -6853 },
+  { state: 'Wyoming',        change: -15133 },
+  { state: 'Maine',          change: -15851 },
+  { state: 'Alaska',         change: -21314 },
+  { state: 'New Mexico',     change: +37650 },
+  { state: 'New Hampshire',  change: +43241 },
+  { state: 'Hawaii',         change: +55571 },
+  { state: 'Kansas',         change: -61196 },
+  { state: 'South Dakota',   change: +75179 },
+  { state: 'New York',       change: +75428 },
+  { state: 'Delaware',       change: +75830 },
+  { state: 'Montana',        change: +78363 },
+  { state: 'North Dakota',   change: +89671 },
+  { state: 'New Jersey',     change: +90296 },
+  { state: 'Pennsylvania',   change: +99010 },
+  { state: 'Arkansas',       change: +101967 },
+  { state: 'Michigan',       change: +103217 },
+  { state: 'D.C.',           change: +104685 },
+  { state: 'Nebraska',       change: +109067 },
+  { state: 'Iowa',           change: +109715 },
+  { state: 'Louisiana',      change: +115423 },
+  { state: 'Alabama',        change: +123449 },
+  { state: 'Kentucky',       change: +129390 },
+  { state: 'Wisconsin',      change: +135649 },
+  { state: 'Missouri',       change: +148351 },
+  { state: 'Ohio',           change: +152394 },
+  { state: 'Oklahoma',       change: +205823 },
+  { state: 'Idaho',          change: +216305 },
+  { state: 'Indiana',        change: +248417 },
+  { state: 'Maryland',       change: +272128 },
+  { state: 'Minnesota',      change: +305707 },
+  { state: 'Nevada',         change: +376065 },
+  { state: 'Oregon',         change: +386883 },
+  { state: 'Massachusetts',  change: +401874 },
+  { state: 'Utah',           change: +442073 },
+  { state: 'Tennessee',      change: +487269 },
+  { state: 'South Carolina', change: +499365 },
+  { state: 'Virginia',       change: +534495 },
+  { state: 'Colorado',       change: +726540 },
+  { state: 'Arizona',        change: +888700 },
+  { state: 'Washington',     change: +994353 },
+  { state: 'Georgia',        change: +1028770 },
+  { state: 'North Carolina', change: +1052601 },
+  { state: 'California',     change: +2157700 },
+  { state: 'Florida',        change: +2679427 },
+  { state: 'Texas',          change: +3999935 },
 ];
 
 export function BarChartsPage({ activeComponent }: { activeComponent?: string }) {
@@ -127,6 +184,50 @@ const data = [
                   xFormatter={(val) => `${val}M`}
                   color="#5985ab"
                   height={380}
+                />
+              </CardContent>
+            </Card>
+          </div>
+        </DemoSection>
+      )}
+
+      {(showAll || activeComponent === 'diverging-bar-chart') && (
+        <DemoSection
+          title="Diverging Bar Chart"
+          description="Diverging bar charts compare values that can be positive or negative relative to a shared zero baseline. Positive values extend right in blue, negative values extend left in orange — directly replicating the D3.js Diverging Bar Chart showing US state population change 2010–2020."
+          code={`import { DivergingBarChart } from '@hadi_gunawan/md3-expressive-ds';
+
+const data = [
+  { state: 'Texas',       change: +3999935 },
+  { state: 'Florida',     change: +2679427 },
+  { state: 'Puerto Rico', change: -532045 },
+  // ...
+];
+
+<DivergingBarChart
+  data={data}
+  yKey="state"
+  xKey="change"
+  title="US State Population Change 2010–2020"
+  legendLabels={['Population gain', 'Population loss']}
+  xFormatter={(val) => val >= 0 ? \`+\${(val/1000).toFixed(0)}K\` : \`\${(val/1000).toFixed(0)}K\`}
+/>`}
+        >
+          <div style={{ width: '100%' }}>
+            <Card variant="outlined" style={{ padding: 16 }}>
+              <CardContent>
+                <DivergingBarChart
+                  data={STATE_POPULATION_CHANGE}
+                  yKey="state"
+                  xKey="change"
+                  title="US State Population Change, 2010–2020"
+                  subtitle="States sorted from most loss (top) to most gain (bottom), mirroring the official D3 example"
+                  legendLabels={['Population gain', 'Population loss']}
+                  xFormatter={(val) => {
+                    const k = Math.round(Math.abs(val) / 1000);
+                    return val >= 0 ? `+${k}K` : `-${k}K`;
+                  }}
+                  height={1100}
                 />
               </CardContent>
             </Card>

@@ -66,6 +66,7 @@ export * from './components/StackedAreaChart';
 export * from './components/DifferenceChart';
 export * from './components/BarChart';
 export * from './components/HorizontalBarChart';
+export * from './components/DivergingBarChart';
 
 export { useTheme, ThemeProvider } from './hooks/useTheme';
 export type { ThemeName, ThemeMode, ThemePreference, ThemeContextValue, ThemeProviderProps } from './hooks/useTheme';

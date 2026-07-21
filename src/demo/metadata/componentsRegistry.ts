@@ -618,6 +618,46 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentMetadata> = {
       { name: 'interactive', label: 'Hover Tooltip', type: 'boolean', defaultValue: true },
     ],
   },
+  'diverging-bar-chart': {
+    id: 'diverging-bar-chart',
+    label: 'Diverging Bar Chart',
+    status: 'beta',
+    description: 'A horizontal diverging bar chart where positive values extend right and negative values extend left from a shared zero baseline. Ideal for showing change, deficit/surplus, or sentiment scores. Mirrors the D3.js canonical diverging bar chart (US state population change).',
+    props: [
+      { name: 'data', type: 'any[]', default: 'required', description: 'Array of data objects with a category key and a numeric (positive or negative) value key.' },
+      { name: 'yKey', type: 'string', default: 'required', description: 'Key for the category label rendered on the Y axis (centered on the zero line).' },
+      { name: 'xKey', type: 'string', default: 'required', description: 'Key for the numeric value. Positive values extend right; negative extend left.' },
+      { name: 'height', type: 'number', default: '500', description: 'Chart drawing height in pixels.' },
+      { name: 'showGrid', type: 'boolean', default: 'true', description: 'Whether to show vertical reference grid lines.' },
+      { name: 'showAxes', type: 'boolean', default: 'true', description: 'Whether to show the bottom X axis with value ticks.' },
+      { name: 'barRadius', type: 'number', default: '3', description: 'Corner radius on the outer end of each bar.' },
+      { name: 'barPadding', type: 'number', default: '0.15', description: 'Ratio of whitespace between bars.' },
+      { name: 'positiveColor', type: 'string', default: "'#4a90d9'", description: 'Fill color for bars with positive values (right-extending).' },
+      { name: 'negativeColor', type: 'string', default: "'#e07050'", description: 'Fill color for bars with negative values (left-extending).' },
+      { name: 'showValueLabels', type: 'boolean', default: 'true', description: 'Displays the formatted value at the outer end of each bar.' },
+      { name: 'interactive', type: 'boolean', default: 'true', description: 'Enables hover tooltip with a color-coded accent border.' },
+      { name: 'legendLabels', type: '[string, string]', default: 'undefined', description: 'Optional legend labels as [positiveLabel, negativeLabel].' },
+      { name: 'title', type: 'string', default: 'undefined', description: 'Optional chart title.' },
+      { name: 'subtitle', type: 'string', default: 'undefined', description: 'Optional subtitle below the title.' },
+      { name: 'xFormatter', type: '(val: number) => string', default: 'undefined', description: 'Custom formatter for X-axis tick labels and tooltip values.' },
+    ],
+    keyboard: [
+      { key: 'Mouse Hover', action: 'Shows a tooltip card with color-coded accent border indicating positive or negative direction.' },
+    ],
+    aria: [
+      { name: 'data-md3-component="diverging-bar-chart"', description: 'Identifies the root element as a diverging bar chart.' },
+    ],
+    doDonts: [
+      { do: 'Use diverging bars to show values that have a meaningful zero point (e.g., population change, profit/loss, survey scores).', dont: "Use diverging bars for data without a natural midpoint — use a regular horizontal bar chart instead." },
+      { do: 'Label the zero baseline clearly and keep it visually prominent.', dont: 'Mix diverging bars with stacked bars in the same chart without clear visual separation.' },
+    ],
+    playgroundControls: [
+      { name: 'showGrid', label: 'Show Grid Lines', type: 'boolean', defaultValue: true },
+      { name: 'showAxes', label: 'Show Axes', type: 'boolean', defaultValue: true },
+      { name: 'showValueLabels', label: 'Show Value Labels', type: 'boolean', defaultValue: true },
+      { name: 'interactive', label: 'Hover Tooltip', type: 'boolean', defaultValue: true },
+    ],
+  },
 };
 
 const COMMON_CLASS_PROP: PropDef = {
