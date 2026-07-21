@@ -176,12 +176,13 @@ export function ChoroplethMap({
   const innerHeight = Math.max(100, height - margin.top - margin.bottom);
 
   const { pathGenerator, borderPathD } = useMemo(() => {
-    // Check if topology is pre-projected in pixel space (e.g. counties-albers-10m.json)
+    // Check if topology is pre-projected in 975x610 pixel space (e.g. counties-albers-10m.json)
+    // Quantized topologies (counties-10m.json) have coordinates in degrees [lon, lat],
+    // so only use null projection if the topology object explicitly contains 'albers'.
     const isPreprojected =
       geojson &&
       geojson.objects &&
       Object.keys(geojson.objects).some((k) => k.includes('albers'));
-
 
     if (isPreprojected) {
       const pathGen = geo.geoPath(null);
@@ -189,7 +190,8 @@ export function ChoroplethMap({
       return { pathGenerator: pathGen, borderPathD: borderD };
     }
 
-
+    // Select D3 projection. Note: 'albersUsa' is tailored for US maps (moves AK/HI insets).
+    // For international/world maps (Indonesia, Japan, Global), use 'mercator', 'equalEarth', or 'naturalEarth'.
     let proj: geo.GeoProjection;
     switch (projectionType) {
       case 'mercator':
@@ -210,6 +212,7 @@ export function ChoroplethMap({
     if (features.length > 0) {
       try {
         const collection = { type: 'FeatureCollection', features };
+        // Automatically fit geographic bounds to container viewport
         proj.fitExtent(
           [
             [15, 15],
@@ -221,6 +224,7 @@ export function ChoroplethMap({
         console.warn('Map projection fit error:', err);
       }
     }
+
 
     const pathGen = geo.geoPath().projection(proj);
     const borderD = borderMesh ? pathGen(borderMesh) : null;
