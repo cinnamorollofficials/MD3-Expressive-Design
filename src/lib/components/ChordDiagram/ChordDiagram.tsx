@@ -327,30 +327,35 @@ export function ChordDiagram({
                   const isDimmed = isFiltered || (activeHoverState && !activeHoverState.connectedGroups.has(idx));
                   const isHighlighted = activeHoverState && activeHoverState.connectedGroups.has(idx);
 
-                  // Calculate label angle and position
-                  const angle = (group.startAngle + group.endAngle) / 2;
-                  const labelRadius = outerRadius + 14;
-                  const lx = labelRadius * Math.sin(angle);
-                  const ly = -labelRadius * Math.cos(angle);
-                  const isRightHalf = angle < Math.PI;
-
-                  // Ticks computation
+                  // Ticks computation with percentage number indicators
                   const ticks = [];
-                  if (showTicks) {
-                    const step = Math.ceil(group.value / 5);
+                  if (showTicks && group.value > 0) {
+                    const totalMatrixSum = d3.sum(chordsData.groups, (d: any) => d.value) || 1;
+                    const numTicks = 5;
+                    const step = group.value / numTicks;
                     const k = (group.endAngle - group.startAngle) / group.value;
-                    for (let v = 0; v <= group.value; v += step) {
+
+                    for (let i = 0; i <= numTicks; i++) {
+                      const v = i * step;
                       const a = group.startAngle + v * k;
+                      const pct = Math.round((v / totalMatrixSum) * 100);
+
                       ticks.push({
                         value: v,
                         angle: a,
-                        x1: outerRadius * Math.sin(a),
-                        y1: -outerRadius * Math.cos(a),
-                        x2: (outerRadius + 6) * Math.sin(a),
-                        y2: -(outerRadius + 6) * Math.cos(a),
+                        label: `${pct}%`,
+                        tx: outerRadius * Math.sin(a),
+                        ty: -outerRadius * Math.cos(a),
                       });
                     }
                   }
+
+                  // Group text label position (pushed slightly further out)
+                  const angle = (group.startAngle + group.endAngle) / 2;
+                  const labelRadius = outerRadius + (showTicks ? 32 : 16);
+                  const lx = labelRadius * Math.sin(angle);
+                  const ly = -labelRadius * Math.cos(angle);
+                  const isRightHalf = angle < Math.PI;
 
                   return (
                     <g key={idx}>
@@ -367,13 +372,36 @@ export function ChordDiagram({
                         onClick={() => onGroupClick?.(idx, nodeObjects[idx])}
                       />
 
-                      {/* Ticks */}
+                      {/* Ticks with percentage number indicators */}
                       {showTicks &&
-                        ticks.map((t, tIdx) => (
-                          <g key={tIdx}>
-                            <line className={styles.tickLine} x1={t.x1} y1={t.y1} x2={t.x2} y2={t.y2} />
-                          </g>
-                        ))}
+                        ticks.map((t, tIdx) => {
+                          const isFarHalf = t.angle > Math.PI;
+                          const rot = (t.angle * 180) / Math.PI - 90;
+                          const textRot = isFarHalf ? rot + 180 : rot;
+
+                          return (
+                            <g
+                              key={tIdx}
+                              transform={`translate(${t.tx}, ${t.ty}) rotate(${textRot})`}
+                            >
+                              <line
+                                className={styles.tickLine}
+                                x1={0}
+                                y1={0}
+                                x2={isFarHalf ? -4 : 4}
+                                y2={0}
+                              />
+                              <text
+                                className={cn(styles.tickText, isDimmed && styles.groupDimmed)}
+                                x={isFarHalf ? -6 : 6}
+                                y={3}
+                                textAnchor={isFarHalf ? 'end' : 'start'}
+                              >
+                                {t.label}
+                              </text>
+                            </g>
+                          );
+                        })}
 
                       {/* Outer Text Label */}
                       {showLabels && nodeLabels[idx] && (
@@ -385,11 +413,12 @@ export function ChordDiagram({
                           textAnchor={isRightHalf ? 'start' : 'end'}
                           transform={`rotate(${((angle * 180) / Math.PI - 90)}, ${lx}, ${ly})`}
                         >
-                          {nodeLabels[idx]}
+                          {nodeLabels[idx]} ↓
                         </text>
                       )}
                     </g>
                   );
+
                 })}
               </g>
             </g>
