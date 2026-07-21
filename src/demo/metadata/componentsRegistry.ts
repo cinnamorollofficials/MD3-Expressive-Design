@@ -1790,7 +1790,43 @@ const COMPONENT_DOC_BLUEPRINTS: Record<string, Omit<ComponentMetadata, 'id' | 'l
       { name: 'interactive', label: 'Hover Tooltip', type: 'boolean', defaultValue: true },
     ],
   },
+  histogram: {
+    status: 'beta',
+    description: 'A histogram groups continuous numeric data into user-defined bins to visualize the frequency distribution, shape, skewness, and spread of a dataset.',
+
+    props: [
+      { name: 'data', type: 'number[]', default: 'required', description: 'Array of raw numeric values to distribute into bins.' },
+      { name: 'bins', type: 'number', default: 'auto (Sturges)', description: 'Number of bins. If omitted, computed via the Sturges rule: ceil(log₂(n)) + 1.' },
+      { name: 'height', type: 'number', default: '500', description: 'Chart height in pixels.' },
+      { name: 'color', type: 'string', default: "'var(--md-sys-color-primary)'", description: 'Fill color for histogram bars.' },
+      { name: 'interactive', type: 'boolean', default: 'true', description: 'Enables hover tooltips showing bin range, frequency count, and relative frequency.' },
+      { name: 'xAxisTitle', type: 'string', default: 'undefined', description: 'Label text rendered below the X axis.' },
+      { name: 'yAxisTitle', type: 'string', default: 'undefined', description: 'Label text rendered rotated beside the Y axis.' },
+      { name: 'showControls', type: 'boolean', default: 'true', description: 'Renders a Bins slider and number input for dynamic bin count adjustment.' },
+      { name: 'minBins', type: 'number', default: '5', description: 'Minimum allowed bin count when using the slider.' },
+      { name: 'maxBins', type: 'number', default: '100', description: 'Maximum allowed bin count when using the slider.' },
+      { name: 'xFormatter', type: '(val: number) => string', default: 'undefined', description: 'Custom formatter for X-axis tick labels and tooltip values.' },
+      { name: 'yFormatter', type: '(val: number) => string', default: 'undefined', description: 'Custom formatter for Y-axis frequency count labels.' },
+      { name: 'title', type: 'string', default: 'undefined', description: 'Optional main title above chart.' },
+      { name: 'subtitle', type: 'string', default: 'undefined', description: 'Optional secondary subtitle text.' },
+    ],
+    keyboard: [
+      { key: 'Mouse Hover Bar', action: 'Displays tooltip with bin range [x0, x1), frequency count, and relative frequency percentage.' },
+    ],
+    aria: [
+      { name: 'data-md3-component="histogram"', description: 'Identifies the root element as a Histogram chart.' },
+    ],
+    doDonts: [
+      { do: 'Use histograms for continuous numeric data to reveal distribution shape, skewness, and clusters.', dont: 'Use histograms for categorical data — use bar or pie charts instead.' },
+      { do: 'Experiment with bin count (Sturges, Rice, or Scott rules) to find an informative granularity level.', dont: 'Use too few bins (hides structure) or too many bins (shows noise not signal).' },
+    ],
+    playgroundControls: [
+      { name: 'interactive', label: 'Hover Tooltip', type: 'boolean', defaultValue: true },
+      { name: 'showControls', label: 'Show Bins Slider', type: 'boolean', defaultValue: true },
+    ],
+  },
 };
+
 
 
 

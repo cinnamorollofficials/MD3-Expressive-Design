@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
-import { MovingAverageChart, BollingerBandsChart, BoxPlot, Card, CardContent } from '../../lib';
+import { MovingAverageChart, BollingerBandsChart, BoxPlot, Histogram, Card, CardContent } from '../../lib';
 import { DemoSection, PageTitle } from '../components/DemoSection';
+
 
 // Generate Diamond Price vs Carat Distribution dataset matching reference image
 function generateDiamondCaratData() {
@@ -81,9 +82,45 @@ function generateTimeSeriesData() {
 }
 
 
+// Generate US County Unemployment Rate data (right-skewed, 3,143 counties)
+// Matching reference histogram: peak near 5%, long right tail up to ~28%
+function generateUnemploymentData(): number[] {
+  const values: number[] = [];
+  const rng = (seed: number) => {
+    // xorshift32 deterministic pseudo-RNG for reproducibility
+    seed ^= seed << 13;
+    seed ^= seed >> 17;
+    seed ^= seed << 5;
+    return (seed >>> 0) / 0xffffffff;
+  };
+
+  let seed = 42;
+  // ~3143 US counties: mostly 2-10%, long tail to ~28%
+  for (let i = 0; i < 3143; i++) {
+    seed = (seed * 1664525 + 1013904223) & 0xffffffff;
+    const u1 = rng(seed);
+    seed = (seed * 1664525 + 1013904223) & 0xffffffff;
+    const u2 = rng(seed);
+
+    // Box-Muller transform, then shift/scale to get right-skewed gamma-like distribution
+    const normal = Math.sqrt(-2 * Math.log(Math.max(1e-10, u1))) * Math.cos(2 * Math.PI * u2);
+
+    // Shape: mean ~5.5%, std ~2.8%, min ~1.5%, long right tail to ~28%
+    const k = 3.8; // shape param
+    const theta = 1.45; // scale param
+    // Approximate gamma via normal * sqrt(k) + k (central limit approx)
+    const gammaApprox = Math.max(0, (normal * Math.sqrt(2 * k) + 2 * k) * theta * 0.72);
+    const rate = Math.max(1.5, Math.min(28, gammaApprox + 1.5));
+    values.push(parseFloat(rate.toFixed(2)));
+  }
+
+  return values;
+}
+
 interface AnalysisPageProps {
   activeComponent?: string;
 }
+
 
 export function AnalysisPage({ activeComponent }: AnalysisPageProps) {
   const timeSeriesData = useMemo(() => generateTimeSeriesData(), []);
@@ -159,6 +196,30 @@ export function AnalysisPage({ activeComponent }: AnalysisPageProps) {
     </div>
   );
 
+  const unemploymentData = useMemo(() => generateUnemploymentData(), []);
+
+  const renderHistogram = () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <Card variant="outlined" style={{ padding: 24 }}>
+        <CardContent>
+          <Histogram
+            title="US County Unemployment Rate Distribution (Histogram)"
+            subtitle="Frequency distribution of unemployment rates across 3,143 US counties. Right-skewed distribution with peak near 5%. Adjust the Bins slider to control bin width granularity."
+            data={unemploymentData}
+            height={500}
+            xAxisTitle="Unemployment rate (%)"
+            yAxisTitle="Frequency (no. of counties)"
+            showControls={true}
+            minBins={5}
+            maxBins={80}
+            xFormatter={(v) => `${v.toFixed(0)}`}
+            yFormatter={(v) => (v >= 1000 ? `${(v / 1000).toFixed(1)}k` : String(v))}
+          />
+        </CardContent>
+      </Card>
+    </div>
+  );
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
       <PageTitle
@@ -192,8 +253,18 @@ export function AnalysisPage({ activeComponent }: AnalysisPageProps) {
           {renderBoxPlot()}
         </DemoSection>
       )}
+
+      {(!activeComponent || activeComponent === 'histogram') && (
+        <DemoSection
+          title="Histogram"
+          description="Frequency distribution chart grouping continuous numeric data into bins to reveal the shape, spread, and central tendency of a dataset."
+        >
+          {renderHistogram()}
+        </DemoSection>
+      )}
     </div>
   );
 }
+
 
 
