@@ -59,13 +59,17 @@ function makePath(points: Array<[number, number]>) {
 
 export function LoadingIndicator({ size = 48 }: LoadingIndicatorProps) {
   const [path, setPath] = useState(() => makePath(SHAPES[0]));
-  const startRef = useRef(performance.now());
 
   useEffect(() => {
     let raf = 0;
     const PERIOD = 4000; // ms per full cycle through all shapes
+    let start: number | null = null;
     const tick = (now: number) => {
-      const t = ((now - startRef.current) % PERIOD) / PERIOD; // 0..1
+      if (start === null) {
+        start = now;
+      }
+      const elapsed = now - start;
+      const t = (elapsed % PERIOD) / PERIOD; // 0..1 (always positive and >= 0)
       const idx = t * SHAPES.length;
       const a = Math.floor(idx) % SHAPES.length;
       const b = (a + 1) % SHAPES.length;

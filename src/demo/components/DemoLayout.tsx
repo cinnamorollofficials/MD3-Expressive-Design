@@ -36,6 +36,14 @@ export function DemoLayout({
   const [showDevBanner, setShowDevBanner] = useState(() => {
     return localStorage.getItem('md3_docs_dev_banner_dismissed') !== 'true';
   });
+  const [closedGroups, setClosedGroups] = useState<Record<string, boolean>>({});
+
+  const toggleGroup = (groupId: string) => {
+    setClosedGroups(prev => ({
+      ...prev,
+      [groupId]: !prev[groupId],
+    }));
+  };
 
   const handleDismissDevBanner = () => {
     setShowDevBanner(false);
@@ -204,7 +212,7 @@ export function DemoLayout({
               </div>
 
               {groups.map(group => {
-                const isOpen = !isCollapsed && (activeGroup === group.id);
+                const isOpen = !isCollapsed && !closedGroups[group.id];
                 const isGroupActive = activeGroup === group.id;
 
                 return (
@@ -216,7 +224,10 @@ export function DemoLayout({
                         isGroupActive && !activeComponent && styles.groupHeaderActive,
                         isCollapsed && current === group.id && styles.selected
                       )}
-                      onClick={() => onNavigate(group.id)}
+                      onClick={() => {
+                        toggleGroup(group.id);
+                        onNavigate(group.id);
+                      }}
                       title={group.label}
                     >
                       <Icon name={group.icon} size={20} filled={isGroupActive} />
