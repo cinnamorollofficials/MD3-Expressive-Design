@@ -142,8 +142,8 @@
 
 .previewWrapper {
   background: var(--md-sys-color-surface-container-lowest);
-  border: 1px dashed var(--md-sys-color-outline-variant);
-  border-radius: var(--md-sys-shape-corner-large);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: var(--md-sys-shape-corner-extra-large, 24px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -152,6 +152,7 @@
   position: relative;
   min-height: 350px;
 }
+
 
 .previewBox {
   display: flex;
@@ -231,7 +232,7 @@
 .controlsPanel {
   background: var(--md-sys-color-surface-container-low);
   border: 1px solid var(--md-sys-color-outline-variant);
-  border-radius: var(--md-sys-shape-corner-large);
+  border-radius: var(--md-sys-shape-corner-extra-large, 24px);
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -308,12 +309,12 @@
 
 .codeSnippet {
   background: var(--md-sys-color-surface-container-high);
-  border: 1px solid var(--md-sys-color-outline-variant);
   border-radius: var(--md-sys-shape-corner-medium);
-  padding: 12px;
+  padding: 12px 16px;
   margin: 0;
   overflow-x: auto;
 }
+
 
 .codeSnippet code {
   font-family: monospace;

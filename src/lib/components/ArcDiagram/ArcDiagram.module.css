@@ -51,11 +51,11 @@
   position: relative;
   width: 100%;
   background: var(--md-sys-color-surface-container-lowest, rgba(0, 0, 0, 0.02));
-  border: 1px solid var(--md-sys-color-outline-variant);
   border-radius: var(--md-sys-shape-corner-lg, 16px);
   overflow-x: auto;
   overflow-y: hidden;
 }
+
 
 .svg {
   display: block;
