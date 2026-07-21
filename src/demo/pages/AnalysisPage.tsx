@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
-import { MovingAverageChart, BollingerBandsChart, BoxPlot, Histogram, KernelDensityEstimation, Card, CardContent } from '../../lib';
+import { MovingAverageChart, BollingerBandsChart, BoxPlot, Histogram, KernelDensityEstimation, HexbinChart, Card, CardContent } from '../../lib';
 import { DemoSection, PageTitle } from '../components/DemoSection';
+
 
 
 // Generate Diamond Price vs Carat Distribution dataset matching reference image
@@ -134,9 +135,39 @@ function generateOldFaithfulData(): number[] {
   ];
 }
 
+// Generate Walmart Stores dataset (~3,000 stores across US matching D3 reference)
+// Originates in Bentonville, AR (~1962), expanding outward over 40 years.
+function generateWalmartStoresData() {
+  const stores: { lon: number; lat: number; year: number }[] = [];
+  const arLon = -94.2;
+  const arLat = 36.3;
+
+  for (let i = 0; i < 3000; i++) {
+    // Distance from Arkansas origin (0 to ~25 degrees longitude/latitude)
+    const dist = Math.pow(Math.random(), 1.4) * 26;
+    const angle = Math.random() * 2 * Math.PI;
+
+    const lon = arLon + Math.cos(angle) * dist * 1.25;
+    const lat = arLat + Math.sin(angle) * dist * 0.75;
+
+    // Reject points outside continental US bounding box roughly
+    if (lon < -124.5 || lon > -67.0 || lat < 25.0 || lat > 49.0) continue;
+
+    // Store opening year correlated with distance from Arkansas (1962 - 2006)
+    const yearBase = 1962 + dist * 1.5;
+    const yearNoise = (Math.random() - 0.5) * 5;
+    const year = Math.max(1962, Math.min(2006, Math.round(yearBase + yearNoise)));
+
+    stores.push({ lon, lat, year });
+  }
+
+  return stores;
+}
+
 interface AnalysisPageProps {
   activeComponent?: string;
 }
+
 
 
 export function AnalysisPage({ activeComponent }: AnalysisPageProps) {
@@ -264,8 +295,41 @@ export function AnalysisPage({ activeComponent }: AnalysisPageProps) {
     </div>
   );
 
-  return (
+  const walmartData = useMemo(() => generateWalmartStoresData(), []);
 
+  const renderHexbinChart = () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <Card variant="outlined" style={{ padding: 24 }}>
+        <CardContent>
+          <HexbinChart
+            title="Walmart Store Openings Across the United States (Hexbin Map)"
+            subtitle="Hexagonal binning of 3,000 store locations. Hexagon area represents store density in the vicinity, while color represents the median opening year (older stores in red/orange near Bentonville AR, newer stores in blue/cyan toward coasts)."
+            data={walmartData}
+            xAccessor={(d) => d.lon}
+            yAccessor={(d) => d.lat}
+            valueAccessor={(d) => d.year}
+            sizeMode="area"
+            colorMode="value"
+            valueAggregation="median"
+            radius={14}
+            minRadius={6}
+            maxRadius={28}
+            colorScheme="spectral"
+            colorLegendTitle="Median Opening Year"
+            xAxisTitle="Longitude (°W)"
+            yAxisTitle="Latitude (°N)"
+            height={560}
+            showControls={true}
+            xFormatter={(v) => `${Math.abs(v).toFixed(1)}°W`}
+            yFormatter={(v) => `${v.toFixed(1)}°N`}
+            valueFormatter={(v) => `${Math.round(v)}`}
+          />
+        </CardContent>
+      </Card>
+    </div>
+  );
+
+  return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
       <PageTitle
         title="Data Analysis & Statistical Visualizations"
@@ -316,9 +380,19 @@ export function AnalysisPage({ activeComponent }: AnalysisPageProps) {
           {renderKDE()}
         </DemoSection>
       )}
+
+      {(!activeComponent || activeComponent === 'hexbin-chart') && (
+        <DemoSection
+          title="Hexbin Chart (Hexagonal Binning)"
+          description="Aggregates dense 2D spatial or bivariate scatter data into hexagonal bins to eliminate overplotting. Hexagon size represents point density and color represents aggregated metric values."
+        >
+          {renderHexbinChart()}
+        </DemoSection>
+      )}
     </div>
   );
 }
+
 
 
 
