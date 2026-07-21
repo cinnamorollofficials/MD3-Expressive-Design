@@ -24,6 +24,8 @@ import { ChangelogPage } from './demo/pages/ChangelogPage';
 import { ChartsPage } from './demo/pages/ChartsPage';
 import { BarChartsPage } from './demo/pages/BarChartsPage';
 import { NetworksPage } from './demo/pages/NetworksPage';
+import { AnalysisPage } from './demo/pages/AnalysisPage';
+
 
 
 // Import new shell components
@@ -183,7 +185,16 @@ export const COMPONENT_GROUPS: GroupDef[] = [
       { id: 'hierarchical-edge-bundling', label: 'Hierarchical Edge Bundling', status: 'beta' },
     ],
   },
+  {
+    id: 'analysis',
+    label: 'Analysis',
+    icon: 'analytics',
+    components: [
+      { id: 'moving-average', label: 'Moving Average', status: 'beta' },
+    ],
+  },
 ];
+
 
 
 
@@ -265,6 +276,8 @@ export function App() {
     case 'charts': content = <ChartsPage activeComponent={activeComponent} />; break;
     case 'bar-charts': content = <BarChartsPage activeComponent={activeComponent} />; break;
     case 'networks': content = <NetworksPage activeComponent={activeComponent} />; break;
+    case 'analysis': content = <AnalysisPage activeComponent={activeComponent} />; break;
+
 
 
     // Custom docs pages

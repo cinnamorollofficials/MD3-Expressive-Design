@@ -77,6 +77,8 @@ export * from './components/ArcDiagram';
 export * from './components/SankeyDiagram';
 export * from './components/ChordDiagram';
 export * from './components/HierarchicalEdgeBundling';
+export * from './components/MovingAverageChart';
+
 
 
 

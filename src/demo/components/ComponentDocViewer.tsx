@@ -5,8 +5,9 @@ import { cn } from '../../lib/utils/cn';
 import {
   Button, IconButton, FAB, Card, CardContent, CardTitle, CardBody,
   Switch, Checkbox, TextField, Slider, Badge, Avatar,
-  AreaChart, StackedAreaChart, DifferenceChart, BarChart, HorizontalBarChart, DivergingBarChart, StackedBarChart, TimelineChart, CalendarChart, ForceDirectedGraph, DisjointForceDirectedGraph, DirectedForceGraph, ArcDiagram, SankeyDiagram, ChordDiagram, HierarchicalEdgeBundling
+  AreaChart, StackedAreaChart, DifferenceChart, BarChart, HorizontalBarChart, DivergingBarChart, StackedBarChart, TimelineChart, CalendarChart, ForceDirectedGraph, DisjointForceDirectedGraph, DirectedForceGraph, ArcDiagram, SankeyDiagram, ChordDiagram, HierarchicalEdgeBundling, MovingAverageChart
 } from '../../lib';
+
 
 
 
@@ -626,6 +627,23 @@ export function ComponentDocViewer({ id, children }: ComponentDocViewerProps) {
             />
           </div>
         );
+      case 'moving-average':
+        return (
+          <div style={{ width: '100%', padding: '0 16px' }}>
+            <MovingAverageChart
+              data={Array.from({ length: 180 }, (_, i) => ({
+                date: new Date(2023, 0, i + 1),
+                value: 10 + Math.sin(i / 10) * 5 + (Math.random() - 0.5) * 3,
+              }))}
+              windowSize={30}
+              showControls={playgroundProps.showControls}
+              showPresets={playgroundProps.showPresets}
+              interactive={playgroundProps.interactive}
+              height={360}
+            />
+          </div>
+        );
+
 
 
 

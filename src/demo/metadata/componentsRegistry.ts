@@ -1706,7 +1706,37 @@ const COMPONENT_DOC_BLUEPRINTS: Record<string, Omit<ComponentMetadata, 'id' | 'l
       { name: 'interactive', label: 'Hover Tooltip', type: 'boolean', defaultValue: true },
     ],
   },
+  'moving-average': {
+    status: 'beta',
+    description: 'A time-series analysis chart component that calculates and visualizes sliding window Simple (SMA) or Exponential (EMA) moving averages to smooth out raw data fluctuations.',
+    props: [
+      { name: 'data', type: 'TimeSeriesDataPoint[]', default: 'required', description: 'Array of time series objects ({ date, value }).' },
+      { name: 'windowSize', type: 'number', default: '100', description: 'Sliding window size N in number of days/data points.' },
+      { name: 'type', type: "'sma' | 'ema'", default: "'sma'", description: 'Moving average calculation algorithm.' },
+      { name: 'rawMode', type: "'area' | 'line' | 'bar' | 'none'", default: "'area'", description: 'Rendering style for underlying raw data.' },
+      { name: 'showControls', type: 'boolean', default: 'true', description: 'Whether to show window N slider & input toolbar.' },
+      { name: 'showPresets', type: 'boolean', default: 'true', description: 'Whether to show quick window preset buttons.' },
+      { name: 'interactive', type: 'boolean', default: 'true', description: 'Enables crosshair hover and dual data point tooltips.' },
+      { name: 'title', type: 'string', default: 'undefined', description: 'Optional main title above chart.' },
+      { name: 'subtitle', type: 'string', default: 'undefined', description: 'Optional secondary subtitle text.' },
+    ],
+    keyboard: [
+      { key: 'Mouse Hover', action: 'Displays crosshair alignment line and raw vs moving average values at date.' },
+    ],
+    aria: [
+      { name: 'data-md3-component="moving-average-chart"', description: 'Identifies the root element as a Moving Average chart.' },
+    ],
+    doDonts: [
+      { do: 'Use presets like 50D and 200D for financial trend identification.', dont: 'Use moving averages on unordered or non-sequential category data.' },
+    ],
+    playgroundControls: [
+      { name: 'showControls', label: 'Show Controls', type: 'boolean', defaultValue: true },
+      { name: 'showPresets', label: 'Show Presets', type: 'boolean', defaultValue: true },
+      { name: 'interactive', label: 'Hover Tooltip', type: 'boolean', defaultValue: true },
+    ],
+  },
 };
+
 
 
 
