@@ -542,6 +542,43 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentMetadata> = {
       { name: 'interactive', label: 'Hover Tooltip & Tracker', type: 'boolean', defaultValue: true },
     ],
   },
+  'bar-chart': {
+    id: 'bar-chart',
+    label: 'Bar Chart',
+    status: 'beta',
+    description: 'A vertical bar chart that compares categorical values along a common quantitative baseline. Mirroring the D3.js canonical bar chart example with letter frequency data.',
+    props: [
+      { name: 'data', type: 'any[]', default: 'required', description: 'Array of data objects.' },
+      { name: 'xKey', type: 'string', default: 'required', description: 'Key in each data object used for the X axis (category labels).' },
+      { name: 'yKey', type: 'string', default: 'required', description: 'Key in each data object for the quantitative Y axis value.' },
+      { name: 'height', type: 'number', default: '320', description: 'Chart drawing height in pixels.' },
+      { name: 'showGrid', type: 'boolean', default: 'true', description: 'Whether to overlay background horizontal grid lines.' },
+      { name: 'showAxes', type: 'boolean', default: 'true', description: 'Whether to show the X and Y axes with tick labels.' },
+      { name: 'barRadius', type: 'number', default: '3', description: 'Corner radius applied to the top of each bar.' },
+      { name: 'barPadding', type: 'number', default: '0.15', description: 'Ratio of whitespace between bars (0 = no gap, 1 = all gap).' },
+      { name: 'color', type: 'string', default: 'var(--md-sys-color-primary)', description: 'Fill color of all bars.' },
+      { name: 'interactive', type: 'boolean', default: 'true', description: 'Enables hover tooltips revealing the bar label and value.' },
+      { name: 'title', type: 'string', default: 'undefined', description: 'Optional chart title displayed above the chart.' },
+      { name: 'subtitle', type: 'string', default: 'undefined', description: 'Optional secondary descriptive text below the title.' },
+      { name: 'yFormatter', type: '(val: number) => string', default: 'undefined', description: 'Custom formatter for Y-axis tick labels.' },
+      { name: 'xFormatter', type: '(val: string) => string', default: 'undefined', description: 'Custom formatter for X-axis tick labels.' },
+    ],
+    keyboard: [
+      { key: 'Mouse Hover', action: 'Shows a tooltip card with the bar category label and numeric value.' },
+    ],
+    aria: [
+      { name: 'data-md3-component="bar-chart"', description: 'Identifies the root element as a bar chart component.' },
+    ],
+    doDonts: [
+      { do: 'Sort bars by value (descending) to make rankings immediately readable.', dont: 'Use a bar chart for continuous time-series data — use an area or line chart instead.' },
+      { do: 'Use clear, short X-axis labels so categories are quickly identifiable.', dont: 'Crowd too many bars — consider grouping or paging if categories exceed 30+.' },
+    ],
+    playgroundControls: [
+      { name: 'showGrid', label: 'Show Grid Lines', type: 'boolean', defaultValue: true },
+      { name: 'showAxes', label: 'Show Axes', type: 'boolean', defaultValue: true },
+      { name: 'interactive', label: 'Hover Tooltip', type: 'boolean', defaultValue: true },
+    ],
+  },
 };
 
 const COMMON_CLASS_PROP: PropDef = {

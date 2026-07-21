@@ -22,6 +22,7 @@ import { IconsPage } from './demo/pages/IconsPage';
 import { DesignTokensPage } from './demo/pages/DesignTokensPage';
 import { ChangelogPage } from './demo/pages/ChangelogPage';
 import { ChartsPage } from './demo/pages/ChartsPage';
+import { BarChartsPage } from './demo/pages/BarChartsPage';
 
 // Import new shell components
 import { ComponentDocViewer } from './demo/components/ComponentDocViewer';
@@ -152,6 +153,14 @@ export const COMPONENT_GROUPS: GroupDef[] = [
       { id: 'difference-chart', label: 'Difference Chart', status: 'beta' },
     ],
   },
+  {
+    id: 'bar-charts',
+    label: 'Bar Charts',
+    icon: 'bar_chart',
+    components: [
+      { id: 'bar-chart', label: 'Bar Chart', status: 'beta' },
+    ],
+  },
 ];
 
 const getPageAndComponent = (hash: string) => {
@@ -225,6 +234,7 @@ export function App() {
     case 'communication': content = <CommunicationPage activeComponent={activeComponent} />; break;
     case 'content': content = <ContentPage activeComponent={activeComponent} />; break;
     case 'charts': content = <ChartsPage activeComponent={activeComponent} />; break;
+    case 'bar-charts': content = <BarChartsPage activeComponent={activeComponent} />; break;
 
     // Custom docs pages
     case 'installation': content = <InstallationPage />; break;

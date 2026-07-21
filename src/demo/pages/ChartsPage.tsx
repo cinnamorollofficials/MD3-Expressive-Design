@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { AreaChart, StackedAreaChart, DifferenceChart, Card, CardContent, Button, SegmentedButton } from '../../lib';
+import { AreaChart, StackedAreaChart, DifferenceChart, BarChart, Card, CardContent, Button, SegmentedButton } from '../../lib';
 import { DemoSection, PageTitle } from '../components/DemoSection';
 
 // Sample datasets
@@ -143,6 +143,36 @@ const generateDifferenceData = () => {
 };
 
 const DIFFERENCE_DATA = generateDifferenceData();
+
+// Letter frequency data matching the official D3 bar chart example
+const LETTER_FREQUENCY_DATA = [
+  { letter: 'E', frequency: 12.702 },
+  { letter: 'T', frequency: 9.056 },
+  { letter: 'A', frequency: 8.167 },
+  { letter: 'O', frequency: 7.507 },
+  { letter: 'I', frequency: 6.966 },
+  { letter: 'N', frequency: 6.749 },
+  { letter: 'S', frequency: 6.327 },
+  { letter: 'H', frequency: 6.094 },
+  { letter: 'R', frequency: 5.987 },
+  { letter: 'D', frequency: 4.253 },
+  { letter: 'L', frequency: 4.025 },
+  { letter: 'C', frequency: 2.782 },
+  { letter: 'U', frequency: 2.758 },
+  { letter: 'M', frequency: 2.406 },
+  { letter: 'W', frequency: 2.360 },
+  { letter: 'F', frequency: 2.228 },
+  { letter: 'G', frequency: 2.015 },
+  { letter: 'Y', frequency: 1.974 },
+  { letter: 'P', frequency: 1.929 },
+  { letter: 'B', frequency: 1.492 },
+  { letter: 'V', frequency: 0.978 },
+  { letter: 'K', frequency: 0.772 },
+  { letter: 'J', frequency: 0.153 },
+  { letter: 'X', frequency: 0.150 },
+  { letter: 'Q', frequency: 0.095 },
+  { letter: 'Z', frequency: 0.074 },
+];
 
 export function ChartsPage({ activeComponent }: { activeComponent?: string }) {
   const [selectedMetric, setSelectedMetric] = useState('pageViews');
@@ -529,6 +559,45 @@ const browserData = [
                   title="New York vs San Francisco Temperature Difference"
                   subtitle="Daily comparison matching the official D3.js Difference Chart (October 2011 - September 2012)"
                   yFormatter={(val) => `${val}°F`}
+                />
+              </CardContent>
+            </Card>
+          </div>
+        </DemoSection>
+      )}
+
+      {(showAll || activeComponent === 'bar-chart') && (
+        <DemoSection
+          title="Bar Chart"
+          description="Bar charts compare discrete categories along a common baseline. Bars are sorted by value and each column is labelled along the X axis. Referencing the official D3 Bar Chart letter frequency example."
+          code={`import { BarChart } from '@hadi_gunawan/md3-expressive-ds';
+
+const data = [
+  { letter: 'E', frequency: 12.702 },
+  { letter: 'T', frequency: 9.056 },
+  // ...
+];
+
+<BarChart
+  data={data}
+  xKey="letter"
+  yKey="frequency"
+  title="Letter Frequency"
+  subtitle="Relative frequency of letters in the English language"
+  yFormatter={(val) => \`\${val}%\`}
+/>`}
+        >
+          <div style={{ width: '100%' }}>
+            <Card variant="outlined" style={{ padding: 16 }}>
+              <CardContent>
+                <BarChart
+                  data={LETTER_FREQUENCY_DATA}
+                  xKey="letter"
+                  yKey="frequency"
+                  title="Letter Frequency"
+                  subtitle="Relative frequency of letters in the English language"
+                  yFormatter={(val) => `${val}%`}
+                  color="#5985ab"
                 />
               </CardContent>
             </Card>

@@ -64,6 +64,7 @@ export * from './components/Tree';
 export * from './components/AreaChart';
 export * from './components/StackedAreaChart';
 export * from './components/DifferenceChart';
+export * from './components/BarChart';
 
 export { useTheme, ThemeProvider } from './hooks/useTheme';
 export type { ThemeName, ThemeMode, ThemePreference, ThemeContextValue, ThemeProviderProps } from './hooks/useTheme';

@@ -5,7 +5,7 @@ import { cn } from '../../lib/utils/cn';
 import {
   Button, IconButton, FAB, Card, CardContent, CardTitle, CardBody,
   Switch, Checkbox, TextField, Slider, Badge, Avatar,
-  AreaChart, StackedAreaChart, DifferenceChart
+  AreaChart, StackedAreaChart, DifferenceChart, BarChart
 } from '../../lib';
 import { CodeBlock } from './CodeBlock';
 import styles from './ComponentDocViewer.module.css';
@@ -45,6 +45,19 @@ const PLAYGROUND_DIFFERENCE_DATA = [
   { index: 5, A: 65, B: 58 },
   { index: 6, A: 58, B: 70 },
   { index: 7, A: 72, B: 65 },
+];
+
+const PLAYGROUND_BAR_DATA = [
+  { label: 'E', value: 12.7 },
+  { label: 'T', value: 9.1 },
+  { label: 'A', value: 8.2 },
+  { label: 'O', value: 7.5 },
+  { label: 'I', value: 7.0 },
+  { label: 'N', value: 6.7 },
+  { label: 'S', value: 6.3 },
+  { label: 'H', value: 6.1 },
+  { label: 'R', value: 6.0 },
+  { label: 'D', value: 4.3 },
 ];
 
 interface ComponentDocViewerProps {
@@ -298,6 +311,21 @@ export function ComponentDocViewer({ id, children }: ComponentDocViewerProps) {
               showGrid={playgroundProps.showGrid}
               showAxes={playgroundProps.showAxes}
               interactive={playgroundProps.interactive}
+              height={220}
+            />
+          </div>
+        );
+      case 'bar-chart':
+        return (
+          <div style={{ width: '100%', height: 260, padding: '0 16px' }}>
+            <BarChart
+              data={PLAYGROUND_BAR_DATA}
+              xKey="label"
+              yKey="value"
+              showGrid={playgroundProps.showGrid}
+              showAxes={playgroundProps.showAxes}
+              interactive={playgroundProps.interactive}
+              color="var(--md-sys-color-primary)"
               height={220}
             />
           </div>

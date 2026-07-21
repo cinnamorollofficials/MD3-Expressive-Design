@@ -6,7 +6,7 @@ const app = readFileSync(resolve(root, 'src/App.tsx'), 'utf8');
 const registry = readFileSync(resolve(root, 'src/demo/metadata/componentsRegistry.ts'), 'utf8');
 
 const ids = [...app.matchAll(/\{\s*id:\s*'([^']+)',\s*label:/g)].map(match => match[1]);
-const groupIds = new Set(['buttons', 'containment', 'selection', 'input', 'navigation', 'communication', 'content', 'charts']);
+const groupIds = new Set(['buttons', 'containment', 'selection', 'input', 'navigation', 'communication', 'content', 'charts', 'bar-charts']);
 const uniqueIds = [...new Set(ids)].filter(id => !groupIds.has(id));
 
 const documented = uniqueIds.filter(id => {
