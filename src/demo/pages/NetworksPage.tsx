@@ -1,6 +1,73 @@
 import { useState } from 'react';
-import { ForceDirectedGraph, Card, CardContent } from '../../lib';
+import { ForceDirectedGraph, DisjointForceDirectedGraph, Card, CardContent } from '../../lib';
 import { DemoSection, PageTitle } from '../components/DemoSection';
+
+// Disjoint graph dataset matching D3 disjoint force-directed reference
+const DISJOINT_GRAPH_DATA = (() => {
+  const nodes: any[] = [];
+  const links: any[] = [];
+
+  // Cluster 1: Major Star Network (26 nodes)
+  const hub1 = 'hub_1';
+  nodes.push({ id: hub1, label: 'Central Core', group: 1, val: 24 });
+  for (let i = 1; i <= 25; i++) {
+    const leafId = `c1_node_${i}`;
+    nodes.push({ id: leafId, label: `Core Node ${i}`, group: 1, val: 6 });
+    links.push({ source: leafId, target: hub1, value: 2 });
+  }
+
+  // Cluster 2: Secondary Star (16 nodes)
+  const hub2 = 'hub_2';
+  nodes.push({ id: hub2, label: 'Analytics Cluster', group: 2, val: 20 });
+  for (let i = 1; i <= 15; i++) {
+    const leafId = `c2_node_${i}`;
+    nodes.push({ id: leafId, label: `Worker ${i}`, group: 2, val: 5 });
+    links.push({ source: leafId, target: hub2, value: 2 });
+  }
+
+  // Cluster 3: Third Star (12 nodes)
+  const hub3 = 'hub_3';
+  nodes.push({ id: hub3, label: 'Gateway Node', group: 1, val: 18 });
+  for (let i = 1; i <= 11; i++) {
+    const leafId = `c3_node_${i}`;
+    nodes.push({ id: leafId, label: `Route ${i}`, group: 1, val: 5 });
+    links.push({ source: leafId, target: hub3, value: 2 });
+  }
+
+  // Cluster 4: Fourth Star (10 nodes)
+  const hub4 = 'hub_4';
+  nodes.push({ id: hub4, label: 'Storage Cluster', group: 2, val: 16 });
+  for (let i = 1; i <= 9; i++) {
+    const leafId = `c4_node_${i}`;
+    nodes.push({ id: leafId, label: `Volume ${i}`, group: 2, val: 5 });
+    links.push({ source: leafId, target: hub4, value: 2 });
+  }
+
+  // 16 Disconnected Pairs (2 nodes each)
+  for (let p = 1; p <= 16; p++) {
+    const nA = `pair_${p}_a`;
+    const nB = `pair_${p}_b`;
+    const grp = (p % 2) + 1;
+    nodes.push({ id: nA, label: `Pair ${p}A`, group: grp, val: 6 });
+    nodes.push({ id: nB, label: `Pair ${p}B`, group: grp, val: 6 });
+    links.push({ source: nA, target: nB, value: 1.5 });
+  }
+
+  // 12 Disconnected Triads (3 nodes each)
+  for (let t = 1; t <= 12; t++) {
+    const tA = `triad_${t}_a`;
+    const tB = `triad_${t}_b`;
+    const tC = `triad_${t}_c`;
+    const grp = (t % 2) + 1;
+    nodes.push({ id: tA, label: `Triad ${t}A`, group: grp, val: 7 });
+    nodes.push({ id: tB, label: `Triad ${t}B`, group: grp, val: 6 });
+    nodes.push({ id: tC, label: `Triad ${t}C`, group: grp, val: 6 });
+    links.push({ source: tA, target: tB, value: 1.5 });
+    links.push({ source: tA, target: tC, value: 1.5 });
+  }
+
+  return { nodes, links };
+})();
 
 // Classic Les Misérables Character Co-occurrence Network dataset
 const LES_MISERABLES_DATA = {
@@ -238,6 +305,29 @@ export function NetworksPage({ activeComponent }: NetworksPageProps) {
     </div>
   );
 
+  const renderDisjointForceDirectedGraph = () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <Card variant="outlined" style={{ padding: 24 }}>
+        <CardContent>
+          <DisjointForceDirectedGraph
+            title="Disjoint Network Clusters"
+            subtitle="Layout containing multiple independent, unconnected sub-graph clusters, pairs, and star hubs positioned naturally across canvas using gentle radial forces without central collapse."
+            nodes={DISJOINT_GRAPH_DATA.nodes}
+            links={DISJOINT_GRAPH_DATA.links}
+            height={560}
+            nodeRadius={(node) => (node.val && node.val > 10 ? 8 : 5)}
+            linkDistance={30}
+            chargeStrength={-35}
+            showLabels={false}
+            showLegend={true}
+            draggable={true}
+            zoomable={true}
+          />
+        </CardContent>
+      </Card>
+    </div>
+  );
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
       <PageTitle
@@ -248,12 +338,22 @@ export function NetworksPage({ activeComponent }: NetworksPageProps) {
       {(!activeComponent || activeComponent === 'force-directed-graph') && (
         <DemoSection
           title="Force-Directed Graph"
-          description="Visualizes network topologies, social connections, and relational data using D3's velocity Verlet numerical integrator."
+          description="Visualizes connected network topologies, social connections, and relational data using D3's velocity Verlet numerical integrator."
         >
           {renderForceDirectedGraph()}
+        </DemoSection>
+      )}
+
+      {(!activeComponent || activeComponent === 'disjoint-force-directed-graph') && (
+        <DemoSection
+          title="Disjoint Force-Directed Graph"
+          description="Specialized layout for networks with disconnected subgraphs, isolated node pairs, and independent clusters that float naturally without collapsing to the center."
+        >
+          {renderDisjointForceDirectedGraph()}
         </DemoSection>
       )}
     </div>
   );
 }
+
 

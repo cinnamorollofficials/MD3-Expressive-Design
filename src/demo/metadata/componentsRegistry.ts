@@ -1502,7 +1502,48 @@ const COMPONENT_DOC_BLUEPRINTS: Record<string, Omit<ComponentMetadata, 'id' | 'l
       { name: 'interactive', label: 'Hover Tooltip', type: 'boolean', defaultValue: true },
     ],
   },
+  'disjoint-force-directed-graph': {
+    status: 'beta',
+    description: 'A force-directed graph layout optimized for disjoint networks containing unconnected subgraphs, isolated pairs, and star components. Uses radial forces rather than a single center gravity to prevent overlapping.',
+    props: [
+      { name: 'nodes', type: 'NetworkNode[]', default: 'required', description: 'Array of node objects ({ id, label, group, val, ... }).' },
+      { name: 'links', type: 'NetworkLink[]', default: 'required', description: 'Array of link objects ({ source, target, value, ... }).' },
+      { name: 'height', type: 'number', default: '520', description: 'Chart drawing height in pixels.' },
+      { name: 'nodeRadius', type: 'number | ((node) => number)', default: '6', description: 'Radius of node circles in pixels.' },
+      { name: 'linkDistance', type: 'number', default: '35', description: 'Target distance between linked nodes.' },
+      { name: 'chargeStrength', type: 'number', default: '-35', description: 'Electrostatic repulsion strength.' },
+      { name: 'centerStrength', type: 'number', default: '0.018', description: 'Radial gravity strength pulling nodes towards canvas center.' },
+      { name: 'collideRadius', type: 'number', default: '3', description: 'Collision buffer radius around node circles.' },
+      { name: 'showLabels', type: 'boolean', default: 'false', description: 'Whether to show node text labels.' },
+      { name: 'showLegend', type: 'boolean', default: 'true', description: 'Whether to show group legend filter below the graph.' },
+      { name: 'draggable', type: 'boolean', default: 'true', description: 'Enables dragging nodes with mouse/touch.' },
+      { name: 'zoomable', type: 'boolean', default: 'true', description: 'Enables zooming and panning using mouse wheel/drag.' },
+      { name: 'interactive', type: 'boolean', default: 'true', description: 'Enables node hover highlighting and tooltips.' },
+      { name: 'title', type: 'string', default: 'undefined', description: 'Optional main title above chart.' },
+      { name: 'subtitle', type: 'string', default: 'undefined', description: 'Optional secondary subtitle text.' },
+      { name: 'onNodeClick', type: '(node: NetworkNode) => void', default: 'undefined', description: 'Callback when a node circle is clicked.' },
+    ],
+    keyboard: [
+      { key: 'Mouse Drag Node', action: 'Repositions a node in the physical simulation space.' },
+      { key: 'Scroll Wheel', action: 'Zooms in or out of the network diagram.' },
+      { key: 'Double Click', action: 'Resets the zoom scale and pan translation.' },
+    ],
+    aria: [
+      { name: 'data-md3-component="disjoint-force-directed-graph"', description: 'Identifies the root element as a disjoint force-directed network graph.' },
+    ],
+    doDonts: [
+      { do: 'Use for sparse networks with multiple disconnected sub-graphs or isolated node pairs.', dont: 'Use strong single-point center gravity which causes disjoint clusters to overlap.' },
+    ],
+    playgroundControls: [
+      { name: 'showLabels', label: 'Show Labels', type: 'boolean', defaultValue: false },
+      { name: 'showLegend', label: 'Show Legend', type: 'boolean', defaultValue: true },
+      { name: 'draggable', label: 'Draggable Nodes', type: 'boolean', defaultValue: true },
+      { name: 'zoomable', label: 'Zoom & Pan', type: 'boolean', defaultValue: true },
+      { name: 'interactive', label: 'Hover Tooltip', type: 'boolean', defaultValue: true },
+    ],
+  },
 };
+
 
 
 // Fill in remaining components with per-component blueprints. Unknown ids are marked

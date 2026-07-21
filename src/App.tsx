@@ -175,9 +175,11 @@ export const COMPONENT_GROUPS: GroupDef[] = [
     icon: 'hub',
     components: [
       { id: 'force-directed-graph', label: 'Force-Directed Graph', status: 'beta' },
+      { id: 'disjoint-force-directed-graph', label: 'Disjoint Force-Directed Graph', status: 'beta' },
     ],
   },
 ];
+
 
 
 const getPageAndComponent = (hash: string) => {

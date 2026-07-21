@@ -5,8 +5,9 @@ import { cn } from '../../lib/utils/cn';
 import {
   Button, IconButton, FAB, Card, CardContent, CardTitle, CardBody,
   Switch, Checkbox, TextField, Slider, Badge, Avatar,
-  AreaChart, StackedAreaChart, DifferenceChart, BarChart, HorizontalBarChart, DivergingBarChart, StackedBarChart, TimelineChart, CalendarChart, ForceDirectedGraph
+  AreaChart, StackedAreaChart, DifferenceChart, BarChart, HorizontalBarChart, DivergingBarChart, StackedBarChart, TimelineChart, CalendarChart, ForceDirectedGraph, DisjointForceDirectedGraph
 } from '../../lib';
+
 
 import { CodeBlock } from './CodeBlock';
 import styles from './ComponentDocViewer.module.css';
@@ -524,6 +525,22 @@ export function ComponentDocViewer({ id, children }: ComponentDocViewerProps) {
             />
           </div>
         );
+      case 'disjoint-force-directed-graph':
+        return (
+          <div style={{ width: '100%', padding: '0 16px' }}>
+            <DisjointForceDirectedGraph
+              nodes={PLAYGROUND_NETWORK_DATA.nodes}
+              links={PLAYGROUND_NETWORK_DATA.links}
+              showLabels={playgroundProps.showLabels}
+              showLegend={playgroundProps.showLegend}
+              draggable={playgroundProps.draggable}
+              zoomable={playgroundProps.zoomable}
+              interactive={playgroundProps.interactive}
+              height={320}
+            />
+          </div>
+        );
+
 
       default:
         return null;

@@ -71,6 +71,8 @@ export * from './components/StackedBarChart';
 export * from './components/TimelineChart';
 export * from './components/CalendarChart';
 export * from './components/ForceDirectedGraph';
+export * from './components/DisjointForceDirectedGraph';
+
 
 export { useTheme, ThemeProvider } from './hooks/useTheme';
 export type { ThemeName, ThemeMode, ThemePreference, ThemeContextValue, ThemeProviderProps } from './hooks/useTheme';
