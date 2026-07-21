@@ -1,8 +1,18 @@
 import { useState } from 'react';
-import { AreaChart, Card, CardContent, Button, SegmentedButton } from '../../lib';
+import { AreaChart, StackedAreaChart, Card, CardContent, Button, SegmentedButton } from '../../lib';
 import { DemoSection, PageTitle } from '../components/DemoSection';
 
 // Sample datasets
+const BROWSER_SHARE_DATA = [
+  { month: 'Jan', Chrome: 65, Safari: 18, Firefox: 8, Edge: 5, Other: 4 },
+  { month: 'Feb', Chrome: 66, Safari: 17, Firefox: 9, Edge: 5, Other: 3 },
+  { month: 'Mar', Chrome: 64, Safari: 19, Firefox: 8, Edge: 6, Other: 3 },
+  { month: 'Apr', Chrome: 65, Safari: 18, Firefox: 8, Edge: 6, Other: 3 },
+  { month: 'May', Chrome: 67, Safari: 17, Firefox: 7, Edge: 6, Other: 3 },
+  { month: 'Jun', Chrome: 68, Safari: 16, Firefox: 7, Edge: 6, Other: 3 },
+  { month: 'Jul', Chrome: 66, Safari: 18, Firefox: 7, Edge: 6, Other: 3 },
+];
+
 const ANALYTICS_DATA = [
   { date: '2026-07-10', pageViews: 1200, users: 450, bounceRate: 42 },
   { date: '2026-07-11', pageViews: 1450, users: 510, bounceRate: 38 },
@@ -282,6 +292,44 @@ const data = [
                   title="Network Signal Performance"
                   subtitle="Gaps represent periods of connection loss (null values)"
                   yFormatter={(val) => `${val} dBm`}
+                />
+              </CardContent>
+            </Card>
+          </div>
+        </DemoSection>
+      )}
+
+      {(showAll || activeComponent === 'stacked-area-chart') && (
+        <DemoSection
+          title="Stacked Area Chart"
+          description="Stacked area charts show the relationship of individual series to the total cumulative value over time. They are ideal for displaying proportion changes over time."
+          code={`import { StackedAreaChart } from '@hadi_gunawan/md3-expressive-ds';
+
+const browserData = [
+  { month: 'Jan', Chrome: 65, Safari: 18, Firefox: 8, Edge: 5, Other: 4 },
+  { month: 'Feb', Chrome: 66, Safari: 17, Firefox: 9, Edge: 5, Other: 3 },
+  // ...
+];
+
+<StackedAreaChart
+  data={browserData}
+  xKey="month"
+  yKeys={['Chrome', 'Safari', 'Firefox', 'Edge', 'Other']}
+  title="Browser Market Share Evolution"
+  subtitle="Proportional browser choice tracking"
+  yFormatter={(val) => \`\${val}%\`}
+/>`}
+        >
+          <div style={{ width: '100%' }}>
+            <Card variant="outlined" style={{ padding: 16 }}>
+              <CardContent>
+                <StackedAreaChart
+                  data={BROWSER_SHARE_DATA}
+                  xKey="month"
+                  yKeys={['Chrome', 'Safari', 'Firefox', 'Edge', 'Other']}
+                  title="Browser Market Share Evolution"
+                  subtitle="Stacked tracking of market share percentages"
+                  yFormatter={(val) => `${val}%`}
                 />
               </CardContent>
             </Card>
