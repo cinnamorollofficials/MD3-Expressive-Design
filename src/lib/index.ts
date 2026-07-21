@@ -74,6 +74,8 @@ export * from './components/ForceDirectedGraph';
 export * from './components/DisjointForceDirectedGraph';
 export * from './components/DirectedForceGraph';
 export * from './components/ArcDiagram';
+export * from './components/SankeyDiagram';
+
 
 
 

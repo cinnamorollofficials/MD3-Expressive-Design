@@ -5,8 +5,9 @@ import { cn } from '../../lib/utils/cn';
 import {
   Button, IconButton, FAB, Card, CardContent, CardTitle, CardBody,
   Switch, Checkbox, TextField, Slider, Badge, Avatar,
-  AreaChart, StackedAreaChart, DifferenceChart, BarChart, HorizontalBarChart, DivergingBarChart, StackedBarChart, TimelineChart, CalendarChart, ForceDirectedGraph, DisjointForceDirectedGraph, DirectedForceGraph, ArcDiagram
+  AreaChart, StackedAreaChart, DifferenceChart, BarChart, HorizontalBarChart, DivergingBarChart, StackedBarChart, TimelineChart, CalendarChart, ForceDirectedGraph, DisjointForceDirectedGraph, DirectedForceGraph, ArcDiagram, SankeyDiagram
 } from '../../lib';
+
 
 
 
@@ -570,6 +571,24 @@ export function ComponentDocViewer({ id, children }: ComponentDocViewerProps) {
             />
           </div>
         );
+      case 'sankey-diagram':
+        return (
+          <div style={{ width: '100%', padding: '0 16px' }}>
+            <SankeyDiagram
+              nodes={PLAYGROUND_NETWORK_DATA.nodes.map((n) => ({ name: n.label || String(n.id) }))}
+              links={PLAYGROUND_NETWORK_DATA.links.map((l) => ({
+                source: Number(l.source) - 1,
+                target: Number(l.target) - 1,
+                value: l.value || 5,
+              }))}
+              showLabels={playgroundProps.showLabels}
+              draggable={playgroundProps.draggable}
+              interactive={playgroundProps.interactive}
+              height={360}
+            />
+          </div>
+        );
+
 
 
 

@@ -1,6 +1,66 @@
 import { useState } from 'react';
-import { ForceDirectedGraph, DisjointForceDirectedGraph, DirectedForceGraph, ArcDiagram, Card, CardContent } from '../../lib';
+import { ForceDirectedGraph, DisjointForceDirectedGraph, DirectedForceGraph, ArcDiagram, SankeyDiagram, Card, CardContent } from '../../lib';
 import { DemoSection, PageTitle } from '../components/DemoSection';
+
+// Energy Flow Sankey dataset matching D3 energy flow reference
+const ENERGY_SANKEY_DATA = {
+  nodes: [
+    { name: 'Nuclear' },
+    { name: 'Agricultural waste' },
+    { name: 'Bio-conversion' },
+    { name: 'Biomass imports' },
+    { name: 'Coal' },
+    { name: 'Coal imports' },
+    { name: 'Solar' },
+    { name: 'Wind' },
+    { name: 'Pumped heat' },
+    { name: 'Oil imports' },
+    { name: 'Oil' },
+    { name: 'Gas' },
+    { name: 'Solid' },
+    { name: 'Liquid' },
+    { name: 'Thermal generation' },
+    { name: 'Electricity grid' },
+    { name: 'District heating' },
+    { name: 'H2 conversion' },
+    { name: 'Industry' },
+    { name: 'Heating and cooling' },
+    { name: 'Lighting & appliances' },
+    { name: 'Road transport' },
+    { name: 'Rail transport' },
+    { name: 'Aviation' },
+    { name: 'Losses' },
+  ],
+  links: [
+    { source: 'Nuclear', target: 'Thermal generation', value: 45.2 },
+    { source: 'Thermal generation', target: 'Losses', value: 28.5 },
+    { source: 'Thermal generation', target: 'Electricity grid', value: 16.7 },
+    { source: 'Agricultural waste', target: 'Bio-conversion', value: 6.4 },
+    { source: 'Bio-conversion', target: 'Solid', value: 3.8 },
+    { source: 'Bio-conversion', target: 'Gas', value: 2.6 },
+    { source: 'Coal imports', target: 'Coal', value: 11.2 },
+    { source: 'Coal', target: 'Solid', value: 11.2 },
+    { source: 'Solid', target: 'Thermal generation', value: 15.0 },
+    { source: 'Oil imports', target: 'Oil', value: 32.4 },
+    { source: 'Oil', target: 'Liquid', value: 32.4 },
+    { source: 'Liquid', target: 'Road transport', value: 18.2 },
+    { source: 'Liquid', target: 'Aviation', value: 8.6 },
+    { source: 'Liquid', target: 'Electricity grid', value: 5.6 },
+    { source: 'Wind', target: 'Electricity grid', value: 14.5 },
+    { source: 'Solar', target: 'Electricity grid', value: 8.3 },
+    { source: 'Pumped heat', target: 'Heating and cooling', value: 12.1 },
+    { source: 'Gas', target: 'Thermal generation', value: 14.2 },
+    { source: 'Gas', target: 'District heating', value: 6.1 },
+    { source: 'Gas', target: 'Heating and cooling', value: 10.4 },
+    { source: 'Electricity grid', target: 'Industry', value: 22.8 },
+    { source: 'Electricity grid', target: 'Heating and cooling', value: 12.4 },
+    { source: 'Electricity grid', target: 'Lighting & appliances', value: 10.5 },
+    { source: 'Electricity grid', target: 'Rail transport', value: 3.2 },
+    { source: 'Electricity grid', target: 'Losses', value: 6.4 },
+    { source: 'District heating', target: 'Heating and cooling', value: 6.1 },
+  ],
+};
+
 
 
 // Mobile Patent Suits dataset matching official D3 reference
@@ -430,6 +490,28 @@ export function NetworksPage({ activeComponent }: NetworksPageProps) {
     </div>
   );
 
+  const renderSankeyDiagram = () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <Card variant="outlined" style={{ padding: 24 }}>
+        <CardContent>
+          <SankeyDiagram
+            title="UK Energy Production & Consumption Flow (Sankey Diagram)"
+            subtitle="Flow diagram showing energy source generation, conversion stages, power grid distribution, and end-user consumption. Hover over nodes or flow ribbons to highlight connections."
+            nodes={ENERGY_SANKEY_DATA.nodes}
+            links={ENERGY_SANKEY_DATA.links}
+            height={620}
+            nodeWidth={16}
+            nodePadding={12}
+            nodeAlign="justify"
+            linkColorMode="gradient"
+            showLabels={true}
+            valueFormatter={(v) => `${v.toFixed(1)} TWh`}
+          />
+        </CardContent>
+      </Card>
+    </div>
+  );
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
       <PageTitle
@@ -472,9 +554,19 @@ export function NetworksPage({ activeComponent }: NetworksPageProps) {
           {renderArcDiagram()}
         </DemoSection>
       )}
+
+      {(!activeComponent || activeComponent === 'sankey-diagram') && (
+        <DemoSection
+          title="Sankey Diagram"
+          description="Flow diagram where the width of link bands is proportional to the quantity of flow between system stages."
+        >
+          {renderSankeyDiagram()}
+        </DemoSection>
+      )}
     </div>
   );
 }
+
 
 
 

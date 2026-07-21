@@ -1612,7 +1612,42 @@ const COMPONENT_DOC_BLUEPRINTS: Record<string, Omit<ComponentMetadata, 'id' | 'l
       { name: 'interactive', label: 'Hover Tooltip', type: 'boolean', defaultValue: true },
     ],
   },
+  'sankey-diagram': {
+    status: 'beta',
+    description: 'A flow diagram where the width of link bands is proportional to the quantity of flow between stages. Built with d3-sankey layout generator and supports gradient link ribbons, draggable nodes, and interactive flow isolation.',
+    props: [
+      { name: 'nodes', type: 'SankeyNodeData[]', default: 'required', description: 'Array of node objects ({ name, category?, color? }).' },
+      { name: 'links', type: 'SankeyLinkData[]', default: 'required', description: 'Array of link flow objects ({ source, target, value }).' },
+      { name: 'height', type: 'number', default: '540', description: 'Chart drawing height in pixels.' },
+      { name: 'nodeWidth', type: 'number', default: '16', description: 'Width of node rectangles in pixels.' },
+      { name: 'nodePadding', type: 'number', default: '12', description: 'Vertical padding between node rectangles.' },
+      { name: 'nodeAlign', type: "'justify' | 'left' | 'right' | 'center'", default: "'justify'", description: 'Node alignment strategy across stages.' },
+      { name: 'linkColorMode', type: "'gradient' | 'source' | 'target' | 'static'", default: "'gradient'", description: 'Link ribbon coloring mode.' },
+      { name: 'showLabels', type: 'boolean', default: 'true', description: 'Whether to show text labels on nodes.' },
+      { name: 'draggable', type: 'boolean', default: 'true', description: 'Enables dragging node rectangles vertically.' },
+      { name: 'interactive', type: 'boolean', default: 'true', description: 'Enables node and link hover flow highlighting and tooltips.' },
+      { name: 'title', type: 'string', default: 'undefined', description: 'Optional main title above chart.' },
+      { name: 'subtitle', type: 'string', default: 'undefined', description: 'Optional secondary subtitle text.' },
+      { name: 'valueFormatter', type: '(val: number) => string', default: 'undefined', description: 'Custom value formatter.' },
+    ],
+    keyboard: [
+      { key: 'Mouse Drag Node', action: 'Repositions a node rectangle vertically within its stage.' },
+      { key: 'Mouse Hover Ribbon', action: 'Highlights the specific flow ribbon and displays source, target, and volume.' },
+    ],
+    aria: [
+      { name: 'data-md3-component="sankey-diagram"', description: 'Identifies the root element as a Sankey flow diagram.' },
+    ],
+    doDonts: [
+      { do: 'Use gradient link ribbons to visualize source-to-target transitions clearly.', dont: 'Overcrowd stages with hundreds of micro-flows without minimum threshold filtering.' },
+    ],
+    playgroundControls: [
+      { name: 'showLabels', label: 'Show Labels', type: 'boolean', defaultValue: true },
+      { name: 'draggable', label: 'Draggable Nodes', type: 'boolean', defaultValue: true },
+      { name: 'interactive', label: 'Hover Tooltip', type: 'boolean', defaultValue: true },
+    ],
+  },
 };
+
 
 
 

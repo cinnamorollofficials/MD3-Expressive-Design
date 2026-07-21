@@ -1,0 +1,161 @@
+.root {
+  position: relative;
+  width: 100%;
+  font-family: var(--md-sys-typescale-body-medium-font-family, inherit);
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  margin-bottom: 12px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.headerText {
+  flex: 1;
+}
+
+.title {
+  margin: 0;
+  color: var(--md-sys-color-on-surface);
+  font-size: var(--md-sys-typescale-title-medium-font-size, 16px);
+  font-weight: var(--md-sys-typescale-title-medium-font-weight, 600);
+}
+
+.subtitle {
+  margin: 4px 0 0 0;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-body-small-font-size, 12px);
+}
+
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.controlSelect {
+  padding: 4px 8px;
+  border-radius: var(--md-sys-shape-corner-xs, 4px);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  background: var(--md-sys-color-surface-container-low);
+  color: var(--md-sys-color-on-surface);
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.chartContainer {
+  position: relative;
+  width: 100%;
+  background: var(--md-sys-color-surface-container-lowest, rgba(0, 0, 0, 0.02));
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: var(--md-sys-shape-corner-lg, 16px);
+  overflow: hidden;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+}
+
+/* Link Ribbons */
+.linkRibbon {
+  fill: none;
+  stroke-opacity: 0.35;
+  transition: stroke-opacity 0.2s ease, stroke-width 0.2s ease;
+  cursor: pointer;
+}
+
+.linkRibbon:hover {
+  stroke-opacity: 0.75;
+}
+
+.linkDimmed {
+  stroke-opacity: 0.06 !important;
+}
+
+.linkHighlighted {
+  stroke-opacity: 0.8 !important;
+}
+
+/* Node Rectangles */
+.nodeGroup {
+  cursor: grab;
+}
+
+.nodeGroup:active {
+  cursor: grabbing;
+}
+
+.nodeRect {
+  stroke: var(--md-sys-color-surface, #FFFFFF);
+  stroke-width: 1px;
+  rx: 2px;
+  ry: 2px;
+  transition: opacity 0.2s ease, filter 0.2s ease;
+}
+
+.nodeRect:hover {
+  filter: brightness(1.1);
+}
+
+.nodeDimmed {
+  opacity: 0.2 !important;
+}
+
+.nodeHighlighted {
+  opacity: 1 !important;
+}
+
+.nodeLabel {
+  fill: var(--md-sys-color-on-surface);
+  font-size: 11px;
+  font-weight: 500;
+  pointer-events: none;
+  transition: opacity 0.2s ease;
+}
+
+/* Tooltip */
+.tooltip {
+  position: absolute;
+  pointer-events: none;
+  background-color: var(--md-sys-color-surface-container-high);
+  color: var(--md-sys-color-on-surface);
+  padding: 8px 12px;
+  border-radius: var(--md-sys-shape-corner-md, 8px);
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  font-size: var(--md-sys-typescale-body-small-font-size, 12px);
+  z-index: 20;
+  transform: translate(-50%, -100%);
+  margin-top: -12px;
+  white-space: nowrap;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tooltipTitle {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--md-sys-color-on-surface);
+}
+
+.tooltipRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 11px;
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+.tooltipValue {
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface);
+}
