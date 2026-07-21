@@ -1646,7 +1646,42 @@ const COMPONENT_DOC_BLUEPRINTS: Record<string, Omit<ComponentMetadata, 'id' | 'l
       { name: 'interactive', label: 'Hover Tooltip', type: 'boolean', defaultValue: true },
     ],
   },
+  'chord-diagram': {
+    status: 'beta',
+    description: 'A circular visualization depicting flow matrices and inter-relationships between categories arranged in a circle, using outer group arcs and inner curved ribbon paths.',
+    props: [
+      { name: 'matrix', type: 'number[][]', default: 'undefined', description: 'Square matrix of flow volumes matrix[i][j].' },
+      { name: 'nodes', type: 'ChordNode[] | string[]', default: '[]', description: 'Array of node names or objects.' },
+      { name: 'links', type: 'ChordLink[]', default: '[]', description: 'Alternative link list format.' },
+      { name: 'height', type: 'number', default: '680', description: 'Chart height / diameter in pixels.' },
+      { name: 'padAngle', type: 'number', default: '0.04', description: 'Gap angle between outer arcs in radians.' },
+      { name: 'showLabels', type: 'boolean', default: 'true', description: 'Whether to show group labels around perimeter.' },
+      { name: 'showTicks', type: 'boolean', default: 'true', description: 'Whether to show percentage tick marks along outer arcs.' },
+      { name: 'showLegend', type: 'boolean', default: 'true', description: 'Whether to show group legend below chart.' },
+      { name: 'interactive', type: 'boolean', default: 'true', description: 'Enables group and ribbon hover flow highlighting and tooltips.' },
+      { name: 'ribbonColorMode', type: "'gradient' | 'source' | 'target'", default: "'gradient'", description: 'Ribbon coloring strategy.' },
+      { name: 'title', type: 'string', default: 'undefined', description: 'Optional main title above chart.' },
+      { name: 'subtitle', type: 'string', default: 'undefined', description: 'Optional secondary subtitle text.' },
+    ],
+    keyboard: [
+      { key: 'Mouse Hover Arc', action: 'Highlights all ribbons connected to that category.' },
+      { key: 'Mouse Hover Ribbon', action: 'Highlights the specific inter-category flow ribbon and volume.' },
+    ],
+    aria: [
+      { name: 'data-md3-component="chord-diagram"', description: 'Identifies the root element as a Chord flow diagram.' },
+    ],
+    doDonts: [
+      { do: 'Use gradient ribbons to emphasize bidirectional inter-category flows.', dont: 'Use chord diagrams for non-relational or single-series metric data.' },
+    ],
+    playgroundControls: [
+      { name: 'showLabels', label: 'Show Labels', type: 'boolean', defaultValue: true },
+      { name: 'showTicks', label: 'Show Ticks', type: 'boolean', defaultValue: true },
+      { name: 'showLegend', label: 'Show Legend', type: 'boolean', defaultValue: true },
+      { name: 'interactive', label: 'Hover Tooltip', type: 'boolean', defaultValue: true },
+    ],
+  },
 };
+
 
 
 

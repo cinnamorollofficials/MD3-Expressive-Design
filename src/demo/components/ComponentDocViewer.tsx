@@ -5,8 +5,9 @@ import { cn } from '../../lib/utils/cn';
 import {
   Button, IconButton, FAB, Card, CardContent, CardTitle, CardBody,
   Switch, Checkbox, TextField, Slider, Badge, Avatar,
-  AreaChart, StackedAreaChart, DifferenceChart, BarChart, HorizontalBarChart, DivergingBarChart, StackedBarChart, TimelineChart, CalendarChart, ForceDirectedGraph, DisjointForceDirectedGraph, DirectedForceGraph, ArcDiagram, SankeyDiagram
+  AreaChart, StackedAreaChart, DifferenceChart, BarChart, HorizontalBarChart, DivergingBarChart, StackedBarChart, TimelineChart, CalendarChart, ForceDirectedGraph, DisjointForceDirectedGraph, DirectedForceGraph, ArcDiagram, SankeyDiagram, ChordDiagram
 } from '../../lib';
+
 
 
 
@@ -588,6 +589,26 @@ export function ComponentDocViewer({ id, children }: ComponentDocViewerProps) {
             />
           </div>
         );
+      case 'chord-diagram':
+        return (
+          <div style={{ width: '100%', padding: '0 16px' }}>
+            <ChordDiagram
+              nodes={['Alpha', 'Beta', 'Gamma', 'Delta']}
+              matrix={[
+                [11975, 5871, 8916, 2868],
+                [1951, 10048, 2060, 6171],
+                [8010, 16145, 8090, 8045],
+                [1013, 990, 940, 6907],
+              ]}
+              showLabels={playgroundProps.showLabels}
+              showTicks={playgroundProps.showTicks}
+              showLegend={playgroundProps.showLegend}
+              interactive={playgroundProps.interactive}
+              height={380}
+            />
+          </div>
+        );
+
 
 
 

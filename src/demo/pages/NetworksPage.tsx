@@ -1,6 +1,31 @@
 import { useState } from 'react';
-import { ForceDirectedGraph, DisjointForceDirectedGraph, DirectedForceGraph, ArcDiagram, SankeyDiagram, Card, CardContent } from '../../lib';
+import { ForceDirectedGraph, DisjointForceDirectedGraph, DirectedForceGraph, ArcDiagram, SankeyDiagram, ChordDiagram, Card, CardContent } from '../../lib';
 import { DemoSection, PageTitle } from '../components/DemoSection';
+
+// Smartphone Brand Switching / Market Flow Chord dataset matching reference image
+const SMARTPHONE_CHORD_DATA = {
+  nodes: [
+    { name: 'Apple', color: '#B0BEC5' },
+    { name: 'HTC', color: '#8BC34A' },
+    { name: 'Huawei', color: '#E53935' },
+    { name: 'LG', color: '#E91E63' },
+    { name: 'Nokia', color: '#03A9F4' },
+    { name: 'Samsung', color: '#3F51B5' },
+    { name: 'Sony', color: '#2E7D32' },
+    { name: 'Other', color: '#757575' },
+  ],
+  matrix: [
+    [11975, 5871, 8916, 2868, 4821, 12500, 3810, 6200],
+    [1951, 10048, 2060, 6171, 1820, 4200, 1900, 2100],
+    [8010, 16145, 8090, 8045, 3400, 9800, 4500, 5100],
+    [1013, 990, 940, 6907, 1200, 3100, 1500, 1800],
+    [2400, 1800, 2900, 1100, 8500, 6400, 2100, 3200],
+    [10500, 6100, 8400, 4200, 5800, 18900, 5200, 7800],
+    [3100, 2100, 3900, 1600, 2400, 5800, 7200, 2900],
+    [4800, 2900, 4200, 2100, 3100, 7100, 3100, 12500],
+  ],
+};
+
 
 // Energy Flow Sankey dataset matching D3 energy flow reference
 const ENERGY_SANKEY_DATA = {
@@ -514,6 +539,28 @@ export function NetworksPage({ activeComponent }: NetworksPageProps) {
 
 
 
+  const renderChordDiagram = () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <Card variant="outlined" style={{ padding: 24 }}>
+        <CardContent>
+          <ChordDiagram
+            title="Smartphone Brand Switch & Market Interflow (Chord Diagram)"
+            subtitle="Circular flow matrix showing user migrations, patent cross-licensing, and market share transitions between major smartphone manufacturers. Hover over brand arcs or ribbons to highlight flow connections."
+            nodes={SMARTPHONE_CHORD_DATA.nodes}
+            matrix={SMARTPHONE_CHORD_DATA.matrix}
+            height={680}
+            padAngle={0.04}
+            showLabels={true}
+            showTicks={true}
+            showLegend={true}
+            ribbonColorMode="gradient"
+            valueFormatter={(v) => `${v.toLocaleString()} units`}
+          />
+        </CardContent>
+      </Card>
+    </div>
+  );
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
       <PageTitle
@@ -565,9 +612,19 @@ export function NetworksPage({ activeComponent }: NetworksPageProps) {
           {renderSankeyDiagram()}
         </DemoSection>
       )}
+
+      {(!activeComponent || activeComponent === 'chord-diagram') && (
+        <DemoSection
+          title="Chord Diagram"
+          description="Circular diagram visualizing inter-relationships and flow volumes between categories arranged in a matrix."
+        >
+          {renderChordDiagram()}
+        </DemoSection>
+      )}
     </div>
   );
 }
+
 
 
 

@@ -46,9 +46,17 @@
 }
 
 @keyframes logoMorph {
-  0% { transform: scale(1) rotate(0deg); }
-  50% { transform: scale(1.1) rotate(180deg); }
-  100% { transform: scale(1) rotate(360deg); }
+  0% {
+    transform: scale(1) rotate(0deg);
+  }
+
+  50% {
+    transform: scale(1.1) rotate(180deg);
+  }
+
+  100% {
+    transform: scale(1) rotate(360deg);
+  }
 }
 
 .brandSub {
@@ -90,8 +98,15 @@
   white-space: nowrap;
   width: 100%;
 }
-.navItem:hover { background: color-mix(in srgb, var(--md-sys-color-on-surface) 8%, transparent); }
-.navItem.selected { background: var(--md-sys-color-secondary-container); color: var(--md-sys-color-on-secondary-container); }
+
+.navItem:hover {
+  background: color-mix(in srgb, var(--md-sys-color-on-surface) 8%, transparent);
+}
+
+.navItem.selected {
+  background: var(--md-sys-color-secondary-container);
+  color: var(--md-sys-color-on-secondary-container);
+}
 
 .scrollableNav {
   display: flex;
@@ -140,6 +155,7 @@
   width: 100%;
   cursor: pointer;
 }
+
 .searchInput::placeholder {
   color: var(--md-sys-color-on-surface-variant);
   opacity: 0.7;
@@ -167,9 +183,11 @@
   width: 100%;
   transition: all var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard);
 }
+
 .groupHeader:hover {
   background: color-mix(in srgb, var(--md-sys-color-on-surface) 6%, transparent);
 }
+
 .groupHeaderActive {
   background: var(--md-sys-color-secondary-container);
   color: var(--md-sys-color-on-secondary-container);
@@ -205,10 +223,12 @@
   white-space: nowrap;
   transition: all var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard);
 }
+
 .subNavItem:hover {
   background: color-mix(in srgb, var(--md-sys-color-on-surface) 6%, transparent);
   color: var(--md-sys-color-on-surface);
 }
+
 .subNavItem.subSelected {
   background: var(--md-sys-color-secondary-container);
   color: var(--md-sys-color-on-secondary-container);
@@ -223,8 +243,16 @@
   margin-left: 6px;
   font-weight: bold;
 }
-.miniBadge.beta { background: color-mix(in srgb, var(--md-sys-color-tertiary) 15%, transparent); color: var(--md-sys-color-tertiary); }
-.miniBadge.experimental { background: color-mix(in srgb, var(--md-sys-color-error) 15%, transparent); color: var(--md-sys-color-error); }
+
+.miniBadge.beta {
+  background: color-mix(in srgb, var(--md-sys-color-tertiary) 15%, transparent);
+  color: var(--md-sys-color-tertiary);
+}
+
+.miniBadge.experimental {
+  background: color-mix(in srgb, var(--md-sys-color-error) 15%, transparent);
+  color: var(--md-sys-color-error);
+}
 
 /* Resize Handle */
 .resizeHandle {
@@ -239,7 +267,8 @@
   z-index: 10;
 }
 
-.resizeHandle:hover, .resizeHandleActive {
+.resizeHandle:hover,
+.resizeHandleActive {
   background: var(--md-sys-color-primary);
 }
 
@@ -368,6 +397,7 @@
     transform: translateY(-100%);
     opacity: 0;
   }
+
   to {
     transform: translateY(0);
     opacity: 1;
@@ -409,5 +439,3 @@
   background: color-mix(in srgb, var(--md-sys-color-on-tertiary-container) 12%, transparent);
   opacity: 1;
 }
-
-
