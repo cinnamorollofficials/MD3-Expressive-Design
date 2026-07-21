@@ -70,6 +70,7 @@ export * from './components/DivergingBarChart';
 export * from './components/StackedBarChart';
 export * from './components/TimelineChart';
 export * from './components/CalendarChart';
+export * from './components/ForceDirectedGraph';
 
 export { useTheme, ThemeProvider } from './hooks/useTheme';
 export type { ThemeName, ThemeMode, ThemePreference, ThemeContextValue, ThemeProviderProps } from './hooks/useTheme';

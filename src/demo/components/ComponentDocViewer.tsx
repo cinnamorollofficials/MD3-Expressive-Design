@@ -5,8 +5,9 @@ import { cn } from '../../lib/utils/cn';
 import {
   Button, IconButton, FAB, Card, CardContent, CardTitle, CardBody,
   Switch, Checkbox, TextField, Slider, Badge, Avatar,
-  AreaChart, StackedAreaChart, DifferenceChart, BarChart, HorizontalBarChart, DivergingBarChart, StackedBarChart, TimelineChart, CalendarChart
+  AreaChart, StackedAreaChart, DifferenceChart, BarChart, HorizontalBarChart, DivergingBarChart, StackedBarChart, TimelineChart, CalendarChart, ForceDirectedGraph
 } from '../../lib';
+
 import { CodeBlock } from './CodeBlock';
 import styles from './ComponentDocViewer.module.css';
 
@@ -114,6 +115,31 @@ const generatePlaygroundCalendar = () => {
   return data;
 };
 const PLAYGROUND_CALENDAR_DATA = generatePlaygroundCalendar();
+
+const PLAYGROUND_NETWORK_DATA = {
+  nodes: [
+    { id: '1', label: 'Alpha', group: 1, val: 12 },
+    { id: '2', label: 'Beta', group: 1, val: 8 },
+    { id: '3', label: 'Gamma', group: 1, val: 15 },
+    { id: '4', label: 'Delta', group: 2, val: 10 },
+    { id: '5', label: 'Epsilon', group: 2, val: 6 },
+    { id: '6', label: 'Zeta', group: 2, val: 9 },
+    { id: '7', label: 'Eta', group: 3, val: 14 },
+    { id: '8', label: 'Theta', group: 3, val: 11 },
+  ],
+  links: [
+    { source: '1', target: '2', value: 3 },
+    { source: '1', target: '3', value: 5 },
+    { source: '2', target: '3', value: 4 },
+    { source: '3', target: '4', value: 2 },
+    { source: '4', target: '5', value: 3 },
+    { source: '4', target: '6', value: 4 },
+    { source: '5', target: '6', value: 2 },
+    { source: '3', target: '7', value: 3 },
+    { source: '7', target: '8', value: 5 },
+  ],
+};
+
 
 interface ComponentDocViewerProps {
   id: string;
@@ -483,6 +509,22 @@ export function ComponentDocViewer({ id, children }: ComponentDocViewerProps) {
             />
           </div>
         );
+      case 'force-directed-graph':
+        return (
+          <div style={{ width: '100%', padding: '0 16px' }}>
+            <ForceDirectedGraph
+              nodes={PLAYGROUND_NETWORK_DATA.nodes}
+              links={PLAYGROUND_NETWORK_DATA.links}
+              showLabels={playgroundProps.showLabels}
+              showLegend={playgroundProps.showLegend}
+              draggable={playgroundProps.draggable}
+              zoomable={playgroundProps.zoomable}
+              interactive={playgroundProps.interactive}
+              height={320}
+            />
+          </div>
+        );
+
       default:
         return null;
     }

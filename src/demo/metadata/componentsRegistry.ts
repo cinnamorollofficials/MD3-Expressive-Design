@@ -1461,7 +1461,49 @@ const COMPONENT_DOC_BLUEPRINTS: Record<string, Omit<ComponentMetadata, 'id' | 'l
       { do: 'Use for visual browsing where adjacent items matter.', dont: 'Hide critical content off-screen in a carousel.' },
     ],
   },
+  'force-directed-graph': {
+    status: 'beta',
+    description: 'A network graph layout using D3 velocity Verlet force simulation. Visualizes interconnected nodes, communities/clusters, link weights, and supports drag physics, multi-level zooming, and group filtering.',
+
+    props: [
+      { name: 'nodes', type: 'NetworkNode[]', default: 'required', description: 'Array of node objects ({ id, label, group, val, ... }).' },
+      { name: 'links', type: 'NetworkLink[]', default: 'required', description: 'Array of link objects ({ source, target, value, ... }).' },
+      { name: 'height', type: 'number', default: '480', description: 'Chart drawing height in pixels.' },
+      { name: 'nodeRadius', type: 'number | ((node) => number)', default: '7', description: 'Radius of node circles in pixels.' },
+      { name: 'linkDistance', type: 'number', default: '60', description: 'Target distance between linked nodes.' },
+      { name: 'chargeStrength', type: 'number', default: '-140', description: 'Electrostatic repulsion strength (negative repels).' },
+      { name: 'collideRadius', type: 'number', default: '4', description: 'Collision buffer radius around node circles.' },
+      { name: 'showLabels', type: 'boolean', default: 'true', description: 'Whether to show node text labels.' },
+      { name: 'showLegend', type: 'boolean', default: 'true', description: 'Whether to show group legend filter below the graph.' },
+      { name: 'draggable', type: 'boolean', default: 'true', description: 'Enables dragging nodes with mouse/touch.' },
+      { name: 'zoomable', type: 'boolean', default: 'true', description: 'Enables zooming and panning using mouse wheel/drag.' },
+      { name: 'interactive', type: 'boolean', default: 'true', description: 'Enables node hover highlighting and tooltips.' },
+      { name: 'title', type: 'string', default: 'undefined', description: 'Optional main title above chart.' },
+      { name: 'subtitle', type: 'string', default: 'undefined', description: 'Optional secondary subtitle text.' },
+      { name: 'onNodeClick', type: '(node: NetworkNode) => void', default: 'undefined', description: 'Callback when a node circle is clicked.' },
+    ],
+    keyboard: [
+      { key: 'Mouse Drag Node', action: 'Repositions a node in the physical simulation space.' },
+      { key: 'Scroll Wheel', action: 'Zooms in or out of the network diagram.' },
+      { key: 'Double Click', action: 'Resets the zoom scale and pan translation.' },
+    ],
+    aria: [
+      { name: 'data-md3-component="force-directed-graph"', description: 'Identifies the root element as a force-directed network graph.' },
+    ],
+    doDonts: [
+      { do: 'Group related nodes with color codes to reveal community clusters.', dont: 'Overcrowd the graph with hundreds of unclustered nodes without charge tuning.' },
+      { do: 'Provide a legend for interactive filtering when graph contains multiple groups.', dont: 'Disable drag or zoom on complex graphs with high node density.' },
+    ],
+    playgroundControls: [
+      { name: 'showLabels', label: 'Show Labels', type: 'boolean', defaultValue: true },
+      { name: 'showLegend', label: 'Show Legend', type: 'boolean', defaultValue: true },
+      { name: 'draggable', label: 'Draggable Nodes', type: 'boolean', defaultValue: true },
+      { name: 'zoomable', label: 'Zoom & Pan', type: 'boolean', defaultValue: true },
+      { name: 'interactive', label: 'Hover Tooltip', type: 'boolean', defaultValue: true },
+    ],
+  },
 };
+
 
 // Fill in remaining components with per-component blueprints. Unknown ids are marked
 // experimental so placeholder coverage cannot masquerade as complete documentation.

@@ -23,6 +23,8 @@ import { DesignTokensPage } from './demo/pages/DesignTokensPage';
 import { ChangelogPage } from './demo/pages/ChangelogPage';
 import { ChartsPage } from './demo/pages/ChartsPage';
 import { BarChartsPage } from './demo/pages/BarChartsPage';
+import { NetworksPage } from './demo/pages/NetworksPage';
+
 
 // Import new shell components
 import { ComponentDocViewer } from './demo/components/ComponentDocViewer';
@@ -167,7 +169,16 @@ export const COMPONENT_GROUPS: GroupDef[] = [
       { id: 'timeline-chart', label: 'World History Timeline', status: 'beta' },
     ],
   },
+  {
+    id: 'networks',
+    label: 'Networks',
+    icon: 'hub',
+    components: [
+      { id: 'force-directed-graph', label: 'Force-Directed Graph', status: 'beta' },
+    ],
+  },
 ];
+
 
 const getPageAndComponent = (hash: string) => {
   const extraPages = [
@@ -241,6 +252,8 @@ export function App() {
     case 'content': content = <ContentPage activeComponent={activeComponent} />; break;
     case 'charts': content = <ChartsPage activeComponent={activeComponent} />; break;
     case 'bar-charts': content = <BarChartsPage activeComponent={activeComponent} />; break;
+    case 'networks': content = <NetworksPage activeComponent={activeComponent} />; break;
+
 
     // Custom docs pages
     case 'installation': content = <InstallationPage />; break;
