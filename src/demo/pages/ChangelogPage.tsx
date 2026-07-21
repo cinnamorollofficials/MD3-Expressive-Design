@@ -11,7 +11,7 @@ export function ChangelogPage() {
 
       <DemoSection title="Releases Timeline">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: '100%' }}>
-          {/* v0.2.2 */}
+          {/* v0.4.0 */}
           <div style={{ display: 'flex', gap: 16 }}>
             {/* Timeline track node */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -30,7 +30,7 @@ export function ChangelogPage() {
               <CardContent>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8, marginBottom: 8 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <CardTitle>v0.2.3</CardTitle>
+                    <CardTitle>v0.4.0</CardTitle>
 
                     <span style={{
                       background: 'var(--md-sys-color-primary-container)',
@@ -42,6 +42,46 @@ export function ChangelogPage() {
                     }}>
                       Latest
                     </span>
+                  </div>
+                  <span style={{ font: 'var(--md-sys-typescale-label-medium)', color: 'var(--md-sys-color-on-surface-variant)' }}>July 21, 2026</span>
+                </div>
+                <CardBody>
+                  <strong>D3-based Data Visualization Components & Timelines Release</strong>
+                  <p style={{ margin: '8px 0', fontSize: '12px', color: 'var(--md-sys-color-on-surface-variant)' }}>
+                    Introduced 9 major interactive data visualization and charting components, adding complete whitelisted playgrounds and registry schema configurations.
+                  </p>
+                  <ul style={{ paddingLeft: 20, margin: '8px 0 0 0', display: 'flex', flexDirection: 'column', gap: 4 }}>
+                    <li><strong>Area Chart Variants:</strong> Created <code>AreaChart</code>, <code>StackedAreaChart</code> (with percentage scaling offset expansions), and <code>DifferenceChart</code>. Replicated the canonical D3 streamgraph wiggle layouts.</li>
+                    <li><strong>Standard & Diverging Bar Charts:</strong> Added <code>BarChart</code> with top-rounded bars, <code>HorizontalBarChart</code> with label overflow auto-margin margins, and <code>DivergingBarChart</code> centering values around a zero baseline.</li>
+                    <li><strong>Stacked & Normalized Stacked Bar Charts:</strong> Implemented <code>StackedBarChart</code> featuring absolute sums, 100% percentage normalization, and legend series filter toggling.</li>
+                    <li><strong>World History Timeline:</strong> Created <code>TimelineChart</code> mapping start/end years with customizable region colors, BC/AD ticks formatting, row sorting dropdown, and cursor tracker crosshairs.</li>
+                    <li><strong>Calendar View Heatmap:</strong> Created <code>CalendarChart</code> mapping daily stock metrics into weekday grids, supporting customized cellSize, and diverging color gradient legends.</li>
+                  </ul>
+                </CardBody>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* v0.2.3 */}
+          <div style={{ display: 'flex', gap: 16 }}>
+            {/* Timeline track node */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <div style={{
+                width: 12,
+                height: 12,
+                borderRadius: '50%',
+                background: 'var(--md-sys-color-outline)',
+                border: '2px solid var(--md-sys-color-outline-variant)'
+              }} />
+              <div style={{ flex: 1, width: 2, background: 'var(--md-sys-color-outline-variant)', marginTop: 8 }} />
+            </div>
+
+            {/* Version content */}
+            <Card variant="outlined" style={{ flex: 1, opacity: 0.9 }}>
+              <CardContent>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8, marginBottom: 8 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <CardTitle>v0.2.3</CardTitle>
                   </div>
                   <span style={{ font: 'var(--md-sys-typescale-label-medium)', color: 'var(--md-sys-color-on-surface-variant)' }}>May 30, 2026</span>
                 </div>
