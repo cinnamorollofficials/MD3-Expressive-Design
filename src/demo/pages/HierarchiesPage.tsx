@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react';
 import * as d3 from 'd3';
-import { Treemap, TreemapNode, IndentedTree, IndentedTreeNode, Card, CardContent } from '../../lib';
+import { Treemap, TreemapNode, IndentedTree, IndentedTreeNode, TidyTree, TidyTreeNode, Card, CardContent } from '../../lib';
 import { DemoSection, PageTitle } from '../components/DemoSection';
+
 
 
 
@@ -199,6 +200,24 @@ export function HierarchiesPage({ activeComponent }: HierarchiesPageProps) {
     </div>
   );
 
+  const renderTidyTree = () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <Card variant="outlined" style={{ padding: 24 }}>
+        <CardContent>
+          <TidyTree
+            title="Flare Software Package Structure (Tidy Tree)"
+            subtitle="Node-link tree diagram using D3 Reingold-Tilford tidy tree layout algorithm with smooth curved bezier branch links, left/right text label anchoring, and interactive branch highlighting."
+            data={flareData}
+            orientation="horizontal"
+            height={950}
+            interactive={true}
+            valueFormatter={(v) => d3.format(',.0f')(v)}
+          />
+        </CardContent>
+      </Card>
+    </div>
+  );
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
       <PageTitle
@@ -223,7 +242,17 @@ export function HierarchiesPage({ activeComponent }: HierarchiesPageProps) {
           {renderIndentedTree()}
         </DemoSection>
       )}
+
+      {(!activeComponent || activeComponent === 'tidy-tree') && (
+        <DemoSection
+          title="Tidy Tree"
+          description="Node-link diagram laying out tree nodes using the Reingold-Tilford algorithm to minimize tree width and prevent overlapping labels."
+        >
+          {renderTidyTree()}
+        </DemoSection>
+      )}
     </div>
   );
 }
+
 

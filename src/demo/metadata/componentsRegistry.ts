@@ -1916,7 +1916,33 @@ const COMPONENT_DOC_BLUEPRINTS: Record<string, Omit<ComponentMetadata, 'id' | 'l
       { name: 'interactive', label: 'Interactive', type: 'boolean', defaultValue: true },
     ],
   },
+  'tidy-tree': {
+    status: 'beta',
+    description: 'A tidy tree lays out hierarchical node-link structures using D3 Reingold-Tilford algorithm to minimize tree width and prevent label overlap with smooth bezier curved branches.',
+    props: [
+      { name: 'data', type: 'TidyTreeNode', default: 'required', description: 'Root node object with name, optional value, and children array.' },
+      { name: 'orientation', type: "'horizontal' | 'vertical'", default: "'horizontal'", description: 'Direction of tree growth (left-to-right or top-to-bottom).' },
+      { name: 'height', type: 'number', default: '950', description: 'Chart canvas height in pixels.' },
+      { name: 'interactive', type: 'boolean', default: 'true', description: 'Enables node hover highlight, ancestor branch pathing, and popup tooltip.' },
+      { name: 'title', type: 'string', default: 'undefined', description: 'Main title above chart.' },
+      { name: 'subtitle', type: 'string', default: 'undefined', description: 'Secondary subtitle text.' },
+    ],
+    keyboard: [
+      { key: 'Mouse Hover Node', action: 'Highlights node, dims non-ancestor nodes, highlights path to root, and displays tooltip.' },
+    ],
+    aria: [
+      { name: 'data-md3-component="tidy-tree"', description: 'Identifies root element as a Tidy Tree component.' },
+    ],
+    doDonts: [
+      { do: 'Use tidy trees for clean node-link visualizations of taxonomy, genealogy, or directory hierarchies.', dont: 'Use tidy trees for cyclical networks — use force-directed graphs or chord diagrams instead.' },
+    ],
+    playgroundControls: [
+      { name: 'orientation', label: 'Orientation', type: 'select', options: ['horizontal', 'vertical'], defaultValue: 'horizontal' },
+      { name: 'interactive', label: 'Interactive', type: 'boolean', defaultValue: true },
+    ],
+  },
 };
+
 
 
 

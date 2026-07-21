@@ -220,6 +220,7 @@ export const COMPONENT_GROUPS: GroupDef[] = [
     components: [
       { id: 'treemap', label: 'Treemap', status: 'beta' },
       { id: 'indented-tree', label: 'Indented Tree', status: 'beta' },
+      { id: 'tidy-tree', label: 'Tidy Tree', status: 'beta' },
     ],
   },
 ];
