@@ -219,6 +219,7 @@ export const COMPONENT_GROUPS: GroupDef[] = [
     icon: 'account_tree',
     components: [
       { id: 'treemap', label: 'Treemap', status: 'beta' },
+      { id: 'indented-tree', label: 'Indented Tree', status: 'beta' },
     ],
   },
 ];

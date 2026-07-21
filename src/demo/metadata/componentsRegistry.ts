@@ -1886,7 +1886,38 @@ const COMPONENT_DOC_BLUEPRINTS: Record<string, Omit<ComponentMetadata, 'id' | 'l
       { name: 'interactive', label: 'Hover Tooltip', type: 'boolean', defaultValue: true },
     ],
   },
+  'indented-tree': {
+    status: 'beta',
+    description: 'An indented tree displays hierarchical tree structures vertically with indentation levels, orthogonal step links, tabular right-aligned columns (Size & Count), and expandable/collapsible nodes.',
+    props: [
+      { name: 'data', type: 'IndentedTreeNode', default: 'required', description: 'Root node object with name, optional value, count, and children array.' },
+      { name: 'indentStep', type: 'number', default: '24', description: 'Pixel indent offset per depth level.' },
+      { name: 'rowHeight', type: 'number', default: '24', description: 'Pixel height per node row.' },
+      { name: 'col1Label', type: 'string', default: "'Size'", description: 'Title for tabular column 1 (e.g. Size).' },
+      { name: 'col2Label', type: 'string', default: "'Count'", description: 'Title for tabular column 2 (e.g. Count).' },
+      { name: 'initialExpandDepth', type: 'number', default: '3', description: 'Depth level beyond which nodes start collapsed.' },
+      { name: 'interactive', type: 'boolean', default: 'true', description: 'Enables click node expand/collapse and hover tooltip.' },
+      { name: 'title', type: 'string', default: 'undefined', description: 'Main title above chart.' },
+      { name: 'subtitle', type: 'string', default: 'undefined', description: 'Secondary subtitle text.' },
+    ],
+    keyboard: [
+      { key: 'Click Parent Bullet', action: 'Toggles node between collapsed and expanded state.' },
+      { key: 'Mouse Hover Row', action: 'Highlights row and displays full node path, size, and count in tooltip.' },
+    ],
+    aria: [
+      { name: 'data-md3-component="indented-tree"', description: 'Identifies root element as an Indented Tree component.' },
+    ],
+    doDonts: [
+      { do: 'Use indented trees for directory navigation, package structures, and file system hierarchies.', dont: 'Use indented trees when spatial radial comparison of hierarchy breadth is needed — use dendrograms or circle packing instead.' },
+    ],
+    playgroundControls: [
+      { name: 'indentStep', label: 'Indent Step', type: 'number', defaultValue: 24 },
+      { name: 'rowHeight', label: 'Row Height', type: 'number', defaultValue: 24 },
+      { name: 'interactive', label: 'Interactive', type: 'boolean', defaultValue: true },
+    ],
+  },
 };
+
 
 
 

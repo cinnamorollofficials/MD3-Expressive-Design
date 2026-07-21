@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react';
 import * as d3 from 'd3';
-import { Treemap, TreemapNode, Card, CardContent } from '../../lib';
+import { Treemap, TreemapNode, IndentedTree, IndentedTreeNode, Card, CardContent } from '../../lib';
 import { DemoSection, PageTitle } from '../components/DemoSection';
+
 
 
 // Generate Flare Software Package Hierarchy dataset matching exact reference image
@@ -176,6 +177,28 @@ export function HierarchiesPage({ activeComponent }: HierarchiesPageProps) {
     </div>
   );
 
+  const renderIndentedTree = () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <Card variant="outlined" style={{ padding: 24 }}>
+        <CardContent>
+          <IndentedTree
+            title="Flare Package Directory Structure (Indented Tree)"
+            subtitle="Vertical indented layout with orthogonal connecting lines, right-aligned Size & Count columns, and interactive expand/collapse nodes. Click any parent node to toggle expand/collapse."
+            data={flareData}
+            indentStep={24}
+            rowHeight={24}
+            col1Label="Size"
+            col2Label="Count"
+            interactive={true}
+            initialExpandDepth={3}
+            valueFormatter={(v) => d3.format(',.0f')(v)}
+            countFormatter={(v) => (v !== undefined ? d3.format(',.0f')(v) : '-')}
+          />
+        </CardContent>
+      </Card>
+    </div>
+  );
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
       <PageTitle
@@ -191,6 +214,16 @@ export function HierarchiesPage({ activeComponent }: HierarchiesPageProps) {
           {renderTreemap()}
         </DemoSection>
       )}
+
+      {(!activeComponent || activeComponent === 'indented-tree') && (
+        <DemoSection
+          title="Indented Tree"
+          description="Displays hierarchical data as a vertical indented tree layout with orthogonal links, tabular columns, and expand/collapse nodes."
+        >
+          {renderIndentedTree()}
+        </DemoSection>
+      )}
     </div>
   );
 }
+
