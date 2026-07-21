@@ -144,7 +144,8 @@ export const COMPONENT_GROUPS: GroupDef[] = [
     label: 'Charts',
     icon: 'show_chart',
     components: [
-      { id: 'area-chart', label: 'AreaChart', status: 'beta' },
+      { id: 'area-chart', label: 'Area Chart', status: 'beta' },
+      { id: 'area-chart-missing', label: 'Area Chart with Missing Data', status: 'beta' },
     ],
   },
 ];

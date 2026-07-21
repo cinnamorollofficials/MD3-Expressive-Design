@@ -87,11 +87,13 @@ export function AreaChart({
       } else if (typeof rawX === 'string' && !isNaN(Date.parse(rawX)) && isNaN(Number(rawX))) {
         parsedX = new Date(rawX);
       }
+      const rawY = d[yKey];
+      const isNullY = rawY === null || rawY === undefined || (typeof rawY === 'number' && isNaN(rawY));
       return {
         ...d,
         _rawX: rawX,
         _x: parsedX,
-        _y: Number(d[yKey]) || 0,
+        _y: isNullY ? null : Number(rawY),
       };
     });
   }, [data, xKey, yKey]);
@@ -157,20 +159,22 @@ export function AreaChart({
     const { xScale, yScale } = scales;
 
     const areaGenerator = d3.area<any>()
+      .defined(d => d._y !== null && d._y !== undefined && !isNaN(d._y))
       .x(d => {
         const xVal = d._x;
         return xScale(xVal instanceof Date ? xVal.getTime() : xVal as any) || 0;
       })
       .y0(innerHeight)
-      .y1(d => yScale(d._y))
+      .y1(d => yScale(d._y as number))
       .curve(curveInterpolator);
 
     const lineGenerator = d3.line<any>()
+      .defined(d => d._y !== null && d._y !== undefined && !isNaN(d._y))
       .x(d => {
         const xVal = d._x;
         return xScale(xVal instanceof Date ? xVal.getTime() : xVal as any) || 0;
       })
-      .y(d => yScale(d._y))
+      .y(d => yScale(d._y as number))
       .curve(curveInterpolator);
 
     return {
@@ -225,9 +229,13 @@ export function AreaChart({
     }
 
     if (targetPoint) {
+      if (targetPoint._y === null || targetPoint._y === undefined || isNaN(targetPoint._y)) {
+        setHoverState(null);
+        return;
+      }
       const xVal = targetPoint._x;
       const posX = xScale(xVal instanceof Date ? xVal.getTime() : xVal as any) || 0;
-      const posY = yScale(targetPoint._y) || 0;
+      const posY = yScale(targetPoint._y as number) || 0;
 
       setHoverState({
         point: targetPoint,

@@ -33,6 +33,20 @@ const CRYPTO_DATA = [
   { index: 12, price: 46500 },
 ];
 
+const MISSING_DATA = [
+  { time: '10:00', signal: 75 },
+  { time: '10:05', signal: 80 },
+  { time: '10:10', signal: null },
+  { time: '10:15', signal: null },
+  { time: '10:20', signal: 90 },
+  { time: '10:25', signal: 85 },
+  { time: '10:30', signal: 60 },
+  { time: '10:35', signal: null },
+  { time: '10:40', signal: 70 },
+  { time: '10:45', signal: 95 },
+  { time: '10:50', signal: 90 },
+];
+
 export function ChartsPage({ activeComponent }: { activeComponent?: string }) {
   const [selectedMetric, setSelectedMetric] = useState('pageViews');
   const [curveType, setCurveType] = useState<'linear' | 'monotone' | 'step'>('monotone');
@@ -233,6 +247,46 @@ const data = [
             </div>
           </DemoSection>
         </>
+      )}
+
+      {(showAll || activeComponent === 'area-chart-missing') && (
+        <DemoSection
+          title="Area with Missing Data"
+          description="Missing or undefined data points (e.g. null, undefined, or NaN) are handled gracefully by breaking both the outline stroke and the gradient area fill. Hover tracking lines and tooltip labels are automatically skipped for missing values."
+          code={`const signalData = [
+  { time: '10:00', signal: 75 },
+  { time: '10:05', signal: 80 },
+  { time: '10:10', signal: null }, // missing
+  { time: '10:15', signal: null }, // missing
+  { time: '10:20', signal: 90 },
+  // ...
+];
+
+<AreaChart
+  data={signalData}
+  xKey="time"
+  yKey="signal"
+  color="var(--md-sys-color-error)"
+  title="Network Signal Performance"
+  subtitle="Gaps represent periods of connection loss"
+/>`}
+        >
+          <div style={{ width: '100%' }}>
+            <Card variant="outlined" style={{ padding: 16 }}>
+              <CardContent>
+                <AreaChart
+                  data={MISSING_DATA}
+                  xKey="time"
+                  yKey="signal"
+                  color="var(--md-sys-color-error)"
+                  title="Network Signal Performance"
+                  subtitle="Gaps represent periods of connection loss (null values)"
+                  yFormatter={(val) => `${val} dBm`}
+                />
+              </CardContent>
+            </Card>
+          </div>
+        </DemoSection>
       )}
     </div>
   );
