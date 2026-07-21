@@ -147,6 +147,7 @@ export const COMPONENT_GROUPS: GroupDef[] = [
       { id: 'area-chart', label: 'Area Chart', status: 'beta' },
       { id: 'area-chart-missing', label: 'Area Chart with Missing Data', status: 'beta' },
       { id: 'stacked-area-chart', label: 'Stacked Area Chart', status: 'beta' },
+      { id: 'normalized-stacked-area-chart', label: 'Normalized Stacked Area Chart', status: 'beta' },
     ],
   },
 ];

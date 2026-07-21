@@ -34,6 +34,8 @@ export interface StackedAreaChartProps {
   xFormatter?: (val: any) => string;
   /** Optional custom formatter for Y-axis values */
   yFormatter?: (val: any) => string;
+  /** Represent stack layers as percentages of the cumulative total (100% stacked area chart) */
+  normalized?: boolean;
   /** Additional CSS class name */
   className?: string;
 }
@@ -64,6 +66,7 @@ export function StackedAreaChart({
   subtitle,
   xFormatter,
   yFormatter,
+  normalized = false,
   className,
 }: StackedAreaChartProps) {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -108,8 +111,11 @@ export function StackedAreaChart({
     const stackGen = d3.stack<any>()
       .keys(yKeys)
       .value((d, key) => Number(d[key]) || 0);
+    if (normalized) {
+      stackGen.offset(d3.stackOffsetExpand);
+    }
     return stackGen(parsedData);
-  }, [parsedData, yKeys]);
+  }, [parsedData, yKeys, normalized]);
 
   // Dimensions of drawing area
   const innerWidth = Math.max(0, containerWidth - margin.left - margin.right);
@@ -140,14 +146,14 @@ export function StackedAreaChart({
         .padding(0.1);
     }
 
-    const yMax = d3.max(stackedSeries, series => d3.max(series, d => d[1])) || 0;
+    const yMax = normalized ? 1 : (d3.max(stackedSeries, series => d3.max(series, d => d[1])) || 0);
     const yScale = d3.scaleLinear()
-      .domain([0, yMax * 1.05]) // add 5% headroom
+      .domain([0, normalized ? 1 : yMax * 1.05]) // add 5% headroom if not normalized
       .range([innerHeight, 0])
       .nice();
 
     return { xScale, yScale, isDate, isNumeric };
-  }, [parsedData, stackedSeries, innerWidth, innerHeight]);
+  }, [parsedData, stackedSeries, innerWidth, innerHeight, normalized]);
 
   // Curve interpolator lookup
   const curveInterpolator = useMemo(() => {
@@ -275,11 +281,21 @@ export function StackedAreaChart({
     if (!scales) return [];
     const { yScale } = scales;
     const ticks = yScale.ticks(5);
-    return ticks.map((val) => ({
-      pos: yScale(val),
-      label: yFormatter ? yFormatter(val) : String(val),
-    }));
-  }, [scales, yFormatter]);
+    return ticks.map((val) => {
+      let label = '';
+      if (yFormatter) {
+        label = yFormatter(val);
+      } else if (normalized) {
+        label = `${Math.round(val * 100)}%`;
+      } else {
+        label = String(val);
+      }
+      return {
+        pos: yScale(val),
+        label,
+      };
+    });
+  }, [scales, yFormatter, normalized]);
 
   // Hover details calculation
   const hoverDetails = useMemo(() => {
@@ -289,13 +305,22 @@ export function StackedAreaChart({
 
     const posX = xScale(activePoint._x instanceof Date ? activePoint._x.getTime() : activePoint._x as any) || 0;
 
-    // Retrieve y-coordinates for each series stack layer
+    // Retrieve y-coordinates and formatted values for each series stack layer
     const markers = stackedSeries.map((series, idx) => {
       const point = series[hoverIndex];
+      const rawVal = activePoint[series.key];
+      const val = normalized ? (point[1] - point[0]) : rawVal;
+      const formatted = yFormatter
+        ? yFormatter(val)
+        : normalized
+          ? `${(val * 100).toFixed(1)}%`
+          : numberFormatter(rawVal);
+
       return {
         key: series.key,
         label: legendLabels ? legendLabels[idx] : String(series.key),
-        value: activePoint[series.key],
+        value: val,
+        formattedValue: formatted,
         y: yScale(point[1]),
         color: colors[idx % colors.length],
       };
@@ -311,7 +336,7 @@ export function StackedAreaChart({
       title: titleX,
       markers: markers.reverse(), // reverse to display top stack on top of list
     };
-  }, [hoverIndex, scales, parsedData, stackedSeries, colors, legendLabels, xFormatter]);
+  }, [hoverIndex, scales, parsedData, stackedSeries, colors, legendLabels, xFormatter, yFormatter, normalized]);
 
   // Labels for the legend row
   const legendItems = useMemo(() => {
@@ -509,7 +534,7 @@ export function StackedAreaChart({
                     <span>{marker.label}</span>
                   </div>
                   <span className={styles.tooltipValue}>
-                    {yFormatter ? yFormatter(marker.value) : numberFormatter(marker.value)}
+                    {marker.formattedValue}
                   </span>
                 </div>
               ))}

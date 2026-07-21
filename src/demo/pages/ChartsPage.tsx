@@ -336,6 +336,44 @@ const browserData = [
           </div>
         </DemoSection>
       )}
+
+      {(showAll || activeComponent === 'normalized-stacked-area-chart') && (
+        <DemoSection
+          title="Normalized Stacked Area Chart (100% Stacked)"
+          description="Normalized stacked area charts scale each category as a percentage of the total for that point, summing to 100%. They are ideal for showing proportional changes over time rather than absolute values."
+          code={`import { StackedAreaChart } from '@hadi_gunawan/md3-expressive-ds';
+
+const browserData = [
+  { month: 'Jan', Chrome: 65, Safari: 18, Firefox: 8, Edge: 5, Other: 4 },
+  { month: 'Feb', Chrome: 66, Safari: 17, Firefox: 9, Edge: 5, Other: 3 },
+  // ...
+];
+
+<StackedAreaChart
+  data={browserData}
+  xKey="month"
+  yKeys={['Chrome', 'Safari', 'Firefox', 'Edge', 'Other']}
+  normalized={true}
+  title="Browser Proportional Share"
+  subtitle="Normalized to 100% stacked layout"
+/>`}
+        >
+          <div style={{ width: '100%' }}>
+            <Card variant="outlined" style={{ padding: 16 }}>
+              <CardContent>
+                <StackedAreaChart
+                  data={BROWSER_SHARE_DATA}
+                  xKey="month"
+                  yKeys={['Chrome', 'Safari', 'Firefox', 'Edge', 'Other']}
+                  normalized={true}
+                  title="Browser Proportional Share (100% Stacked)"
+                  subtitle="Normalized stacked tracking showing proportional composition"
+                />
+              </CardContent>
+            </Card>
+          </div>
+        </DemoSection>
+      )}
     </div>
   );
 }

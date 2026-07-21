@@ -435,6 +435,41 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentMetadata> = {
       { name: 'interactive', label: 'Hover Tooltip & Tracker', type: 'boolean', defaultValue: true },
     ],
   },
+  'normalized-stacked-area-chart': {
+    id: 'normalized-stacked-area-chart',
+    label: 'Normalized Stacked Area Chart',
+    status: 'beta',
+    description: 'Normalized stacked area charts display component parts as percentages of the cumulative total, summing to 100%.',
+    props: [
+      { name: 'data', type: 'any[]', default: 'required', description: 'Array of data points to visualize.' },
+      { name: 'xKey', type: 'string', default: 'required', description: 'The property key in each data object for the X-axis coordinate.' },
+      { name: 'yKeys', type: 'string[]', default: 'required', description: 'The keys of the multiple data series to stack.' },
+      { name: 'legendLabels', type: 'string[]', default: 'undefined', description: 'Array of custom user-friendly labels corresponding to yKeys.' },
+      { name: 'height', type: 'number', default: '300', description: 'Chart drawing height in pixels.' },
+      { name: 'curve', type: "'linear' | 'monotone' | 'step'", default: "'monotone'", description: 'Interpolation function style for drawing paths.' },
+      { name: 'showGrid', type: 'boolean', default: 'true', description: 'Whether to overlay background grid lines.' },
+      { name: 'showAxes', type: 'boolean', default: 'true', description: 'Whether to show the X and Y axes.' },
+      { name: 'colors', type: 'string[]', default: 'DEFAULT_PALETTE', description: 'Array of custom colors to fill layers.' },
+      { name: 'interactive', type: 'boolean', default: 'true', description: 'Enables hover interaction tracking line and legend-rows tooltip.' },
+      { name: 'title', type: 'string', default: 'undefined', description: 'Main title header text.' },
+      { name: 'subtitle', type: 'string', default: 'undefined', description: 'Secondary descriptive text below title.' },
+    ],
+    keyboard: [
+      { key: 'Mouse Move / Hover', action: 'Positions the horizontal tracking line and renders details tooltip card with stacked contribution percentages.' },
+    ],
+    aria: [
+      { name: 'role="img"', description: 'Identifies the chart vector as an graphical image representation.' },
+    ],
+    doDonts: [
+      { do: 'Use normalized stacked area charts to emphasize relative share changes over time when absolute levels are of secondary importance.', dont: 'Use normalized stacked area charts if displaying changes in absolute cumulative size is critical for context.' },
+    ],
+    playgroundControls: [
+      { name: 'curve', label: 'Curve Interpolation', type: 'select', options: ['monotone', 'linear', 'step'], defaultValue: 'monotone' },
+      { name: 'showGrid', label: 'Show Grid Lines', type: 'boolean', defaultValue: true },
+      { name: 'showAxes', label: 'Show Axes', type: 'boolean', defaultValue: true },
+      { name: 'interactive', label: 'Hover Tooltip & Tracker', type: 'boolean', defaultValue: true },
+    ],
+  },
 };
 
 const COMMON_CLASS_PROP: PropDef = {
