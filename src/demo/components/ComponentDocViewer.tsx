@@ -4,10 +4,48 @@ import { Icon } from '../../lib/components/Icon';
 import { cn } from '../../lib/utils/cn';
 import {
   Button, IconButton, FAB, Card, CardContent, CardTitle, CardBody,
-  Switch, Checkbox, TextField, Slider, Badge, Avatar
+  Switch, Checkbox, TextField, Slider, Badge, Avatar,
+  AreaChart, StackedAreaChart, DifferenceChart
 } from '../../lib';
 import { CodeBlock } from './CodeBlock';
 import styles from './ComponentDocViewer.module.css';
+
+const PLAYGROUND_AREA_DATA = [
+  { index: 1, value: 30 },
+  { index: 2, value: 45 },
+  { index: 3, value: 35 },
+  { index: 4, value: 60 },
+  { index: 5, value: 50 },
+  { index: 6, value: 75 },
+];
+
+const PLAYGROUND_MISSING_DATA = [
+  { index: 1, value: 30 },
+  { index: 2, value: 45 },
+  { index: 3, value: null },
+  { index: 4, value: 60 },
+  { index: 5, value: null },
+  { index: 6, value: 75 },
+];
+
+const PLAYGROUND_STACKED_DATA = [
+  { index: 1, A: 30, B: 20, C: 15 },
+  { index: 2, A: 45, B: 25, C: 20 },
+  { index: 3, A: 35, B: 30, C: 25 },
+  { index: 4, A: 60, B: 40, C: 30 },
+  { index: 5, A: 50, B: 35, C: 20 },
+  { index: 6, A: 75, B: 45, C: 35 },
+];
+
+const PLAYGROUND_DIFFERENCE_DATA = [
+  { index: 1, A: 45, B: 40 },
+  { index: 2, A: 48, B: 52 },
+  { index: 3, A: 55, B: 50 },
+  { index: 4, A: 50, B: 62 },
+  { index: 5, A: 65, B: 58 },
+  { index: 6, A: 58, B: 70 },
+  { index: 7, A: 72, B: 65 },
+];
 
 interface ComponentDocViewerProps {
   id: string;
@@ -166,6 +204,103 @@ export function ComponentDocViewer({ id, children }: ComponentDocViewerProps) {
             shape={playgroundProps.shape}
             alt="Playground Avatar"
           />
+        );
+      case 'area-chart':
+        return (
+          <div style={{ width: '100%', height: 260, padding: '0 16px' }}>
+            <AreaChart
+              data={PLAYGROUND_AREA_DATA}
+              xKey="index"
+              yKey="value"
+              curve={playgroundProps.curve}
+              showGrid={playgroundProps.showGrid}
+              showAxes={playgroundProps.showAxes}
+              gradient={playgroundProps.gradient}
+              interactive={playgroundProps.interactive}
+              height={220}
+            />
+          </div>
+        );
+      case 'area-chart-missing':
+        return (
+          <div style={{ width: '100%', height: 260, padding: '0 16px' }}>
+            <AreaChart
+              data={PLAYGROUND_MISSING_DATA}
+              xKey="index"
+              yKey="value"
+              curve={playgroundProps.curve}
+              showGrid={playgroundProps.showGrid}
+              showAxes={playgroundProps.showAxes}
+              gradient={playgroundProps.gradient}
+              interactive={playgroundProps.interactive}
+              height={220}
+            />
+          </div>
+        );
+      case 'stacked-area-chart':
+        return (
+          <div style={{ width: '100%', height: 260, padding: '0 16px' }}>
+            <StackedAreaChart
+              data={PLAYGROUND_STACKED_DATA}
+              xKey="index"
+              yKeys={['A', 'B', 'C']}
+              curve={playgroundProps.curve}
+              showGrid={playgroundProps.showGrid}
+              showAxes={playgroundProps.showAxes}
+              interactive={playgroundProps.interactive}
+              height={220}
+            />
+          </div>
+        );
+      case 'normalized-stacked-area-chart':
+        return (
+          <div style={{ width: '100%', height: 260, padding: '0 16px' }}>
+            <StackedAreaChart
+              data={PLAYGROUND_STACKED_DATA}
+              xKey="index"
+              yKeys={['A', 'B', 'C']}
+              normalized={true}
+              curve={playgroundProps.curve}
+              showGrid={playgroundProps.showGrid}
+              showAxes={playgroundProps.showAxes}
+              interactive={playgroundProps.interactive}
+              height={220}
+            />
+          </div>
+        );
+      case 'streamgraph':
+        return (
+          <div style={{ width: '100%', height: 260, padding: '0 16px' }}>
+            <StackedAreaChart
+              data={PLAYGROUND_STACKED_DATA}
+              xKey="index"
+              yKeys={['A', 'B', 'C']}
+              stream={true}
+              curve={playgroundProps.curve}
+              showGrid={playgroundProps.showGrid}
+              showAxes={playgroundProps.showAxes}
+              interactive={playgroundProps.interactive}
+              height={220}
+            />
+          </div>
+        );
+      case 'difference-chart':
+        return (
+          <div style={{ width: '100%', height: 260, padding: '0 16px' }}>
+            <DifferenceChart
+              data={PLAYGROUND_DIFFERENCE_DATA}
+              xKey="index"
+              y0Key="A"
+              y1Key="B"
+              y0Label="Series A"
+              y1Label="Series B"
+              curve={playgroundProps.curve}
+              showGrid={playgroundProps.showGrid}
+              showAxes={playgroundProps.showAxes}
+              interactive={playgroundProps.interactive}
+              height={220}
+            />
+          </div>
         );
       default:
         return null;
