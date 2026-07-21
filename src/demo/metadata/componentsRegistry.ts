@@ -1941,7 +1941,31 @@ const COMPONENT_DOC_BLUEPRINTS: Record<string, Omit<ComponentMetadata, 'id' | 'l
       { name: 'interactive', label: 'Interactive', type: 'boolean', defaultValue: true },
     ],
   },
+  'radial-tree': {
+    status: 'beta',
+    description: 'A radial tidy tree lays out hierarchical node-link tree structures concentrically in 360 degrees around a central root node using radial bezier curved links.',
+    props: [
+      { name: 'data', type: 'RadialTreeNode', default: 'required', description: 'Root node object with name, optional value, and children array.' },
+      { name: 'height', type: 'number', default: '920', description: 'Chart canvas height in pixels.' },
+      { name: 'interactive', type: 'boolean', default: 'true', description: 'Enables node hover highlight, ancestor radial branch pathing, and popup tooltip.' },
+      { name: 'title', type: 'string', default: 'undefined', description: 'Main title above chart.' },
+      { name: 'subtitle', type: 'string', default: 'undefined', description: 'Secondary subtitle text.' },
+    ],
+    keyboard: [
+      { key: 'Mouse Hover Node', action: 'Highlights node, dims non-ancestor nodes, highlights radial branch path to root, and displays tooltip.' },
+    ],
+    aria: [
+      { name: 'data-md3-component="radial-tree"', description: 'Identifies root element as a Radial Tidy Tree component.' },
+    ],
+    doDonts: [
+      { do: 'Use radial tidy trees for compact, symmetrical 360-degree representations of deep or wide hierarchies.', dont: 'Use radial tidy trees when horizontal left-to-right reading order is strictly mandated.' },
+    ],
+    playgroundControls: [
+      { name: 'interactive', label: 'Interactive', type: 'boolean', defaultValue: true },
+    ],
+  },
 };
+
 
 
 

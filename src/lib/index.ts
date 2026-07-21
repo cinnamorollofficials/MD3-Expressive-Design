@@ -89,6 +89,8 @@ export * from './components/BivariateChoroplethMap';
 export * from './components/Treemap';
 export * from './components/IndentedTree';
 export * from './components/TidyTree';
+export * from './components/RadialTree';
+
 
 
 

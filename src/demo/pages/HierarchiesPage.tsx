@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react';
 import * as d3 from 'd3';
-import { Treemap, TreemapNode, IndentedTree, IndentedTreeNode, TidyTree, TidyTreeNode, Card, CardContent } from '../../lib';
+import { Treemap, TreemapNode, IndentedTree, IndentedTreeNode, TidyTree, TidyTreeNode, RadialTree, RadialTreeNode, Card, CardContent } from '../../lib';
 import { DemoSection, PageTitle } from '../components/DemoSection';
+
 
 
 
@@ -218,6 +219,23 @@ export function HierarchiesPage({ activeComponent }: HierarchiesPageProps) {
     </div>
   );
 
+  const renderRadialTree = () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <Card variant="outlined" style={{ padding: 24 }}>
+        <CardContent>
+          <RadialTree
+            title="Flare Package Circular Hierarchy (Radial Tidy Tree)"
+            subtitle="Concentric 360° circular tree layout radiating outwards from origin root. Features radial curved bezier links (d3.linkRadial), 180° text flip rotation, and interactive branch highlighting."
+            data={flareData}
+            height={920}
+            interactive={true}
+            valueFormatter={(v) => d3.format(',.0f')(v)}
+          />
+        </CardContent>
+      </Card>
+    </div>
+  );
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
       <PageTitle
@@ -251,8 +269,18 @@ export function HierarchiesPage({ activeComponent }: HierarchiesPageProps) {
           {renderTidyTree()}
         </DemoSection>
       )}
+
+      {(!activeComponent || activeComponent === 'radial-tree') && (
+        <DemoSection
+          title="Radial Tidy Tree"
+          description="Concentric 360-degree node-link tree diagram radiating outwards from origin root node with radial curved links."
+        >
+          {renderRadialTree()}
+        </DemoSection>
+      )}
     </div>
   );
 }
+
 
 
