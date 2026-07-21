@@ -11,7 +11,7 @@ export function ChangelogPage() {
 
       <DemoSection title="Releases Timeline">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: '100%' }}>
-          {/* v0.4.0 */}
+          {/* v0.5.0 */}
           <div style={{ display: 'flex', gap: 16 }}>
             {/* Timeline track node */}
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -30,7 +30,7 @@ export function ChangelogPage() {
               <CardContent>
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8, marginBottom: 8 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                    <CardTitle>v0.4.0</CardTitle>
+                    <CardTitle>v0.5.0</CardTitle>
 
                     <span style={{
                       background: 'var(--md-sys-color-primary-container)',
@@ -43,8 +43,48 @@ export function ChangelogPage() {
                       Latest
                     </span>
                   </div>
+                  <span style={{ font: 'var(--md-sys-typescale-label-medium)', color: 'var(--md-sys-color-on-surface-variant)' }}>July 22, 2026</span>
+                </div>
+                <CardBody>
+                  <strong>Statistical Analysis, Cartographic Maps & Hierarchical Trees Release</strong>
+                  <p style={{ margin: '8px 0', fontSize: '12px', color: 'var(--md-sys-color-on-surface-variant)' }}>
+                    Introduced 12 new specialized D3 visualization components spanning 3 new categories (Analysis, Maps, Hierarchies), complete with cartographic projections, 3×3 bivariate color matrices, 6 treemap tiling algorithms, and multi-parent DAG layout algorithms.
+                  </p>
+                  <ul style={{ paddingLeft: 20, margin: '8px 0 0 0', display: 'flex', flexDirection: 'column', gap: 4 }}>
+                    <li><strong>Statistical Analysis Components:</strong> Added <code>Histogram</code> with Sturges rule binning, <code>KernelDensityEstimation</code> (Epanechnikov, Gaussian, Triangular, Uniform kernels), <code>HexbinChart</code> (2D density spatial binning), and <code>QQPlot</code> (Two-Sample & Normal Q-Q plots with Acklam probit algorithm).</li>
+                    <li><strong>Geographic Map Components:</strong> Created <code>ChoroplethMap</code> supporting U.S. Census counties and Natural Earth world topologies (Albers USA, Mercator, Equal Earth, Natural Earth projections with spherical globe outline) and <code>BivariateChoroplethMap</code> with 2D 3×3 color matrix and 45° rotated diamond legend.</li>
+                    <li><strong>Hierarchical Visualization Components:</strong> Built <code>Treemap</code> (6 tiling algorithms), <code>IndentedTree</code> (vertical list with orthogonal step links, tabular Size & Count columns, expand/collapse), <code>TidyTree</code> (Reingold-Tilford horizontal tree), <code>RadialTree</code> (360° circular tree with 180° text flip rotation), <code>SunburstChart</code> (radial partition rings with subtree zoom), and <code>TangledTree</code> (multi-parent DAG genealogy layout).</li>
+                    <li><strong>Tooltip & Cursor Hover State Fixes:</strong> Re-architected mouse leave event handlers across all 25+ chart components to guarantee clean tooltip dismissal on mouse leave.</li>
+                  </ul>
+                </CardBody>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* v0.4.0 */}
+          <div style={{ display: 'flex', gap: 16 }}>
+            {/* Timeline track node */}
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <div style={{
+                width: 12,
+                height: 12,
+                borderRadius: '50%',
+                background: 'var(--md-sys-color-outline)',
+                border: '2px solid var(--md-sys-color-outline-variant)'
+              }} />
+              <div style={{ flex: 1, width: 2, background: 'var(--md-sys-color-outline-variant)', marginTop: 8 }} />
+            </div>
+
+            {/* Version content */}
+            <Card variant="outlined" style={{ flex: 1, opacity: 0.9 }}>
+              <CardContent>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8, marginBottom: 8 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <CardTitle>v0.4.0</CardTitle>
+                  </div>
                   <span style={{ font: 'var(--md-sys-typescale-label-medium)', color: 'var(--md-sys-color-on-surface-variant)' }}>July 21, 2026</span>
                 </div>
+
                 <CardBody>
                   <strong>D3-based Data Visualization Components & Timelines Release</strong>
                   <p style={{ margin: '8px 0', fontSize: '12px', color: 'var(--md-sys-color-on-surface-variant)' }}>

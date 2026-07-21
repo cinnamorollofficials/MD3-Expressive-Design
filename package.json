@@ -1,6 +1,7 @@
 {
   "name": "@hadi_gunawan/md3-expressive-ds",
-  "version": "0.4.0",
+  "version": "0.5.0",
+
   "description": "A React + TypeScript component library implementing Google's Material Design 3 Expressive patterns - 40+ components, 6 preset themes, and a CSS custom property token system.",
   "type": "module",
   "private": false,
