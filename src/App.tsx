@@ -194,6 +194,7 @@ export const COMPONENT_GROUPS: GroupDef[] = [
       { id: 'bollinger-bands', label: 'Bollinger Bands', status: 'beta' },
       { id: 'box-plot', label: 'Box Plot', status: 'beta' },
       { id: 'histogram', label: 'Histogram', status: 'beta' },
+      { id: 'kernel-density-estimation', label: 'Kernel Density Estimation', status: 'beta' },
     ],
   },
 ];
