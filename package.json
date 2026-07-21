@@ -58,9 +58,11 @@
   },
   "dependencies": {
     "clsx": "^2.1.1",
-    "class-variance-authority": "^0.7.0"
+    "class-variance-authority": "^0.7.0",
+    "d3": "^7.9.0"
   },
   "devDependencies": {
+    "@types/d3": "^7.4.3",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react-swc": "^3.7.1",

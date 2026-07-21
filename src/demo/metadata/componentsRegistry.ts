@@ -329,6 +329,42 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentMetadata> = {
       { name: 'shape', label: 'Shape', type: 'select', options: ['circle', 'square', 'rounded'], defaultValue: 'circle' },
     ],
   },
+  'area-chart': {
+    id: 'area-chart',
+    label: 'AreaChart',
+    status: 'beta',
+    description: 'Area charts display progress or trends over a continuous domain, filled with a color gradient.',
+    props: [
+      { name: 'data', type: 'any[]', default: 'required', description: 'Array of data points to visualize.' },
+      { name: 'xKey', type: 'string', default: 'required', description: 'The property key in each data object for the X-axis coordinate.' },
+      { name: 'yKey', type: 'string', default: 'required', description: 'The property key in each data object for the Y-axis coordinate.' },
+      { name: 'height', type: 'number', default: '300', description: 'Chart drawing height in pixels.' },
+      { name: 'curve', type: "'linear' | 'monotone' | 'step'", default: "'monotone'", description: 'Interpolation function style for drawing paths.' },
+      { name: 'showGrid', type: 'boolean', default: 'true', description: 'Whether to overlay background grid lines.' },
+      { name: 'showAxes', type: 'boolean', default: 'true', description: 'Whether to show the X and Y axes.' },
+      { name: 'color', type: 'string', default: 'undefined', description: 'Override stroke/fill primary color.' },
+      { name: 'gradient', type: 'boolean', default: 'true', description: 'Whether to shade the area under the curve with a custom translucent gradient.' },
+      { name: 'interactive', type: 'boolean', default: 'true', description: 'Enables hover interaction lines and popup details tooltip.' },
+      { name: 'title', type: 'string', default: 'undefined', description: 'Main title header text.' },
+      { name: 'subtitle', type: 'string', default: 'undefined', description: 'Secondary descriptive text below title.' },
+    ],
+    keyboard: [
+      { key: 'Mouse Move / Hover', action: 'Positions the horizontal tracking line and renders details tooltip card.' },
+    ],
+    aria: [
+      { name: 'role="img"', description: 'Identifies the chart vector as an graphical image representation.' },
+    ],
+    doDonts: [
+      { do: 'Use area charts to visualize continuous values like timelines or metrics over time.', dont: 'Use area charts for categories that have no logical order; use bar or segmented elements instead.' },
+    ],
+    playgroundControls: [
+      { name: 'curve', label: 'Curve Interpolation', type: 'select', options: ['monotone', 'linear', 'step'], defaultValue: 'monotone' },
+      { name: 'showGrid', label: 'Show Grid Lines', type: 'boolean', defaultValue: true },
+      { name: 'showAxes', label: 'Show Axes', type: 'boolean', defaultValue: true },
+      { name: 'gradient', label: 'Translucent Gradient', type: 'boolean', defaultValue: true },
+      { name: 'interactive', label: 'Hover Tooltip & Tracker', type: 'boolean', defaultValue: true },
+    ],
+  },
 };
 
 const COMMON_CLASS_PROP: PropDef = {

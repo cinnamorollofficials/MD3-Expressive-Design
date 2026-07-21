@@ -47,3 +47,9 @@
   opacity: 0;
   pointer-events: none;
 }
+
+.input:focus-visible + .dot {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 2px;
+}
+

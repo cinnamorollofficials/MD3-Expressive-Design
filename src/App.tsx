@@ -21,6 +21,7 @@ import { MotionPage } from './demo/pages/MotionPage';
 import { IconsPage } from './demo/pages/IconsPage';
 import { DesignTokensPage } from './demo/pages/DesignTokensPage';
 import { ChangelogPage } from './demo/pages/ChangelogPage';
+import { ChartsPage } from './demo/pages/ChartsPage';
 
 // Import new shell components
 import { ComponentDocViewer } from './demo/components/ComponentDocViewer';
@@ -138,6 +139,14 @@ export const COMPONENT_GROUPS: GroupDef[] = [
       { id: 'carousel', label: 'Carousel', status: 'stable' },
     ],
   },
+  {
+    id: 'charts',
+    label: 'Charts',
+    icon: 'show_chart',
+    components: [
+      { id: 'area-chart', label: 'AreaChart', status: 'beta' },
+    ],
+  },
 ];
 
 const getPageAndComponent = (hash: string) => {
@@ -210,6 +219,7 @@ export function App() {
     case 'navigation': content = <NavigationPage activeComponent={activeComponent} />; break;
     case 'communication': content = <CommunicationPage activeComponent={activeComponent} />; break;
     case 'content': content = <ContentPage activeComponent={activeComponent} />; break;
+    case 'charts': content = <ChartsPage activeComponent={activeComponent} />; break;
 
     // Custom docs pages
     case 'installation': content = <InstallationPage />; break;

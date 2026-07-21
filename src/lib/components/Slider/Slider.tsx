@@ -26,13 +26,6 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(function Slider(
       onPointerUp={() => setDragging(false)}
       onPointerLeave={() => setDragging(false)}
     >
-      <div className={styles.track}>
-        <div className={styles.trackFill} style={{ width: `calc(${pct}% - 3px)` }} />
-        <div className={styles.trackRest} style={{ width: `calc(${100 - pct}% - 3px)` }} />
-      </div>
-      <div className={styles.handle} style={{ left: `${pct}%` }}>
-        {showValue && <div className={styles.value}>{current}</div>}
-      </div>
       <input
         ref={ref}
         type="range"
@@ -45,6 +38,13 @@ export const Slider = forwardRef<HTMLInputElement, SliderProps>(function Slider(
         }}
         {...rest}
       />
+      <div className={styles.track}>
+        <div className={styles.trackFill} style={{ width: `calc(${pct}% - 3px)` }} />
+        <div className={styles.trackRest} style={{ width: `calc(${100 - pct}% - 3px)` }} />
+      </div>
+      <div className={styles.handle} style={{ left: `${pct}%` }}>
+        {showValue && <div className={styles.value}>{current}</div>}
+      </div>
     </div>
   );
 });

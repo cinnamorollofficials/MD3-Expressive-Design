@@ -61,6 +61,7 @@ export * from './components/DataTable';
 export * from './components/Timeline';
 export * from './components/Accordion';
 export * from './components/Tree';
+export * from './components/AreaChart';
 
 export { useTheme, ThemeProvider } from './hooks/useTheme';
 export type { ThemeName, ThemeMode, ThemePreference, ThemeContextValue, ThemeProviderProps } from './hooks/useTheme';

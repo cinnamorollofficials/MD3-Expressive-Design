@@ -47,6 +47,12 @@
   cursor: pointer;
 }
 
+.input:focus-visible ~ .handle {
+  outline: 2px solid var(--md-sys-color-primary);
+  outline-offset: 4px;
+}
+
+
 .value {
   position: absolute;
   bottom: calc(100% + 4px);
