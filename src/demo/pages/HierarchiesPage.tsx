@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react';
 import * as d3 from 'd3';
-import { Treemap, TreemapNode, IndentedTree, IndentedTreeNode, TidyTree, TidyTreeNode, RadialTree, RadialTreeNode, SunburstChart, SunburstNode, Card, CardContent } from '../../lib';
+import { Treemap, TreemapNode, IndentedTree, IndentedTreeNode, TidyTree, TidyTreeNode, RadialTree, RadialTreeNode, SunburstChart, SunburstNode, TangledTree, TangledTreeNode, Card, CardContent } from '../../lib';
 import { DemoSection, PageTitle } from '../components/DemoSection';
+
 
 
 
@@ -157,8 +158,87 @@ interface HierarchiesPageProps {
   activeComponent?: string;
 }
 
+// Generate Greek Mythology Multi-Parent Genealogy dataset matching reference image
+function generateGreekMythologyData(): TangledTreeNode[] {
+  return [
+    { id: 'chaos', name: 'Chaos', level: 0 },
+    { id: 'gaea', name: 'Gaea', parents: ['chaos'], level: 1 },
+    { id: 'uranus', name: 'Uranus', parents: ['chaos'], level: 1 },
+    
+    { id: 'oceanus', name: 'Oceanus', parents: ['gaea', 'uranus'], level: 2 },
+    { id: 'thethys', name: 'Thethys', parents: ['gaea', 'uranus'], level: 2 },
+    { id: 'pontus', name: 'Pontus', parents: ['gaea'], level: 2 },
+    { id: 'rhea', name: 'Rhea', parents: ['gaea', 'uranus'], level: 2 },
+    { id: 'cronus', name: 'Cronus', parents: ['gaea', 'uranus'], level: 2 },
+    { id: 'coeus', name: 'Coeus', parents: ['gaea', 'uranus'], level: 2 },
+    { id: 'phoebe', name: 'Phoebe', parents: ['gaea', 'uranus'], level: 2 },
+    { id: 'crius', name: 'Crius', parents: ['gaea', 'uranus'], level: 2 },
+    { id: 'hyperion', name: 'Hyperion', parents: ['gaea', 'uranus'], level: 2 },
+    { id: 'iapetus', name: 'Iapetus', parents: ['gaea', 'uranus'], level: 2 },
+    { id: 'thea', name: 'Thea', parents: ['gaea', 'uranus'], level: 2 },
+    { id: 'themis', name: 'Themis', parents: ['gaea', 'uranus'], level: 2 },
+    { id: 'mnemosyne', name: 'Mnemosyne', parents: ['gaea', 'uranus'], level: 2 },
+
+    { id: 'doris', name: 'Doris', parents: ['oceanus', 'thethys'], level: 3 },
+    { id: 'nereus', name: 'Nereus', parents: ['pontus'], level: 3 },
+    { id: 'dione', name: 'Dione', parents: ['oceanus', 'thethys'], level: 3 },
+    { id: 'demeter', name: 'Demeter', parents: ['cronus', 'rhea'], level: 3 },
+    { id: 'hades', name: 'Hades', parents: ['cronus', 'rhea'], level: 3 },
+    { id: 'hera', name: 'Hera', parents: ['cronus', 'rhea'], level: 3 },
+    { id: 'alcmene', name: 'Alcmene', parents: ['coeus', 'phoebe'], level: 3 },
+    { id: 'zeus', name: 'Zeus', parents: ['cronus', 'rhea'], level: 3 },
+    { id: 'eris', name: 'Eris', parents: ['zeus', 'hera'], level: 3 },
+    { id: 'leto', name: 'Leto', parents: ['coeus', 'phoebe'], level: 3 },
+    { id: 'amphitrite', name: 'Amphitrite', parents: ['nereus', 'doris'], level: 3 },
+    { id: 'medusa', name: 'Medusa', parents: ['pontus'], level: 3 },
+    { id: 'poseidon', name: 'Poseidon', parents: ['cronus', 'rhea'], level: 3 },
+    { id: 'hestia', name: 'Hestia', parents: ['cronus', 'rhea'], level: 3 },
+
+    { id: 'thetis', name: 'Thetis', parents: ['nereus', 'doris'], level: 4 },
+    { id: 'peleus', name: 'Peleus', parents: ['aiakos'], level: 4 },
+    { id: 'anchises', name: 'Anchises', parents: ['capys'], level: 4 },
+    { id: 'adonis', name: 'Adonis', parents: ['cinyras'], level: 4 },
+    { id: 'aphrodite', name: 'Aphrodite', parents: ['zeus', 'dione'], level: 4 },
+    { id: 'persephone', name: 'Persephone', parents: ['zeus', 'demeter'], level: 4 },
+    { id: 'ares', name: 'Ares', parents: ['zeus', 'hera'], level: 4 },
+    { id: 'hephaestus', name: 'Hephaestus', parents: ['zeus', 'hera'], level: 4 },
+    { id: 'hebe', name: 'Hebe', parents: ['zeus', 'hera'], level: 4 },
+    { id: 'hercules', name: 'Hercules', parents: ['zeus', 'alcmene'], level: 4 },
+    { id: 'megara', name: 'Megara', parents: ['creon'], level: 4 },
+    { id: 'deianira', name: 'Deianira', parents: ['oeneus'], level: 4 },
+    { id: 'ilithyia', name: 'Ilithyia', parents: ['zeus', 'hera'], level: 4 },
+    { id: 'ate', name: 'Ate', parents: ['zeus'], level: 4 },
+    { id: 'leda', name: 'Leda', parents: ['thestius'], level: 4 },
+    { id: 'athena', name: 'Athena', parents: ['zeus'], level: 4 },
+    { id: 'apollo', name: 'Apollo', parents: ['zeus', 'leto'], level: 4 },
+    { id: 'artemis', name: 'Artemis', parents: ['zeus', 'leto'], level: 4 },
+    { id: 'triton', name: 'Triton', parents: ['poseidon', 'amphitrite'], level: 4 },
+    { id: 'pegasus', name: 'Pegasus', parents: ['poseidon', 'medusa'], level: 4 },
+    { id: 'orion', name: 'Orion', parents: ['poseidon'], level: 4 },
+    { id: 'polyphemus', name: 'Polyphemus', parents: ['poseidon'], level: 4 },
+
+    { id: 'deidamia', name: 'Deidamia', parents: ['lycomedes'], level: 5 },
+    { id: 'achilles', name: 'Achilles', parents: ['peleus', 'thetis'], level: 5 },
+    { id: 'creusa', name: 'Creusa', parents: ['priam'], level: 5 },
+    { id: 'aeneas', name: 'Aeneas', parents: ['anchises', 'aphrodite'], level: 5 },
+    { id: 'lavinia', name: 'Lavinia', parents: ['latinus'], level: 5 },
+    { id: 'eros', name: 'Eros', parents: ['ares', 'aphrodite'], level: 5 },
+    { id: 'helen', name: 'Helen', parents: ['zeus', 'leda'], level: 5 },
+    { id: 'menelaus', name: 'Menelaus', parents: ['atreus'], level: 5 },
+    { id: 'polydeuces', name: 'Polydeuces', parents: ['zeus', 'leda'], level: 5 },
+
+    { id: 'andromache', name: 'Andromache', parents: ['eetion'], level: 6 },
+    { id: 'neoptolemus', name: 'Neoptolemus', parents: ['achilles', 'deidamia'], level: 6 },
+    { id: 'aeneas2', name: 'Aeneas(2)', parents: ['aeneas', 'creusa'], level: 6 },
+    { id: 'pompilius', name: 'Pompilius', parents: ['aeneas', 'lavinia'], level: 6 },
+    { id: 'iulus', name: 'Iulus', parents: ['aeneas', 'creusa'], level: 6 },
+    { id: 'hermione', name: 'Hermione', parents: ['menelaus', 'helen'], level: 6 },
+  ];
+}
+
 export function HierarchiesPage({ activeComponent }: HierarchiesPageProps) {
   const flareData = useMemo(() => generateFlareHierarchyData(), []);
+  const greekMythologyData = useMemo(() => generateGreekMythologyData(), []);
 
   const renderTreemap = () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
@@ -254,6 +334,24 @@ export function HierarchiesPage({ activeComponent }: HierarchiesPageProps) {
     </div>
   );
 
+  const renderTangledTree = () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <Card variant="outlined" style={{ padding: 24 }}>
+        <CardContent>
+          <TangledTree
+            title="Greek Mythology Multi-Parent Genealogy (Tangled Tree)"
+            subtitle="Visualization of complex multi-parent directed acyclic graph (DAG) hierarchies. Features generation level columns, color-coded bundled step curves, and interactive path highlighting."
+            nodes={greekMythologyData}
+            columnWidth={200}
+            rowHeight={28}
+            height={950}
+            interactive={true}
+          />
+        </CardContent>
+      </Card>
+    </div>
+  );
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
       <PageTitle
@@ -305,9 +403,19 @@ export function HierarchiesPage({ activeComponent }: HierarchiesPageProps) {
           {renderSunburst()}
         </DemoSection>
       )}
+
+      {(!activeComponent || activeComponent === 'tangled-tree') && (
+        <DemoSection
+          title="Tangled Tree"
+          description="Visualizes complex multi-parent directed acyclic graph (DAG) hierarchies using generation columns and bundled step connectors."
+        >
+          {renderTangledTree()}
+        </DemoSection>
+      )}
     </div>
   );
 }
+
 
 
 

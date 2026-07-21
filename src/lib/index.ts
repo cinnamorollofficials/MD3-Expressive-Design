@@ -91,6 +91,8 @@ export * from './components/IndentedTree';
 export * from './components/TidyTree';
 export * from './components/RadialTree';
 export * from './components/SunburstChart';
+export * from './components/TangledTree';
+
 
 
 

@@ -1989,7 +1989,35 @@ const COMPONENT_DOC_BLUEPRINTS: Record<string, Omit<ComponentMetadata, 'id' | 'l
       { name: 'interactive', label: 'Interactive', type: 'boolean', defaultValue: true },
     ],
   },
+  'tangled-tree': {
+    status: 'beta',
+    description: 'A tangled tree visualizes multi-parent directed acyclic graph (DAG) hierarchies across generation level columns using color-coded bundled step curves.',
+    props: [
+      { name: 'nodes', type: 'TangledTreeNode[]', default: 'required', description: 'Array of nodes containing id, name, parents array, and generation level.' },
+      { name: 'columnWidth', type: 'number', default: '200', description: 'Horizontal pixel spacing between generation level columns.' },
+      { name: 'rowHeight', type: 'number', default: '28', description: 'Vertical pixel spacing between node rows.' },
+      { name: 'height', type: 'number', default: '920', description: 'Chart canvas height in pixels.' },
+      { name: 'interactive', type: 'boolean', default: 'true', description: 'Enables node hover highlight, ancestor/descendant DAG pathing, and popup tooltip.' },
+      { name: 'title', type: 'string', default: 'undefined', description: 'Main title above chart.' },
+      { name: 'subtitle', type: 'string', default: 'undefined', description: 'Secondary subtitle text.' },
+    ],
+    keyboard: [
+      { key: 'Mouse Hover Node', action: 'Highlights node, dims unrelated nodes, and highlights all upstream parents and downstream children paths.' },
+    ],
+    aria: [
+      { name: 'data-md3-component="tangled-tree"', description: 'Identifies root element as a Tangled Tree component.' },
+    ],
+    doDonts: [
+      { do: 'Use tangled trees for multi-parent genealogies, biological lineage, or DAG workflow dependencies.', dont: 'Use tangled trees for simple strict single-parent trees — use tidy trees or indented trees instead.' },
+    ],
+    playgroundControls: [
+      { name: 'columnWidth', label: 'Column Width', type: 'number', defaultValue: 200 },
+      { name: 'rowHeight', label: 'Row Height', type: 'number', defaultValue: 28 },
+      { name: 'interactive', label: 'Interactive', type: 'boolean', defaultValue: true },
+    ],
+  },
 };
+
 
 
 
