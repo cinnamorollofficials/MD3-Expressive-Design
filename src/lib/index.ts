@@ -78,6 +78,8 @@ export * from './components/SankeyDiagram';
 export * from './components/ChordDiagram';
 export * from './components/HierarchicalEdgeBundling';
 export * from './components/MovingAverageChart';
+export * from './components/BollingerBandsChart';
+
 
 
 

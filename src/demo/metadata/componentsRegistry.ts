@@ -1735,7 +1735,36 @@ const COMPONENT_DOC_BLUEPRINTS: Record<string, Omit<ComponentMetadata, 'id' | 'l
       { name: 'interactive', label: 'Hover Tooltip', type: 'boolean', defaultValue: true },
     ],
   },
+  'bollinger-bands': {
+    status: 'beta',
+    description: 'A technical analysis chart plot with an N-period SMA middle band, upper band (+Kσ), lower band (-Kσ), and shaded volatility envelope band around daily closing stock prices.',
+    props: [
+      { name: 'data', type: 'BollingerDataPoint[]', default: 'required', description: 'Array of price point objects ({ date, value }).' },
+      { name: 'period', type: 'number', default: '20', description: 'Moving average window period N in days.' },
+      { name: 'multiplier', type: 'number', default: '2.0', description: 'Standard deviation multiplier K.' },
+      { name: 'upperColor', type: 'string', default: "'#E53935'", description: 'Upper band line color (Red).' },
+      { name: 'middleColor', type: 'string', default: "'#1E88E5'", description: 'Middle SMA band line color (Blue).' },
+      { name: 'lowerColor', type: 'string', default: "'#43A047'", description: 'Lower band line color (Green).' },
+      { name: 'priceColor', type: 'string', default: "'#757575'", description: 'Raw price close line color (Grey).' },
+      { name: 'showControls', type: 'boolean', default: 'true', description: 'Whether to show period N and K controls.' },
+      { name: 'interactive', type: 'boolean', default: 'true', description: 'Enables crosshair hover and multi-line values tooltip.' },
+    ],
+    keyboard: [
+      { key: 'Mouse Hover', action: 'Displays crosshair line and inspects upper, middle SMA, lower, and close price values.' },
+    ],
+    aria: [
+      { name: 'data-md3-component="bollinger-bands-chart"', description: 'Identifies the root element as a Bollinger Bands chart.' },
+    ],
+    doDonts: [
+      { do: 'Use standard parameters (N=20, K=2.0) for classic financial volatility envelopes.', dont: 'Use Bollinger Bands on non-continuous data points without dates.' },
+    ],
+    playgroundControls: [
+      { name: 'showControls', label: 'Show Controls', type: 'boolean', defaultValue: true },
+      { name: 'interactive', label: 'Hover Tooltip', type: 'boolean', defaultValue: true },
+    ],
+  },
 };
+
 
 
 

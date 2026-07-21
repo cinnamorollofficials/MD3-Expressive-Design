@@ -191,9 +191,11 @@ export const COMPONENT_GROUPS: GroupDef[] = [
     icon: 'analytics',
     components: [
       { id: 'moving-average', label: 'Moving Average', status: 'beta' },
+      { id: 'bollinger-bands', label: 'Bollinger Bands', status: 'beta' },
     ],
   },
 ];
+
 
 
 

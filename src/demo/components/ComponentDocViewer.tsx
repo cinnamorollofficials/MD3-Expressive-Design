@@ -5,8 +5,9 @@ import { cn } from '../../lib/utils/cn';
 import {
   Button, IconButton, FAB, Card, CardContent, CardTitle, CardBody,
   Switch, Checkbox, TextField, Slider, Badge, Avatar,
-  AreaChart, StackedAreaChart, DifferenceChart, BarChart, HorizontalBarChart, DivergingBarChart, StackedBarChart, TimelineChart, CalendarChart, ForceDirectedGraph, DisjointForceDirectedGraph, DirectedForceGraph, ArcDiagram, SankeyDiagram, ChordDiagram, HierarchicalEdgeBundling, MovingAverageChart
+  AreaChart, StackedAreaChart, DifferenceChart, BarChart, HorizontalBarChart, DivergingBarChart, StackedBarChart, TimelineChart, CalendarChart, ForceDirectedGraph, DisjointForceDirectedGraph, DirectedForceGraph, ArcDiagram, SankeyDiagram, ChordDiagram, HierarchicalEdgeBundling, MovingAverageChart, BollingerBandsChart
 } from '../../lib';
+
 
 
 
@@ -643,6 +644,23 @@ export function ComponentDocViewer({ id, children }: ComponentDocViewerProps) {
             />
           </div>
         );
+      case 'bollinger-bands':
+        return (
+          <div style={{ width: '100%', padding: '0 16px' }}>
+            <BollingerBandsChart
+              data={Array.from({ length: 180 }, (_, i) => ({
+                date: new Date(2023, 0, i + 1),
+                value: 100 + i * 0.2 + Math.sin(i / 8) * 12 + (Math.random() - 0.5) * 4,
+              }))}
+              period={20}
+              multiplier={2.0}
+              showControls={playgroundProps.showControls}
+              interactive={playgroundProps.interactive}
+              height={360}
+            />
+          </div>
+        );
+
 
 
 

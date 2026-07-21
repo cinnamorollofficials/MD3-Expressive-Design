@@ -1,6 +1,29 @@
 import { useState, useMemo } from 'react';
-import { MovingAverageChart, Card, CardContent } from '../../lib';
+import { MovingAverageChart, BollingerBandsChart, Card, CardContent } from '../../lib';
 import { DemoSection, PageTitle } from '../components/DemoSection';
+
+// Generate 5 years of daily stock close prices ($60 - $190) matching D3 Bollinger Bands reference image
+function generateStockPriceData() {
+  const data: { date: Date; value: number }[] = [];
+  const startDate = new Date('2013-05-01');
+  const numDays = 1825; // 5 years
+
+  let price = 62.0;
+  for (let i = 0; i < numDays; i++) {
+    const d = new Date(startDate);
+    d.setDate(d.getDate() + i);
+
+    // Long-term bullish growth trend + cyclical waves + daily volatility
+    const trend = (i / numDays) * 110; // Growth from 60 to ~170
+    const cycle = Math.sin(i / 110) * 15 + Math.cos(i / 45) * 8;
+    const dailyNoise = (Math.random() - 0.48) * 2.2;
+
+    price = Math.max(50, 60 + trend + cycle + dailyNoise);
+    data.push({ date: d, value: price });
+  }
+
+  return data;
+}
 
 // Generate 5 years of daily time series data matching the D3 moving average reference
 function generateTimeSeriesData() {
@@ -26,6 +49,7 @@ function generateTimeSeriesData() {
   return data;
 }
 
+
 interface AnalysisPageProps {
   activeComponent?: string;
 }
@@ -33,6 +57,10 @@ interface AnalysisPageProps {
 export function AnalysisPage({ activeComponent }: AnalysisPageProps) {
   const timeSeriesData = useMemo(() => generateTimeSeriesData(), []);
   const [currentWindow, setCurrentWindow] = useState(100);
+
+  const stockPriceData = useMemo(() => generateStockPriceData(), []);
+  const [bollingerPeriod, setBollingerPeriod] = useState(20);
+  const [bollingerK, setBollingerK] = useState(2.0);
 
   const renderMovingAverage = () => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
@@ -58,6 +86,29 @@ export function AnalysisPage({ activeComponent }: AnalysisPageProps) {
     </div>
   );
 
+  const renderBollingerBands = () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <Card variant="outlined" style={{ padding: 24 }}>
+        <CardContent>
+          <BollingerBandsChart
+            title="Daily Close Stock Price with Bollinger Bands ($)"
+            subtitle="Technical analysis visualization displaying Upper (+Kσ - Red), Middle SMA (N - Blue), and Lower (-Kσ - Green) bands with a shaded volatility envelope band around daily closing stock price."
+            data={stockPriceData}
+            period={bollingerPeriod}
+            multiplier={bollingerK}
+            height={540}
+            showControls={true}
+            valueFormatter={(v) => `$${v.toFixed(2)}`}
+            onChangeParams={(p, k) => {
+              setBollingerPeriod(p);
+              setBollingerK(k);
+            }}
+          />
+        </CardContent>
+      </Card>
+    </div>
+  );
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
       <PageTitle
@@ -73,6 +124,16 @@ export function AnalysisPage({ activeComponent }: AnalysisPageProps) {
           {renderMovingAverage()}
         </DemoSection>
       )}
+
+      {(!activeComponent || activeComponent === 'bollinger-bands') && (
+        <DemoSection
+          title="Bollinger Bands"
+          description="Financial volatility and momentum indicator plot consisting of an N-period SMA middle band with upper (+Kσ) and lower (-Kσ) standard deviation threshold lines."
+        >
+          {renderBollingerBands()}
+        </DemoSection>
+      )}
     </div>
   );
 }
+
