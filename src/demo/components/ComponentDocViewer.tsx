@@ -5,8 +5,9 @@ import { cn } from '../../lib/utils/cn';
 import {
   Button, IconButton, FAB, Card, CardContent, CardTitle, CardBody,
   Switch, Checkbox, TextField, Slider, Badge, Avatar,
-  AreaChart, StackedAreaChart, DifferenceChart, BarChart, HorizontalBarChart, DivergingBarChart, StackedBarChart, TimelineChart, CalendarChart, ForceDirectedGraph, DisjointForceDirectedGraph, DirectedForceGraph, ArcDiagram, SankeyDiagram, ChordDiagram
+  AreaChart, StackedAreaChart, DifferenceChart, BarChart, HorizontalBarChart, DivergingBarChart, StackedBarChart, TimelineChart, CalendarChart, ForceDirectedGraph, DisjointForceDirectedGraph, DirectedForceGraph, ArcDiagram, SankeyDiagram, ChordDiagram, HierarchicalEdgeBundling
 } from '../../lib';
+
 
 
 
@@ -608,6 +609,24 @@ export function ComponentDocViewer({ id, children }: ComponentDocViewerProps) {
             />
           </div>
         );
+      case 'hierarchical-edge-bundling':
+        return (
+          <div style={{ width: '100%', padding: '0 16px' }}>
+            <HierarchicalEdgeBundling
+              data={[
+                { name: 'app.ui.Button', imports: ['app.util.Theme', 'app.events.Click'] },
+                { name: 'app.ui.Card', imports: ['app.ui.Button', 'app.util.Theme'] },
+                { name: 'app.util.Theme', imports: [] },
+                { name: 'app.events.Click', imports: ['app.util.Logger'] },
+                { name: 'app.util.Logger', imports: [] },
+              ]}
+              showLabels={playgroundProps.showLabels}
+              interactive={playgroundProps.interactive}
+              height={380}
+            />
+          </div>
+        );
+
 
 
 

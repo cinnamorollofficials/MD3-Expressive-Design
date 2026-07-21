@@ -180,9 +180,11 @@ export const COMPONENT_GROUPS: GroupDef[] = [
       { id: 'arc-diagram', label: 'Arc Diagram', status: 'beta' },
       { id: 'sankey-diagram', label: 'Sankey Diagram', status: 'beta' },
       { id: 'chord-diagram', label: 'Chord Diagram', status: 'beta' },
+      { id: 'hierarchical-edge-bundling', label: 'Hierarchical Edge Bundling', status: 'beta' },
     ],
   },
 ];
+
 
 
 

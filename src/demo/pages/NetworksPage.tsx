@@ -1,6 +1,209 @@
 import { useState } from 'react';
-import { ForceDirectedGraph, DisjointForceDirectedGraph, DirectedForceGraph, ArcDiagram, SankeyDiagram, ChordDiagram, Card, CardContent } from '../../lib';
+import { ForceDirectedGraph, DisjointForceDirectedGraph, DirectedForceGraph, ArcDiagram, SankeyDiagram, ChordDiagram, HierarchicalEdgeBundling, Card, CardContent } from '../../lib';
 import { DemoSection, PageTitle } from '../components/DemoSection';
+
+// Flare Package Class Dependency dataset for Hierarchical Edge Bundling
+const FLARE_EDGE_BUNDLING_DATA = [
+  { name: 'flare.analytics.cluster.AgglomerativeCluster', imports: ['flare.animate.Transitioner', 'flare.vis.data.DataList', 'flare.util.math.IMaths'] },
+  { name: 'flare.analytics.cluster.CommunityStructure', imports: ['flare.analytics.cluster.HierarchicalCluster', 'flare.animate.Transitioner'] },
+  { name: 'flare.analytics.cluster.HierarchicalCluster', imports: ['flare.vis.data.Data', 'flare.vis.data.NodeSprite'] },
+  { name: 'flare.analytics.cluster.MergeEdge', imports: ['flare.vis.data.EdgeSprite'] },
+
+  { name: 'flare.analytics.graph.BetweennessCentrality', imports: ['flare.animate.Transitioner', 'flare.util.ShortestPaths'] },
+  { name: 'flare.analytics.graph.LinkDistance', imports: ['flare.animate.Transitioner', 'flare.vis.data.NodeSprite'] },
+  { name: 'flare.analytics.graph.MaxFlowMinCut', imports: ['flare.animate.Transitioner', 'flare.util.ShortestPaths'] },
+  { name: 'flare.analytics.graph.ShortestPaths', imports: ['flare.util.Heap'] },
+  { name: 'flare.analytics.graph.SpanningTree', imports: ['flare.animate.Transitioner'] },
+
+  { name: 'flare.analytics.optimization.AspectRatioBanker', imports: ['flare.animate.Transitioner', 'flare.util.math.IMaths'] },
+
+  { name: 'flare.animate.Easing', imports: [] },
+  { name: 'flare.animate.FunctionSequence', imports: ['flare.animate.ISchedulable'] },
+  { name: 'flare.animate.ISchedulable', imports: [] },
+  { name: 'flare.animate.Parallel', imports: ['flare.animate.ISchedulable'] },
+  { name: 'flare.animate.Pause', imports: ['flare.animate.ISchedulable'] },
+  { name: 'flare.animate.Scheduler', imports: ['flare.animate.ISchedulable'] },
+  { name: 'flare.animate.Sequence', imports: ['flare.animate.ISchedulable'] },
+  { name: 'flare.animate.Transition', imports: ['flare.animate.ISchedulable', 'flare.animate.Transitioner'] },
+  { name: 'flare.animate.TransitionEvent', imports: [] },
+  { name: 'flare.animate.Transitioner', imports: ['flare.animate.ISchedulable', 'flare.animate.Easing'] },
+  { name: 'flare.animate.Tween', imports: ['flare.animate.Transition'] },
+
+  { name: 'flare.animate.interpolate.ArrayInterpolator', imports: ['flare.animate.interpolate.Interpolator'] },
+  { name: 'flare.animate.interpolate.ColorInterpolator', imports: ['flare.animate.interpolate.Interpolator'] },
+  { name: 'flare.animate.interpolate.DateInterpolator', imports: ['flare.animate.interpolate.Interpolator'] },
+  { name: 'flare.animate.interpolate.Interpolator', imports: [] },
+  { name: 'flare.animate.interpolate.MatrixInterpolator', imports: ['flare.animate.interpolate.Interpolator'] },
+  { name: 'flare.animate.interpolate.NumberInterpolator', imports: ['flare.animate.interpolate.Interpolator'] },
+  { name: 'flare.animate.interpolate.ObjectInterpolator', imports: ['flare.animate.interpolate.Interpolator'] },
+  { name: 'flare.animate.interpolate.PointInterpolator', imports: ['flare.animate.interpolate.Interpolator'] },
+  { name: 'flare.animate.interpolate.RectangleInterpolator', imports: ['flare.animate.interpolate.Interpolator'] },
+
+  { name: 'flare.data.DataField', imports: [] },
+  { name: 'flare.data.DataSchema', imports: ['flare.data.DataField'] },
+  { name: 'flare.data.DataSet', imports: ['flare.data.DataSource'] },
+  { name: 'flare.data.DataSource', imports: ['flare.data.DataSchema'] },
+  { name: 'flare.data.DataTable', imports: ['flare.data.DataSchema'] },
+  { name: 'flare.data.DataUtil', imports: [] },
+
+  { name: 'flare.data.converters.Converters', imports: [] },
+  { name: 'flare.data.converters.DelimitedTextConverter', imports: ['flare.data.converters.IDataConverter'] },
+  { name: 'flare.data.converters.GraphMLConverter', imports: ['flare.data.converters.IDataConverter'] },
+  { name: 'flare.data.converters.IDataConverter', imports: [] },
+  { name: 'flare.data.converters.JSONConverter', imports: ['flare.data.converters.IDataConverter'] },
+
+  { name: 'flare.display.DirtySprite', imports: [] },
+  { name: 'flare.display.LineSprite', imports: ['flare.display.DirtySprite'] },
+  { name: 'flare.display.RectSprite', imports: ['flare.display.DirtySprite'] },
+  { name: 'flare.display.TextSprite', imports: ['flare.display.DirtySprite'] },
+
+  { name: 'flare.flex.FlareVis', imports: ['flare.vis.Visualization'] },
+
+  { name: 'flare.physics.DragForce', imports: ['flare.physics.IForce'] },
+  { name: 'flare.physics.GravityForce', imports: ['flare.physics.IForce'] },
+  { name: 'flare.physics.IForce', imports: [] },
+  { name: 'flare.physics.NBodyForce', imports: ['flare.physics.IForce'] },
+  { name: 'flare.physics.Particle', imports: [] },
+  { name: 'flare.physics.Simulation', imports: ['flare.physics.Particle', 'flare.physics.IForce'] },
+  { name: 'flare.physics.Spring', imports: ['flare.physics.Particle'] },
+  { name: 'flare.physics.SpringForce', imports: ['flare.physics.IForce', 'flare.physics.Spring'] },
+
+  { name: 'flare.query.AggregateExpression', imports: ['flare.query.Expression'] },
+  { name: 'flare.query.And', imports: ['flare.query.Expression'] },
+  { name: 'flare.query.Arithmetic', imports: ['flare.query.Expression'] },
+  { name: 'flare.query.Average', imports: ['flare.query.AggregateExpression'] },
+  { name: 'flare.query.BinaryExpression', imports: ['flare.query.Expression'] },
+  { name: 'flare.query.Comparison', imports: ['flare.query.BinaryExpression'] },
+  { name: 'flare.query.CompositeExpression', imports: ['flare.query.Expression'] },
+  { name: 'flare.query.Count', imports: ['flare.query.AggregateExpression'] },
+  { name: 'flare.query.DateUtil', imports: [] },
+  { name: 'flare.query.Distinct', imports: ['flare.query.AggregateExpression'] },
+  { name: 'flare.query.Expression', imports: [] },
+  { name: 'flare.query.ExpressionIterator', imports: ['flare.query.Expression'] },
+  { name: 'flare.query.Fn', imports: ['flare.query.Expression'] },
+  { name: 'flare.query.If', imports: ['flare.query.Expression'] },
+  { name: 'flare.query.IsA', imports: ['flare.query.Expression'] },
+  { name: 'flare.query.Literal', imports: ['flare.query.Expression'] },
+  { name: 'flare.query.Match', imports: ['flare.query.Expression'] },
+  { name: 'flare.query.Maximum', imports: ['flare.query.AggregateExpression'] },
+  { name: 'flare.query.Minimum', imports: ['flare.query.AggregateExpression'] },
+  { name: 'flare.query.Not', imports: ['flare.query.Expression'] },
+  { name: 'flare.query.Or', imports: ['flare.query.Expression'] },
+  { name: 'flare.query.Query', imports: ['flare.query.Expression'] },
+  { name: 'flare.query.Range', imports: ['flare.query.Expression'] },
+  { name: 'flare.query.StringUtil', imports: [] },
+  { name: 'flare.query.Sum', imports: ['flare.query.AggregateExpression'] },
+  { name: 'flare.query.Variable', imports: ['flare.query.Expression'] },
+  { name: 'flare.query.Variance', imports: ['flare.query.AggregateExpression'] },
+  { name: 'flare.query.Xor', imports: ['flare.query.Expression'] },
+
+  { name: 'flare.scale.IScaleMap', imports: [] },
+  { name: 'flare.scale.LinearScale', imports: ['flare.scale.QuantitativeScale'] },
+  { name: 'flare.scale.LogScale', imports: ['flare.scale.QuantitativeScale'] },
+  { name: 'flare.scale.OrdinalScale', imports: ['flare.scale.Scale'] },
+  { name: 'flare.scale.QuantileScale', imports: ['flare.scale.QuantitativeScale'] },
+  { name: 'flare.scale.QuantitativeScale', imports: ['flare.scale.Scale'] },
+  { name: 'flare.scale.RootScale', imports: ['flare.scale.QuantitativeScale'] },
+  { name: 'flare.scale.Scale', imports: ['flare.scale.IScaleMap'] },
+  { name: 'flare.scale.ScaleType', imports: [] },
+  { name: 'flare.scale.TimeScale', imports: ['flare.scale.QuantitativeScale'] },
+
+  { name: 'flare.vis.Visualization', imports: ['flare.vis.data.Data', 'flare.animate.Transitioner'] },
+  { name: 'flare.vis.controls.AnchorControl', imports: ['flare.vis.controls.Control'] },
+  { name: 'flare.vis.controls.ClickControl', imports: ['flare.vis.controls.Control'] },
+  { name: 'flare.vis.controls.Control', imports: [] },
+  { name: 'flare.vis.controls.ControlList', imports: ['flare.vis.controls.Control'] },
+  { name: 'flare.vis.controls.DragControl', imports: ['flare.vis.controls.Control'] },
+  { name: 'flare.vis.controls.ExpandControl', imports: ['flare.vis.controls.Control'] },
+  { name: 'flare.vis.controls.HoverControl', imports: ['flare.vis.controls.Control'] },
+  { name: 'flare.vis.controls.IControl', imports: [] },
+  { name: 'flare.vis.controls.PanZoomControl', imports: ['flare.vis.controls.Control'] },
+  { name: 'flare.vis.controls.SelectionControl', imports: ['flare.vis.controls.Control'] },
+  { name: 'flare.vis.controls.TooltipControl', imports: ['flare.vis.controls.Control'] },
+
+  { name: 'flare.vis.data.Data', imports: ['flare.vis.data.NodeSprite', 'flare.vis.data.EdgeSprite'] },
+  { name: 'flare.vis.data.DataList', imports: ['flare.vis.data.Data'] },
+  { name: 'flare.vis.data.DataSprite', imports: ['flare.display.DirtySprite'] },
+  { name: 'flare.vis.data.EdgeSprite', imports: ['flare.vis.data.DataSprite'] },
+  { name: 'flare.vis.data.NodeSprite', imports: ['flare.vis.data.DataSprite'] },
+  { name: 'flare.vis.data.ScaleBinding', imports: ['flare.scale.Scale'] },
+  { name: 'flare.vis.data.Tree', imports: ['flare.vis.data.Data'] },
+  { name: 'flare.vis.data.TreeBuilder', imports: ['flare.vis.data.Tree'] },
+
+  { name: 'flare.vis.events.DataEvent', imports: [] },
+  { name: 'flare.vis.events.SelectionEvent', imports: [] },
+  { name: 'flare.vis.events.TooltipEvent', imports: [] },
+  { name: 'flare.vis.events.VisualizationEvent', imports: [] },
+
+  { name: 'flare.vis.legend.Legend', imports: ['flare.vis.legend.LegendItem'] },
+  { name: 'flare.vis.legend.LegendItem', imports: [] },
+  { name: 'flare.vis.legend.LegendRange', imports: ['flare.vis.legend.Legend'] },
+
+  { name: 'flare.vis.operator.IOperator', imports: [] },
+  { name: 'flare.vis.operator.Operator', imports: ['flare.vis.operator.IOperator'] },
+  { name: 'flare.vis.operator.OperatorList', imports: ['flare.vis.operator.Operator'] },
+  { name: 'flare.vis.operator.OperatorSequence', imports: ['flare.vis.operator.Operator'] },
+  { name: 'flare.vis.operator.OperatorSwitch', imports: ['flare.vis.operator.Operator'] },
+  { name: 'flare.vis.operator.SortOperator', imports: ['flare.vis.operator.Operator'] },
+
+  { name: 'flare.vis.operator.distortion.BifocalDistortion', imports: ['flare.vis.operator.distortion.Distortion'] },
+  { name: 'flare.vis.operator.distortion.Distortion', imports: ['flare.vis.operator.Operator'] },
+  { name: 'flare.vis.operator.distortion.FisheyeDistortion', imports: ['flare.vis.operator.distortion.Distortion'] },
+
+  { name: 'flare.vis.operator.encoder.ColorEncoder', imports: ['flare.vis.operator.encoder.Encoder'] },
+  { name: 'flare.vis.operator.encoder.Encoder', imports: ['flare.vis.operator.Operator'] },
+  { name: 'flare.vis.operator.encoder.PropertyEncoder', imports: ['flare.vis.operator.encoder.Encoder'] },
+  { name: 'flare.vis.operator.encoder.ShapeEncoder', imports: ['flare.vis.operator.encoder.Encoder'] },
+  { name: 'flare.vis.operator.encoder.SizeEncoder', imports: ['flare.vis.operator.encoder.Encoder'] },
+
+  { name: 'flare.vis.operator.filter.FisheyeTreeFilter', imports: ['flare.vis.operator.filter.Filter'] },
+  { name: 'flare.vis.operator.filter.GraphDistanceFilter', imports: ['flare.vis.operator.filter.Filter'] },
+  { name: 'flare.vis.operator.filter.VisibilityFilter', imports: ['flare.vis.operator.filter.Filter'] },
+
+  { name: 'flare.vis.operator.labeler.Labeler', imports: ['flare.vis.operator.Operator'] },
+  { name: 'flare.vis.operator.labeler.RadialLabeler', imports: ['flare.vis.operator.labeler.Labeler'] },
+  { name: 'flare.vis.operator.labeler.StackedAreaLabeler', imports: ['flare.vis.operator.labeler.Labeler'] },
+
+  { name: 'flare.vis.operator.layout.AxisLayout', imports: ['flare.vis.operator.layout.Layout'] },
+  { name: 'flare.vis.operator.layout.BundledEdgeRouter', imports: ['flare.vis.operator.layout.Layout'] },
+  { name: 'flare.vis.operator.layout.CircleLayout', imports: ['flare.vis.operator.layout.Layout'] },
+  { name: 'flare.vis.operator.layout.CirclePackingLayout', imports: ['flare.vis.operator.layout.Layout'] },
+  { name: 'flare.vis.operator.layout.DendrogramLayout', imports: ['flare.vis.operator.layout.Layout'] },
+  { name: 'flare.vis.operator.layout.ForceDirectedLayout', imports: ['flare.vis.operator.layout.Layout', 'flare.physics.Simulation'] },
+  { name: 'flare.vis.operator.layout.IndentedTreeLayout', imports: ['flare.vis.operator.layout.Layout'] },
+  { name: 'flare.vis.operator.layout.IcicleTreeLayout', imports: ['flare.vis.operator.layout.Layout'] },
+  { name: 'flare.vis.operator.layout.Layout', imports: ['flare.vis.operator.Operator'] },
+  { name: 'flare.vis.operator.layout.NodeLinkTreeLayout', imports: ['flare.vis.operator.layout.Layout'] },
+  { name: 'flare.vis.operator.layout.PieLayout', imports: ['flare.vis.operator.layout.Layout'] },
+  { name: 'flare.vis.operator.layout.RadialTreeLayout', imports: ['flare.vis.operator.layout.Layout'] },
+  { name: 'flare.vis.operator.layout.RandomLayout', imports: ['flare.vis.operator.layout.Layout'] },
+  { name: 'flare.vis.operator.layout.StackedAreaLayout', imports: ['flare.vis.operator.layout.Layout'] },
+  { name: 'flare.vis.operator.layout.TreeMapLayout', imports: ['flare.vis.operator.layout.Layout'] },
+
+  { name: 'flare.vis.operator.style.ShapeRenderer', imports: [] },
+
+  { name: 'flare.util.Arrays', imports: [] },
+  { name: 'flare.util.Colors', imports: [] },
+  { name: 'flare.util.Dates', imports: [] },
+  { name: 'flare.util.Displays', imports: [] },
+  { name: 'flare.util.Filter', imports: [] },
+  { name: 'flare.util.Geometry', imports: [] },
+  { name: 'flare.util.Heap', imports: [] },
+  { name: 'flare.util.IEvaluator', imports: [] },
+  { name: 'flare.util.IPredicate', imports: [] },
+  { name: 'flare.util.Orientation', imports: [] },
+  { name: 'flare.util.Property', imports: [] },
+  { name: 'flare.util.Sort', imports: [] },
+  { name: 'flare.util.Stats', imports: [] },
+  { name: 'flare.util.Strings', imports: [] },
+  { name: 'flare.util.math.DenseMatrix', imports: ['flare.util.math.IMatrix'] },
+  { name: 'flare.util.math.IMatrix', imports: [] },
+  { name: 'flare.util.math.IMaths', imports: [] },
+  { name: 'flare.util.math.SparseMatrix', imports: ['flare.util.math.IMatrix'] },
+  { name: 'flare.util.heap.FibonacciHeap', imports: [] },
+  { name: 'flare.util.heap.HeapNode', imports: [] },
+];
+
 
 // Smartphone Brand Switching / Market Flow Chord dataset matching reference image
 const SMARTPHONE_CHORD_DATA = {
@@ -561,6 +764,23 @@ export function NetworksPage({ activeComponent }: NetworksPageProps) {
     </div>
   );
 
+  const renderHierarchicalEdgeBundling = () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <Card variant="outlined" style={{ padding: 24 }}>
+        <CardContent>
+          <HierarchicalEdgeBundling
+            title="Flare Software Package Dependencies (Hierarchical Edge Bundling)"
+            subtitle="Radial cluster layout visualizing class dependencies across the Flare software library using B-splines. Adjust tension (β) or hover over package classes to highlight dependency pathways."
+            data={FLARE_EDGE_BUNDLING_DATA}
+            height={800}
+            beta={0.85}
+            showLabels={true}
+          />
+        </CardContent>
+      </Card>
+    </div>
+  );
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
       <PageTitle
@@ -621,9 +841,19 @@ export function NetworksPage({ activeComponent }: NetworksPageProps) {
           {renderChordDiagram()}
         </DemoSection>
       )}
+
+      {(!activeComponent || activeComponent === 'hierarchical-edge-bundling') && (
+        <DemoSection
+          title="Hierarchical Edge Bundling"
+          description="Radial tree layout routing inter-leaf connections along hierarchical parent paths using adjustable B-spline tension."
+        >
+          {renderHierarchicalEdgeBundling()}
+        </DemoSection>
+      )}
     </div>
   );
 }
+
 
 
 

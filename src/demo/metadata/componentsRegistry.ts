@@ -1680,7 +1680,34 @@ const COMPONENT_DOC_BLUEPRINTS: Record<string, Omit<ComponentMetadata, 'id' | 'l
       { name: 'interactive', label: 'Hover Tooltip', type: 'boolean', defaultValue: true },
     ],
   },
+  'hierarchical-edge-bundling': {
+    status: 'beta',
+    description: 'A radial visualization routing inter-node connections along a hierarchical tree using B-spline curves. Ideal for software package dependencies and complex cross-references.',
+    props: [
+      { name: 'data', type: 'EdgeBundlingItem[]', default: 'required', description: 'Array of hierarchical items with dot-separated names and import lists.' },
+      { name: 'height', type: 'number', default: '760', description: 'Chart height / diameter in pixels.' },
+      { name: 'beta', type: 'number', default: '0.85', description: 'Bundling tension parameter in range [0, 1].' },
+      { name: 'showLabels', type: 'boolean', default: 'true', description: 'Whether to show node labels around circle perimeter.' },
+      { name: 'interactive', type: 'boolean', default: 'true', description: 'Enables node hover highlighting and tooltips.' },
+      { name: 'title', type: 'string', default: 'undefined', description: 'Optional main title above chart.' },
+      { name: 'subtitle', type: 'string', default: 'undefined', description: 'Optional secondary subtitle text.' },
+    ],
+    keyboard: [
+      { key: 'Mouse Hover Node', action: 'Highlights incoming (used by) and outgoing (depends on) dependency paths.' },
+    ],
+    aria: [
+      { name: 'data-md3-component="hierarchical-edge-bundling"', description: 'Identifies the root element as a Hierarchical Edge Bundling diagram.' },
+    ],
+    doDonts: [
+      { do: 'Adjust beta tension (0.80 - 0.90) for crisp, bundled path groupings.', dont: 'Set beta to 0 when visualizing large graphs which causes extreme visual clutter.' },
+    ],
+    playgroundControls: [
+      { name: 'showLabels', label: 'Show Labels', type: 'boolean', defaultValue: true },
+      { name: 'interactive', label: 'Hover Tooltip', type: 'boolean', defaultValue: true },
+    ],
+  },
 };
+
 
 
 
