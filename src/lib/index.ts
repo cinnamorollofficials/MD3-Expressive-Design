@@ -85,6 +85,8 @@ export * from './components/KernelDensityEstimation';
 export * from './components/HexbinChart';
 export * from './components/QQPlot';
 export * from './components/ChoroplethMap';
+export * from './components/BivariateChoroplethMap';
+
 
 
 

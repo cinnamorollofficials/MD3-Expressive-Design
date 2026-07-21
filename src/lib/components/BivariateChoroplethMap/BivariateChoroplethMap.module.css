@@ -1,0 +1,171 @@
+.root {
+  position: relative;
+  width: 100%;
+  font-family: var(--md-sys-typescale-body-medium-font-family, inherit);
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  margin-bottom: 12px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.headerText {
+  flex: 1;
+  min-width: 200px;
+}
+
+.title {
+  margin: 0;
+  color: var(--md-sys-color-on-surface);
+  font-size: var(--md-sys-typescale-title-medium-font-size, 16px);
+  font-weight: var(--md-sys-typescale-title-medium-font-weight, 600);
+}
+
+.subtitle {
+  margin: 4px 0 0 0;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-body-small-font-size, 12px);
+}
+
+/* Chart Canvas */
+.chartContainer {
+  position: relative;
+  width: 100%;
+  background: var(--md-sys-color-surface-container-lowest, rgba(0, 0, 0, 0.02));
+  border-radius: var(--md-sys-shape-corner-lg, 16px);
+  overflow: hidden;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+}
+
+/* Feature Polygons */
+.featurePath {
+  stroke: var(--md-sys-color-surface, #FFFFFF);
+  stroke-width: 0.35px;
+  transition: opacity 0.15s ease, stroke-width 0.15s ease, filter 0.15s ease;
+  cursor: pointer;
+}
+
+.featurePath:hover {
+  stroke: var(--md-sys-color-on-surface, #000000);
+  stroke-width: 1.5px;
+  filter: brightness(1.12);
+}
+
+.featureDimmed {
+  opacity: 0.3;
+}
+
+.borderPath {
+  fill: none;
+  stroke: var(--md-sys-color-surface, #FFFFFF);
+  stroke-width: 1px;
+  stroke-linejoin: round;
+  stroke-linecap: round;
+  pointer-events: none;
+}
+
+.missingPath {
+  fill: var(--md-sys-color-surface-container-high, #E5E5E5);
+  stroke: var(--md-sys-color-surface, #FFFFFF);
+  stroke-width: 0.35px;
+}
+
+.sphereOutline {
+  fill: none;
+  stroke: var(--md-sys-color-on-surface, #000000);
+  stroke-width: 1px;
+  pointer-events: none;
+}
+
+/* 45-degree Rotated Diamond Legend Overlay */
+.legendOverlay {
+  position: absolute;
+  bottom: 20px;
+  right: 24px;
+  background: var(--md-sys-color-surface-container-high, rgba(255, 255, 255, 0.9));
+  backdrop-filter: blur(8px);
+  padding: 12px 16px 14px 16px;
+  border-radius: var(--md-sys-shape-corner-md, 12px);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+  z-index: 10;
+}
+
+.legendSvg {
+  overflow: visible;
+}
+
+.legendLabel {
+  fill: var(--md-sys-color-on-surface);
+  font-size: 10px;
+  font-weight: 700;
+  font-family: var(--md-sys-typescale-body-small-font-family, sans-serif);
+}
+
+/* Tooltip */
+.tooltip {
+  position: absolute;
+  pointer-events: none;
+  background-color: var(--md-sys-color-surface-container-high);
+  color: var(--md-sys-color-on-surface);
+  padding: 8px 12px;
+  border-radius: var(--md-sys-shape-corner-md, 8px);
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  font-size: var(--md-sys-typescale-body-small-font-size, 12px);
+  z-index: 20;
+  transform: translate(-50%, -100%);
+  margin-top: -12px;
+  white-space: nowrap;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 170px;
+}
+
+.tooltipTitle {
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--md-sys-color-on-surface);
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
+  padding-bottom: 4px;
+  margin-bottom: 2px;
+}
+
+.tooltipRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 11px;
+}
+
+.tooltipColorChip {
+  width: 12px;
+  height: 12px;
+  border-radius: 2px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 6px;
+  border: 0.5px solid rgba(0,0,0,0.2);
+}
+
+.tooltipValue {
+  font-weight: 700;
+}
