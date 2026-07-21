@@ -63,7 +63,7 @@
   letter-spacing: 0.5px;
   text-transform: uppercase;
   color: var(--md-sys-color-on-surface-variant);
-  padding: 20px 16px 8px;
+  padding: 24px 16px 8px;
 }
 
 .collapsedDivider {
@@ -78,7 +78,7 @@
   align-items: center;
   gap: 12px;
   padding: 0 16px;
-  height: 44px;
+  height: 48px;
   border-radius: var(--md-sys-shape-corner-full);
   font: var(--md-sys-typescale-label-large);
   color: var(--md-sys-color-on-surface-variant);
@@ -155,7 +155,7 @@
   align-items: center;
   gap: 12px;
   padding: 0 16px;
-  height: 44px;
+  height: 48px;
   border-radius: var(--md-sys-shape-corner-full);
   font: var(--md-sys-typescale-label-large);
   color: var(--md-sys-color-on-surface-variant);
@@ -185,7 +185,7 @@
   flex-direction: column;
   gap: 4px;
   margin-top: 4px;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
 
 .subNavItem {
@@ -193,7 +193,7 @@
   align-items: center;
   padding-left: 48px;
   padding-right: 16px;
-  height: 40px;
+  height: 44px;
   border-radius: var(--md-sys-shape-corner-full);
   font: var(--md-sys-typescale-body-medium);
   color: var(--md-sys-color-on-surface-variant);
