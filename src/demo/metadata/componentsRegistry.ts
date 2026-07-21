@@ -1763,7 +1763,35 @@ const COMPONENT_DOC_BLUEPRINTS: Record<string, Omit<ComponentMetadata, 'id' | 'l
       { name: 'interactive', label: 'Hover Tooltip', type: 'boolean', defaultValue: true },
     ],
   },
+  'box-plot': {
+    status: 'beta',
+    description: 'A statistical distribution chart component rendering Tukey five-number summary boxes (Min, Q1, Median, Q3, Max) and individual jittered outlier data points.',
+    props: [
+      { name: 'data', type: 'BoxPlotGroupData[]', default: 'required', description: 'Array of group objects with raw values array or 5-number summary.' },
+      { name: 'height', type: 'number', default: '540', description: 'Chart height in pixels.' },
+      { name: 'boxColor', type: 'string', default: "'var(--md-sys-color-surface-container-high)'", description: 'Fill color for box rectangles.' },
+      { name: 'medianColor', type: 'string', default: "'var(--md-sys-color-on-surface)'", description: 'Stroke color for median lines.' },
+      { name: 'showOutliers', type: 'boolean', default: 'true', description: 'Whether to render translucent jittered outlier dots.' },
+      { name: 'interactive', type: 'boolean', default: 'true', description: 'Enables hover tooltips with 5-number summary statistics.' },
+      { name: 'title', type: 'string', default: 'undefined', description: 'Optional main title above chart.' },
+      { name: 'subtitle', type: 'string', default: 'undefined', description: 'Optional secondary subtitle text.' },
+    ],
+    keyboard: [
+      { key: 'Mouse Hover Box', action: 'Displays 5-number summary tooltip (Min, Q1, Median, Q3, Max, Outliers).' },
+    ],
+    aria: [
+      { name: 'data-md3-component="box-plot"', description: 'Identifies the root element as a Box Plot chart.' },
+    ],
+    doDonts: [
+      { do: 'Use box plots for comparing distribution shapes, medians, and spreads across categories.', dont: 'Use box plots for sample sizes under 5 items where histograms or bar charts are clearer.' },
+    ],
+    playgroundControls: [
+      { name: 'showOutliers', label: 'Show Outliers', type: 'boolean', defaultValue: true },
+      { name: 'interactive', label: 'Hover Tooltip', type: 'boolean', defaultValue: true },
+    ],
+  },
 };
+
 
 
 

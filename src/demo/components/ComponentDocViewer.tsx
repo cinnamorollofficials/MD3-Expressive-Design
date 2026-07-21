@@ -5,8 +5,9 @@ import { cn } from '../../lib/utils/cn';
 import {
   Button, IconButton, FAB, Card, CardContent, CardTitle, CardBody,
   Switch, Checkbox, TextField, Slider, Badge, Avatar,
-  AreaChart, StackedAreaChart, DifferenceChart, BarChart, HorizontalBarChart, DivergingBarChart, StackedBarChart, TimelineChart, CalendarChart, ForceDirectedGraph, DisjointForceDirectedGraph, DirectedForceGraph, ArcDiagram, SankeyDiagram, ChordDiagram, HierarchicalEdgeBundling, MovingAverageChart, BollingerBandsChart
+  AreaChart, StackedAreaChart, DifferenceChart, BarChart, HorizontalBarChart, DivergingBarChart, StackedBarChart, TimelineChart, CalendarChart, ForceDirectedGraph, DisjointForceDirectedGraph, DirectedForceGraph, ArcDiagram, SankeyDiagram, ChordDiagram, HierarchicalEdgeBundling, MovingAverageChart, BollingerBandsChart, BoxPlot
 } from '../../lib';
+
 
 
 
@@ -660,6 +661,22 @@ export function ComponentDocViewer({ id, children }: ComponentDocViewerProps) {
             />
           </div>
         );
+      case 'box-plot':
+        return (
+          <div style={{ width: '100%', padding: '0 16px' }}>
+            <BoxPlot
+              data={[
+                { group: 'Group A', values: [12, 15, 18, 22, 25, 28, 32, 45] },
+                { group: 'Group B', values: [20, 24, 28, 30, 35, 42, 48, 55, 78] },
+                { group: 'Group C', values: [8, 12, 14, 16, 20, 22, 24, 26] },
+              ]}
+              showOutliers={playgroundProps.showOutliers}
+              interactive={playgroundProps.interactive}
+              height={360}
+            />
+          </div>
+        );
+
 
 
 

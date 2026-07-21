@@ -1,0 +1,150 @@
+.root {
+  position: relative;
+  width: 100%;
+  font-family: var(--md-sys-typescale-body-medium-font-family, inherit);
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  margin-bottom: 12px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.headerText {
+  flex: 1;
+  min-width: 200px;
+}
+
+.title {
+  margin: 0;
+  color: var(--md-sys-color-on-surface);
+  font-size: var(--md-sys-typescale-title-medium-font-size, 16px);
+  font-weight: var(--md-sys-typescale-title-medium-font-weight, 600);
+}
+
+.subtitle {
+  margin: 4px 0 0 0;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-body-small-font-size, 12px);
+}
+
+.chartContainer {
+  position: relative;
+  width: 100%;
+  background: var(--md-sys-color-surface-container-lowest, rgba(0, 0, 0, 0.02));
+  border-radius: var(--md-sys-shape-corner-lg, 16px);
+  overflow: hidden;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+}
+
+/* Grid & Axes */
+.gridLine {
+  stroke: var(--md-sys-color-outline-variant);
+  stroke-opacity: 0.35;
+  stroke-dasharray: 2 2;
+}
+
+.axisText {
+  fill: var(--md-sys-color-on-surface-variant);
+  font-size: 10px;
+  font-family: var(--md-sys-typescale-body-small-font-family, sans-serif);
+}
+
+/* Box & Whiskers Elements */
+.boxGroup {
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.boxGroup:hover {
+  opacity: 0.85;
+}
+
+.whiskerLine {
+  stroke: var(--md-sys-color-outline, #79747E);
+  stroke-width: 1.2px;
+}
+
+.whiskerCap {
+  stroke: var(--md-sys-color-outline, #79747E);
+  stroke-width: 1.2px;
+}
+
+.boxRect {
+  fill: var(--md-sys-color-surface-container-high, #E6E1E5);
+  stroke: var(--md-sys-color-outline-variant, #CAC4D0);
+  stroke-width: 1px;
+  rx: 2px;
+  ry: 2px;
+  transition: fill 0.2s ease, stroke 0.2s ease;
+}
+
+.medianLine {
+  stroke: var(--md-sys-color-on-surface, #1D1B20);
+  stroke-width: 2.5px;
+  stroke-linecap: round;
+}
+
+.outlierCircle {
+  fill: var(--md-sys-color-on-surface);
+  fill-opacity: 0.25;
+  stroke: none;
+  transition: fill-opacity 0.2s ease, r 0.2s ease;
+}
+
+.outlierCircle:hover {
+  fill-opacity: 0.8;
+  r: 4px;
+}
+
+/* Tooltip */
+.tooltip {
+  position: absolute;
+  pointer-events: none;
+  background-color: var(--md-sys-color-surface-container-high);
+  color: var(--md-sys-color-on-surface);
+  padding: 8px 12px;
+  border-radius: var(--md-sys-shape-corner-md, 8px);
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  font-size: var(--md-sys-typescale-body-small-font-size, 12px);
+  z-index: 20;
+  transform: translate(-50%, -100%);
+  margin-top: -12px;
+  white-space: nowrap;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tooltipTitle {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--md-sys-color-on-surface);
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
+  padding-bottom: 4px;
+  margin-bottom: 2px;
+}
+
+.tooltipRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 11px;
+}
+
+.tooltipValue {
+  font-weight: 600;
+}
