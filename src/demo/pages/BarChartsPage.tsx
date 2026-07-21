@@ -1,4 +1,4 @@
-import { BarChart, Card, CardContent } from '../../lib';
+import { BarChart, HorizontalBarChart, Card, CardContent } from '../../lib';
 import { DemoSection, PageTitle } from '../components/DemoSection';
 
 // Letter frequency data matching the official D3 bar chart example
@@ -29,6 +29,20 @@ const LETTER_FREQUENCY_DATA = [
   { letter: 'X', frequency: 0.150 },
   { letter: 'Q', frequency: 0.095 },
   { letter: 'Z', frequency: 0.074 },
+];
+
+// Most populated countries, sorted descending — canonical horizontal bar chart example
+const POPULATION_DATA = [
+  { country: 'India', population: 1428.6 },
+  { country: 'China', population: 1425.7 },
+  { country: 'United States', population: 339.0 },
+  { country: 'Indonesia', population: 277.5 },
+  { country: 'Pakistan', population: 240.5 },
+  { country: 'Brazil', population: 215.3 },
+  { country: 'Nigeria', population: 223.8 },
+  { country: 'Bangladesh', population: 172.9 },
+  { country: 'Russia', population: 144.4 },
+  { country: 'Ethiopia', population: 126.5 },
 ];
 
 export function BarChartsPage({ activeComponent }: { activeComponent?: string }) {
@@ -73,6 +87,46 @@ const data = [
                   subtitle="Relative frequency of letters in the English language"
                   yFormatter={(val) => `${val}%`}
                   color="#5985ab"
+                />
+              </CardContent>
+            </Card>
+          </div>
+        </DemoSection>
+      )}
+
+      {(showAll || activeComponent === 'horizontal-bar-chart') && (
+        <DemoSection
+          title="Horizontal Bar Chart"
+          description="Horizontal bar charts are ideal when category labels are long, when there are many categories, or when a left-to-right reading order is more natural. Bars extend from a common baseline on the Y axis."
+          code={`import { HorizontalBarChart } from '@hadi_gunawan/md3-expressive-ds';
+
+const data = [
+  { country: 'India', population: 1428.6 },
+  { country: 'China', population: 1425.7 },
+  // ...
+];
+
+<HorizontalBarChart
+  data={data}
+  yKey="country"
+  xKey="population"
+  title="Most Populated Countries (2023)"
+  subtitle="Population in millions"
+  xFormatter={(val) => \`\${val}M\`}
+/>`}
+        >
+          <div style={{ width: '100%' }}>
+            <Card variant="outlined" style={{ padding: 16 }}>
+              <CardContent>
+                <HorizontalBarChart
+                  data={POPULATION_DATA}
+                  yKey="country"
+                  xKey="population"
+                  title="Most Populated Countries (2023)"
+                  subtitle="Population in millions — sorted by population descending"
+                  xFormatter={(val) => `${val}M`}
+                  color="#5985ab"
+                  height={380}
                 />
               </CardContent>
             </Card>

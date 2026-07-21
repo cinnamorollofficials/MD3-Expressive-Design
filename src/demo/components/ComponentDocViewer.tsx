@@ -5,7 +5,7 @@ import { cn } from '../../lib/utils/cn';
 import {
   Button, IconButton, FAB, Card, CardContent, CardTitle, CardBody,
   Switch, Checkbox, TextField, Slider, Badge, Avatar,
-  AreaChart, StackedAreaChart, DifferenceChart, BarChart
+  AreaChart, StackedAreaChart, DifferenceChart, BarChart, HorizontalBarChart
 } from '../../lib';
 import { CodeBlock } from './CodeBlock';
 import styles from './ComponentDocViewer.module.css';
@@ -58,6 +58,15 @@ const PLAYGROUND_BAR_DATA = [
   { label: 'H', value: 6.1 },
   { label: 'R', value: 6.0 },
   { label: 'D', value: 4.3 },
+];
+
+const PLAYGROUND_HBAR_DATA = [
+  { country: 'India', value: 1428.6 },
+  { country: 'China', value: 1425.7 },
+  { country: 'USA', value: 339.0 },
+  { country: 'Indonesia', value: 277.5 },
+  { country: 'Pakistan', value: 240.5 },
+  { country: 'Brazil', value: 215.3 },
 ];
 
 interface ComponentDocViewerProps {
@@ -326,6 +335,23 @@ export function ComponentDocViewer({ id, children }: ComponentDocViewerProps) {
               showAxes={playgroundProps.showAxes}
               interactive={playgroundProps.interactive}
               color="var(--md-sys-color-primary)"
+              height={220}
+            />
+          </div>
+        );
+      case 'horizontal-bar-chart':
+        return (
+          <div style={{ width: '100%', height: 260, padding: '0 16px' }}>
+            <HorizontalBarChart
+              data={PLAYGROUND_HBAR_DATA}
+              yKey="country"
+              xKey="value"
+              showGrid={playgroundProps.showGrid}
+              showAxes={playgroundProps.showAxes}
+              showValueLabels={playgroundProps.showValueLabels}
+              interactive={playgroundProps.interactive}
+              color="var(--md-sys-color-primary)"
+              xFormatter={(v) => `${v}M`}
               height={220}
             />
           </div>

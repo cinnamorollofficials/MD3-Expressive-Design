@@ -159,6 +159,7 @@ export const COMPONENT_GROUPS: GroupDef[] = [
     icon: 'bar_chart',
     components: [
       { id: 'bar-chart', label: 'Bar Chart', status: 'beta' },
+      { id: 'horizontal-bar-chart', label: 'Horizontal Bar Chart', status: 'beta' },
     ],
   },
 ];

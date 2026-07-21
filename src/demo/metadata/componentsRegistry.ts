@@ -579,6 +579,45 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentMetadata> = {
       { name: 'interactive', label: 'Hover Tooltip', type: 'boolean', defaultValue: true },
     ],
   },
+  'horizontal-bar-chart': {
+    id: 'horizontal-bar-chart',
+    label: 'Horizontal Bar Chart',
+    status: 'beta',
+    description: 'A horizontal bar chart mapping categories to values with bars extending left-to-right. Ideal for long category labels, ranked comparisons, or when a horizontal reading flow feels more natural.',
+    props: [
+      { name: 'data', type: 'any[]', default: 'required', description: 'Array of data objects.' },
+      { name: 'yKey', type: 'string', default: 'required', description: 'Key in each data object used for the Y axis (category labels).' },
+      { name: 'xKey', type: 'string', default: 'required', description: 'Key in each data object for the quantitative X axis value (bar length).' },
+      { name: 'height', type: 'number', default: '400', description: 'Chart drawing height in pixels.' },
+      { name: 'showGrid', type: 'boolean', default: 'true', description: 'Whether to overlay background vertical grid lines.' },
+      { name: 'showAxes', type: 'boolean', default: 'true', description: 'Whether to show the X and Y axes with tick labels.' },
+      { name: 'barRadius', type: 'number', default: '3', description: 'Corner radius applied to the right end of each bar.' },
+      { name: 'barPadding', type: 'number', default: '0.2', description: 'Ratio of whitespace between bars (0 = no gap, 1 = all gap).' },
+      { name: 'color', type: 'string', default: 'var(--md-sys-color-primary)', description: 'Fill color of all bars.' },
+      { name: 'showValueLabels', type: 'boolean', default: 'true', description: 'Shows the numeric value at the right end of each bar.' },
+      { name: 'interactive', type: 'boolean', default: 'true', description: 'Enables hover tooltips revealing the bar label and value.' },
+      { name: 'title', type: 'string', default: 'undefined', description: 'Optional chart title displayed above the chart.' },
+      { name: 'subtitle', type: 'string', default: 'undefined', description: 'Optional secondary descriptive text below the title.' },
+      { name: 'xFormatter', type: '(val: number) => string', default: 'undefined', description: 'Custom formatter for X-axis tick labels and tooltip values.' },
+      { name: 'yFormatter', type: '(val: string) => string', default: 'undefined', description: 'Custom formatter for Y-axis category labels.' },
+    ],
+    keyboard: [
+      { key: 'Mouse Hover', action: 'Shows a tooltip card with the category label and numeric bar value.' },
+    ],
+    aria: [
+      { name: 'data-md3-component="horizontal-bar-chart"', description: 'Identifies the root element as a horizontal bar chart component.' },
+    ],
+    doDonts: [
+      { do: 'Use horizontal bars when category labels are long text (e.g. country names, product names) to avoid cramped X-axis labels.', dont: 'Mix horizontal and vertical bar charts on the same dashboard without a clear reason — pick one orientation consistently.' },
+      { do: 'Sort bars by value (descending top-to-bottom) to make rankings scannable at a glance.', dont: 'Use horizontal bars for time-series data — area or line charts communicate temporal progression more naturally.' },
+    ],
+    playgroundControls: [
+      { name: 'showGrid', label: 'Show Grid Lines', type: 'boolean', defaultValue: true },
+      { name: 'showAxes', label: 'Show Axes', type: 'boolean', defaultValue: true },
+      { name: 'showValueLabels', label: 'Show Value Labels', type: 'boolean', defaultValue: true },
+      { name: 'interactive', label: 'Hover Tooltip', type: 'boolean', defaultValue: true },
+    ],
+  },
 };
 
 const COMMON_CLASS_PROP: PropDef = {
