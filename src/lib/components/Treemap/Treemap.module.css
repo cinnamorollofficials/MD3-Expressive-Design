@@ -1,0 +1,189 @@
+.root {
+  position: relative;
+  width: 100%;
+  font-family: var(--md-sys-typescale-body-medium-font-family, inherit);
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  margin-bottom: 12px;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.headerText {
+  flex: 1;
+  min-width: 200px;
+}
+
+.title {
+  margin: 0;
+  color: var(--md-sys-color-on-surface);
+  font-size: var(--md-sys-typescale-title-medium-font-size, 16px);
+  font-weight: var(--md-sys-typescale-title-medium-font-weight, 600);
+}
+
+.subtitle {
+  margin: 4px 0 0 0;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-body-small-font-size, 12px);
+}
+
+/* Controls Toolbar (Tiling Method Dropdown matching D3 reference) */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.controlGroup {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.controlLabel {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--md-sys-color-on-surface-variant);
+  white-space: nowrap;
+}
+
+.select {
+  height: 32px;
+  padding: 0 12px;
+  border-radius: var(--md-sys-shape-corner-xs, 6px);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  background: var(--md-sys-color-surface-container-low);
+  color: var(--md-sys-color-on-surface);
+  font-size: 12px;
+  font-weight: 600;
+  outline: none;
+  cursor: pointer;
+}
+
+.select:focus {
+  border-color: var(--md-sys-color-primary);
+}
+
+/* Legend Swatches */
+.legend {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+.legendSwatch {
+  width: 14px;
+  height: 14px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+/* Chart Canvas */
+.chartContainer {
+  position: relative;
+  width: 100%;
+  background: var(--md-sys-color-surface-container-lowest, rgba(0, 0, 0, 0.02));
+  border-radius: var(--md-sys-shape-corner-lg, 16px);
+  overflow: hidden;
+}
+
+.svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+}
+
+/* Treemap Node Rectangles */
+.nodeRect {
+  stroke: var(--md-sys-color-surface, #FFFFFF);
+  stroke-width: 1px;
+  transition: opacity 0.15s ease, filter 0.15s ease, stroke-width 0.15s ease;
+  cursor: pointer;
+}
+
+.nodeRect:hover {
+  stroke: var(--md-sys-color-on-surface, #000000);
+  stroke-width: 2px;
+  filter: brightness(1.12);
+}
+
+.nodeDimmed {
+  opacity: 0.3;
+}
+
+.nodeLabelText {
+  fill: var(--md-sys-color-on-surface);
+  font-size: 10px;
+  font-weight: 600;
+  font-family: var(--md-sys-typescale-body-small-font-family, sans-serif);
+  pointer-events: none;
+}
+
+.nodeValueText {
+  fill: var(--md-sys-color-on-surface-variant);
+  font-size: 9px;
+  font-weight: 500;
+  font-family: var(--md-sys-typescale-body-small-font-family, sans-serif);
+  opacity: 0.85;
+  pointer-events: none;
+}
+
+/* Tooltip (Matching D3 reference popup style) */
+.tooltip {
+  position: absolute;
+  pointer-events: none;
+  background-color: var(--md-sys-color-surface-container-high, #2C2C2C);
+  color: var(--md-sys-color-on-surface, #FFFFFF);
+  padding: 8px 12px;
+  border-radius: var(--md-sys-shape-corner-md, 8px);
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.2);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  font-size: var(--md-sys-typescale-body-small-font-size, 12px);
+  z-index: 20;
+  transform: translate(-50%, -100%);
+  margin-top: -12px;
+  white-space: nowrap;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 140px;
+}
+
+.tooltipTitle {
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--md-sys-color-on-surface);
+}
+
+.tooltipPath {
+  font-size: 11px;
+  color: var(--md-sys-color-on-surface-variant);
+  opacity: 0.9;
+  word-break: break-all;
+}
+
+.tooltipValue {
+  font-weight: 700;
+  font-size: 12px;
+  margin-top: 2px;
+}

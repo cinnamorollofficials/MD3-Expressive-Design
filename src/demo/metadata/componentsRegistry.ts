@@ -1856,7 +1856,38 @@ const COMPONENT_DOC_BLUEPRINTS: Record<string, Omit<ComponentMetadata, 'id' | 'l
       { name: 'interactive', label: 'Hover Tooltip', type: 'boolean', defaultValue: true },
     ],
   },
+  treemap: {
+    status: 'beta',
+    description: 'A treemap visualizes hierarchical tree structure data as nested rectangles sized proportionally to a quantitative node metric (lines of code, budget, disk size).',
+    props: [
+      { name: 'data', type: 'TreemapNode', default: 'required', description: 'Root node object with name, optional value, category, and children array.' },
+      { name: 'tilingMethod', type: "'binary' | 'squarify' | 'dice' | 'slice' | 'sliceDice' | 'resquarify'", default: "'binary'", description: 'Tiling algorithm used to subdivide rectangles.' },
+      { name: 'paddingInner', type: 'number', default: '2', description: 'Inner pixel spacing between sibling treemap boxes.' },
+      { name: 'paddingOuter', type: 'number', default: '2', description: 'Outer pixel margin around parent category containers.' },
+      { name: 'height', type: 'number', default: '580', description: 'Chart canvas height in pixels.' },
+      { name: 'showControls', type: 'boolean', default: 'true', description: 'Displays top Tiling Method select dropdown control.' },
+      { name: 'showLegend', type: 'boolean', default: 'true', description: 'Displays top category color swatches.' },
+      { name: 'interactive', type: 'boolean', default: 'true', description: 'Enables box hover highlight, dimming, and full path popup tooltip.' },
+      { name: 'title', type: 'string', default: 'undefined', description: 'Main title above chart.' },
+      { name: 'subtitle', type: 'string', default: 'undefined', description: 'Secondary subtitle text.' },
+    ],
+    keyboard: [
+      { key: 'Mouse Hover Box', action: 'Highlights box, dims others, and displays full node path and value in tooltip.' },
+    ],
+    aria: [
+      { name: 'data-md3-component="treemap"', description: 'Identifies root element as a Treemap chart component.' },
+    ],
+    doDonts: [
+      { do: 'Use treemaps for part-to-whole hierarchical breakdowns with 2+ levels of nesting.', dont: 'Use treemaps when precise quantitative comparison of rectangle areas is critical — use bar charts instead.' },
+    ],
+    playgroundControls: [
+      { name: 'tilingMethod', label: 'Tiling Method', type: 'select', options: ['binary', 'squarify', 'dice', 'slice', 'sliceDice', 'resquarify'], defaultValue: 'binary' },
+      { name: 'showControls', label: 'Show Controls', type: 'boolean', defaultValue: true },
+      { name: 'interactive', label: 'Hover Tooltip', type: 'boolean', defaultValue: true },
+    ],
+  },
 };
+
 
 
 

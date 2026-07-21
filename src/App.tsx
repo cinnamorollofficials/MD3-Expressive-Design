@@ -26,6 +26,8 @@ import { BarChartsPage } from './demo/pages/BarChartsPage';
 import { NetworksPage } from './demo/pages/NetworksPage';
 import { AnalysisPage } from './demo/pages/AnalysisPage';
 import { MapsPage } from './demo/pages/MapsPage';
+import { HierarchiesPage } from './demo/pages/HierarchiesPage';
+
 
 
 
@@ -211,6 +213,14 @@ export const COMPONENT_GROUPS: GroupDef[] = [
       { id: 'bivariate-choropleth', label: 'Bivariate Choropleth', status: 'beta' },
     ],
   },
+  {
+    id: 'hierarchies',
+    label: 'Hierarchies',
+    icon: 'account_tree',
+    components: [
+      { id: 'treemap', label: 'Treemap', status: 'beta' },
+    ],
+  },
 ];
 
 
@@ -298,6 +308,7 @@ export function App() {
     case 'networks': content = <NetworksPage activeComponent={activeComponent} />; break;
     case 'analysis': content = <AnalysisPage activeComponent={activeComponent} />; break;
     case 'maps': content = <MapsPage activeComponent={activeComponent} />; break;
+    case 'hierarchies': content = <HierarchiesPage activeComponent={activeComponent} />; break;
 
 
 
