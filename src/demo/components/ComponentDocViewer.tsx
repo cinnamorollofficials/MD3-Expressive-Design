@@ -5,7 +5,7 @@ import { cn } from '../../lib/utils/cn';
 import {
   Button, IconButton, FAB, Card, CardContent, CardTitle, CardBody,
   Switch, Checkbox, TextField, Slider, Badge, Avatar,
-  AreaChart, StackedAreaChart, DifferenceChart, BarChart, HorizontalBarChart, DivergingBarChart, StackedBarChart, TimelineChart
+  AreaChart, StackedAreaChart, DifferenceChart, BarChart, HorizontalBarChart, DivergingBarChart, StackedBarChart, TimelineChart, CalendarChart
 } from '../../lib';
 import { CodeBlock } from './CodeBlock';
 import styles from './ComponentDocViewer.module.css';
@@ -97,6 +97,23 @@ const PLAYGROUND_TIMELINE_DATA = [
   { id: 'china', name: 'Ancient China', start: -2000, end: 1900, region: 'East Asia' },
   { id: 'rome', name: 'Rome', start: -500, end: 500, region: 'Mediterranean' },
 ];
+
+const generatePlaygroundCalendar = () => {
+  const data = [];
+  const year = 2020;
+  for (let month = 0; month < 3; month++) {
+    for (let day = 1; day <= 28; day++) {
+      const date = new Date(year, month, day);
+      const dayOfWeek = date.getDay();
+      if (dayOfWeek === 0 || dayOfWeek === 6) continue;
+      const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+      const pseudoRand = Math.sin(month * 10 + day) * 0.05;
+      data.push({ date: dateStr, value: pseudoRand });
+    }
+  }
+  return data;
+};
+const PLAYGROUND_CALENDAR_DATA = generatePlaygroundCalendar();
 
 interface ComponentDocViewerProps {
   id: string;
@@ -450,6 +467,19 @@ export function ComponentDocViewer({ id, children }: ComponentDocViewerProps) {
               showAxes={playgroundProps.showAxes}
               interactive={playgroundProps.interactive}
               height={240}
+            />
+          </div>
+        );
+      case 'calendar-chart':
+        return (
+          <div style={{ width: '100%', height: 160, padding: '0 16px' }}>
+            <CalendarChart
+              data={PLAYGROUND_CALENDAR_DATA}
+              dateKey="date"
+              valueKey="value"
+              weekdaysOnly={playgroundProps.weekdaysOnly}
+              interactive={playgroundProps.interactive}
+              cellSize={12}
             />
           </div>
         );

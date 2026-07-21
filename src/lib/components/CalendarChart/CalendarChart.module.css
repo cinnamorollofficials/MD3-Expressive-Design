@@ -1,0 +1,148 @@
+.root {
+  position: relative;
+  width: 100%;
+  font-family: var(--md-sys-typescale-body-medium-font-family, inherit);
+  display: flex;
+  flex-direction: column;
+}
+
+.chartContainer {
+  position: relative;
+  width: 100%;
+}
+
+.svg {
+  display: block;
+  overflow: visible;
+  user-select: none;
+}
+
+/* Axis & Labels */
+.yearLabel {
+  font-size: var(--md-sys-typescale-label-medium-font-size, 12px);
+  font-weight: 700;
+  fill: var(--md-sys-color-on-surface);
+}
+
+.dayLabel {
+  font-size: 10px;
+  font-weight: 500;
+  fill: var(--md-sys-color-on-surface-variant);
+}
+
+.monthLabel {
+  font-size: 10px;
+  font-weight: 500;
+  fill: var(--md-sys-color-on-surface-variant);
+}
+
+/* Day cell grid */
+.dayCell {
+  stroke: var(--md-sys-color-surface, #ffffff);
+  stroke-width: 1px;
+  rx: 1px;
+  ry: 1px;
+  transition: opacity 0.15s ease, transform 0.1s ease;
+  cursor: pointer;
+}
+
+.dayCell:hover {
+  opacity: 0.85;
+  transform: scale(1.05);
+}
+
+/* Header & Legend */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 16px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.titleArea {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  margin: 0;
+  color: var(--md-sys-color-on-surface);
+  font-size: var(--md-sys-typescale-title-medium-font-size, 16px);
+  font-weight: var(--md-sys-typescale-title-medium-font-weight, 600);
+}
+
+.subtitle {
+  margin: 4px 0 0 0;
+  color: var(--md-sys-color-on-surface-variant);
+  font-size: var(--md-sys-typescale-body-small-font-size, 12px);
+}
+
+/* Legend styling */
+.legend {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.legendTitle {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface-variant);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.legendBarContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 180px;
+}
+
+.legendGradient {
+  height: 10px;
+  width: 100%;
+  border-radius: 2px;
+}
+
+.legendLabels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 9px;
+  font-weight: 500;
+  color: var(--md-sys-color-on-surface-variant);
+}
+
+/* Tooltip */
+.tooltip {
+  position: absolute;
+  pointer-events: none;
+  background-color: var(--md-sys-color-surface-container-high);
+  color: var(--md-sys-color-on-surface);
+  padding: 8px 12px;
+  border-radius: var(--md-sys-shape-corner-md, 8px);
+  box-shadow: 0px 4px 8px -2px rgba(0, 0, 0, 0.1), 0px 2px 4px -1px rgba(0, 0, 0, 0.06);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  font-size: var(--md-sys-typescale-body-small-font-size, 12px);
+  z-index: 10;
+  transform: translate(-50%, -100%);
+  margin-top: -10px;
+  white-space: nowrap;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.tooltipDate {
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface);
+  font-size: 11px;
+}
+
+.tooltipValue {
+  font-weight: 700;
+  font-size: 13px;
+}

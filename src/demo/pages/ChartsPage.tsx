@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { AreaChart, StackedAreaChart, DifferenceChart, BarChart, Card, CardContent, Button, SegmentedButton } from '../../lib';
+import * as d3 from 'd3';
+import { AreaChart, StackedAreaChart, DifferenceChart, BarChart, CalendarChart, Card, CardContent, Button, SegmentedButton } from '../../lib';
 import { DemoSection, PageTitle } from '../components/DemoSection';
 
 // Sample datasets
@@ -173,6 +174,40 @@ const LETTER_FREQUENCY_DATA = [
   { letter: 'Q', frequency: 0.095 },
   { letter: 'Z', frequency: 0.074 },
 ];
+
+const generateCalendarData = () => {
+  const data: any[] = [];
+  const startYear = 2015;
+  const endYear = 2020;
+  
+  for (let year = startYear; year <= endYear; year++) {
+    const startDate = new Date(year, 0, 1);
+    const endDate = new Date(year, 11, 31);
+    const allDays = d3.timeDays(startDate, new Date(endDate.getTime() + 86400000));
+    
+    allDays.forEach((date, i) => {
+      const dayOfWeek = date.getDay();
+      if (dayOfWeek === 0 || dayOfWeek === 6) return; // weekdays only
+      
+      const dateStr = date.toISOString().split('T')[0];
+      const t = i / allDays.length;
+      
+      // Simulated stock trends using deterministic sine wave frequencies + pseudo-random noise
+      const base = Math.sin(t * Math.PI * 4) * 0.012 + Math.cos(t * Math.PI * 14) * 0.008 + Math.sin(t * Math.PI * 28) * 0.006;
+      // Deterministic noise to prevent React hydration mismatch warnings
+      const pseudoRand = Math.sin(i * 2468.135) * 0.5; // range [-0.5, 0.5]
+      const noise = pseudoRand * 0.07; // range [-3.5%, 3.5%]
+      
+      data.push({
+        date: dateStr,
+        value: base + noise,
+      });
+    });
+  }
+  return data;
+};
+
+const CALENDAR_DATA = generateCalendarData();
 
 export function ChartsPage({ activeComponent }: { activeComponent?: string }) {
   const [selectedMetric, setSelectedMetric] = useState('pageViews');
@@ -598,6 +633,44 @@ const data = [
                   subtitle="Relative frequency of letters in the English language"
                   yFormatter={(val) => `${val}%`}
                   color="#5985ab"
+                />
+              </CardContent>
+            </Card>
+          </div>
+        </DemoSection>
+      )}
+
+      {(showAll || activeComponent === 'calendar-chart') && (
+        <DemoSection
+          title="Calendar View"
+          description="A calendar view (heatmap) represents daily records mapped across weeks and weekdays in a year-based grid layout. It uses a diverging color scale to emphasize positive or negative daily variations. Replicates the D3.js Calendar view."
+          code={`import { CalendarChart } from '@hadi_gunawan/md3-expressive-ds';
+
+const data = [
+  { date: '2020-01-01', value: 0.015 },
+  { date: '2020-01-02', value: -0.024 },
+  // ...
+];
+
+<CalendarChart
+  data={data}
+  dateKey="date"
+  valueKey="value"
+  title="S&P 500 Daily Change"
+  legendTitle="Daily change"
+/>`}
+        >
+          <div style={{ width: '100%' }}>
+            <Card variant="outlined" style={{ padding: 16 }}>
+              <CardContent>
+                <CalendarChart
+                  data={CALENDAR_DATA}
+                  dateKey="date"
+                  valueKey="value"
+                  title="S&P 500 Daily Change (2015 – 2020)"
+                  subtitle="Simulated stock market daily price shifts. Magenta cells represent daily decreases; green represents increases."
+                  legendTitle="Daily change percentage"
+                  valueFormatter={(val) => `${(val * 100).toFixed(2)}%`}
                 />
               </CardContent>
             </Card>

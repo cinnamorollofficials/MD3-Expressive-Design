@@ -768,6 +768,40 @@ export const COMPONENTS_REGISTRY: Record<string, ComponentMetadata> = {
       { name: 'interactive', label: 'Hover Tooltip & Tracker', type: 'boolean', defaultValue: true },
     ],
   },
+  'calendar-chart': {
+    id: 'calendar-chart',
+    label: 'Calendar View',
+    status: 'beta',
+    description: 'A calendar view (heatmap) displaying daily metrics mapped across weeks and weekdays in a year-based grid layout, featuring a diverging color scale.',
+    props: [
+      { name: 'data', type: 'any[]', default: 'required', description: 'Array of data items containing date and value fields.' },
+      { name: 'dateKey', type: 'string', default: "'date'", description: 'Key of the date field in each object.' },
+      { name: 'valueKey', type: 'string', default: "'value'", description: 'Key of the numeric value field in each object.' },
+      { name: 'weekdaysOnly', type: 'boolean', default: 'true', description: 'If true, only renders weekdays Monday through Friday.' },
+      { name: 'cellSize', type: 'number', default: '15', description: 'Size of each square day cell in pixels.' },
+      { name: 'negativeColor', type: 'string', default: "'#b32657'", description: 'Diverging scale negative peak color.' },
+      { name: 'neutralColor', type: 'string', default: "'#f5f5f5'", description: 'Diverging scale neutral midpoint color.' },
+      { name: 'positiveColor', type: 'string', default: "'#2e7d32'", description: 'Diverging scale positive peak color.' },
+      { name: 'interactive', type: 'boolean', default: 'true', description: 'Enables hover tooltips.' },
+      { name: 'title', type: 'string', default: 'undefined', description: 'Optional chart header title.' },
+      { name: 'subtitle', type: 'string', default: 'undefined', description: 'Optional chart subtitle.' },
+      { name: 'legendTitle', type: 'string', default: "'Daily change'", description: 'Title header text for the legend bar.' },
+      { name: 'valueFormatter', type: '(val: number) => string', default: 'undefined', description: 'Custom formatter for value tooltips.' },
+    ],
+    keyboard: [
+      { key: 'Mouse Hover Cell', action: 'Renders the detailed tooltip showing dates and formatted value.' },
+    ],
+    aria: [
+      { name: 'data-md3-component="calendar-chart"', description: 'Identifies the root element as a calendar chart component.' },
+    ],
+    doDonts: [
+      { do: 'Use calendar heatmaps to highlight temporal patterns, seasonal clusters, or daily shifts.', dont: 'Use calendar view if dates are sparse or if comparison of absolute raw trends over time is the key goal.' },
+    ],
+    playgroundControls: [
+      { name: 'weekdaysOnly', label: 'Weekdays Only', type: 'boolean', defaultValue: true },
+      { name: 'interactive', label: 'Hover Tooltip', type: 'boolean', defaultValue: true },
+    ],
+  },
 };
 
 const COMMON_CLASS_PROP: PropDef = {
