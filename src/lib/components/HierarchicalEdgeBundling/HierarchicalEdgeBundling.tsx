@@ -194,6 +194,12 @@ export function HierarchicalEdgeBundling({
           const rect = containerRef.current.getBoundingClientRect();
           setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
         }}
+        onMouseLeave={() => {
+          setHoveredNode(null);
+          setMousePos(null);
+        }}
+
+
       >
         <svg className={styles.svg} width={containerWidth} height={height}>
           {lineRadial && leaves.length > 0 && (

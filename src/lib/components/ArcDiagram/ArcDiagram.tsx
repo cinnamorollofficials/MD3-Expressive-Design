@@ -230,6 +230,12 @@ export function ArcDiagram({
           const rect = containerRef.current.getBoundingClientRect();
           setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
         }}
+        onMouseLeave={() => {
+          setHoveredNode(null);
+          setHoveredLink(null);
+          setMousePos(null);
+        }}
+
       >
         <svg className={styles.svg} width={containerWidth} height={height}>
           {/* Arcs Layer */}

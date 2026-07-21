@@ -256,6 +256,12 @@ export function ChordDiagram({
           const rect = containerRef.current.getBoundingClientRect();
           setMousePos({ x: e.clientX - rect.left, y: e.clientY - rect.top });
         }}
+        onMouseLeave={() => {
+          setHoveredGroup(null);
+          setHoveredChord(null);
+          setMousePos(null);
+        }}
+
       >
         <svg className={styles.svg} width={containerWidth} height={height}>
           {chordsData && (

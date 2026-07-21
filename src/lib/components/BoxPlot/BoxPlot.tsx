@@ -255,8 +255,10 @@ export function BoxPlot({
                       key={idx}
                       className={styles.boxGroup}
                       onMouseEnter={() => interactive && setHoveredStats(d)}
+                      onMouseLeave={() => interactive && setHoveredStats(null)}
                       onClick={() => onBoxClick?.(d.rawData)}
                     >
+
                       {/* Vertical Whisker Line (Min to Max) */}
                       <line
                         className={styles.whiskerLine}

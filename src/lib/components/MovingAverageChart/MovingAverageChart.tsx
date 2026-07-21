@@ -217,6 +217,19 @@ export function MovingAverageChart({
       const rect = containerRef.current.getBoundingClientRect();
       const mouseX = e.clientX - rect.left;
       const mouseY = e.clientY - rect.top;
+
+      // Clear tooltip if mouse is in margins outside plot area
+      if (
+        mouseX < margin.left ||
+        mouseX > containerWidth - margin.right ||
+        mouseY < margin.top ||
+        mouseY > height - margin.bottom
+      ) {
+        setHoveredPoint(null);
+        setMousePos(null);
+        return;
+      }
+
       setMousePos({ x: mouseX, y: mouseY });
 
       const dateAtMouse = xScale.invert(mouseX);
@@ -228,8 +241,9 @@ export function MovingAverageChart({
         setHoveredPoint(point);
       }
     },
-    [interactive, xScale, processedData]
+    [interactive, xScale, processedData, margin, containerWidth, height]
   );
+
 
   return (
     <div className={cn(styles.root, className)} ref={containerRef} data-md3-component="moving-average-chart">
@@ -285,7 +299,11 @@ export function MovingAverageChart({
         className={styles.chartContainer}
         style={{ height }}
         onMouseMove={handleMouseMove}
-        onMouseLeave={() => setHoveredPoint(null)}
+        onMouseLeave={() => {
+          setHoveredPoint(null);
+          setMousePos(null);
+        }}
+
       >
         <svg className={styles.svg} width={containerWidth} height={height}>
           {xScale && yScale && (
