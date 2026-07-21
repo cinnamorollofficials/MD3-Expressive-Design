@@ -196,6 +196,7 @@ export const COMPONENT_GROUPS: GroupDef[] = [
       { id: 'histogram', label: 'Histogram', status: 'beta' },
       { id: 'kernel-density-estimation', label: 'Kernel Density Estimation', status: 'beta' },
       { id: 'hexbin-chart', label: 'Hexbin Chart', status: 'beta' },
+      { id: 'qq-plot', label: 'Q-Q Plot', status: 'beta' },
     ],
   },
 ];

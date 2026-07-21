@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react';
-import { MovingAverageChart, BollingerBandsChart, BoxPlot, Histogram, KernelDensityEstimation, HexbinChart, Card, CardContent } from '../../lib';
+import { MovingAverageChart, BollingerBandsChart, BoxPlot, Histogram, KernelDensityEstimation, HexbinChart, QQPlot, Card, CardContent } from '../../lib';
 import { DemoSection, PageTitle } from '../components/DemoSection';
+
 
 
 
@@ -164,9 +165,31 @@ function generateWalmartStoresData() {
   return stores;
 }
 
+// Generate Batch 1 vs Batch 2 datasets matching the exact Q-Q plot reference image
+function generateBatchData() {
+  // Deterministic seed for reproducible batch measurements
+  const b1: number[] = [];
+  const b2: number[] = [];
+
+  const n = 140;
+  for (let i = 0; i < n; i++) {
+    const t = i / (n - 1);
+    // Batch 1 (Y axis): values 380 - 820 with S-curve distribution
+    const yVal = 380 + Math.pow(t, 0.7) * 350 + Math.sin(t * Math.PI) * 90;
+    // Batch 2 (X axis): values 340 - 820
+    const xVal = 345 + Math.pow(t, 1.25) * 475;
+
+    b1.push(parseFloat(yVal.toFixed(1)));
+    b2.push(parseFloat(xVal.toFixed(1)));
+  }
+
+  return { batch1: b1, batch2: b2 };
+}
+
 interface AnalysisPageProps {
   activeComponent?: string;
 }
+
 
 
 
@@ -329,6 +352,29 @@ export function AnalysisPage({ activeComponent }: AnalysisPageProps) {
     </div>
   );
 
+  const batchData = useMemo(() => generateBatchData(), []);
+
+  const renderQQPlot = () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <Card variant="outlined" style={{ padding: 24 }}>
+        <CardContent>
+          <QQPlot
+            title="Empirical Quantile-Quantile (Q-Q) Plot (Batch 1 vs Batch 2)"
+            subtitle="Comparing empirical distributions of two experimental batches. If the distributions are identical in shape, points lie on the 45° reference line. S-curve deviations reveal differences in tail weights and skewness."
+            data={batchData.batch1}
+            sample2={batchData.batch2}
+            mode="two-sample"
+            xLabel="Batch 2"
+            yLabel="Batch 1"
+            height={560}
+            interactive={true}
+            valueFormatter={(v) => v.toFixed(0)}
+          />
+        </CardContent>
+      </Card>
+    </div>
+  );
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
       <PageTitle
@@ -389,9 +435,19 @@ export function AnalysisPage({ activeComponent }: AnalysisPageProps) {
           {renderHexbinChart()}
         </DemoSection>
       )}
+
+      {(!activeComponent || activeComponent === 'qq-plot') && (
+        <DemoSection
+          title="Q-Q Plot (Quantile-Quantile)"
+          description="Graphical method for comparing two probability distributions by plotting their quantiles against each other along a diagonal 45° reference line."
+        >
+          {renderQQPlot()}
+        </DemoSection>
+      )}
     </div>
   );
 }
+
 
 
 
