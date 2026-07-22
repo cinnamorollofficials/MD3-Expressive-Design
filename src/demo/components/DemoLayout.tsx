@@ -100,16 +100,17 @@ export function DemoLayout({
 
   const isExamplesActive = ['examples', 'shop-dashboard', 'company-profile'].includes(activeGroup);
   const isDocsActive = !isExamplesActive;
+  const isHome = current === 'overview';
 
   return (
     <div
-      className={cn(styles.root, isCollapsed && styles.collapsedRoot)}
+      className={cn(styles.root, isCollapsed && styles.collapsedRoot, isHome && styles.homeRoot)}
       style={{
-        gridTemplateColumns: isCollapsed ? '72px 1fr' : `${sidebarWidth}px 1fr`
+        gridTemplateColumns: isHome ? '1fr' : (isCollapsed ? '72px 1fr' : `${sidebarWidth}px 1fr`)
       }}
     >
       {/* Sidebar container */}
-      <aside className={cn(styles.sidebar, isCollapsed && styles.sidebarCollapsed)}>
+      {!isHome && <aside className={cn(styles.sidebar, isCollapsed && styles.sidebarCollapsed)}>
         {!isCollapsed ? (
           <>
             <div className={styles.brandRow}>
@@ -325,19 +326,24 @@ export function DemoLayout({
             onMouseDown={startResizing}
           />
         )}
-      </aside>
+      </aside>}
 
       <div className={styles.mainArea}>
         {/* Top Header navbar */}
-        <header className={styles.header}>
-          <button
+        <header className={cn(styles.header, isHome && styles.homeHeader)}>
+          {isHome ? (
+            <button type="button" className={styles.homeBrand} onClick={() => onNavigate('overview')}>
+              <ProjectLogo size={30} className={styles.brandLogo} />
+              <span>MD3 Expressive</span>
+            </button>
+          ) : <button
             type="button"
             className={styles.collapseToggleBtn}
             onClick={toggleCollapse}
             title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
           >
             <Icon name={isCollapsed ? "menu" : "menu_open"} size={22} />
-          </button>
+          </button>}
 
           {/* Header content navigation tabs */}
           <div className={styles.headerNav}>
@@ -414,7 +420,7 @@ export function DemoLayout({
           </div>
         )}
 
-        <main className={styles.content}>{children}</main>
+        <main className={cn(styles.content, isHome && styles.homeContent)}>{children}</main>
       </div>
     </div>
   );

@@ -18,6 +18,34 @@
   z-index: 5;
 }
 
+.homeRoot {
+  grid-template-columns: 1fr;
+}
+
+.homeHeader {
+  padding-inline: clamp(20px, 4vw, 64px);
+}
+
+.homeBrand {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--md-sys-color-primary);
+  cursor: pointer;
+  font: var(--md-sys-typescale-title-medium);
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.homeContent {
+  max-width: 1480px;
+  margin-inline: auto;
+  padding: 32px clamp(20px, 4vw, 64px) 64px;
+}
+
 .sidebarCollapsed {
   padding: 16px 8px;
   align-items: center;
