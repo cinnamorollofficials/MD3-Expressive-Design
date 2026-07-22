@@ -32,14 +32,6 @@
   border-radius: var(--md-sys-shape-corner-full);
   cursor: pointer;
 }
-.avatar {
-  width: 36px; height: 36px;
-  border-radius: 50%;
-  background: var(--md-sys-color-primary-container);
-  color: var(--md-sys-color-on-primary-container);
-  display: inline-flex; align-items: center; justify-content: center;
-  font: var(--md-sys-typescale-label-large);
-}
 .profileName { font: var(--md-sys-typescale-label-large); color: var(--md-sys-color-on-surface); }
 
 /* KPIs */
@@ -165,41 +157,15 @@
   transition: width var(--md-sys-motion-duration-long2) var(--md-sys-motion-easing-emphasized);
 }
 
-/* Orders table */
-.tableWrap { overflow-x: auto; }
-.table { width: 100%; border-collapse: collapse; }
-.table th {
-  text-align: left;
-  font: var(--md-sys-typescale-label-medium);
-  letter-spacing: 0.5px;
+/* Data tables are rendered by the design-system component. */
+.dataTable { width: 100%; }
+.cellMeta {
+  display: block;
   color: var(--md-sys-color-on-surface-variant);
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--md-sys-color-outline-variant);
-  white-space: nowrap;
+  font: var(--md-sys-typescale-body-small);
 }
-.table td {
-  padding: 12px 16px;
-  font: var(--md-sys-typescale-body-medium);
-  color: var(--md-sys-color-on-surface);
-  border-bottom: 1px solid var(--md-sys-color-outline-variant);
-  white-space: nowrap;
-}
-.table tbody tr {
-  transition: background-color var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard);
-}
-.table tbody tr:hover { background: color-mix(in srgb, var(--md-sys-color-on-surface) 6%, transparent); }
-.amount { font-variant-numeric: tabular-nums; font: var(--md-sys-typescale-title-small); }
 
 .customer { display: inline-flex; align-items: center; gap: 8px; }
-.customerAvatar {
-  width: 28px; height: 28px;
-  border-radius: 50%;
-  background: var(--md-sys-color-tertiary-container);
-  color: var(--md-sys-color-on-tertiary-container);
-  display: inline-flex; align-items: center; justify-content: center;
-  font: var(--md-sys-typescale-label-medium);
-}
-
 .status {
   display: inline-flex;
   align-items: center;
@@ -220,14 +186,6 @@
   display: flex;
   gap: 12px;
   padding: 4px 0;
-}
-.activityIcon {
-  width: 36px; height: 36px;
-  border-radius: 50%;
-  display: inline-flex; align-items: center; justify-content: center;
-  background: var(--md-sys-color-surface-container-high);
-  color: var(--md-sys-color-on-surface-variant);
-  flex-shrink: 0;
 }
 .activityMain { flex: 1; }
 .activityText { font: var(--md-sys-typescale-body-medium); }

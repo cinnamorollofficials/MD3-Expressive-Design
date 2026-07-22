@@ -2,7 +2,8 @@ import { useMemo, useState } from 'react';
 import {
   TopAppBar, IconButton, Badge, Search, Menu, Icon,
   SegmentedButton, Tabs, Chip, FAB, Snackbar, Tooltip,
-  Divider, ProgressIndicator,
+  Divider, ProgressIndicator, Card, Avatar, DataTable,
+  type DataTableColumn,
 } from '../../lib';
 import { cn } from '../../lib/utils/cn';
 import styles from './ShopDashboardPage.module.css';
@@ -43,10 +44,11 @@ const TOP_PRODUCTS = [
 ];
 
 type OrderStatus = 'Paid' | 'Shipped' | 'Pending' | 'Refunded';
-const ORDERS: Array<{
+type Order = {
   id: string; customer: string; email: string; items: number;
   total: number; status: OrderStatus; date: string;
-}> = [
+};
+const ORDERS: Order[] = [
   { id: '#10293', customer: 'Sarah Chen',     email: 'sarah@example.com',  items: 3, total: 248.50, status: 'Paid',     date: '2 min ago' },
   { id: '#10292', customer: 'Marcus Johnson', email: 'marcus@example.com', items: 1, total:  49.00, status: 'Shipped',  date: '14 min ago' },
   { id: '#10291', customer: 'Priya Patel',    email: 'priya@example.com',  items: 5, total: 412.20, status: 'Pending',  date: '32 min ago' },
@@ -128,9 +130,6 @@ function SalesChart({ revenue, target }: { revenue: number[]; target: number[] }
 type Range = '7d' | '30d' | '90d';
 type TabId = 'orders' | 'products' | 'customers';
 
-const initials = (name: string) =>
-  name.split(' ').map(p => p[0]).slice(0, 2).join('').toUpperCase();
-
 const statusClass: Record<OrderStatus, string> = {
   Paid: styles.statusPaid, Shipped: styles.statusShipped,
   Pending: styles.statusPending, Refunded: styles.statusRefund,
@@ -150,6 +149,63 @@ export function ShopDashboardPage() {
     () => statusFilter.length ? ORDERS.filter(o => statusFilter.includes(o.status)) : ORDERS,
     [statusFilter],
   );
+
+  const orderColumns: DataTableColumn<Order>[] = [
+    { id: 'id', header: 'Order', sortable: true, sortValue: o => o.id },
+    {
+      id: 'customer', header: 'Customer', sortable: true, sortValue: o => o.customer,
+      cell: o => (
+        <span className={styles.customer}>
+          <Avatar name={o.customer} size="xs" tone={3} />
+          <span><strong>{o.customer}</strong><small className={styles.cellMeta}>{o.email}</small></span>
+        </span>
+      ),
+    },
+    { id: 'items', header: 'Items', sortable: true, numeric: true, sortValue: o => o.items },
+    { id: 'total', header: 'Total', sortable: true, numeric: true, sortValue: o => o.total, cell: o => `$${o.total.toFixed(2)}` },
+    {
+      id: 'status', header: 'Status', sortable: true, sortValue: o => o.status,
+      cell: o => <span className={cn(styles.status, statusClass[o.status])}><span className={styles.statusDot} />{o.status}</span>,
+    },
+    { id: 'date', header: 'Date', cell: o => <span className={styles.cellMeta}>{o.date}</span> },
+    {
+      id: 'actions', header: '', align: 'right',
+      cell: o => (
+        <Menu
+          trigger={(p) => <IconButton icon="more_vert" label={`Actions for ${o.id}`} {...p} />}
+          items={[
+            { label: 'View order', icon: 'visibility', onClick: () => setSnack(`Viewing ${o.id}`) },
+            { label: 'Edit', icon: 'edit' }, { label: 'Refund', icon: 'undo' },
+            { divider: true, label: '' }, { label: 'Cancel', icon: 'cancel' },
+          ]}
+        />
+      ),
+    },
+  ];
+
+  const productColumns: DataTableColumn<(typeof TOP_PRODUCTS)[number]>[] = [
+    {
+      id: 'name', header: 'Product', sortable: true, sortValue: p => p.name,
+      cell: p => <span className={styles.customer}><Avatar icon={p.icon} size="sm" shape="rounded" tone={2} /><strong>{p.name}</strong></span>,
+    },
+    { id: 'sku', header: 'SKU' },
+    { id: 'sold', header: 'Sold', sortable: true, numeric: true, sortValue: p => p.sold },
+    { id: 'revenue', header: 'Revenue', sortable: true, numeric: true, sortValue: p => p.revenue, cell: p => `$${p.revenue.toLocaleString()}` },
+    { id: 'performance', header: 'Performance', width: '220px', cell: p => <ProgressIndicator value={p.pct} /> },
+  ];
+
+  const customerRows = ORDERS.slice(0, 6).map((order, index) => ({
+    ...order, orderCount: 1 + index * 2, lifetimeValue: order.total * (1 + index * 2),
+  }));
+  const customerColumns: DataTableColumn<(typeof customerRows)[number]>[] = [
+    {
+      id: 'customer', header: 'Customer', sortable: true, sortValue: o => o.customer,
+      cell: o => <span className={styles.customer}><Avatar name={o.customer} size="xs" tone={3} /><strong>{o.customer}</strong></span>,
+    },
+    { id: 'email', header: 'Email', cell: o => <span className={styles.cellMeta}>{o.email}</span> },
+    { id: 'orderCount', header: 'Orders', sortable: true, numeric: true, sortValue: o => o.orderCount },
+    { id: 'lifetimeValue', header: 'Lifetime value', sortable: true, numeric: true, sortValue: o => o.lifetimeValue, cell: o => `$${o.lifetimeValue.toFixed(2)}` },
+  ];
 
   const toggleFilter = (s: OrderStatus) =>
     setStatusFilter(f => f.includes(s) ? f.filter(x => x !== s) : [...f, s]);
@@ -175,7 +231,7 @@ export function ShopDashboardPage() {
             <Menu
               trigger={(p) => (
                 <button {...p} type="button" className={styles.profile}>
-                  <span className={styles.avatar}>JD</span>
+                  <Avatar name="Jane Doe" size="sm" />
                   <span className={styles.profileName}>Jane Doe</span>
                   <Icon name="expand_more" size={18} />
                 </button>
@@ -220,7 +276,7 @@ export function ShopDashboardPage() {
         {KPIS.map((k, i) => {
           const up = k.delta >= 0;
           return (
-            <div key={k.key} className={styles.kpi}>
+            <Card key={k.key} variant="elevated" className={styles.kpi}>
               <div className={styles.kpiHeader}>
                 <span className={styles.kpiLabel}>{k.label}</span>
                 <span className={cn(styles.kpiIcon, k.tone && (styles as any)[k.tone])}>
@@ -236,14 +292,14 @@ export function ShopDashboardPage() {
                 <span className={styles.kpiDeltaLabel}>{k.deltaLabel}</span>
               </div>
               <Sparkline data={SPARK[i]} up={up} />
-            </div>
+            </Card>
           );
         })}
       </div>
 
       {/* Charts row */}
       <div className={styles.row}>
-        <div className={styles.panel}>
+        <Card variant="elevated" className={styles.panel}>
           <div className={styles.panelHeader}>
             <div className={styles.panelTitle}>Sales overview</div>
             <div className={styles.legend}>
@@ -283,16 +339,16 @@ export function ShopDashboardPage() {
               <div style={{ font: 'var(--md-sys-typescale-headline-small)' }}>42,180</div>
             </div>
           </div>
-        </div>
+        </Card>
 
-        <div className={styles.panel}>
+        <Card variant="elevated" className={styles.panel}>
           <div className={styles.panelHeader}>
             <div className={styles.panelTitle}>Top products</div>
             <IconButton icon="open_in_new" label="View all" />
           </div>
           {TOP_PRODUCTS.map(p => (
             <div key={p.sku} className={styles.product}>
-              <span className={styles.productThumb}><Icon name={p.icon} size={22} /></span>
+              <Avatar icon={p.icon} size="md" shape="rounded" tone={2} className={styles.productThumb} />
               <div className={styles.productMain}>
                 <div className={styles.productName}>{p.name}</div>
                 <div className={styles.productMeta}>{p.sku} · {p.sold} sold</div>
@@ -301,11 +357,11 @@ export function ShopDashboardPage() {
               <div className={styles.productSales}>${p.revenue.toLocaleString()}</div>
             </div>
           ))}
-        </div>
+        </Card>
       </div>
 
       {/* Tabs */}
-      <div className={styles.panel}>
+      <Card variant="elevated" className={styles.panel}>
         <Tabs
           items={[
             { value: 'orders',    label: 'Recent orders', icon: 'receipt_long' },
@@ -333,133 +389,28 @@ export function ShopDashboardPage() {
               </span>
             </div>
 
-            <div className={styles.tableWrap}>
-              <table className={styles.table}>
-                <thead>
-                  <tr>
-                    <th>Order</th>
-                    <th>Customer</th>
-                    <th>Items</th>
-                    <th>Total</th>
-                    <th>Status</th>
-                    <th>Date</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredOrders.map(o => (
-                    <tr key={o.id}>
-                      <td style={{ fontWeight: 500 }}>{o.id}</td>
-                      <td>
-                        <span className={styles.customer}>
-                          <span className={styles.customerAvatar}>{initials(o.customer)}</span>
-                          <span>
-                            <div>{o.customer}</div>
-                            <div style={{ font: 'var(--md-sys-typescale-body-small)', color: 'var(--md-sys-color-on-surface-variant)' }}>
-                              {o.email}
-                            </div>
-                          </span>
-                        </span>
-                      </td>
-                      <td>{o.items}</td>
-                      <td className={styles.amount}>${o.total.toFixed(2)}</td>
-                      <td>
-                        <span className={cn(styles.status, statusClass[o.status])}>
-                          <span className={styles.statusDot} />
-                          {o.status}
-                        </span>
-                      </td>
-                      <td style={{ color: 'var(--md-sys-color-on-surface-variant)' }}>{o.date}</td>
-                      <td>
-                        <Menu
-                          trigger={(p) => <IconButton icon="more_vert" label="More" {...p} />}
-                          items={[
-                            { label: 'View order', icon: 'visibility', onClick: () => setSnack(`Viewing ${o.id}`) },
-                            { label: 'Edit', icon: 'edit' },
-                            { label: 'Refund', icon: 'undo' },
-                            { divider: true, label: '' },
-                            { label: 'Cancel', icon: 'cancel' },
-                          ]}
-                        />
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <DataTable
+              columns={orderColumns}
+              rows={filteredOrders}
+              rowKey={o => o.id}
+              ariaLabel="Recent store orders"
+              className={styles.dataTable}
+            />
           </>
         )}
 
         {tab === 'products' && (
-          <div className={styles.tableWrap}>
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th>Product</th>
-                  <th>SKU</th>
-                  <th>Sold</th>
-                  <th>Revenue</th>
-                  <th>Performance</th>
-                </tr>
-              </thead>
-              <tbody>
-                {TOP_PRODUCTS.map(p => (
-                  <tr key={p.sku}>
-                    <td>
-                      <span className={styles.customer}>
-                        <span className={styles.productThumb} style={{ width: 32, height: 32 }}>
-                          <Icon name={p.icon} size={18} />
-                        </span>
-                        {p.name}
-                      </span>
-                    </td>
-                    <td style={{ color: 'var(--md-sys-color-on-surface-variant)' }}>{p.sku}</td>
-                    <td>{p.sold}</td>
-                    <td className={styles.amount}>${p.revenue.toLocaleString()}</td>
-                    <td style={{ width: 200 }}>
-                      <ProgressIndicator value={p.pct} />
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <DataTable columns={productColumns} rows={TOP_PRODUCTS} rowKey={p => p.sku} ariaLabel="Product performance" className={styles.dataTable} />
         )}
 
         {tab === 'customers' && (
-          <div className={styles.tableWrap}>
-            <table className={styles.table}>
-              <thead>
-                <tr>
-                  <th>Customer</th>
-                  <th>Email</th>
-                  <th>Orders</th>
-                  <th>Lifetime value</th>
-                </tr>
-              </thead>
-              <tbody>
-                {ORDERS.slice(0, 6).map((o, i) => (
-                  <tr key={o.id}>
-                    <td>
-                      <span className={styles.customer}>
-                        <span className={styles.customerAvatar}>{initials(o.customer)}</span>
-                        {o.customer}
-                      </span>
-                    </td>
-                    <td style={{ color: 'var(--md-sys-color-on-surface-variant)' }}>{o.email}</td>
-                    <td>{1 + i * 2}</td>
-                    <td className={styles.amount}>${(o.total * (1 + i * 2)).toFixed(2)}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <DataTable columns={customerColumns} rows={customerRows} rowKey={o => o.id} ariaLabel="Store customers" className={styles.dataTable} />
         )}
-      </div>
+      </Card>
 
       {/* Activity + stock alerts row */}
       <div className={styles.row}>
-        <div className={styles.panel}>
+        <Card variant="elevated" className={styles.panel}>
           <div className={styles.panelHeader}>
             <div className={styles.panelTitle}>Recent activity</div>
             <Chip kind="suggestion" label="Live" icon="circle" />
@@ -467,7 +418,7 @@ export function ShopDashboardPage() {
           <div className={styles.activityList}>
             {ACTIVITY.map((a, i) => (
               <div key={i} className={styles.activityItem}>
-                <span className={styles.activityIcon}><Icon name={a.icon} size={18} /></span>
+                <Avatar icon={a.icon} size="sm" tone={2} />
                 <div className={styles.activityMain}>
                   <div className={styles.activityText}>{a.text}</div>
                   <div className={styles.activityTime}>{a.time}</div>
@@ -475,9 +426,9 @@ export function ShopDashboardPage() {
               </div>
             ))}
           </div>
-        </div>
+        </Card>
 
-        <div className={styles.panel}>
+        <Card variant="elevated" className={styles.panel}>
           <div className={styles.panelHeader}>
             <div className={styles.panelTitle}>Low stock alerts</div>
             <Badge count={STOCK_ALERTS.length}>
@@ -486,7 +437,7 @@ export function ShopDashboardPage() {
           </div>
           {STOCK_ALERTS.map(s => (
             <div key={s.name} className={styles.stockItem}>
-              <span className={styles.productThumb}><Icon name="inventory_2" size={20} /></span>
+              <Avatar icon="inventory_2" size="md" shape="rounded" tone={2} />
               <div style={{ flex: 1 }}>
                 <div className={styles.productName}>{s.name}</div>
                 <div className={styles.productMeta}>Reorder recommended</div>
@@ -496,13 +447,13 @@ export function ShopDashboardPage() {
           ))}
           <Divider />
           <div className={styles.activityItem} style={{ alignItems: 'center' }}>
-            <span className={styles.activityIcon}><Icon name="lightbulb" size={18} /></span>
+            <Avatar icon="lightbulb" size="sm" tone={3} />
             <div className={styles.activityMain}>
               <div className={styles.activityText}>Restock 15 SKUs to avoid stockouts this week</div>
               <div className={styles.activityTime}>Review recommendations →</div>
             </div>
           </div>
-        </div>
+        </Card>
       </div>
 
       {/* FAB */}
