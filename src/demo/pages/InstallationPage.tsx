@@ -37,14 +37,14 @@ export function InstallationPage() {
               ))}
             </div>
             <div role="tabpanel" aria-label={`${packageManager} install command`}>
-              <CodeBlock code={installCommands[packageManager]} language="bash" />
+              <CodeBlock code={installCommands[packageManager]} language="bash" embedded />
             </div>
           </CardContent>
         </Card>
       </section>
 
       {/* Steps */}
-      <DemoSection title="1. Import Stylesheet & Wrap with ThemeProvider" description="Import the global theme tokens/styles and wrap your App root with ThemeProvider.">
+      <DemoSection bare title="1. Import Stylesheet & Wrap with ThemeProvider" description="Import the global theme tokens/styles and wrap your App root with ThemeProvider.">
         <CodeBlock
           code={`// src/main.tsx or src/index.tsx
 import React from 'react';
@@ -67,7 +67,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         />
       </DemoSection>
 
-      <DemoSection title="2. Add Material Symbols Font" description="The library utilizes Google's Material Symbols Rounded font. Include this inside your main index.html header or self-host the font.">
+      <DemoSection bare title="2. Add Material Symbols Font" description="The library utilizes Google's Material Symbols Rounded font. Include this inside your main index.html header or self-host the font.">
         <CodeBlock
           code={`<!-- public/index.html -->
 <head>
@@ -81,7 +81,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         />
       </DemoSection>
 
-      <DemoSection title="3. Render your first Component" description="Import and use any component. Wrap parts of your app in theme containers to trigger dark mode or custom palettes.">
+      <DemoSection bare title="3. Render your first Component" description="Import and use any component. Wrap parts of your app in theme containers to trigger dark mode or custom palettes.">
         <CodeBlock
           code={`import { Button, useTheme } from '@hadi_gunawan/md3-expressive-ds';
 

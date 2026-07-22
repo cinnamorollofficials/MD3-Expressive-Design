@@ -6,9 +6,10 @@ export interface CodeBlockProps {
   code: string;
   language?: 'jsx' | 'bash';
   showLineNumbers?: boolean;
+  embedded?: boolean;
 }
 
-export function CodeBlock({ code, language = 'jsx', showLineNumbers = false }: CodeBlockProps) {
+export function CodeBlock({ code, language = 'jsx', showLineNumbers = false, embedded = false }: CodeBlockProps) {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
@@ -20,7 +21,7 @@ export function CodeBlock({ code, language = 'jsx', showLineNumbers = false }: C
   const highlighted = highlight(code, language);
 
   return (
-    <div className={styles.wrapper}>
+    <div className={`${styles.wrapper} ${embedded ? styles.embedded : ''}`}>
       <div className={styles.header}>
         <span className={styles.langBadge}>{language.toUpperCase()}</span>
         <button

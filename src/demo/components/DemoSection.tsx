@@ -7,16 +7,17 @@ export interface DemoSectionProps {
   description?: string;
   code?: string;
   children: ReactNode;
+  bare?: boolean;
 }
 
-export function DemoSection({ title, description, code, children }: DemoSectionProps) {
+export function DemoSection({ title, description, code, children, bare = false }: DemoSectionProps) {
   return (
     <section className={styles.section}>
       <header className={styles.heading}>
         <h2 className={styles.title}>{title}</h2>
         {description && <p className={styles.desc}>{description}</p>}
       </header>
-      <div className={styles.preview}>{children}</div>
+      <div className={`${styles.preview} ${bare ? styles.barePreview : ''}`}>{children}</div>
       {code && <CodeBlock code={code} />}
     </section>
   );

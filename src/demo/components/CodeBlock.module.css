@@ -8,6 +8,16 @@
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
 }
 
+.embedded {
+  border: 0;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+:global([data-mode="dark"]) .embedded {
+  box-shadow: none;
+}
+
 :global([data-mode="dark"]) .wrapper {
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
