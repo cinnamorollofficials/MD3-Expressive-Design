@@ -1,24 +1,24 @@
 /* MD3 Expressive type scale — Roboto Flex variable font */
 :root {
-  --md-sys-typescale-display-large: 400 57px/64px var(--md-sys-typescale-brand-family);
-  --md-sys-typescale-display-medium: 400 45px/52px var(--md-sys-typescale-brand-family);
-  --md-sys-typescale-display-small: 400 36px/44px var(--md-sys-typescale-brand-family);
+  --md-sys-typescale-display-large: 600 57px/64px var(--md-sys-typescale-brand-family);
+  --md-sys-typescale-display-medium: 600 45px/52px var(--md-sys-typescale-brand-family);
+  --md-sys-typescale-display-small: 600 36px/44px var(--md-sys-typescale-brand-family);
 
-  --md-sys-typescale-headline-large: 400 32px/40px var(--md-sys-typescale-brand-family);
-  --md-sys-typescale-headline-medium: 400 28px/36px var(--md-sys-typescale-brand-family);
-  --md-sys-typescale-headline-small: 400 24px/32px var(--md-sys-typescale-brand-family);
+  --md-sys-typescale-headline-large: 600 32px/40px var(--md-sys-typescale-brand-family);
+  --md-sys-typescale-headline-medium: 600 28px/36px var(--md-sys-typescale-brand-family);
+  --md-sys-typescale-headline-small: 600 24px/32px var(--md-sys-typescale-brand-family);
 
-  --md-sys-typescale-title-large: 500 22px/28px var(--md-sys-typescale-brand-family);
-  --md-sys-typescale-title-medium: 500 16px/24px var(--md-sys-typescale-plain-family);
-  --md-sys-typescale-title-small: 500 14px/20px var(--md-sys-typescale-plain-family);
+  --md-sys-typescale-title-large: 600 22px/28px var(--md-sys-typescale-brand-family);
+  --md-sys-typescale-title-medium: 600 16px/24px var(--md-sys-typescale-plain-family);
+  --md-sys-typescale-title-small: 600 14px/20px var(--md-sys-typescale-plain-family);
 
   --md-sys-typescale-body-large: 400 16px/24px var(--md-sys-typescale-plain-family);
   --md-sys-typescale-body-medium: 400 14px/20px var(--md-sys-typescale-plain-family);
   --md-sys-typescale-body-small: 400 12px/16px var(--md-sys-typescale-plain-family);
 
-  --md-sys-typescale-label-large: 500 14px/20px var(--md-sys-typescale-plain-family);
-  --md-sys-typescale-label-medium: 500 12px/16px var(--md-sys-typescale-plain-family);
-  --md-sys-typescale-label-small: 500 11px/16px var(--md-sys-typescale-plain-family);
+  --md-sys-typescale-label-large: 600 14px/20px var(--md-sys-typescale-plain-family);
+  --md-sys-typescale-label-medium: 600 12px/16px var(--md-sys-typescale-plain-family);
+  --md-sys-typescale-label-small: 600 11px/16px var(--md-sys-typescale-plain-family);
 }
 
 .md-display-large { font: var(--md-sys-typescale-display-large); letter-spacing: -0.25px; }
