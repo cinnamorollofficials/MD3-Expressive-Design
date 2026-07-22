@@ -419,7 +419,15 @@ export function DemoLayout({
           </div>
         )}
 
-        <main className={cn(styles.content, isHome && styles.homeContent)}>{children}</main>
+        <main
+          className={cn(
+            styles.content,
+            isHome && styles.homeContent,
+            isExamplesActive && styles.examplesContent,
+          )}
+        >
+          {children}
+        </main>
       </div>
     </div>
   );

@@ -375,6 +375,15 @@
   margin: 0;
 }
 
+/* Example applications use the complete canvas instead of the narrower
+   documentation reading column. Keep this after .content so it wins. */
+.content.examplesContent {
+  max-width: none;
+  width: 100%;
+  padding: clamp(20px, 2.5vw, 48px) clamp(20px, 3vw, 64px) 64px;
+  margin: 0;
+}
+
 .mainArea {
   display: flex;
   flex-direction: column;
