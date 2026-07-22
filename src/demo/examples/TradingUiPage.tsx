@@ -334,12 +334,13 @@ export function TradingUiPage() {
   const filteredWatchlist = useMemo(() => {
     return watchlistData.filter(item => {
       const matchCat = watchlistCategory === 'Semua' || item.category === watchlistCategory;
-      const matchQ = !watchlistQuery.trim() ||
-        item.symbol.toLowerCase().includes(watchlistQuery.toLowerCase()) ||
-        item.name.toLowerCase().includes(watchlistQuery.toLowerCase());
+      const query = (watchlistQuery || topSearch).trim().toLowerCase();
+      const matchQ = !query ||
+        item.symbol.toLowerCase().includes(query) ||
+        item.name.toLowerCase().includes(query);
       return matchCat && matchQ;
     });
-  }, [watchlistData, watchlistCategory, watchlistQuery]);
+  }, [watchlistData, watchlistCategory, watchlistQuery, topSearch]);
 
   const calculatedCost = useMemo(() => {
     const qty = parseFloat(tradeQty) || 0;
@@ -532,6 +533,8 @@ export function TradingUiPage() {
               placeholder="Cari saham, crypto..."
               value={topSearch}
               onChange={(e) => setTopSearch(e.target.value)}
+              trailingIcon={topSearch ? "close" : undefined}
+              onTrailingClick={() => setTopSearch('')}
             />
             <Chip
               kind="assist"
@@ -727,17 +730,20 @@ export function TradingUiPage() {
               placeholder="Filter symbol..."
               value={watchlistQuery}
               onChange={(e) => setWatchlistQuery(e.target.value)}
+              trailingIcon={watchlistQuery ? "close" : undefined}
+              onTrailingClick={() => setWatchlistQuery('')}
             />
-            <div style={{ display: 'flex', gap: 4, marginTop: 6, overflowX: 'auto' }}>
-              {['Semua', 'Crypto', 'Saham', 'Futures'].map(cat => (
-                <Chip
-                  key={cat}
-                  kind="filter"
-                  label={cat}
-                  selected={watchlistCategory === cat}
-                  onClick={() => setWatchlistCategory(cat)}
-                />
-              ))}
+            <div className={styles.watchlistCategoryBar}>
+              <SegmentedButton
+                options={[
+                  { value: 'Semua', label: 'Semua' },
+                  { value: 'Crypto', label: 'Crypto' },
+                  { value: 'Saham', label: 'Saham' },
+                  { value: 'Futures', label: 'Futures' },
+                ]}
+                value={watchlistCategory}
+                onChange={(val) => setWatchlistCategory(val as string)}
+              />
             </div>
           </div>
 

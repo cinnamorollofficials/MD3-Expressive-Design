@@ -151,6 +151,26 @@
   padding: 8px;
 }
 
+.watchlistCategoryBar {
+  margin-top: 6px;
+  width: 100%;
+}
+
+.watchlistCategoryBar [data-md3-component="segmented-button"] {
+  display: flex;
+  width: 100%;
+  height: 32px;
+  border-radius: 16px;
+  background-color: var(--md-sys-color-surface-container-low, #141923);
+}
+
+.watchlistCategoryBar [data-md3-component="segmented-button-item"] {
+  flex: 1;
+  padding: 0 2px;
+  font-size: 0.72rem;
+  gap: 2px;
+}
+
 .watchlistList {
   flex: 1;
   overflow-y: auto;
