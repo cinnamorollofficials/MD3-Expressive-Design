@@ -4,13 +4,12 @@ import { useState } from 'react';
 import { CodeBlock } from '../components/CodeBlock';
 
 export function InstallationPage() {
-  const [copiedText, setCopiedText] = useState<'npm' | 'yarn' | 'pnpm' | null>(null);
-
-  const copyCommand = (cmd: 'npm' | 'yarn' | 'pnpm', text: string) => {
-    navigator.clipboard.writeText(text);
-    setCopiedText(cmd);
-    setTimeout(() => setCopiedText(null), 2000);
-  };
+  const [packageManager, setPackageManager] = useState<'npm' | 'yarn' | 'pnpm'>('npm');
+  const installCommands = {
+    npm: 'npm i @hadi_gunawan/md3-expressive-ds',
+    yarn: 'yarn add @hadi_gunawan/md3-expressive-ds',
+    pnpm: 'pnpm add @hadi_gunawan/md3-expressive-ds',
+  } as const;
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 32 }}>
@@ -19,61 +18,26 @@ export function InstallationPage() {
         subtitle="Get started integrating Material Design 3 Expressive components into your React project."
       />
 
-      {/* Package manager list */}
-      <section style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+      {/* Package manager tabs */}
+      <section>
         <Card variant="outlined">
           <CardContent>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <CardTitle>npm</CardTitle>
-              <Button
-                variant="text"
-                size="sm"
-                startIcon={copiedText === 'npm' ? 'done' : 'content_copy'}
-                onClick={() => copyCommand('npm', 'npm i @hadi_gunawan/md3-expressive-ds')}
-              >
-                {copiedText === 'npm' ? 'Copied' : 'Copy'}
-              </Button>
+            <div role="tablist" aria-label="Package manager" style={{ display: 'flex', gap: 8, paddingBottom: 16, marginBottom: 16, borderBottom: '1px solid var(--md-sys-color-outline-variant)' }}>
+              {(['npm', 'yarn', 'pnpm'] as const).map(manager => (
+                <Button
+                  key={manager}
+                  role="tab"
+                  aria-selected={packageManager === manager}
+                  variant={packageManager === manager ? 'tonal' : 'text'}
+                  size="sm"
+                  onClick={() => setPackageManager(manager)}
+                >
+                  {manager}
+                </Button>
+              ))}
             </div>
-            <div style={{ marginTop: 8 }}>
-              <CodeBlock code="npm i @hadi_gunawan/md3-expressive-ds" language="bash" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card variant="outlined">
-          <CardContent>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <CardTitle>yarn</CardTitle>
-              <Button
-                variant="text"
-                size="sm"
-                startIcon={copiedText === 'yarn' ? 'done' : 'content_copy'}
-                onClick={() => copyCommand('yarn', 'yarn add @hadi_gunawan/md3-expressive-ds')}
-              >
-                {copiedText === 'yarn' ? 'Copied' : 'Copy'}
-              </Button>
-            </div>
-            <div style={{ marginTop: 8 }}>
-              <CodeBlock code="yarn add @hadi_gunawan/md3-expressive-ds" language="bash" />
-            </div>
-          </CardContent>
-        </Card>
-
-        <Card variant="outlined">
-          <CardContent>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <CardTitle>pnpm</CardTitle>
-              <Button
-                variant="text"
-                size="sm"
-                startIcon={copiedText === 'pnpm' ? 'done' : 'content_copy'}
-                onClick={() => copyCommand('pnpm', 'pnpm add @hadi_gunawan/md3-expressive-ds')}
-              >
-                {copiedText === 'pnpm' ? 'Copied' : 'Copy'}
-              </Button>
-            </div>
-            <div style={{ marginTop: 8 }}>
-              <CodeBlock code="pnpm add @hadi_gunawan/md3-expressive-ds" language="bash" />
+            <div role="tabpanel" aria-label={`${packageManager} install command`}>
+              <CodeBlock code={installCommands[packageManager]} language="bash" />
             </div>
           </CardContent>
         </Card>
