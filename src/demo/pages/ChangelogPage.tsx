@@ -11,6 +11,42 @@ export function ChangelogPage() {
 
       <DemoSection title="Releases Timeline">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: '100%' }}>
+          {/* v0.6.2 */}
+          <div style={{ display: 'flex', gap: 16 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <div style={{ width: 16, height: 16, borderRadius: '50%', background: 'var(--md-sys-color-primary)', border: '4px solid var(--md-sys-color-primary-container)' }} />
+              <div style={{ flex: 1, width: 2, background: 'var(--md-sys-color-outline-variant)', marginTop: 8 }} />
+            </div>
+
+            <Card variant="outlined" style={{ flex: 1 }}>
+              <CardContent>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8, marginBottom: 8 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <CardTitle>v0.6.2</CardTitle>
+                    <span style={{ background: 'var(--md-sys-color-primary-container)', color: 'var(--md-sys-color-on-primary-container)', padding: '2px 8px', borderRadius: 'var(--md-sys-shape-corner-full)', font: 'var(--md-sys-typescale-label-small)', fontWeight: 'bold' }}>
+                      Latest
+                    </span>
+                  </div>
+                  <span style={{ font: 'var(--md-sys-typescale-label-medium)', color: 'var(--md-sys-color-on-surface-variant)' }}>July 22, 2026</span>
+                </div>
+                <CardBody>
+                  <strong>Full-width Examples & Copy-ready Source Release</strong>
+                  <p style={{ margin: '8px 0', fontSize: '12px', color: 'var(--md-sys-color-on-surface-variant)' }}>
+                    Turned the example area into direct, full-width application showcases with reusable project components and browsable source code.
+                  </p>
+                  <ul style={{ paddingLeft: 20, margin: '8px 0 0 0', display: 'flex', flexDirection: 'column', gap: 4 }}>
+                    <li><strong>Direct Example Navigation:</strong> Removed the Examples overview route and replaced the header link with an accessible dropdown for ACME Store and Company Profile.</li>
+                    <li><strong>Full-width Application Layouts:</strong> Removed the documentation width cap and sidebar from example routes so dashboards use the complete viewport.</li>
+                    <li><strong>Design-system Adoption:</strong> Migrated example cards, avatars, data tables, progress indicators, document panels, and supporting UI to shared library components.</li>
+                    <li><strong>Live Source Viewer:</strong> Added a wide SideSheet with Page, Data, and Styles tabs, line numbers, syntax highlighting, copy actions, and package-ready imports.</li>
+                    <li><strong>Readable Example Architecture:</strong> Extracted ACME Store mock data and data types into a dedicated module displayed separately in the source viewer.</li>
+                    <li><strong>Themed Scrollbars:</strong> Styled source-code and SideSheet scrollbars with MD3 surface, outline, radius, corner, and hover tokens.</li>
+                  </ul>
+                </CardBody>
+              </CardContent>
+            </Card>
+          </div>
+
           {/* v0.6.1 */}
           <div style={{ display: 'flex', gap: 16 }}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -23,9 +59,6 @@ export function ChangelogPage() {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8, marginBottom: 8 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                     <CardTitle>v0.6.1</CardTitle>
-                    <span style={{ background: 'var(--md-sys-color-primary-container)', color: 'var(--md-sys-color-on-primary-container)', padding: '2px 8px', borderRadius: 'var(--md-sys-shape-corner-full)', font: 'var(--md-sys-typescale-label-small)', fontWeight: 'bold' }}>
-                      Latest
-                    </span>
                   </div>
                   <span style={{ font: 'var(--md-sys-typescale-label-medium)', color: 'var(--md-sys-color-on-surface-variant)' }}>July 22, 2026</span>
                 </div>
