@@ -15,6 +15,22 @@ export interface DemoLayoutProps {
   onSearchClick: () => void;
 }
 
+function ProjectLogo({ size, className }: { size: number; className?: string }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 100 100"
+      className={className}
+      aria-hidden="true"
+    >
+      <rect width="100" height="100" rx="30" fill="currentColor" />
+      <path d="M30 30H70V70H30Z" fill="var(--md-sys-color-on-primary)" opacity="0.25" />
+      <circle cx="50" cy="50" r="22" fill="var(--md-sys-color-on-primary)" />
+    </svg>
+  );
+}
+
 export function DemoLayout({
   current,
   activeGroup,
@@ -96,12 +112,15 @@ export function DemoLayout({
       <aside className={cn(styles.sidebar, isCollapsed && styles.sidebarCollapsed)}>
         {!isCollapsed ? (
           <>
-            <div className={styles.brand}>MD3 Expressive</div>
+            <div className={styles.brandRow}>
+              <ProjectLogo size={24} className={styles.brandLogo} />
+              <div className={styles.brand}>MD3 Expressive</div>
+            </div>
             <div className={styles.brandSub}>React + TypeScript design system</div>
           </>
         ) : (
           <div className={styles.brandCollapsed} title="MD3 Expressive">
-            <Icon name="blur_on" size={28} className={styles.collapsedLogo} />
+            <ProjectLogo size={28} className={styles.collapsedLogo} />
           </div>
         )}
 

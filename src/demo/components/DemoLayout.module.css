@@ -14,7 +14,7 @@
   position: sticky;
   top: 0;
   height: 100vh;
-  overflow-y: auto;
+  overflow: hidden;
   z-index: 5;
 }
 
@@ -24,11 +24,25 @@
   overflow-x: hidden;
 }
 
-.brand {
-  font: var(--md-sys-typescale-title-large);
-  color: var(--md-sys-color-primary);
+.brandRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
   padding: 12px 16px;
   margin-bottom: 8px;
+  white-space: nowrap;
+}
+
+.brandLogo {
+  flex-shrink: 0;
+  display: block;
+  color: var(--md-sys-color-primary);
+}
+
+.brand {
+  font: var(--md-sys-typescale-title-medium);
+  font-weight: 600;
+  color: var(--md-sys-color-primary);
   white-space: nowrap;
 }
 
@@ -42,21 +56,8 @@
 }
 
 .collapsedLogo {
-  animation: logoMorph 3s infinite alternate ease-in-out;
-}
-
-@keyframes logoMorph {
-  0% {
-    transform: scale(1) rotate(0deg);
-  }
-
-  50% {
-    transform: scale(1.1) rotate(180deg);
-  }
-
-  100% {
-    transform: scale(1) rotate(360deg);
-  }
+  display: block;
+  color: var(--md-sys-color-primary);
 }
 
 .brandSub {
@@ -72,6 +73,7 @@
   text-transform: uppercase;
   color: var(--md-sys-color-on-surface-variant);
   padding: 24px 16px 8px;
+  flex-shrink: 0;
 }
 
 .collapsedDivider {
@@ -97,6 +99,7 @@
   border: none;
   white-space: nowrap;
   width: 100%;
+  flex-shrink: 0;
 }
 
 .navItem:hover {
@@ -111,16 +114,47 @@
 .scrollableNav {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
   flex: 1;
   overflow-y: auto;
-  margin-right: -8px;
+  min-height: 0;
+  margin-right: -4px;
   padding-right: 8px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--md-sys-color-outline) transparent;
+  scrollbar-gutter: stable;
+}
+
+.scrollableNav::-webkit-scrollbar {
+  width: 8px;
+}
+
+.scrollableNav::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.scrollableNav::-webkit-scrollbar-thumb {
+  background: var(--md-sys-color-outline);
+  border: 2px solid transparent;
+  border-radius: var(--md-sys-shape-corner-full);
+  background-clip: padding-box;
+}
+
+.scrollableNav::-webkit-scrollbar-thumb:hover {
+  background: var(--md-sys-color-on-surface-variant);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.scrollableNav::-webkit-scrollbar-button {
+  display: none;
 }
 
 .groupContainer {
   display: flex;
   flex-direction: column;
+  gap: 4px;
+  flex-shrink: 0;
 }
 
 .groupHeader {
@@ -138,6 +172,7 @@
   border: none;
   white-space: nowrap;
   width: 100%;
+  flex-shrink: 0;
   transition: all var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard);
 }
 
@@ -159,8 +194,7 @@
   display: flex;
   flex-direction: column;
   gap: 4px;
-  margin-top: 4px;
-  margin-bottom: 8px;
+  margin: 0;
 }
 
 .subNavItem {
@@ -178,6 +212,7 @@
   border: none;
   width: 100%;
   white-space: nowrap;
+  flex-shrink: 0;
   transition: all var(--md-sys-motion-duration-short3) var(--md-sys-motion-easing-standard);
 }
 
