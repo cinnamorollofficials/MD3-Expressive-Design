@@ -1,10 +1,12 @@
 .bar {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 12px;
-  width: 360px;
-  height: 56px;
-  padding: 0 16px;
+  gap: 8px;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  height: 44px;
+  padding: 0 12px;
   background: var(--md-sys-color-surface-container-high);
   border-radius: var(--md-sys-shape-corner-full);
   color: var(--md-sys-color-on-surface);
@@ -15,11 +17,13 @@
 
 .input {
   flex: 1;
+  min-width: 0;
+  width: 100%;
   background: transparent;
   border: none;
   outline: none;
   color: inherit;
-  font: var(--md-sys-typescale-body-large);
+  font: var(--md-sys-typescale-body-medium);
 }
 .input:focus,
 .input:focus-visible {
