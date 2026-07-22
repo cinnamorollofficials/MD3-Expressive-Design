@@ -79,7 +79,6 @@ function CandlestickChart({
 
   const hoverPoint = hoverIndex !== null && data[hoverIndex] ? data[hoverIndex] : data[data.length - 1];
 
-  // SMA 9 Path
   const smaPath = useMemo(() => {
     if (!showSma || data.length < 2) return '';
     return data
@@ -91,7 +90,6 @@ function CandlestickChart({
       .join(' ');
   }, [data, showSma, stepX]);
 
-  // Bollinger Upper & Lower Paths
   const bollingerPaths = useMemo(() => {
     if (!showBollinger || data.length < 2) return { upper: '', lower: '' };
     const upper = data
@@ -276,8 +274,8 @@ function CandlestickChart({
 export function TradingUiPage() {
   const [navTab, setNavTab] = useState<string>('trade');
   const [activeSymbol, setActiveSymbol] = useState<string>('SIREN-IDR');
-  const [tradeTab, setTradeTab] = useState<string>('Buy');
-  const [tradeQty, setTradeQty] = useState<string>('0.005');
+  const [tradeTab, setTradeTab] = useState<'Buy' | 'Sell'>('Buy');
+  const [tradeQty, setTradeQty] = useState<string>('50');
   const [sliderPct, setSliderPct] = useState<number>(25);
   const [hideBalance, setHideBalance] = useState<boolean>(false);
   const [timeframe, setTimeframe] = useState<string>('1d');
@@ -322,6 +320,13 @@ export function TradingUiPage() {
     return watchlistData.find(w => w.symbol === activeSymbol) || watchlistData[0];
   }, [activeSymbol, watchlistData]);
 
+  // Check owned quantity of current symbol
+  const ownedQuantity = useMemo(() => {
+    const match = positions.find(p => p.symbol === activeSymbol);
+    if (!match) return 100; // default mock quantity if not present
+    return parseFloat(match.qty) || 0;
+  }, [positions, activeSymbol]);
+
   const candleData = useMemo(() => {
     return generateCandlestickData(activeSymbol, 55);
   }, [activeSymbol]);
@@ -341,12 +346,46 @@ export function TradingUiPage() {
     return qty * currentSymbolItem.lastPrice;
   }, [tradeQty, currentSymbolItem]);
 
+  // Recalculate quantity whenever slider or tab changes
   const handleSliderChange = (val: number | number[]) => {
-    const num = Array.isArray(val) ? val[0] : val;
-    setSliderPct(num);
-    const amountToSpend = (balanceIdr * num) / 100;
-    const qty = amountToSpend / (currentSymbolItem.lastPrice || 1);
-    setTradeQty(qty.toFixed(4));
+    const pct = Array.isArray(val) ? val[0] : val;
+    setSliderPct(pct);
+
+    if (tradeTab === 'Buy') {
+      const amountToSpend = (balanceIdr * pct) / 100;
+      const qty = amountToSpend / (currentSymbolItem.lastPrice || 1);
+      setTradeQty(qty > 10 ? qty.toFixed(2) : qty.toFixed(4));
+    } else {
+      const qtyToSell = (ownedQuantity * pct) / 100;
+      setTradeQty(qtyToSell > 10 ? qtyToSell.toFixed(2) : qtyToSell.toFixed(4));
+    }
+  };
+
+  // Sync slider whenever tradeQty changes manually
+  const handleQtyInputChange = (val: string) => {
+    setTradeQty(val);
+    const parsedQty = parseFloat(val) || 0;
+    if (tradeTab === 'Buy') {
+      const cost = parsedQty * currentSymbolItem.lastPrice;
+      const pct = Math.min(100, Math.max(0, (cost / (balanceIdr || 1)) * 100));
+      setSliderPct(Math.round(pct));
+    } else {
+      const pct = Math.min(100, Math.max(0, (parsedQty / (ownedQuantity || 1)) * 100));
+      setSliderPct(Math.round(pct));
+    }
+  };
+
+  const handleTabChange = (newTab: 'Buy' | 'Sell') => {
+    setTradeTab(newTab);
+    setSliderPct(25);
+    if (newTab === 'Buy') {
+      const amountToSpend = (balanceIdr * 25) / 100;
+      const qty = amountToSpend / (currentSymbolItem.lastPrice || 1);
+      setTradeQty(qty > 10 ? qty.toFixed(2) : qty.toFixed(4));
+    } else {
+      const qtyToSell = (ownedQuantity * 25) / 100;
+      setTradeQty(qtyToSell > 10 ? qtyToSell.toFixed(2) : qtyToSell.toFixed(4));
+    }
   };
 
   const handleExecuteTrade = () => {
@@ -356,14 +395,13 @@ export function TradingUiPage() {
       return;
     }
     const cost = calculatedCost;
-    if (tradeTab === 'Buy' && cost > balanceIdr) {
-      setToastMsg('Saldo Daya Beli tidak mencukupi');
-      return;
-    }
 
     if (tradeTab === 'Buy') {
+      if (cost > balanceIdr) {
+        setToastMsg('Saldo Daya Beli tidak mencukupi');
+        return;
+      }
       setBalanceIdr(prev => Math.max(0, prev - cost));
-      // Add position row
       const newPos: AccountPosition = {
         id: `pos-${Date.now()}`,
         symbol: currentSymbolItem.symbol,
@@ -381,6 +419,7 @@ export function TradingUiPage() {
       setPositions(prev => [newPos, ...prev]);
     } else {
       setBalanceIdr(prev => prev + cost);
+      setPositions(prev => prev.filter(p => p.symbol !== currentSymbolItem.symbol));
     }
 
     setToastMsg(`Order ${tradeTab === 'Buy' ? 'Beli' : 'Jual'} ${tradeQty} ${currentSymbolItem.symbol} Berhasil!`);
@@ -396,7 +435,6 @@ export function TradingUiPage() {
     setToastMsg(`Order #${id} dibatalkan`);
   };
 
-  // DataTable Columns definition for Positions
   const positionColumns: DataTableColumn<AccountPosition>[] = [
     {
       id: 'symbol',
@@ -455,7 +493,6 @@ export function TradingUiPage() {
     },
   ];
 
-  // DataTable Columns definition for Orders
   const orderColumns: DataTableColumn<AccountOrder>[] = [
     { id: 'id', header: 'ID', cell: (r) => r.id },
     { id: 'symbol', header: 'Symbol', cell: (r) => <strong>{r.symbol}</strong> },
@@ -728,19 +765,30 @@ export function TradingUiPage() {
 
         {/* Order Execution Card Panel */}
         <Card variant="filled" className={styles.tradePanel}>
-          <SegmentedButton
-            options={[
-              { value: 'Buy', label: 'Beli' },
-              { value: 'Sell', label: 'Jual' },
-            ]}
-            value={tradeTab}
-            onChange={(val) => setTradeTab(val as string)}
-          />
+          {/* Custom Buy / Sell Toggle Tabs */}
+          <div className={styles.tradeTabs}>
+            <button
+              type="button"
+              className={`${styles.tradeTab} ${tradeTab === 'Buy' ? styles.tradeTabBuyActive : ''}`}
+              onClick={() => handleTabChange('Buy')}
+            >
+              Beli
+            </button>
+            <button
+              type="button"
+              className={`${styles.tradeTab} ${tradeTab === 'Sell' ? styles.tradeTabSellActive : ''}`}
+              onClick={() => handleTabChange('Sell')}
+            >
+              Jual
+            </button>
+          </div>
 
           <div className={styles.tradeBalanceRow}>
-            <span>Daya Beli</span>
+            <span>{tradeTab === 'Buy' ? 'Daya Beli' : 'Kepemilikan'}</span>
             <span className={styles.tradeBalanceVal}>
-              Rp {balanceIdr.toLocaleString()}
+              {tradeTab === 'Buy'
+                ? `Rp ${balanceIdr.toLocaleString()}`
+                : `${ownedQuantity} ${currentSymbolItem.symbol}`}
             </span>
           </div>
 
@@ -753,7 +801,7 @@ export function TradingUiPage() {
           <TextField
             label={`Jumlah ${currentSymbolItem.symbol}`}
             value={tradeQty}
-            onChange={(e) => setTradeQty(e.target.value)}
+            onChange={(e) => handleQtyInputChange(e.target.value)}
             type="number"
           />
 
@@ -775,6 +823,7 @@ export function TradingUiPage() {
                   key={pct}
                   kind="assist"
                   label={`${pct}%`}
+                  selected={sliderPct === pct}
                   onClick={() => handleSliderChange(pct)}
                 />
               ))}
@@ -793,7 +842,7 @@ export function TradingUiPage() {
               <span>Gratis</span>
             </div>
             <div className={styles.costRowBold}>
-              <span>Est. Perlu Dibayarkan</span>
+              <span>Est. Perlu {tradeTab === 'Buy' ? 'Dibayarkan' : 'Diterima'}</span>
               <span>{currentSymbolItem.currency === 'IDR' ? 'Rp' : '$'} {calculatedCost.toLocaleString()}</span>
             </div>
           </div>
@@ -801,6 +850,7 @@ export function TradingUiPage() {
           <Button
             variant="filled"
             size="lg"
+            className={tradeTab === 'Buy' ? styles.executeBuyBtn : styles.executeSellBtn}
             onClick={handleExecuteTrade}
           >
             {tradeTab === 'Buy' ? `Beli ${currentSymbolItem.symbol}` : `Jual ${currentSymbolItem.symbol}`}
