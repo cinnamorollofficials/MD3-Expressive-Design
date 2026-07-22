@@ -654,12 +654,14 @@ export function TradingUiPage() {
                 ]}
               />
 
-              <Badge count={`Sell ${(currentSymbolItem.lastPrice * 0.99).toFixed(0)}`}>
-                <span />
-              </Badge>
-              <Badge count={`Buy ${currentSymbolItem.lastPrice}`}>
-                <span />
-              </Badge>
+              <div className={styles.buySellBadges}>
+                <span className={styles.sellBadge}>
+                  Sell {(currentSymbolItem.lastPrice * 0.99).toFixed(0)}
+                </span>
+                <span className={styles.buyBadge}>
+                  Buy {currentSymbolItem.lastPrice}
+                </span>
+              </div>
             </div>
 
             <div style={{ display: 'flex', gap: 4, alignItems: 'center' }}>
