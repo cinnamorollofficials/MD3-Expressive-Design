@@ -38,6 +38,49 @@ function CategoryPreview({ type }: { type: string }) {
   );
 }
 
+function ComponentMiniVisual({ groupId, componentId, index }: { groupId: string; componentId: string; index: number }) {
+  if (groupId === 'buttons') {
+    if (componentId === 'icon-button') return <span className={styles.miniIconButton}><Icon name="favorite" size={17} /></span>;
+    if (componentId === 'fab') return <span className={styles.miniFab}><Icon name="add" size={19} /></span>;
+    if (componentId === 'fab-menu') return <span className={styles.miniFabMenu}><i /><i /><b>+</b></span>;
+    if (componentId === 'split-button') return <span className={styles.miniSplit}><b>Save</b><i>⌄</i></span>;
+    if (componentId === 'segmented-button') return <span className={styles.miniSegments}><i>1</i><i>2</i><i>3</i></span>;
+    return <span className={styles.miniButton}>Button</span>;
+  }
+
+  if (groupId === 'selection') {
+    if (componentId === 'checkbox') return <span className={styles.miniCheckbox}>✓</span>;
+    if (componentId === 'radio') return <span className={styles.miniRadio}><i /></span>;
+    if (componentId === 'switch') return <span className={styles.miniSwitch}><i /></span>;
+    return <span className={styles.miniChip}>Selected</span>;
+  }
+
+  if (groupId === 'input') {
+    if (componentId === 'slider') return <span className={styles.miniSlider}><i /></span>;
+    if (componentId === 'rating') return <span className={styles.miniRating}>★ ★ ★</span>;
+    if (componentId.includes('picker')) return <span className={styles.miniPicker}><Icon name={componentId.startsWith('date') ? 'calendar_today' : 'schedule'} size={18} /><i /><i /></span>;
+    if (componentId === 'select' || componentId === 'combobox') return <span className={styles.miniField}>Choose <b>⌄</b></span>;
+    if (componentId === 'number-input') return <span className={styles.miniField}>24 <b>±</b></span>;
+    return <span className={styles.miniField}>{componentId === 'search' ? '⌕ Search' : 'Label'}</span>;
+  }
+
+  if (['charts', 'bar-charts', 'analysis'].includes(groupId)) {
+    return <span className={styles.miniChart} data-chart={groupId === 'bar-charts' ? 'bar' : groupId === 'analysis' ? 'dots' : 'line'} style={{ '--mini-accent': `var(--md-sys-color-${index % 3 === 0 ? 'primary' : index % 3 === 1 ? 'secondary' : 'tertiary'})` } as React.CSSProperties}><i /><i /><i /><i /><i /></span>;
+  }
+
+  if (groupId === 'networks') return <span className={styles.miniNetwork}><i /><i /><i /><i /><b /><b /><b /></span>;
+  if (groupId === 'maps') return <span className={styles.miniMap}><i /><i /><i /><i /></span>;
+  if (groupId === 'hierarchies') return <span className={styles.miniTree}><b /><i /><i /><i /></span>;
+
+  const iconMap: Record<string, string> = {
+    containment: componentId.includes('sheet') ? 'dock_to_right' : componentId === 'dialog' ? 'dialogs' : componentId === 'snackbar' ? 'toast' : componentId === 'tooltip' ? 'tooltip' : componentId === 'menu' ? 'menu' : 'cards',
+    navigation: componentId.includes('rail') ? 'view_sidebar' : componentId.includes('bar') ? 'bottom_navigation' : componentId.includes('drawer') ? 'dock_to_left' : componentId === 'tabs' ? 'tab' : 'toolbar',
+    communication: componentId.includes('loading') || componentId.includes('progress') ? 'progress_activity' : componentId === 'badge' ? 'notification_important' : 'campaign',
+    content: componentId === 'avatar' ? 'account_circle' : componentId === 'data-table' ? 'table_rows' : componentId === 'carousel' ? 'view_carousel' : componentId === 'tree' ? 'account_tree' : 'view_list',
+  };
+  return <span className={styles.miniGeneric}><Icon name={iconMap[groupId] ?? 'widgets'} size={25} /><i /><i /></span>;
+}
+
 export function OverviewPage({ groups }: { groups: GroupDef[] }) {
   return (
     <main className={styles.home}>
@@ -70,30 +113,30 @@ export function OverviewPage({ groups }: { groups: GroupDef[] }) {
           <div><span className={styles.kicker}>Component library</span><h2>Everything your UI needs.</h2></div>
           <p>Start with solid foundations, then scale all the way to complex data experiences.</p>
         </div>
-        <div className={styles.categoryGrid}>
-          {CATEGORIES.map((category, index) => {
+        <div className={styles.categorySections}>
+          {CATEGORIES.map(category => {
             const components = groups.find(group => group.id === category.id)?.components ?? [];
             return (
-              <article className={`${styles.categoryCard} ${index < 2 ? styles.featured : ''}`} key={category.id}>
-                <div className={styles.cardTop}>
+              <section className={styles.categorySection} key={category.id}>
+                <div className={styles.categoryHeading}>
                   <span className={styles.categoryIcon}><Icon name={category.icon} size={22} /></span>
-                  <span className={styles.componentCount}>{components.length} components</span>
+                  <div><h3>{category.title}</h3><p>{category.description}</p></div>
+                  <a href={`#${category.id}`}>{components.length} components <Icon name="arrow_forward" size={17} /></a>
                 </div>
-                <a href={`#${category.id}`} className={styles.categoryMainLink} aria-label={`Open ${category.title} category`}>
-                  <CategoryPreview type={category.preview} />
-                  <div className={styles.cardCopy}><h3>{category.title}</h3><p>{category.description}</p></div>
-                  <span className={styles.cardArrow}><Icon name="arrow_outward" size={20} /></span>
-                </a>
-                <div className={styles.componentPreviews} aria-label={`${category.title} components`}>
-                  {components.map(component => (
+                <div className={styles.componentGrid} aria-label={`${category.title} components`}>
+                  {components.map((component, componentIndex) => (
                     <a href={`#${component.id}`} className={styles.componentPreview} key={component.id}>
-                      <Icon name={category.icon} size={14} />
-                      <span>{component.label}</span>
-                      {component.status && component.status !== 'stable' && <i>{component.status}</i>}
+                      <span className={styles.componentCanvas}>
+                        <ComponentMiniVisual groupId={category.id} componentId={component.id} index={componentIndex} />
+                      </span>
+                      <span className={styles.componentMeta}>
+                        <strong>{component.label}</strong>
+                        {component.status && component.status !== 'stable' && <i>{component.status}</i>}
+                      </span>
                     </a>
                   ))}
                 </div>
-              </article>
+              </section>
             );
           })}
         </div>
