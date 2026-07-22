@@ -117,7 +117,6 @@ export function DemoLayout({
               <ProjectLogo size={24} className={styles.brandLogo} />
               <div className={styles.brand}>MD3 Expressive</div>
             </button>
-            <div className={styles.brandSub}>React + TypeScript design system</div>
           </>
         ) : (
           <button type="button" className={styles.brandCollapsed} title="Go to home" onClick={() => onNavigate('overview')} aria-label="Go to home">
