@@ -10,17 +10,70 @@
 .title { font: var(--md-sys-typescale-headline-small); color: var(--md-sys-color-on-surface); }
 .desc { font: var(--md-sys-typescale-body-medium); color: var(--md-sys-color-on-surface-variant); }
 
-.preview {
+.cardContainer {
   background: var(--md-sys-color-surface-container-low);
   --md-tf-surface: var(--md-sys-color-surface-container-low);
   border: 1px solid var(--md-sys-color-outline-variant);
   border-radius: var(--md-sys-shape-corner-lg);
-  padding: 32px;
+  overflow: hidden;
   display: flex;
-  flex-wrap: wrap;
-  gap: 16px;
+  flex-direction: column;
+}
+
+.tabHeader {
+  display: flex;
   align-items: center;
-  margin-bottom: 12px;
+  justify-content: flex-end;
+  padding: 8px 12px;
+  background: color-mix(in srgb, var(--md-sys-color-on-surface) 2%, transparent);
+  border-bottom: 1px solid var(--md-sys-color-outline-variant);
+}
+
+.tabGroup {
+  display: inline-flex;
+  background: var(--md-sys-color-surface);
+  border: 1px solid var(--md-sys-color-outline-variant);
+  border-radius: 20px;
+  padding: 3px;
+  gap: 2px;
+}
+
+.tabBtn {
+  appearance: none;
+  border: none;
+  background: transparent;
+  color: var(--md-sys-color-on-surface-variant);
+  font: var(--md-sys-typescale-label-medium);
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: 16px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: all 150ms ease;
+}
+
+.tabBtn:hover {
+  color: var(--md-sys-color-on-surface);
+  background: color-mix(in srgb, var(--md-sys-color-on-surface) 6%, transparent);
+}
+
+.tabActive {
+  background: var(--md-sys-color-secondary-container) !important;
+  color: var(--md-sys-color-on-secondary-container) !important;
+  font-weight: 600;
+}
+
+.tabBody {
+  width: 100%;
+}
+
+.preview {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   min-height: 80px;
 }
 
@@ -32,5 +85,18 @@
   border: 0;
   border-radius: 0;
 }
+
+.codeWrap {
+  padding: 0;
+  margin: 0;
+}
+
+.codeWrap pre {
+  margin: 0 !important;
+  border-radius: 0 !important;
+  border: none !important;
+}
+
 .pageTitle { font: var(--md-sys-typescale-display-small); margin-bottom: 32px; color: var(--md-sys-color-on-surface); }
 .pageSub { font: var(--md-sys-typescale-body-large); color: var(--md-sys-color-on-surface-variant); margin-top: -24px; margin-bottom: 32px; }
+
