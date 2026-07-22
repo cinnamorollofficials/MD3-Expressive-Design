@@ -173,7 +173,7 @@ export function DataTable<T>({
   className,
   ariaLabel,
 }: DataTableProps<T>) {
-  const density: DataTableDensity = useDensity(densityProp ?? (dense ? 'compact' : undefined));
+  const density: DataTableDensity = densityProp === 'medium' ? 'medium' : (useDensity(densityProp as 'comfortable' | 'compact' | undefined) ?? (dense ? 'compact' : 'comfortable'));
 
   // Internal Search State
   const [internalSearch, setInternalSearch] = useState('');

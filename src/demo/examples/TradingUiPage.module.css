@@ -1,0 +1,266 @@
+/* Pluang Dark Trading UI Theme & Layout */
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  min-height: 800px;
+  background-color: var(--md-sys-color-surface, #0b0e14);
+  color: var(--md-sys-color-on-surface, #e0e6ed);
+  font-family: var(--md-sys-typescale-body-medium-font, system-ui, -apple-system, sans-serif);
+  user-select: none;
+  overflow: hidden;
+}
+
+/* Top Ticker Marquee Chips Strip */
+.tickerBanner {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 12px;
+  background-color: var(--md-sys-color-surface-container-lowest, #080a0e);
+  border-bottom: 1px solid var(--md-sys-color-outline-variant, #161b26);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.tickerMarquee {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+  white-space: nowrap;
+}
+
+.tickerMarquee::-webkit-scrollbar {
+  display: none;
+}
+
+/* Main Trading Workspace Grid */
+.workspace {
+  display: grid;
+  grid-template-columns: auto 1fr 280px 260px auto;
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+  gap: 4px;
+  background-color: var(--md-sys-color-surface, #0b0e14);
+  padding: 4px;
+}
+
+/* Center Main Panel (Chart + Account Table) */
+.centerPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow: hidden;
+}
+
+.chartToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 44px;
+  padding: 0 12px;
+  background-color: var(--md-sys-color-surface-container-low, #0f141d);
+  border-radius: 8px;
+  font-size: 0.75rem;
+  flex-shrink: 0;
+}
+
+.chartToolbarLeft {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+/* Candlestick SVG Container */
+.chartViewport {
+  flex: 1;
+  position: relative;
+  background-color: #0b0e14;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  padding: 8px 0;
+}
+
+.candlestickSvg {
+  width: 100%;
+  height: 100%;
+}
+
+.pairSummary {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  color: var(--md-sys-color-on-surface-variant, #94a3b8);
+  padding: 4px 12px;
+}
+
+.pairOhlc {
+  color: #ff5252;
+}
+
+/* Bottom Account Manager Table Card */
+.accountPanel {
+  height: 220px;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  transition: height 0.2s ease-in-out;
+  overflow: hidden;
+}
+
+.accountPanelCollapsed {
+  height: 44px;
+}
+
+.accountHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  border-bottom: 1px solid var(--md-sys-color-outline-variant, #19202c);
+  flex-shrink: 0;
+}
+
+.accountTabs {
+  display: flex;
+  align-items: center;
+}
+
+.accountContent {
+  flex: 1;
+  overflow: auto;
+  padding: 4px;
+}
+
+/* Watchlist Card Panel */
+.watchlistPanel {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  height: 100%;
+}
+
+.watchlistHeader {
+  padding: 8px;
+}
+
+.watchlistList {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.watchlistRow {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  align-items: center;
+  padding: 8px 12px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  border-bottom: 1px solid var(--md-sys-color-outline-variant, #121620);
+  transition: background-color 0.12s;
+}
+
+.watchlistRow:hover {
+  background-color: var(--md-sys-color-surface-container-high, #161c27);
+}
+
+.watchlistRowActive {
+  background-color: var(--md-sys-color-surface-container-highest, #1e2636);
+}
+
+.symbolName {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+  color: var(--md-sys-color-on-surface, #f1f5f9);
+}
+
+.symbolPrice {
+  text-align: right;
+  color: var(--md-sys-color-on-surface-variant, #cbd5e1);
+  font-size: 0.8rem;
+}
+
+.symbolChg {
+  text-align: right;
+  font-weight: 600;
+  font-size: 0.75rem;
+}
+
+.pnlPositive {
+  color: #00e676;
+}
+
+.pnlNegative {
+  color: #ff5252;
+}
+
+/* Order Execution Card Panel */
+.tradePanel {
+  display: flex;
+  flex-direction: column;
+  padding: 12px;
+  gap: 12px;
+  height: 100%;
+}
+
+.tradeBalanceRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.8rem;
+  color: var(--md-sys-color-on-surface-variant, #64748b);
+}
+
+.tradeBalanceVal {
+  color: #00e676;
+  font-weight: 700;
+}
+
+.costBreakdown {
+  background-color: var(--md-sys-color-surface-container-low, #121722);
+  border-radius: 8px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 0.75rem;
+  color: var(--md-sys-color-on-surface-variant, #64748b);
+  margin-top: auto;
+}
+
+.costRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.costRowBold {
+  display: flex;
+  justify-content: space-between;
+  color: var(--md-sys-color-on-surface, #ffffff);
+  font-weight: 700;
+  border-top: 1px solid var(--md-sys-color-outline-variant, #1c2332);
+  padding-top: 6px;
+  margin-top: 2px;
+}
+
+.tradeDisclaimer {
+  font-size: 0.65rem;
+  color: var(--md-sys-color-outline, #475569);
+  text-align: center;
+  line-height: 1.3;
+}
+
+.sourceFab {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 99;
+}
