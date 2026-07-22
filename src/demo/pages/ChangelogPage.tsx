@@ -11,6 +11,43 @@ export function ChangelogPage() {
 
       <DemoSection title="Releases Timeline">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: '100%' }}>
+          {/* v0.7.0 */}
+          <div style={{ display: 'flex', gap: 16 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <div style={{ width: 16, height: 16, borderRadius: '50%', background: 'var(--md-sys-color-primary)', border: '4px solid var(--md-sys-color-primary-container)' }} />
+              <div style={{ flex: 1, width: 2, background: 'var(--md-sys-color-outline-variant)', marginTop: 8 }} />
+            </div>
+
+            <Card variant="outlined" style={{ flex: 1 }}>
+              <CardContent>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8, marginBottom: 8 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <CardTitle>v0.7.0</CardTitle>
+                    <span style={{ background: 'var(--md-sys-color-primary-container)', color: 'var(--md-sys-color-on-primary-container)', padding: '2px 8px', borderRadius: 'var(--md-sys-shape-corner-full)', font: 'var(--md-sys-typescale-label-small)', fontWeight: 'bold' }}>
+                      Latest
+                    </span>
+                  </div>
+                  <span style={{ font: 'var(--md-sys-typescale-label-medium)', color: 'var(--md-sys-color-on-surface-variant)' }}>July 22, 2026</span>
+                </div>
+                <CardBody>
+                  <strong>Systemic Global Density System, Advanced DataTable Suite & Tabbed Demo Cards</strong>
+                  <p style={{ margin: '8px 0', fontSize: '12px', color: 'var(--md-sys-color-on-surface-variant)' }}>
+                    Introduced systemic layout density controls across the design system, expanded DataTable features with Datetime Range Filtering and Tree Mode, and unified preview documentation into tabbed card containers.
+                  </p>
+                  <ul style={{ paddingLeft: 20, margin: '8px 0 0 0', display: 'flex', flexDirection: 'column', gap: 4 }}>
+                    <li><strong>Global Density System:</strong> Added <code>DensityProvider</code> and <code>useDensity</code> hook supporting <code>comfortable</code> and <code>compact</code> density modes with local component overrides and localStorage persistence.</li>
+                    <li><strong>Header Density Switcher:</strong> Placed a topbar <code>DensitySwitcher</code> pill control in <code>DemoLayout</code> to toggle systemic component density application-wide.</li>
+                    <li><strong>DataTable Datetime Range Filter:</strong> Built-in <code>dateRangeFilter</code> prop supporting start and end date pickers, real-time bounding, and quick date range presets (<em>Today</em>, <em>Last 7 Days</em>, <em>Last 30 Days</em>).</li>
+                    <li><strong>DataTable Feature Suite:</strong> Shipped Tree Mode hierarchical rows, floating bulk action bar, pinned freeze columns, column resizers, and double-click inline cell editing.</li>
+                    <li><strong>DataTable Grid Alignment Fix:</strong> Re-architected row rendering to use direct <code>&lt;tr&gt;</code> elements under <code>&lt;tbody&gt;</code> with <code>React.Fragment</code>, guaranteeing 100% header/body column border alignment.</li>
+                    <li><strong>Unified Tabbed Demo Cards:</strong> Combined UI Previews and Code Snippets inside a single card container with interactive <code>Preview</code> and <code>Code</code> tab switcher buttons across <code>DemoSection</code>.</li>
+                    <li><strong>Per-Preview Variant Selector:</strong> Added interactive <code>Variant: [ Flat ] [ Outlined ] [ Striped ] [ Flush ]</code> controls to every table preview card.</li>
+                  </ul>
+                </CardBody>
+              </CardContent>
+            </Card>
+          </div>
+
           {/* v0.6.2 */}
           <div style={{ display: 'flex', gap: 16 }}>
             <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
@@ -23,9 +60,6 @@ export function ChangelogPage() {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8, marginBottom: 8 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                     <CardTitle>v0.6.2</CardTitle>
-                    <span style={{ background: 'var(--md-sys-color-primary-container)', color: 'var(--md-sys-color-on-primary-container)', padding: '2px 8px', borderRadius: 'var(--md-sys-shape-corner-full)', font: 'var(--md-sys-typescale-label-small)', fontWeight: 'bold' }}>
-                      Latest
-                    </span>
                   </div>
                   <span style={{ font: 'var(--md-sys-typescale-label-medium)', color: 'var(--md-sys-color-on-surface-variant)' }}>July 22, 2026</span>
                 </div>
