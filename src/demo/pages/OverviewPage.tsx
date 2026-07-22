@@ -3,40 +3,20 @@ import type { GroupDef } from '../../App';
 import styles from './OverviewPage.module.css';
 
 const CATEGORIES = [
-  { id: 'buttons', icon: 'smart_button', title: 'Buttons', count: 6, description: 'Actions that feel responsive and unmistakably expressive.', preview: 'buttons' },
-  { id: 'containment', icon: 'view_quilt', title: 'Containment', count: 7, description: 'Cards, dialogs, sheets, and surfaces that organize content.', preview: 'containment' },
-  { id: 'selection', icon: 'check_box', title: 'Selection', count: 4, description: 'Clear controls for choices, filters, and preferences.', preview: 'selection' },
-  { id: 'input', icon: 'edit_note', title: 'Inputs', count: 9, description: 'Friendly fields and controls for every kind of data.', preview: 'input' },
-  { id: 'navigation', icon: 'menu', title: 'Navigation', count: 6, description: 'Wayfinding patterns for compact to expansive layouts.', preview: 'navigation' },
-  { id: 'communication', icon: 'notifications', title: 'Communication', count: 4, description: 'Feedback, status, loading, and timely updates.', preview: 'communication' },
-  { id: 'content', icon: 'view_list', title: 'Content', count: 13, description: 'Structured patterns for presenting dense information.', preview: 'content' },
-  { id: 'charts', icon: 'show_chart', title: 'Charts', count: 7, description: 'Fluid time-series and area-based data stories.', preview: 'charts' },
-  { id: 'bar-charts', icon: 'bar_chart', title: 'Bar charts', count: 6, description: 'Crisp comparisons for categories and composition.', preview: 'bars' },
-  { id: 'networks', icon: 'hub', title: 'Networks', count: 7, description: 'Reveal relationships, flows, and connected systems.', preview: 'networks' },
-  { id: 'analysis', icon: 'analytics', title: 'Analysis', count: 7, description: 'Statistical views for patterns, ranges, and distribution.', preview: 'analysis' },
-  { id: 'maps', icon: 'map', title: 'Maps', count: 3, description: 'Geographic data with accessible color and interaction.', preview: 'maps' },
-  { id: 'hierarchies', icon: 'account_tree', title: 'Hierarchies', count: 6, description: 'Explore nested structure from root to smallest detail.', preview: 'hierarchies' },
+  { id: 'buttons', icon: 'smart_button', title: 'Buttons', description: 'Actions that feel responsive and unmistakably expressive.' },
+  { id: 'containment', icon: 'view_quilt', title: 'Containment', description: 'Cards, dialogs, sheets, and surfaces that organize content.' },
+  { id: 'selection', icon: 'check_box', title: 'Selection', description: 'Clear controls for choices, filters, and preferences.' },
+  { id: 'input', icon: 'edit_note', title: 'Inputs', description: 'Friendly fields and controls for every kind of data.' },
+  { id: 'navigation', icon: 'menu', title: 'Navigation', description: 'Wayfinding patterns for compact to expansive layouts.' },
+  { id: 'communication', icon: 'notifications', title: 'Communication', description: 'Feedback, status, loading, and timely updates.' },
+  { id: 'content', icon: 'view_list', title: 'Content', description: 'Structured patterns for presenting dense information.' },
+  { id: 'charts', icon: 'show_chart', title: 'Charts', description: 'Fluid time-series and area-based data stories.' },
+  { id: 'bar-charts', icon: 'bar_chart', title: 'Bar charts', description: 'Crisp comparisons for categories and composition.' },
+  { id: 'networks', icon: 'hub', title: 'Networks', description: 'Reveal relationships, flows, and connected systems.' },
+  { id: 'analysis', icon: 'analytics', title: 'Analysis', description: 'Statistical views for patterns, ranges, and distribution.' },
+  { id: 'maps', icon: 'map', title: 'Maps', description: 'Geographic data with accessible color and interaction.' },
+  { id: 'hierarchies', icon: 'account_tree', title: 'Hierarchies', description: 'Explore nested structure from root to smallest detail.' },
 ] as const;
-
-function CategoryPreview({ type }: { type: string }) {
-  return (
-    <div className={`${styles.preview} ${styles[type]}`} aria-hidden="true">
-      {type === 'buttons' && <><span className={styles.filledPill}>Create</span><span className={styles.tonalPill}>Explore</span><i className={styles.roundButton}>+</i></>}
-      {type === 'containment' && <><i className={styles.miniCardLarge} /><i className={styles.miniCardSmall} /></>}
-      {type === 'selection' && <><i className={styles.check}>✓</i><i className={styles.toggle}><b /></i><span className={styles.chip}>Selected</span></>}
-      {type === 'input' && <><i className={styles.field}>Search components…</i><i className={styles.slider}><b /></i></>}
-      {type === 'navigation' && <><i className={styles.navRail}><b /><b /><b /></i><i className={styles.navPage} /></>}
-      {type === 'communication' && <><i className={styles.message}>Saved to your library</i><i className={styles.progress} /></>}
-      {type === 'content' && <><i className={styles.avatar}>M</i><span className={styles.contentLines}><b /><b /><b /></span></>}
-      {type === 'charts' && <svg viewBox="0 0 240 100"><path className={styles.areaFill} d="M0 88 C24 76 38 32 67 54 S111 82 132 34 S177 23 197 48 S224 22 240 12 V100 H0Z"/><path className={styles.chartLine} d="M0 88 C24 76 38 32 67 54 S111 82 132 34 S177 23 197 48 S224 22 240 12"/></svg>}
-      {type === 'bars' && <span className={styles.barSet}><b /><b /><b /><b /><b /></span>}
-      {type === 'networks' && <svg viewBox="0 0 240 100"><g className={styles.links}><path d="M30 55L86 24L130 65L203 27M86 24L170 83M130 65L203 27"/></g><g className={styles.nodes}><circle cx="30" cy="55" r="9"/><circle cx="86" cy="24" r="12"/><circle cx="130" cy="65" r="8"/><circle cx="170" cy="83" r="7"/><circle cx="203" cy="27" r="11"/></g></svg>}
-      {type === 'analysis' && <><span className={styles.dots}>{[0,1,2,3,4,5,6,7,8,9,10,11].map(n => <b key={n} />)}</span><i className={styles.trend} /></>}
-      {type === 'maps' && <svg viewBox="0 0 240 100" className={styles.mapSvg}><path d="M24 44l23-23 31 8 20-15 23 22 30-11 15 19 33-7 19 25-24 24-37-5-24 13-30-18-35 8-31-19z"/><path d="M78 29l5 55M121 36l12 58M166 44l-9 37M47 21l22 49M98 14l23 22M151 25l15 19M37 65l46-2M83 63l50 8M133 71l41-10"/></svg>}
-      {type === 'hierarchies' && <><i className={styles.treeRoot} /><span className={styles.treeBranches}><b /><b /><b /></span></>}
-    </div>
-  );
-}
 
 function ComponentMiniVisual({ groupId, componentId, index }: { groupId: string; componentId: string; index: number }) {
   if (groupId === 'buttons') {
@@ -150,7 +130,7 @@ export function OverviewPage({ groups }: { groups: GroupDef[] }) {
           <p>MD3 Expressive gives you a complete set of lively, accessible components—from everyday controls to advanced data visualization.</p>
           <div className={styles.heroActions}>
             <a className={styles.primaryCta} href="#installation">Get started <Icon name="arrow_forward" size={20} /></a>
-            <a className={styles.secondaryCta} href="#buttons">Browse components</a>
+            <a className={styles.secondaryCta} href="#button">Browse components</a>
           </div>
           <div className={styles.proof}><span><strong>85+</strong> components</span><span><strong>6</strong> themes</span><span><strong>100%</strong> typed</span></div>
         </div>
@@ -180,7 +160,7 @@ export function OverviewPage({ groups }: { groups: GroupDef[] }) {
                 <div className={styles.categoryHeading}>
                   <span className={styles.categoryIcon}><Icon name={category.icon} size={22} /></span>
                   <div><h3>{category.title}</h3><p>{category.description}</p></div>
-                  <a href={`#${category.id}`}>{components.length} components <Icon name="arrow_forward" size={17} /></a>
+                  <span className={styles.categoryCount}>{components.length} components</span>
                 </div>
                 <div className={styles.componentGrid} aria-label={`${category.title} components`}>
                   {components.map((component, componentIndex) => (

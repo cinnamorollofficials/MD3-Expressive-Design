@@ -221,12 +221,15 @@ export function DemoLayout({
                       type="button"
                       className={cn(
                         styles.groupHeader,
-                        isGroupActive && !activeComponent && styles.groupHeaderActive,
-                        isCollapsed && current === group.id && styles.selected
+                        isGroupActive && styles.groupHeaderActive
                       )}
                       onClick={() => {
-                        toggleGroup(group.id);
-                        onNavigate(group.id);
+                        if (isCollapsed) {
+                          toggleCollapse();
+                          setClosedGroups(prev => ({ ...prev, [group.id]: false }));
+                        } else {
+                          toggleGroup(group.id);
+                        }
                       }}
                       title={group.label}
                     >

@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { DemoLayout } from './demo/components/DemoLayout';
 import { OverviewPage } from './demo/pages/OverviewPage';
-import { ButtonsPage } from './demo/pages/ButtonsPage';
-import { ContainmentPage } from './demo/pages/ContainmentPage';
-import { SelectionPage } from './demo/pages/SelectionPage';
-import { InputPage } from './demo/pages/InputPage';
-import { NavigationPage } from './demo/pages/NavigationPage';
-import { CommunicationPage } from './demo/pages/CommunicationPage';
-import { ContentPage } from './demo/pages/ContentPage';
+const ButtonsPage = lazy(() => import('./demo/pages/ButtonsPage').then(module => ({ default: module.ButtonsPage })));
+const ContainmentPage = lazy(() => import('./demo/pages/ContainmentPage').then(module => ({ default: module.ContainmentPage })));
+const SelectionPage = lazy(() => import('./demo/pages/SelectionPage').then(module => ({ default: module.SelectionPage })));
+const InputPage = lazy(() => import('./demo/pages/InputPage').then(module => ({ default: module.InputPage })));
+const NavigationPage = lazy(() => import('./demo/pages/NavigationPage').then(module => ({ default: module.NavigationPage })));
+const CommunicationPage = lazy(() => import('./demo/pages/CommunicationPage').then(module => ({ default: module.CommunicationPage })));
+const ContentPage = lazy(() => import('./demo/pages/ContentPage').then(module => ({ default: module.ContentPage })));
 import { ShopDashboardPage } from './demo/examples/ShopDashboardPage';
 import { CompanyProfilePage } from './demo/examples/CompanyProfilePage';
 import { ExamplesPage } from './demo/pages/ExamplesPage';
@@ -22,12 +22,12 @@ import { MotionPage } from './demo/pages/MotionPage';
 import { IconsPage } from './demo/pages/IconsPage';
 import { DesignTokensPage } from './demo/pages/DesignTokensPage';
 import { ChangelogPage } from './demo/pages/ChangelogPage';
-import { ChartsPage } from './demo/pages/ChartsPage';
-import { BarChartsPage } from './demo/pages/BarChartsPage';
-import { NetworksPage } from './demo/pages/NetworksPage';
-import { AnalysisPage } from './demo/pages/AnalysisPage';
-import { MapsPage } from './demo/pages/MapsPage';
-import { HierarchiesPage } from './demo/pages/HierarchiesPage';
+const ChartsPage = lazy(() => import('./demo/pages/ChartsPage').then(module => ({ default: module.ChartsPage })));
+const BarChartsPage = lazy(() => import('./demo/pages/BarChartsPage').then(module => ({ default: module.BarChartsPage })));
+const NetworksPage = lazy(() => import('./demo/pages/NetworksPage').then(module => ({ default: module.NetworksPage })));
+const AnalysisPage = lazy(() => import('./demo/pages/AnalysisPage').then(module => ({ default: module.AnalysisPage })));
+const MapsPage = lazy(() => import('./demo/pages/MapsPage').then(module => ({ default: module.MapsPage })));
+const HierarchiesPage = lazy(() => import('./demo/pages/HierarchiesPage').then(module => ({ default: module.HierarchiesPage })));
 
 
 
@@ -250,9 +250,6 @@ const getPageAndComponent = (hash: string) => {
     return { page: hash, activeComponent: undefined };
   }
   for (const group of COMPONENT_GROUPS) {
-    if (group.id === hash) {
-      return { page: group.id, activeComponent: undefined };
-    }
     const found = group.components.find(c => c.id === hash);
     if (found) {
       return { page: group.id, activeComponent: found.id };
@@ -393,7 +390,16 @@ export function App() {
               animation: 'pulse 1.5s infinite ease-in-out'
             }} />
           </div>
-        ) : content}
+        ) : (
+          <Suspense fallback={
+            <div style={{ display: 'grid', gap: 16 }}>
+              <div style={{ height: 44, width: '38%', borderRadius: 12, background: 'var(--md-sys-color-surface-container-high)' }} />
+              <div style={{ height: 240, borderRadius: 24, background: 'var(--md-sys-color-surface-container-low)' }} />
+            </div>
+          }>
+            {content}
+          </Suspense>
+        )}
       </DemoLayout>
 
       {/* Global search overlay command palette */}

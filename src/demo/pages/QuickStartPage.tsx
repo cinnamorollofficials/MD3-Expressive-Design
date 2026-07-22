@@ -72,7 +72,7 @@ export function Actions() {
         <CardContent>
           <CardTitle>Ready to explore?</CardTitle>
           <CardBody>Open a component category for API details, accessibility guidance, and interactive examples.</CardBody>
-          <div style={{ marginTop: 18 }}><Button variant="filled" endIcon="arrow_forward" onClick={() => { window.location.hash = 'buttons'; }}>Browse components</Button></div>
+          <div style={{ marginTop: 18 }}><Button variant="filled" endIcon="arrow_forward" onClick={() => { window.location.hash = 'button'; }}>Browse components</Button></div>
         </CardContent>
       </Card>
     </div>

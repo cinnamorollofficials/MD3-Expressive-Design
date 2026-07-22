@@ -42,6 +42,7 @@
 .categoryHeading p{margin:0;font:var(--md-sys-typescale-body-medium);color:var(--md-sys-color-on-surface-variant)}
 .categoryHeading>a{display:inline-flex;align-items:center;gap:7px;padding:9px 13px;border-radius:999px;color:var(--md-sys-color-primary);text-decoration:none;font:var(--md-sys-typescale-label-medium);font-weight:700}
 .categoryHeading>a:hover{background:var(--md-sys-color-primary-container)}
+.categoryCount{padding:9px 13px;color:var(--md-sys-color-primary);font:var(--md-sys-typescale-label-medium);font-weight:700;white-space:nowrap}
 .componentGrid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));grid-auto-rows:190px;gap:14px}
 .componentGrid .componentPreview{width:100%;height:190px;min-height:0;border-radius:22px;background:var(--md-sys-color-surface-container-low);border-color:transparent}
 .componentGrid .componentCanvas{height:122px;flex:0 0 122px;background:var(--md-sys-color-surface-container-high);transition:background .2s ease}
