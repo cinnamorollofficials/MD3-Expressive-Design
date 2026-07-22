@@ -282,22 +282,25 @@ export function TradingUiPage() {
         }
         start={<IconButton icon="menu" label="Menu" />}
         end={
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <Search
-              placeholder="Cari saham, crypto..."
-              value={topSearch}
-              onChange={(e) => setTopSearch(e.target.value)}
-              trailingIcon={topSearch ? "close" : undefined}
-              onTrailingClick={() => setTopSearch('')}
-            />
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+            <div style={{ width: 220, flexShrink: 0 }}>
+              <Search
+                placeholder="Cari saham, crypto..."
+                value={topSearch}
+                onChange={(e) => setTopSearch(e.target.value)}
+                trailingIcon={topSearch ? "close" : undefined}
+                onTrailingClick={() => setTopSearch('')}
+              />
+            </div>
             <Chip
               kind="assist"
               icon={hideBalance ? 'visibility_off' : 'visibility'}
-              label={hideBalance ? 'Saldo: •••••' : `Daya Beli: Rp ${balanceIdr.toLocaleString()}`}
+              label={hideBalance ? '•••••' : `Rp ${balanceIdr.toLocaleString()}`}
               onClick={() => setHideBalance(!hideBalance)}
             />
             <Button
               variant="filled"
+              size="sm"
               startIcon="add_card"
               onClick={() => {
                 setBalanceIdr(prev => prev + 1000000);
