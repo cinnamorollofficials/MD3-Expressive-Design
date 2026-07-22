@@ -69,14 +69,14 @@ const TREE_DATA: FileTreeNode[] = [
 /* Dedicated Examples for DataTable Variants & Features                      */
 /* -------------------------------------------------------------------------- */
 
-function DataTableOutlinedDemo() {
+function DataTableBasicDemo() {
   const columns: DataTableColumn<ExtendedPerson>[] = [
-    { id: 'name', header: 'Name', sortable: true, sortValue: r => r.name },
+    { id: 'name', header: 'Name' },
     { id: 'role', header: 'Role' },
     { id: 'department', header: 'Department' },
     { id: 'salary', header: 'Salary', numeric: true, cell: r => `$${r.salary.toLocaleString()}` },
   ];
-  return <DataTable columns={columns} rows={EXTENDED_PEOPLE.slice(0, 4)} rowKey={r => r.id} variant="outlined" />;
+  return <DataTable columns={columns} rows={EXTENDED_PEOPLE.slice(0, 4)} rowKey={r => r.id} />;
 }
 
 function DataTableStripedDemo() {
@@ -463,11 +463,11 @@ export function ContentPage({ activeComponent }: { activeComponent?: string }) {
       {(showAll || activeComponent === 'data-table') && (
         <>
           <DemoSection
-            title="Data table — Outlined variant"
-            description="Cell borders and outer container outline following Material 3 surface guidelines."
-            code={`<DataTable variant="outlined" columns={columns} rows={rows} />`}
+            title="Data table — Basic / Simple table"
+            description="Standard static table with columns and rows, without sorting, filtering, or row selection."
+            code={`<DataTable columns={columns} rows={rows} />`}
           >
-            <DataTableOutlinedDemo />
+            <DataTableBasicDemo />
           </DemoSection>
 
           <DemoSection
