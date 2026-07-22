@@ -113,16 +113,16 @@ export function DemoLayout({
       {!isHome && <aside className={cn(styles.sidebar, isCollapsed && styles.sidebarCollapsed)}>
         {!isCollapsed ? (
           <>
-            <div className={styles.brandRow}>
+            <button type="button" className={styles.brandRow} onClick={() => onNavigate('overview')} aria-label="Go to home">
               <ProjectLogo size={24} className={styles.brandLogo} />
               <div className={styles.brand}>MD3 Expressive</div>
-            </div>
+            </button>
             <div className={styles.brandSub}>React + TypeScript design system</div>
           </>
         ) : (
-          <div className={styles.brandCollapsed} title="MD3 Expressive">
+          <button type="button" className={styles.brandCollapsed} title="Go to home" onClick={() => onNavigate('overview')} aria-label="Go to home">
             <ProjectLogo size={28} className={styles.collapsedLogo} />
-          </div>
+          </button>
         )}
 
         <div className={styles.scrollableNav}>

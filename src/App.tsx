@@ -267,14 +267,18 @@ export function App() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const onHash = () => {
+    const onLocationChange = () => {
       setLoading(true);
       const timer = setTimeout(() => setLoading(false), 200); // skeleton fake speed
       setCurrentHash(window.location.hash.replace(/^#/, '') || 'overview');
       return () => clearTimeout(timer);
     };
-    window.addEventListener('hashchange', onHash);
-    return () => window.removeEventListener('hashchange', onHash);
+    window.addEventListener('hashchange', onLocationChange);
+    window.addEventListener('popstate', onLocationChange);
+    return () => {
+      window.removeEventListener('hashchange', onLocationChange);
+      window.removeEventListener('popstate', onLocationChange);
+    };
   }, []);
 
   // listen to Ctrl+K key shortcut
@@ -290,8 +294,15 @@ export function App() {
   }, []);
 
   const navigate = (id: string) => {
-    window.location.hash = id;
-    setCurrentHash(id);
+    if (id === 'overview') {
+      if (window.location.hash) {
+        window.history.pushState(null, '', `${window.location.pathname}${window.location.search}`);
+      }
+      setCurrentHash('overview');
+    } else {
+      window.location.hash = id;
+      setCurrentHash(id);
+    }
     // Automatically scroll to top on navigate
     window.scrollTo({ top: 0 });
   };
