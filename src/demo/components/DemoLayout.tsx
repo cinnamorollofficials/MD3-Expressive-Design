@@ -1,6 +1,7 @@
 import { ReactNode, Fragment, useState, useMemo, useEffect } from 'react';
 import { cn } from '../../lib/utils/cn';
 import { Icon } from '../../lib/components/Icon';
+import { Menu } from '../../lib/components/Menu';
 import { ThemeSwitcher } from './ThemeSwitcher';
 import styles from './DemoLayout.module.css';
 import { type GroupDef } from '../../App';
@@ -98,7 +99,7 @@ export function DemoLayout({
     });
   };
 
-  const isExamplesActive = ['examples', 'shop-dashboard', 'company-profile'].includes(activeGroup);
+  const isExamplesActive = ['shop-dashboard', 'company-profile'].includes(activeGroup);
   const isDocsActive = !isExamplesActive;
   const isHome = current === 'overview';
   const hasSidebar = !isHome && !isExamplesActive;
@@ -126,7 +127,7 @@ export function DemoLayout({
         )}
 
         <div className={styles.scrollableNav}>
-          {isDocsActive ? (
+          {
             <>
               {/* Getting Started Section */}
               <div className={styles.sectionLabel}>
@@ -286,40 +287,7 @@ export function DemoLayout({
                 {!isCollapsed && 'Changelog'}
               </button>
             </>
-          ) : (
-            <>
-              <div className={styles.sectionLabel}>
-                {!isCollapsed ? 'Examples' : <div className={styles.collapsedDivider} />}
-              </div>
-              <button
-                type="button"
-                className={cn(styles.navItem, current === 'examples' && styles.selected)}
-                onClick={() => onNavigate('examples')}
-                title="Examples Overview"
-              >
-                <Icon name="explore" size={20} filled={current === 'examples'} />
-                {!isCollapsed && 'Overview'}
-              </button>
-              <button
-                type="button"
-                className={cn(styles.navItem, current === 'shop-dashboard' && styles.selected)}
-                onClick={() => onNavigate('shop-dashboard')}
-                title="Shop Dashboard"
-              >
-                <Icon name="storefront" size={20} filled={current === 'shop-dashboard'} />
-                {!isCollapsed && 'Shop Dashboard'}
-              </button>
-              <button
-                type="button"
-                className={cn(styles.navItem, current === 'company-profile' && styles.selected)}
-                onClick={() => onNavigate('company-profile')}
-                title="Company Profile"
-              >
-                <Icon name="business" size={20} filled={current === 'company-profile'} />
-                {!isCollapsed && 'Company Profile'}
-              </button>
-            </>
-          )}
+          }
         </div>
 
         {/* Sidebar resize handler strip */}
@@ -357,13 +325,23 @@ export function DemoLayout({
             >
               Docs
             </button>
-            <button
-              type="button"
-              className={cn(styles.headerTab, isExamplesActive && styles.headerTabActive)}
-              onClick={() => onNavigate('examples')}
-            >
-              Examples
-            </button>
+            <Menu
+              align="left"
+              trigger={(props) => (
+                <button
+                  {...props}
+                  type="button"
+                  className={cn(styles.headerTab, styles.examplesTrigger, isExamplesActive && styles.headerTabActive)}
+                >
+                  Examples
+                  <Icon name="arrow_drop_down" size={20} />
+                </button>
+              )}
+              items={[
+                { label: 'ACME Store', icon: 'storefront', onClick: () => onNavigate('shop-dashboard') },
+                { label: 'Company Profile', icon: 'business', onClick: () => onNavigate('company-profile') },
+              ]}
+            />
           </div>
 
           <div style={{ flex: 1 }} />

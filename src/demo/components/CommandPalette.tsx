@@ -24,7 +24,6 @@ const SEARCH_ITEMS: CommandItem[] = [
   { id: 'changelog', category: 'Guides & Styles', label: 'Changelog', desc: 'Full version history tracker', icon: 'history', hash: 'changelog' },
 
   // Examples
-  { id: 'examples', category: 'Examples', label: 'Examples Hub', desc: 'Mock applications showcasing library usage', icon: 'explore', hash: 'examples' },
   { id: 'shop-dashboard', category: 'Examples', label: 'Shop Dashboard', desc: 'Premium responsive e-commerce dashboard', icon: 'storefront', hash: 'shop-dashboard' },
   { id: 'company-profile', category: 'Examples', label: 'Company Profile', desc: 'Enterprise website landing layout', icon: 'business', hash: 'company-profile' },
 

@@ -10,7 +10,6 @@ const CommunicationPage = lazy(() => import('./demo/pages/CommunicationPage').th
 const ContentPage = lazy(() => import('./demo/pages/ContentPage').then(module => ({ default: module.ContentPage })));
 import { ShopDashboardPage } from './demo/examples/ShopDashboardPage';
 import { CompanyProfilePage } from './demo/examples/CompanyProfilePage';
-import { ExamplesPage } from './demo/pages/ExamplesPage';
 import { useTheme } from './lib/hooks/useTheme';
 
 // Import new guide pages
@@ -242,7 +241,7 @@ export const COMPONENT_GROUPS: GroupDef[] = [
 const getPageAndComponent = (hash: string) => {
   const extraPages = [
     'overview', 'quick-start', 'installation', 'tokens', 'typography', 'colors',
-    'motion', 'icons', 'changelog', 'examples', 'shop-dashboard',
+    'motion', 'icons', 'changelog', 'shop-dashboard',
     'company-profile'
   ];
 
@@ -337,7 +336,6 @@ export function App() {
     case 'changelog': content = <ChangelogPage />; break;
 
     // Examples
-    case 'examples': content = <ExamplesPage onNavigate={navigate} />; break;
     case 'shop-dashboard': content = <ShopDashboardPage />; break;
     case 'company-profile': content = <CompanyProfilePage />; break;
     default: content = <OverviewPage groups={COMPONENT_GROUPS} />;
