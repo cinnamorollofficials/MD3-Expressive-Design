@@ -10,6 +10,15 @@
   --md-sys-shape-corner-2xl: 36px;
   --md-sys-shape-corner-full: 9999px;
 
+  /* Canonical verbose aliases used by documentation and component surfaces. */
+  --md-sys-shape-corner-extra-small: var(--md-sys-shape-corner-xs);
+  --md-sys-shape-corner-small: var(--md-sys-shape-corner-sm);
+  --md-sys-shape-corner-medium: var(--md-sys-shape-corner-md);
+  --md-sys-shape-corner-large: var(--md-sys-shape-corner-lg);
+  --md-sys-shape-corner-extra-large: var(--md-sys-shape-corner-xl);
+  --md-sys-shape-corner-extra-extra-large: var(--md-sys-shape-corner-2xl);
+  --md-sys-shape-card: var(--md-sys-shape-corner-medium);
+
   /* Motion — Expressive easing curves */
   --md-sys-motion-easing-linear: cubic-bezier(0, 0, 1, 1);
   --md-sys-motion-easing-standard: cubic-bezier(0.2, 0, 0, 1);
