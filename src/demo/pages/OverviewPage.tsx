@@ -72,11 +72,26 @@ function ComponentMiniVisual({ groupId, componentId, index }: { groupId: string;
   if (groupId === 'maps') return <span className={styles.miniMap}><i /><i /><i /><i /></span>;
   if (groupId === 'hierarchies') return <span className={styles.miniTree}><b /><i /><i /><i /></span>;
 
+  if (groupId === 'content') {
+    if (componentId === 'avatar') return <span className={styles.realAvatar}><b>HG</b><i /><i /></span>;
+    if (componentId === 'breadcrumbs') return <span className={styles.realBreadcrumbs}><b>Home</b><i>›</i><b>Library</b><i>›</i><strong>Button</strong></span>;
+    if (componentId === 'stepper') return <span className={styles.realStepper}><b>✓</b><i /><b>2</b><i /><b>3</b></span>;
+    if (componentId === 'pagination') return <span className={styles.realPagination}><i>‹</i><b>1</b><i>2</i><i>3</i><i>›</i></span>;
+    if (componentId === 'skeleton') return <span className={styles.realSkeleton}><b /><i /><i /></span>;
+    if (componentId === 'empty-state') return <span className={styles.realEmpty}><Icon name="inbox" size={25} /><b>No items yet</b><i>Add item</i></span>;
+    if (componentId === 'data-table') return <span className={styles.realTable}>{[0,1,2,3,4,5,6,7,8].map(cell => <i key={cell} />)}</span>;
+    if (componentId === 'timeline') return <span className={styles.realTimeline}><i /><b>Created</b><i /><b>Reviewed</b><i /><b>Published</b></span>;
+    if (componentId === 'accordion') return <span className={styles.realAccordion}><b>What is MD3?<i>⌄</i></b><b>How to install?<i>⌄</i></b><b>Theme options<i>⌄</i></b></span>;
+    if (componentId === 'tree') return <span className={styles.realTree}><b>▾ src</b><i>├ components</i><i>└ styles</i><em>▸ assets</em></span>;
+    if (componentId === 'list') return <span className={styles.realList}>{[0,1,2].map(row => <b key={row}><i>{row + 1}</i><span /><em>›</em></b>)}</span>;
+    if (componentId === 'divider') return <span className={styles.realDivider}><b>Section one</b><i /><b>Section two</b></span>;
+    if (componentId === 'carousel') return <span className={styles.realCarousel}><i /><b /><i /></span>;
+  }
+
   const iconMap: Record<string, string> = {
     containment: componentId.includes('sheet') ? 'dock_to_right' : componentId === 'dialog' ? 'dialogs' : componentId === 'snackbar' ? 'toast' : componentId === 'tooltip' ? 'tooltip' : componentId === 'menu' ? 'menu' : 'cards',
     navigation: componentId.includes('rail') ? 'view_sidebar' : componentId.includes('bar') ? 'bottom_navigation' : componentId.includes('drawer') ? 'dock_to_left' : componentId === 'tabs' ? 'tab' : 'toolbar',
     communication: componentId.includes('loading') || componentId.includes('progress') ? 'progress_activity' : componentId === 'badge' ? 'notification_important' : 'campaign',
-    content: componentId === 'avatar' ? 'account_circle' : componentId === 'data-table' ? 'table_rows' : componentId === 'carousel' ? 'view_carousel' : componentId === 'tree' ? 'account_tree' : 'view_list',
   };
   return <span className={styles.miniGeneric}><Icon name={iconMap[groupId] ?? 'widgets'} size={25} /><i /><i /></span>;
 }
