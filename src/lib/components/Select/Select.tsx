@@ -10,6 +10,7 @@ export interface SelectOption<T extends string = string> {
   value: T;
   label: string;
   icon?: string;
+  image?: string;
   disabled?: boolean;
 }
 
@@ -78,14 +79,16 @@ export function Select<T extends string = string>(props: SelectProps<T>) {
     return value === optVal;
   };
 
+  const selectedOption = !multiple ? options.find(o => o.value === value) : undefined;
+  const selectedImage = selectedOption?.image;
+
   const getDisplayValue = () => {
     if (multiple) {
       const selectedList = options.filter(o => Array.isArray(value) && value.includes(o.value));
       if (selectedList.length === 0) return '';
       return selectedList.map(o => o.label).join(', ');
     }
-    const selected = options.find(o => o.value === value);
-    return selected?.label ?? '';
+    return selectedOption?.label ?? '';
   };
 
   const activeOption = active >= 0 ? filteredOptions[active] : undefined;
@@ -254,7 +257,11 @@ export function Select<T extends string = string>(props: SelectProps<T>) {
                       className={isSel ? styles.checkboxActive : styles.checkboxInactive}
                     />
                   )}
-                  {o.icon && <Icon name={o.icon} size={size === 'small' ? 16 : 20} />}
+                  {o.image ? (
+                    <img src={o.image} alt="" className={styles.optionImage} />
+                  ) : o.icon ? (
+                    <Icon name={o.icon} size={size === 'small' ? 16 : 20} />
+                  ) : null}
                   <span style={{ flex: 1 }}>{o.label}</span>
                   {!multiple && isSel && <Icon name="check" size={size === 'small' ? 16 : 20} />}
                 </button>
@@ -293,6 +300,7 @@ export function Select<T extends string = string>(props: SelectProps<T>) {
           helperText={helperText}
           error={error}
           leadingIcon={leadingIcon}
+          leadingImage={selectedImage}
           trailingIcon={open ? 'arrow_drop_up' : 'arrow_drop_down'}
           size={size}
           density={density}

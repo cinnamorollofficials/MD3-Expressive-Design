@@ -14,6 +14,14 @@ const COUNTRIES = [
   { value: 'jp', label: 'Japan', icon: 'flag' },
 ];
 
+const FLAG_OPTIONS = [
+  { value: 'id', label: 'Indonesia', image: 'https://flagcdn.com/w40/id.png' },
+  { value: 'us', label: 'United States', image: 'https://flagcdn.com/w40/us.png' },
+  { value: 'jp', label: 'Japan', image: 'https://flagcdn.com/w40/jp.png' },
+  { value: 'gb', label: 'United Kingdom', image: 'https://flagcdn.com/w40/gb.png' },
+  { value: 'de', label: 'Germany', image: 'https://flagcdn.com/w40/de.png' },
+];
+
 export function InputPage({ activeComponent }: { activeComponent?: string }) {
   const [name, setName] = useState('');
   const [vol, setVol] = useState(40);
@@ -22,6 +30,7 @@ export function InputPage({ activeComponent }: { activeComponent?: string }) {
   const [country, setCountry] = useState<string>('us');
   const [multiCountries, setMultiCountries] = useState<string[]>(['us', 'ca']);
   const [searchableCountry, setSearchableCountry] = useState<string>('us');
+  const [flagCountry, setFlagCountry] = useState<string>('id');
   const [city, setCity] = useState<string | undefined>('jp');
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(3.5);
@@ -67,8 +76,8 @@ export function InputPage({ activeComponent }: { activeComponent?: string }) {
 
       {(showAll || activeComponent === 'select') && (
         <DemoSection
-          title="Select (Single, Multi & Searchable Select)"
-          description="Popover-based picker supporting single selection, multi-selection with checkboxes, and real-time search filtering."
+          title="Select (Single, Multi, Searchable & Prefix Image Select)"
+          description="Popover-based picker supporting single selection, multi-selection with checkboxes, real-time search filtering, and custom prefix avatar/flag images."
           code={`{/* Single Select */}
 <Select label="Single Country" options={countries} value={country} onChange={setCountry} />
 
@@ -76,12 +85,16 @@ export function InputPage({ activeComponent }: { activeComponent?: string }) {
 <Select multiple label="Multiple Countries" options={countries} value={multiCountries} onChange={setMultiCountries} />
 
 {/* Searchable Select */}
-<Select searchable label="Searchable Country" options={countries} value={searchableCountry} onChange={setSearchableCountry} />`}
+<Select searchable label="Searchable Country" options={countries} value={searchableCountry} onChange={setSearchableCountry} />
+
+{/* Select with Prefix Image */}
+<Select searchable label="Country with Flag Image" options={FLAG_OPTIONS} value={flagCountry} onChange={setFlagCountry} />`}
         >
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 16, width: '100%', maxWidth: 320 }}>
-            <Select label="Single Country" options={COUNTRIES} value={country} onChange={setCountry} />
-            <Select multiple label="Multiple Countries" options={COUNTRIES} value={multiCountries} onChange={setMultiCountries} />
-            <Select searchable label="Searchable Country" options={COUNTRIES} value={searchableCountry} onChange={setSearchableCountry} />
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20, width: '100%' }}>
+            <Select label="Single Country" options={COUNTRIES} value={country} onChange={setCountry} width="100%" />
+            <Select multiple label="Multiple Countries" options={COUNTRIES} value={multiCountries} onChange={setMultiCountries} width="100%" />
+            <Select searchable label="Searchable Country" options={COUNTRIES} value={searchableCountry} onChange={setSearchableCountry} width="100%" />
+            <Select searchable label="Country with Flag Image" options={FLAG_OPTIONS} value={flagCountry} onChange={setFlagCountry} width="100%" />
           </div>
         </DemoSection>
       )}
