@@ -15,6 +15,7 @@ import { useTheme } from './lib/hooks/useTheme';
 
 // Import new guide pages
 import { InstallationPage } from './demo/pages/InstallationPage';
+import { QuickStartPage } from './demo/pages/QuickStartPage';
 import { ColorsPage } from './demo/pages/ColorsPage';
 import { TypographyPage } from './demo/pages/TypographyPage';
 import { MotionPage } from './demo/pages/MotionPage';
@@ -240,7 +241,7 @@ export const COMPONENT_GROUPS: GroupDef[] = [
 
 const getPageAndComponent = (hash: string) => {
   const extraPages = [
-    'overview', 'installation', 'tokens', 'typography', 'colors',
+    'overview', 'quick-start', 'installation', 'tokens', 'typography', 'colors',
     'motion', 'icons', 'changelog', 'examples', 'shop-dashboard',
     'company-profile'
   ];
@@ -329,6 +330,7 @@ export function App() {
 
 
     // Custom docs pages
+    case 'quick-start': content = <QuickStartPage />; break;
     case 'installation': content = <InstallationPage />; break;
     case 'colors': content = <ColorsPage />; break;
     case 'typography': content = <TypographyPage />; break;

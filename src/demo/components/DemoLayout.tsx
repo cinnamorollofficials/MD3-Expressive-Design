@@ -134,12 +134,12 @@ export function DemoLayout({
               </div>
               <button
                 type="button"
-                className={cn(styles.navItem, current === 'overview' && styles.selected)}
-                onClick={() => onNavigate('overview')}
-                title="Overview"
+                className={cn(styles.navItem, current === 'quick-start' && styles.selected)}
+                onClick={() => onNavigate('quick-start')}
+                title="Quick start"
               >
-                <Icon name="dashboard" size={20} filled={current === 'overview'} />
-                {!isCollapsed && 'Overview'}
+                <Icon name="rocket_launch" size={20} filled={current === 'quick-start'} />
+                {!isCollapsed && 'Quick start'}
               </button>
 
               <button
@@ -350,7 +350,7 @@ export function DemoLayout({
             <button
               type="button"
               className={cn(styles.headerTab, isDocsActive && styles.headerTabActive)}
-              onClick={() => onNavigate('overview')}
+              onClick={() => onNavigate('quick-start')}
             >
               Docs
             </button>

@@ -14,7 +14,7 @@ interface CommandItem {
 
 const SEARCH_ITEMS: CommandItem[] = [
   // Guides
-  { id: 'overview', category: 'Guides & Styles', label: 'Overview', desc: 'Introduction to Material 3 Expressive', icon: 'dashboard', hash: 'overview' },
+  { id: 'quick-start', category: 'Guides & Styles', label: 'Quick start', desc: 'Build your first MD3 Expressive interface', icon: 'rocket_launch', hash: 'quick-start' },
   { id: 'installation', category: 'Guides & Styles', label: 'Installation & Setup', desc: 'Get started importing the library', icon: 'download', hash: 'installation' },
   { id: 'tokens', category: 'Guides & Styles', label: 'Design Tokens', desc: 'Shapes, elevations, and outline tokens list', icon: 'style', hash: 'tokens' },
   { id: 'colors', category: 'Guides & Styles', label: 'Theme & Colors', desc: 'MD3 core palette and live contrast checking', icon: 'palette', hash: 'colors' },
