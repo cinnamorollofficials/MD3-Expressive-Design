@@ -4,7 +4,7 @@ import {
   Avatar, AvatarGroup, Breadcrumbs, Banner, Stepper, Timeline,
   Accordion, DataTable, Tree, Rating, Pagination, EmptyState,
   Card, CardContent, CardTitle, CardBody,
-  List, ListItem, Divider, Snackbar, Badge,
+  List, ListItem, Divider, Snackbar, Badge, ProgressIndicator,
   type DataTableColumn,
 } from '../../lib';
 import { cn } from '../../lib/utils/cn';
@@ -128,7 +128,7 @@ const PROJECT_COLUMNS: DataTableColumn<Project>[] = [
   { id: 'progress', header: 'Progress', numeric: true, sortable: true, sortValue: r => r.progress,
     cell: r => (
       <div className={styles.progressCell}>
-        <div className={styles.progressBar}><div style={{ width: `${r.progress}%` }} /></div>
+        <ProgressIndicator value={r.progress} />
         <span>{r.progress}%</span>
       </div>
     ),
@@ -323,19 +323,19 @@ export function CompanyProfilePage() {
       {/* KPI strip */}
       <div className={styles.kpiGrid}>
         {KPIS.map(k => (
-          <div key={k.key} className={styles.kpi}>
-            <span className={styles.kpiIcon}><Icon name={k.icon} size={20} /></span>
+          <Card key={k.key} variant="elevated" className={styles.kpi}>
+            <Avatar icon={k.icon} size="md" shape="rounded" tone={1} />
             <div>
               <div className={styles.kpiLabel}>{k.label}</div>
               <div className={styles.kpiValue}>{k.value}</div>
               <div className={styles.kpiTrend}>{k.trend}</div>
             </div>
-          </div>
+          </Card>
         ))}
       </div>
 
       {/* Tabs */}
-      <div className={styles.tabsPanel}>
+      <Card variant="elevated" className={styles.tabsPanel}>
         <Tabs
           items={[
             { value: 'overview',  label: 'Overview',  icon: 'info' },
@@ -477,7 +477,7 @@ export function CompanyProfilePage() {
 
             {tab === 'documents' && (
               <div className={styles.docsLayout}>
-                <div className={styles.docsTree}>
+                <Card variant="filled" className={styles.docsTree}>
                   <Tree
                     ariaLabel="Documents"
                     nodes={DOC_TREE}
@@ -485,12 +485,12 @@ export function CompanyProfilePage() {
                     selected={doc}
                     onSelect={(id) => setDoc(id)}
                   />
-                </div>
-                <div className={styles.docsPreview}>
+                </Card>
+                <Card variant="outlined" className={styles.docsPreview}>
                   {docMeta ? (
                     <>
                       <div className={styles.docsHeader}>
-                        <span className={styles.docsThumb}><Icon name="description" size={32} /></span>
+                        <Avatar icon="description" size="lg" shape="rounded" tone={1} />
                         <div style={{ flex: 1 }}>
                           <div className={styles.docsTitle}>{docMeta.title}</div>
                           <div className={styles.subtle}>{docMeta.size} · Updated {docMeta.updated}</div>
@@ -510,14 +510,14 @@ export function CompanyProfilePage() {
                       description="Choose a file from the tree to see its details and download options."
                     />
                   )}
-                </div>
+                </Card>
               </div>
             )}
           </div>
 
           {/* Sidebar — visible across all tabs */}
           <aside className={styles.sidebar}>
-            <section className={styles.sideCard}>
+            <Card variant="filled" className={styles.sideCard}>
               <div className={styles.sideHeader}>
                 <h4 className={styles.sideTitle}>Glassview rating</h4>
                 <span className={styles.subtle}>{COMPANY.reviewCount} reviews</span>
@@ -527,9 +527,9 @@ export function CompanyProfilePage() {
                 <Rating value={COMPANY.rating} half />
               </div>
               <div className={styles.subtle}>Updated weekly from verified employees.</div>
-            </section>
+            </Card>
 
-            <section className={styles.sideCard}>
+            <Card variant="filled" className={styles.sideCard}>
               <div className={styles.sideHeader}>
                 <h4 className={styles.sideTitle}>Key contacts</h4>
                 <IconButton icon="open_in_new" label="View all" />
@@ -549,9 +549,9 @@ export function CompanyProfilePage() {
                   <ListItem headline="No contacts yet" supporting="Verified contacts will appear here." />
                 )}
               </List>
-            </section>
+            </Card>
 
-            <section className={styles.sideCard}>
+            <Card variant="filled" className={styles.sideCard}>
               <div className={styles.sideHeader}>
                 <h4 className={styles.sideTitle}>Locations</h4>
                 <Chip kind="suggestion" label={`${LOCATIONS.length}`} />
@@ -562,14 +562,14 @@ export function CompanyProfilePage() {
                     key={l.city}
                     headline={l.city}
                     supporting={l.label}
-                    leading={<span className={styles.locIcon}><Icon name={l.icon} size={18} /></span>}
+                    leading={<Avatar icon={l.icon} size="sm" tone={3} />}
                     trailing={<span className={styles.headcount}>{l.headcount}</span>}
                   />
                 ))}
               </List>
-            </section>
+            </Card>
 
-            <section className={styles.sideCard}>
+            <Card variant="filled" className={styles.sideCard}>
               <div className={styles.sideHeader}>
                 <h4 className={styles.sideTitle}>Open positions</h4>
               </div>
@@ -579,10 +579,10 @@ export function CompanyProfilePage() {
                 description="Connect your ATS to surface open roles directly in this profile."
                 actions={<Button variant="tonal" onClick={() => setSnack('Opening integrations…')}>Connect ATS</Button>}
               />
-            </section>
+            </Card>
           </aside>
         </div>
-      </div>
+      </Card>
 
       <Snackbar
         open={!!snack}

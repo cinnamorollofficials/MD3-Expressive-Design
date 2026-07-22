@@ -96,17 +96,6 @@
   background: var(--md-sys-color-surface-container-low);
   border-radius: var(--md-sys-shape-corner-lg);
 }
-.kpiIcon {
-  width: 44px;
-  height: 44px;
-  border-radius: var(--md-sys-shape-corner-md);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--md-sys-color-primary-container);
-  color: var(--md-sys-color-on-primary-container);
-  flex: 0 0 auto;
-}
 .kpiLabel { font: var(--md-sys-typescale-label-large); color: var(--md-sys-color-on-surface-variant); }
 .kpiValue { font: var(--md-sys-typescale-headline-medium); color: var(--md-sys-color-on-surface); line-height: 1.1; }
 .kpiTrend { font: var(--md-sys-typescale-body-small); color: var(--md-sys-color-on-surface-variant); margin-top: 2px; }
@@ -181,20 +170,6 @@
   font-variant-numeric: tabular-nums;
   min-width: 140px;
 }
-.progressBar {
-  width: 80px;
-  height: 6px;
-  background: var(--md-sys-color-surface-container-highest);
-  border-radius: var(--md-sys-shape-corner-full);
-  overflow: hidden;
-}
-.progressBar > div {
-  height: 100%;
-  background: var(--md-sys-color-primary);
-  border-radius: inherit;
-  transition: width var(--md-sys-motion-duration-long2) var(--md-sys-motion-easing-emphasized);
-}
-
 .pageFoot {
   display: flex;
   justify-content: space-between;
@@ -235,17 +210,6 @@
   gap: 12px;
 }
 .docsTitle { font: var(--md-sys-typescale-title-medium); }
-.docsThumb {
-  width: 56px;
-  height: 56px;
-  border-radius: var(--md-sys-shape-corner-md);
-  background: var(--md-sys-color-primary-container);
-  color: var(--md-sys-color-on-primary-container);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
-
 /* Sidebar */
 .sidebar {
   display: flex;
@@ -267,16 +231,6 @@
 .ratingRow { display: flex; align-items: center; gap: 12px; }
 .ratingValue { font: var(--md-sys-typescale-display-small); line-height: 1; }
 
-.locIcon {
-  width: 32px;
-  height: 32px;
-  border-radius: 50%;
-  background: var(--md-sys-color-tertiary-container);
-  color: var(--md-sys-color-on-tertiary-container);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-}
 .headcount {
   font-variant-numeric: tabular-nums;
   color: var(--md-sys-color-on-surface-variant);
