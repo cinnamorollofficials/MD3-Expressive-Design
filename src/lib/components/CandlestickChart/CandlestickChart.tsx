@@ -74,9 +74,10 @@ export function CandlestickChart({
 }: CandlestickChartProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [containerWidth, setContainerWidth] = useState<number>(800);
+  const [containerHeight, setContainerHeight] = useState<number>(height);
   const [hoverIndex, setHoverIndex] = useState<number | null>(null);
 
-  // ResizeObserver for responsive width
+  // ResizeObserver for responsive width & height
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
@@ -84,6 +85,9 @@ export function CandlestickChart({
       for (const entry of entries) {
         if (entry.contentRect.width > 0) {
           setContainerWidth(entry.contentRect.width);
+        }
+        if (entry.contentRect.height > 0) {
+          setContainerHeight(entry.contentRect.height);
         }
       }
     });
@@ -162,7 +166,7 @@ export function CandlestickChart({
   // Layout dimensions
   const padding = { top: 20, right: 65, bottom: 30, left: 10 };
   const innerWidth = Math.max(100, containerWidth - padding.left - padding.right);
-  const innerHeight = Math.max(100, height - padding.top - padding.bottom);
+  const innerHeight = Math.max(100, (containerHeight || height) - padding.top - padding.bottom);
 
   // Scales
   const { xScale, yScale, volScale, candleWidth, stepX } = useMemo(() => {
@@ -289,10 +293,10 @@ export function CandlestickChart({
         </div>
       )}
 
-      <div className={styles.chartContainer} ref={containerRef} style={{ height }}>
+      <div className={styles.chartContainer} ref={containerRef}>
         <svg
           className={styles.svg}
-          viewBox={`0 0 ${containerWidth} ${height}`}
+          viewBox={`0 0 ${containerWidth} ${containerHeight || height}`}
           onMouseLeave={() => setHoverIndex(null)}
           onMouseMove={(e) => {
             if (!interactive || processedData.length === 0) return;
