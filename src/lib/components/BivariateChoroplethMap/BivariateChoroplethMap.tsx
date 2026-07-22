@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState, useMemo, useCallback } from 'react';
-import * as d3 from 'd3';
 import * as geo from 'd3-geo';
 import { feature as topoFeature, mesh as topoMesh } from 'topojson-client';
 import { cn } from '../../utils/cn';
@@ -56,6 +55,15 @@ const DEFAULT_BIVARIATE_COLORS = [
   ['#dfb0d6', '#a5add3', '#5698c4'], // Med A
   ['#be64ac', '#8c62aa', '#3b4994'], // High A
 ];
+
+function quantileSorted(values: number[], probability: number): number | undefined {
+  if (!values.length) return undefined;
+  const index = (values.length - 1) * probability;
+  const lower = Math.floor(index);
+  const upper = Math.ceil(index);
+  if (lower === upper) return values[lower];
+  return values[lower] + (values[upper] - values[lower]) * (index - lower);
+}
 
 export function BivariateChoroplethMap({
   geojson,
@@ -136,14 +144,14 @@ export function BivariateChoroplethMap({
     if (data.length === 0)
       return { quantilesA: [33, 66] as [number, number], quantilesB: [33, 66] as [number, number] };
 
-    const valsA = data.map((d) => d.valueA).filter((v) => typeof v === 'number' && !isNaN(v)).sort(d3.ascending);
-    const valsB = data.map((d) => d.valueB).filter((v) => typeof v === 'number' && !isNaN(v)).sort(d3.ascending);
+    const valsA = data.map((d) => d.valueA).filter((v) => typeof v === 'number' && !isNaN(v)).sort((a, b) => a - b);
+    const valsB = data.map((d) => d.valueB).filter((v) => typeof v === 'number' && !isNaN(v)).sort((a, b) => a - b);
 
-    const qA1 = d3.quantile(valsA, 0.333) ?? 33;
-    const qA2 = d3.quantile(valsA, 0.666) ?? 66;
+    const qA1 = quantileSorted(valsA, 0.333) ?? 33;
+    const qA2 = quantileSorted(valsA, 0.666) ?? 66;
 
-    const qB1 = d3.quantile(valsB, 0.333) ?? 33;
-    const qB2 = d3.quantile(valsB, 0.666) ?? 66;
+    const qB1 = quantileSorted(valsB, 0.333) ?? 33;
+    const qB2 = quantileSorted(valsB, 0.666) ?? 66;
 
     return {
       quantilesA: [qA1, qA2] as [number, number],
