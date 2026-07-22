@@ -41,9 +41,8 @@
 }
 
 .homeContent {
-  max-width: 1480px;
-  margin-inline: auto;
-  padding: 32px clamp(20px, 4vw, 64px) 64px;
+  max-width: none;
+  padding: 0;
 }
 
 .sidebarCollapsed {
@@ -297,6 +296,15 @@
   max-width: 1200px;
   width: 100%;
   box-sizing: border-box;
+}
+
+/* The landing page is intentionally edge-to-edge. This combined selector
+   must come after .content so the documentation width cap cannot win. */
+.content.homeContent {
+  max-width: none;
+  width: 100%;
+  padding: 0;
+  margin: 0;
 }
 
 .mainArea {

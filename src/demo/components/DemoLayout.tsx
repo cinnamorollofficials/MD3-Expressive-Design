@@ -379,10 +379,6 @@ export function DemoLayout({
               </button>
             )}
 
-            {/* Version badge */}
-            <span className={styles.versionBadge}>v0.5.0</span>
-
-
             {/* GitHub link icon */}
             <a
               href="https://github.com/cinnamorollofficials/MD3-Expressive-Design"

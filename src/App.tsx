@@ -330,7 +330,7 @@ export function App() {
     case 'examples': content = <ExamplesPage onNavigate={navigate} />; break;
     case 'shop-dashboard': content = <ShopDashboardPage />; break;
     case 'company-profile': content = <CompanyProfilePage />; break;
-    default: content = <OverviewPage />;
+    default: content = <OverviewPage groups={COMPONENT_GROUPS} />;
   }
 
   // Wrap detailed per-component page with playground layout

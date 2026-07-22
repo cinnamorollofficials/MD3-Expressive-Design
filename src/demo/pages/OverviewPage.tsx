@@ -1,4 +1,5 @@
 import { Icon } from '../../lib';
+import type { GroupDef } from '../../App';
 import styles from './OverviewPage.module.css';
 
 const CATEGORIES = [
@@ -37,7 +38,7 @@ function CategoryPreview({ type }: { type: string }) {
   );
 }
 
-export function OverviewPage() {
+export function OverviewPage({ groups }: { groups: GroupDef[] }) {
   return (
     <main className={styles.home}>
       <section className={styles.hero}>
@@ -70,14 +71,31 @@ export function OverviewPage() {
           <p>Start with solid foundations, then scale all the way to complex data experiences.</p>
         </div>
         <div className={styles.categoryGrid}>
-          {CATEGORIES.map((category, index) => (
-            <a href={`#${category.id}`} className={`${styles.categoryCard} ${index < 2 ? styles.featured : ''}`} key={category.id}>
-              <div className={styles.cardTop}><span className={styles.categoryIcon}><Icon name={category.icon} size={22} /></span><span className={styles.componentCount}>{category.count} components</span></div>
-              <CategoryPreview type={category.preview} />
-              <div className={styles.cardCopy}><h3>{category.title}</h3><p>{category.description}</p></div>
-              <span className={styles.cardArrow}><Icon name="arrow_outward" size={20} /></span>
-            </a>
-          ))}
+          {CATEGORIES.map((category, index) => {
+            const components = groups.find(group => group.id === category.id)?.components ?? [];
+            return (
+              <article className={`${styles.categoryCard} ${index < 2 ? styles.featured : ''}`} key={category.id}>
+                <div className={styles.cardTop}>
+                  <span className={styles.categoryIcon}><Icon name={category.icon} size={22} /></span>
+                  <span className={styles.componentCount}>{components.length} components</span>
+                </div>
+                <a href={`#${category.id}`} className={styles.categoryMainLink} aria-label={`Open ${category.title} category`}>
+                  <CategoryPreview type={category.preview} />
+                  <div className={styles.cardCopy}><h3>{category.title}</h3><p>{category.description}</p></div>
+                  <span className={styles.cardArrow}><Icon name="arrow_outward" size={20} /></span>
+                </a>
+                <div className={styles.componentPreviews} aria-label={`${category.title} components`}>
+                  {components.map(component => (
+                    <a href={`#${component.id}`} className={styles.componentPreview} key={component.id}>
+                      <Icon name={category.icon} size={14} />
+                      <span>{component.label}</span>
+                      {component.status && component.status !== 'stable' && <i>{component.status}</i>}
+                    </a>
+                  ))}
+                </div>
+              </article>
+            );
+          })}
         </div>
       </section>
 
