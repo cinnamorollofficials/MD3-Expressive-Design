@@ -22,6 +22,14 @@
   transform-origin: top;
   animation: enter var(--md-sys-motion-duration-medium2) var(--md-sys-motion-easing-emphasized);
 }
+
+.menu.portalMenu {
+  position: absolute;
+  top: 0;
+  left: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
 @keyframes enter { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: none; } }
 
 .option {
@@ -58,4 +66,12 @@
 
 .trigger { width: 100%; }
 .trigger input { cursor: pointer; }
+
+.checkboxActive {
+  color: var(--md-sys-color-primary);
+}
+
+.checkboxInactive {
+  color: var(--md-sys-color-outline);
+}
 

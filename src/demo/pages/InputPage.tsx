@@ -20,6 +20,7 @@ export function InputPage({ activeComponent }: { activeComponent?: string }) {
   const [date, setDate] = useState<Date | undefined>();
   const [time, setTime] = useState<TimeValue | undefined>();
   const [country, setCountry] = useState<string>('us');
+  const [multiCountries, setMultiCountries] = useState<string[]>(['us', 'ca']);
   const [city, setCity] = useState<string | undefined>('jp');
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(3.5);
@@ -65,11 +66,18 @@ export function InputPage({ activeComponent }: { activeComponent?: string }) {
 
       {(showAll || activeComponent === 'select') && (
         <DemoSection
-          title="Select"
-          description="Popover-based picker. Use when the option set is short and fixed."
-          code={`<Select label="Country" options={countries} value={c} onChange={setC} />`}
+          title="Select (Single & Multi Select)"
+          description="Popover-based picker supporting single selection or multi-selection with interactive checkboxes."
+          code={`{/* Single Select */}
+<Select label="Single Country" options={countries} value={country} onChange={setCountry} />
+
+{/* Multi Select */}
+<Select multiple label="Multiple Countries" options={countries} value={multiCountries} onChange={setMultiCountries} />`}
         >
-          <Select label="Country" options={COUNTRIES} value={country} onChange={setCountry} />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 16, width: '100%', maxWidth: 320 }}>
+            <Select label="Single Country" options={COUNTRIES} value={country} onChange={setCountry} />
+            <Select multiple label="Multiple Countries" options={COUNTRIES} value={multiCountries} onChange={setMultiCountries} />
+          </div>
         </DemoSection>
       )}
 
