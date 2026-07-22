@@ -99,7 +99,7 @@ export function DemoLayout({
     });
   };
 
-  const isExamplesActive = ['shop-dashboard', 'company-profile'].includes(activeGroup);
+  const isExamplesActive = ['shop-dashboard', 'company-profile', 'indonesia-labor-map'].includes(activeGroup);
   const isDocsActive = !isExamplesActive;
   const isHome = current === 'overview';
   const hasSidebar = !isHome && !isExamplesActive;
@@ -340,6 +340,7 @@ export function DemoLayout({
               items={[
                 { label: 'ACME Store', icon: 'storefront', onClick: () => onNavigate('shop-dashboard') },
                 { label: 'Company Profile', icon: 'business', onClick: () => onNavigate('company-profile') },
+                { label: 'Indonesia Labor Map', icon: 'map', onClick: () => onNavigate('indonesia-labor-map') },
               ]}
             />
           </div>

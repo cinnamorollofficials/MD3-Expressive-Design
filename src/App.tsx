@@ -10,6 +10,7 @@ const CommunicationPage = lazy(() => import('./demo/pages/CommunicationPage').th
 const ContentPage = lazy(() => import('./demo/pages/ContentPage').then(module => ({ default: module.ContentPage })));
 import { ShopDashboardPage } from './demo/examples/ShopDashboardPage';
 import { CompanyProfilePage } from './demo/examples/CompanyProfilePage';
+const IndonesiaLaborMapPage = lazy(() => import('./demo/examples/IndonesiaLaborMapPage').then(module => ({ default: module.IndonesiaLaborMapPage })));
 import { useTheme } from './lib/hooks/useTheme';
 
 // Import new guide pages
@@ -242,7 +243,7 @@ const getPageAndComponent = (hash: string) => {
   const extraPages = [
     'overview', 'quick-start', 'installation', 'tokens', 'typography', 'colors',
     'motion', 'icons', 'changelog', 'shop-dashboard',
-    'company-profile'
+    'company-profile', 'indonesia-labor-map'
   ];
 
   if (extraPages.includes(hash)) {
@@ -338,6 +339,7 @@ export function App() {
     // Examples
     case 'shop-dashboard': content = <ShopDashboardPage />; break;
     case 'company-profile': content = <CompanyProfilePage />; break;
+    case 'indonesia-labor-map': content = <IndonesiaLaborMapPage />; break;
     default: content = <OverviewPage groups={COMPONENT_GROUPS} />;
   }
 

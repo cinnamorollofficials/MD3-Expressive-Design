@@ -41,6 +41,7 @@ export function ChangelogPage() {
                     <li><strong>Live Source Viewer:</strong> Added a wide SideSheet with Page, Data, and Styles tabs, line numbers, syntax highlighting, copy actions, and package-ready imports.</li>
                     <li><strong>Readable Example Architecture:</strong> Extracted ACME Store mock data and data types into a dedicated module displayed separately in the source viewer.</li>
                     <li><strong>Themed Scrollbars:</strong> Styled source-code and SideSheet scrollbars with MD3 surface, outline, radius, corner, and hover tokens.</li>
+                    <li><strong>Indonesia Labor Map:</strong> Added a full-width bivariate choropleth Example comparing provincial unemployment and minimum wages across all 38 provinces, with regional filters, search, province detail, sortable data, official-source references, and copy-ready source tabs.</li>
                   </ul>
                 </CardBody>
               </CardContent>

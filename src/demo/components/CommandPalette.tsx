@@ -26,6 +26,7 @@ const SEARCH_ITEMS: CommandItem[] = [
   // Examples
   { id: 'shop-dashboard', category: 'Examples', label: 'Shop Dashboard', desc: 'Premium responsive e-commerce dashboard', icon: 'storefront', hash: 'shop-dashboard' },
   { id: 'company-profile', category: 'Examples', label: 'Company Profile', desc: 'Enterprise website landing layout', icon: 'business', hash: 'company-profile' },
+  { id: 'indonesia-labor-map', category: 'Examples', label: 'Indonesia Labor Map', desc: 'Bivariate unemployment and provincial minimum wage map', icon: 'map', hash: 'indonesia-labor-map' },
 
   // Components
   { id: 'button', category: 'Components', label: 'Button', desc: 'Common actions, sizes, and outlines', icon: 'smart_button', hash: 'button' },
