@@ -3,7 +3,7 @@ import {
   TopAppBar, IconButton, Badge, Search, Menu,
   SegmentedButton, Tabs, Chip, Snackbar, Tooltip,
   Divider, Card, Avatar, DataTable, Button, TextField,
-  Slider, NavigationRail, type DataTableColumn
+  Slider, NavigationRail, MovingAverageChart, type DataTableColumn
 } from '../../lib';
 import { ExampleSourceSheet } from '../components/ExampleSourceSheet';
 import {
@@ -330,6 +330,13 @@ export function TradingUiPage() {
   const candleData = useMemo(() => {
     return generateCandlestickData(activeSymbol, 55);
   }, [activeSymbol]);
+
+  const movingAverageData = useMemo(() => {
+    return candleData.map(d => ({
+      date: d.dateStr,
+      value: d.close,
+    }));
+  }, [candleData]);
 
   const filteredWatchlist = useMemo(() => {
     return watchlistData.filter(item => {
@@ -670,13 +677,20 @@ export function TradingUiPage() {
             </div>
           </div>
 
-          {/* Candlestick Chart Card */}
-          <Card variant="filled" style={{ borderRadius: 0, flex: 1, display: 'flex', flexDirection: 'column' }}>
-            <CandlestickChart
-              data={candleData}
-              symbolItem={currentSymbolItem}
-              showSma={showSma}
-              showBollinger={showBollinger}
+          {/* Chart Card using MD3 MovingAverageChart Component from library */}
+          <Card variant="filled" style={{ borderRadius: 0, flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', padding: '0 8px' }}>
+            <MovingAverageChart
+              data={movingAverageData}
+              windowSize={9}
+              type="sma"
+              height={340}
+              rawColor={currentSymbolItem.change >= 0 ? '#00e676' : '#ff5252'}
+              maColor="#38bdf8"
+              rawMode="area"
+              showControls={false}
+              showPresets={false}
+              interactive={true}
+              valueFormatter={(val) => `${currentSymbolItem.currency === 'IDR' ? 'Rp' : '$'} ${val.toLocaleString()}`}
             />
           </Card>
 
