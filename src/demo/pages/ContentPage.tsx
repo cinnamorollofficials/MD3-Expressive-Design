@@ -79,41 +79,59 @@ function DataTableBasicDemo() {
   return <DataTable columns={columns} rows={EXTENDED_PEOPLE.slice(0, 4)} rowKey={r => r.id} />;
 }
 
-function DataTableStripedDemo() {
-  const columns: DataTableColumn<ExtendedPerson>[] = [
-    { id: 'name', header: 'Name', sortable: true, sortValue: r => r.name },
-    { id: 'role', header: 'Role' },
-    { id: 'department', header: 'Department' },
-    { id: 'salary', header: 'Salary', numeric: true, cell: r => `$${r.salary.toLocaleString()}` },
-  ];
-  return <DataTable columns={columns} rows={EXTENDED_PEOPLE.slice(0, 4)} rowKey={r => r.id} variant="striped" />;
-}
+function DataTableVariantsDensityDemo() {
+  const [variant, setVariant] = useState<DataTableVariant>('outlined');
+  const [density, setDensity] = useState<DataTableDensity>('compact');
 
-function DataTableDensityDemo() {
   const columns: DataTableColumn<ExtendedPerson>[] = [
     { id: 'name', header: 'Name' },
     { id: 'role', header: 'Role' },
     { id: 'department', header: 'Department' },
     { id: 'salary', header: 'Salary', numeric: true, cell: r => `$${r.salary.toLocaleString()}` },
   ];
-  const sample = EXTENDED_PEOPLE.slice(0, 3);
+  const sample = EXTENDED_PEOPLE.slice(0, 4);
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: '100%' }}>
-      <div>
-        <h4 style={{ margin: '0 0 8px 0', fontSize: '0.95rem', fontWeight: 600 }}>Comfortable Density (`density="comfortable"`)</h4>
-        <DataTable columns={columns} rows={sample} rowKey={r => r.id} variant="outlined" density="comfortable" />
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 16, width: '100%' }}>
+      {/* Mode Controls Bar */}
+      <div style={{ display: 'flex', gap: 20, alignItems: 'center', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--md-sys-color-on-surface-variant)' }}>Variant:</span>
+          {(['flat', 'outlined', 'striped', 'flush'] as DataTableVariant[]).map(v => (
+            <Button
+              key={v}
+              size="sm"
+              variant={variant === v ? 'filled' : 'outlined'}
+              onClick={() => setVariant(v)}
+            >
+              {v.charAt(0).toUpperCase() + v.slice(1)}
+            </Button>
+          ))}
+        </div>
+
+        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
+          <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--md-sys-color-on-surface-variant)' }}>Density:</span>
+          {(['comfortable', 'compact'] as DataTableDensity[]).map(d => (
+            <Button
+              key={d}
+              size="sm"
+              variant={density === d ? 'filled' : 'outlined'}
+              onClick={() => setDensity(d)}
+            >
+              {d.charAt(0).toUpperCase() + d.slice(1)}
+            </Button>
+          ))}
+        </div>
       </div>
 
-      <div>
-        <h4 style={{ margin: '0 0 8px 0', fontSize: '0.95rem', fontWeight: 600 }}>Medium Density (`density="medium"`)</h4>
-        <DataTable columns={columns} rows={sample} rowKey={r => r.id} variant="outlined" density="medium" />
-      </div>
-
-      <div>
-        <h4 style={{ margin: '0 0 8px 0', fontSize: '0.95rem', fontWeight: 600 }}>Compact Density (`density="compact"`)</h4>
-        <DataTable columns={columns} rows={sample} rowKey={r => r.id} variant="outlined" density="compact" />
-      </div>
+      {/* Single Dynamic Table */}
+      <DataTable
+        columns={columns}
+        rows={sample}
+        rowKey={r => r.id}
+        variant={variant}
+        density={density}
+      />
     </div>
   );
 }
@@ -471,21 +489,12 @@ export function ContentPage({ activeComponent }: { activeComponent?: string }) {
           </DemoSection>
 
           <DemoSection
-            title="Data table — Striped variant"
-            description="Alternating subtle surface tint background on even rows for improved horizontal scannability."
-            code={`<DataTable variant="striped" columns={columns} rows={rows} />`}
+            title="Data table — Styling variants & Density options"
+            description="Visual variants (outlined, striped) and row height density options (compact, comfortable) without filtering or sorting."
+            code={`<DataTable variant="outlined" density="compact" columns={columns} rows={rows} />
+<DataTable variant="striped" density="comfortable" columns={columns} rows={rows} />`}
           >
-            <DataTableStripedDemo />
-          </DemoSection>
-
-          <DemoSection
-            title="Data table — Row density (Comfortable, Medium, Compact)"
-            description="Adjust padding height for high data density or touch-friendly comfortable rows."
-            code={`<DataTable density="comfortable" columns={columns} rows={rows} />
-<DataTable density="medium" columns={columns} rows={rows} />
-<DataTable density="compact" columns={columns} rows={rows} />`}
-          >
-            <DataTableDensityDemo />
+            <DataTableVariantsDensityDemo />
           </DemoSection>
 
           <DemoSection
