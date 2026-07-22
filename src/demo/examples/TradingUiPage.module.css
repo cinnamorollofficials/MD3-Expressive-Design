@@ -210,6 +210,8 @@
   padding: 12px;
   gap: 12px;
   height: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
 }
 
 /* Buy/Sell Tab Switcher */
