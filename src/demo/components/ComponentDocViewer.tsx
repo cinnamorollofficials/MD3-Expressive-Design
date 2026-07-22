@@ -5,7 +5,7 @@ import { cn } from '../../lib/utils/cn';
 import {
   Button, IconButton, FAB, Card, CardContent, CardTitle, CardBody,
   Switch, Checkbox, TextField, Slider, Badge, Avatar,
-  AreaChart, StackedAreaChart, DifferenceChart, BarChart, HorizontalBarChart, DivergingBarChart, StackedBarChart, TimelineChart, CalendarChart, ForceDirectedGraph, DisjointForceDirectedGraph, DirectedForceGraph, ArcDiagram, SankeyDiagram, ChordDiagram, HierarchicalEdgeBundling, MovingAverageChart, BollingerBandsChart, BoxPlot
+  AreaChart, StackedAreaChart, DifferenceChart, BarChart, HorizontalBarChart, DivergingBarChart, StackedBarChart, TimelineChart, CalendarChart, ForceDirectedGraph, DisjointForceDirectedGraph, DirectedForceGraph, ArcDiagram, SankeyDiagram, ChordDiagram, HierarchicalEdgeBundling, MovingAverageChart, BollingerBandsChart, BoxPlot, CandlestickChart
 } from '../../lib';
 
 
@@ -626,6 +626,28 @@ export function ComponentDocViewer({ id, children }: ComponentDocViewerProps) {
               showLabels={playgroundProps.showLabels}
               interactive={playgroundProps.interactive}
               height={380}
+            />
+          </div>
+        );
+      case 'candlestick-chart':
+        return (
+          <div style={{ width: '100%', background: '#060810', borderRadius: 8, overflow: 'hidden' }}>
+            <CandlestickChart
+              data={Array.from({ length: 60 }, (_, i) => {
+                const base = 100 + i * 0.8 + Math.sin(i / 5) * 8;
+                const open = base + (Math.random() - 0.5) * 4;
+                const close = base + (Math.random() - 0.5) * 4;
+                const high = Math.max(open, close) + Math.random() * 3;
+                const low = Math.min(open, close) - Math.random() * 3;
+                return { date: new Date(2024, 0, i + 1), open, high, low, close, volume: Math.floor(50000 + Math.random() * 150000) };
+              })}
+              height={360}
+              showVolume={playgroundProps.showVolume}
+              showSma={playgroundProps.showSma}
+              showBollinger={playgroundProps.showBollinger}
+              interactive={playgroundProps.interactive}
+              upColor="#26a69a"
+              downColor="#ef5350"
             />
           </div>
         );

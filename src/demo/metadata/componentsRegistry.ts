@@ -1715,6 +1715,43 @@ const COMPONENT_DOC_BLUEPRINTS: Record<string, Omit<ComponentMetadata, 'id' | 'l
       { name: 'interactive', label: 'Hover Tooltip', type: 'boolean', defaultValue: true },
     ],
   },
+  'candlestick-chart': {
+    status: 'beta',
+    description: 'A financial OHLCV candlestick chart component rendering Open, High, Low, Close price bars with an optional volume histogram, SMA overlay, and Bollinger Bands. Designed for trading and market data visualization.',
+    props: [
+      { name: 'data', type: 'CandlestickDataPoint[]', default: 'required', description: 'Array of OHLCV data objects ({ date, open, high, low, close, volume? }).' },
+      { name: 'height', type: 'number', default: '400', description: 'Chart height in pixels.' },
+      { name: 'showVolume', type: 'boolean', default: 'false', description: 'Renders a volume histogram subplot below candlesticks.' },
+      { name: 'showSma', type: 'boolean', default: 'false', description: 'Overlays a Simple Moving Average (SMA) line on the price chart.' },
+      { name: 'smaPeriod', type: 'number', default: '20', description: 'Period N for SMA calculation in number of candles.' },
+      { name: 'showBollinger', type: 'boolean', default: 'false', description: 'Overlays Bollinger Bands (upper, middle SMA, lower) on the price chart.' },
+      { name: 'bollingerPeriod', type: 'number', default: '20', description: 'Period N for Bollinger Bands SMA base calculation.' },
+      { name: 'bollingerK', type: 'number', default: '2', description: 'Standard deviation multiplier K for upper and lower Bollinger Bands.' },
+      { name: 'upColor', type: 'string', default: "'#26a69a'", description: 'Fill color for bullish (close ≥ open) candlestick bodies.' },
+      { name: 'downColor', type: 'string', default: "'#ef5350'", description: 'Fill color for bearish (close < open) candlestick bodies.' },
+      { name: 'maColor', type: 'string', default: "'#38bdf8'", description: 'Stroke color for the SMA overlay line.' },
+      { name: 'bollingerColor', type: 'string', default: "'#a78bfa'", description: 'Stroke color for Bollinger Band lines.' },
+      { name: 'interactive', type: 'boolean', default: 'true', description: 'Enables hover crosshair and OHLCV tooltip on mouse move.' },
+      { name: 'valueFormatter', type: '(val: number) => string', default: 'undefined', description: 'Custom formatter for price values in the tooltip.' },
+      { name: 'dateFormatter', type: '(date: Date) => string', default: 'undefined', description: 'Custom formatter for date labels on the X axis.' },
+    ],
+    keyboard: [
+      { key: 'Mouse Hover', action: 'Displays crosshair line and OHLCV (Open, High, Low, Close, Volume) tooltip for the nearest candle.' },
+    ],
+    aria: [
+      { name: 'data-md3-component="candlestick-chart"', description: 'Identifies the root element as a Candlestick Chart.' },
+    ],
+    doDonts: [
+      { do: 'Pair showVolume=true with showSma=true to provide context for price and momentum signals.', dont: 'Render candlestick charts with extremely large datasets (>5000 candles) without data aggregation as performance will degrade.' },
+      { do: 'Use standard color conventions: green/teal for bullish candles and red for bearish.', dont: 'Invert upColor/downColor conventions as this will confuse traders.' },
+    ],
+    playgroundControls: [
+      { name: 'showVolume', label: 'Show Volume', type: 'boolean', defaultValue: true },
+      { name: 'showSma', label: 'Show SMA', type: 'boolean', defaultValue: false },
+      { name: 'showBollinger', label: 'Show Bollinger Bands', type: 'boolean', defaultValue: false },
+      { name: 'interactive', label: 'Hover Tooltip', type: 'boolean', defaultValue: true },
+    ],
+  },
   'moving-average': {
     status: 'beta',
     description: 'A time-series analysis chart component that calculates and visualizes sliding window Simple (SMA) or Exponential (EMA) moving averages to smooth out raw data fluctuations.',

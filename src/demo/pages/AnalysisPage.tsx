@@ -1,9 +1,29 @@
 import { useState, useMemo } from 'react';
-import { MovingAverageChart, BollingerBandsChart, BoxPlot, Histogram, KernelDensityEstimation, HexbinChart, QQPlot, Card, CardContent } from '../../lib';
+import { MovingAverageChart, BollingerBandsChart, BoxPlot, Histogram, KernelDensityEstimation, HexbinChart, QQPlot, Card, CardContent, CandlestickChart } from '../../lib';
 import { DemoSection, PageTitle } from '../components/DemoSection';
 
 
 
+
+
+// Generate 120-day OHLCV candlestick dataset
+function generateCandlestickData() {
+  const data: { date: Date; open: number; high: number; low: number; close: number; volume: number }[] = [];
+  let price = 145.0;
+  for (let i = 0; i < 120; i++) {
+    const d = new Date('2024-01-01');
+    d.setDate(d.getDate() + i);
+    const change = (Math.random() - 0.48) * 4;
+    const open = price;
+    const close = Math.max(50, price + change);
+    const high = Math.max(open, close) + Math.random() * 2.5;
+    const low = Math.min(open, close) - Math.random() * 2.5;
+    const volume = Math.floor(8e6 + Math.random() * 12e6);
+    data.push({ date: d, open, high, low, close, volume });
+    price = close;
+  }
+  return data;
+}
 
 // Generate Diamond Price vs Carat Distribution dataset matching reference image
 function generateDiamondCaratData() {
@@ -194,6 +214,39 @@ interface AnalysisPageProps {
 
 
 export function AnalysisPage({ activeComponent }: AnalysisPageProps) {
+  const candlestickData = useMemo(() => generateCandlestickData(), []);
+  const [showSmaCs, setShowSmaCs] = useState(true);
+  const [showBollingerCs, setShowBollingerCs] = useState(false);
+
+  const renderCandlestickChart = () => (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      <Card variant="outlined" style={{ overflow: 'hidden', padding: 0 }}>
+        <div style={{ background: '#060810', width: '100%' }}>
+          <CandlestickChart
+            data={candlestickData}
+            height={480}
+            showVolume={true}
+            showSma={showSmaCs}
+            showBollinger={showBollingerCs}
+            upColor="#26a69a"
+            downColor="#ef5350"
+            maColor="#38bdf8"
+            bollingerColor="#a78bfa"
+            valueFormatter={(v) => `$${v.toFixed(2)}`}
+          />
+        </div>
+        <div style={{ borderTop: '1px solid var(--md-sys-color-outline-variant)', display: 'flex', gap: 16, flexWrap: 'wrap', paddingTop: 12, paddingBottom: 12, paddingLeft: 16, paddingRight: 16 }}>
+          <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', font: 'var(--md-sys-typescale-body-medium)' }}>
+            <input type="checkbox" checked={showSmaCs} onChange={e => setShowSmaCs(e.target.checked)} /> Show SMA (20)
+          </label>
+          <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer', font: 'var(--md-sys-typescale-body-medium)' }}>
+            <input type="checkbox" checked={showBollingerCs} onChange={e => setShowBollingerCs(e.target.checked)} /> Show Bollinger Bands
+          </label>
+        </div>
+      </Card>
+    </div>
+  );
+
   const timeSeriesData = useMemo(() => generateTimeSeriesData(), []);
   const [currentWindow, setCurrentWindow] = useState(100);
 
@@ -381,6 +434,15 @@ export function AnalysisPage({ activeComponent }: AnalysisPageProps) {
         title="Data Analysis & Statistical Visualizations"
         subtitle="Data analysis components for time series smoothing, trend identification, moving averages, and statistical modeling styled with Material Design 3 Expressive design tokens."
       />
+
+      {(!activeComponent || activeComponent === 'candlestick-chart') && (
+        <DemoSection
+          title="Candlestick Chart"
+          description="Financial OHLCV candlestick chart rendering Open, High, Low, Close price bars with optional Volume histogram subplot, SMA overlay, and Bollinger Bands. Designed for trading and market data visualization."
+        >
+          {renderCandlestickChart()}
+        </DemoSection>
+      )}
 
       {(!activeComponent || activeComponent === 'moving-average') && (
         <DemoSection
