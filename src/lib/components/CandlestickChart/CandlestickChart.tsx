@@ -169,7 +169,7 @@ export function CandlestickChart({
   const innerHeight = Math.max(100, (containerHeight || height) - padding.top - padding.bottom);
 
   // Scales
-  const { xScale, yScale, volScale, candleWidth, stepX } = useMemo(() => {
+  const { yScale, volScale, candleWidth, stepX } = useMemo(() => {
     if (processedData.length === 0) {
       return {
         xScale: d3.scaleTime().range([0, innerWidth]),

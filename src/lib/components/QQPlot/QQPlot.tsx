@@ -120,7 +120,6 @@ export function QQPlot({
 
   const margin = { top: 35, right: 35, bottom: 55, left: 65 };
   const innerWidth = Math.max(100, containerWidth - margin.left - margin.right);
-  const innerHeight = Math.max(100, height - margin.top - margin.bottom);
 
   // Prepare clean sorted arrays
   const cleanData1 = useMemo(

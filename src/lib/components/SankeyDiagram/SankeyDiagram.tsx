@@ -125,8 +125,6 @@ export function SankeyDiagram({
   }, []);
 
   const margin = { top: 20, right: 120, bottom: 20, left: 120 };
-  const innerWidth = Math.max(100, containerWidth - margin.left - margin.right);
-  const innerHeight = Math.max(100, height - margin.top - margin.bottom);
 
   // Map nodes to ensure index matching
   const preparedNodes = useMemo(() => {
@@ -262,7 +260,7 @@ export function SankeyDiagram({
 
     const dragBehavior = d3
       .drag<SVGGElement, any>()
-      .subject((event, d) => ({ y: d.y0 }))
+      .subject((_event, d) => ({ y: d.y0 }))
       .on('drag', (event, d) => {
         const h = d.y1 - d.y0;
         const newY0 = Math.max(margin.top, Math.min(height - margin.bottom - h, event.y));

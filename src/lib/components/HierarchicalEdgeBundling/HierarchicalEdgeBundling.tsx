@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, useMemo, useCallback } from 'react';
+import { useEffect, useRef, useState, useMemo } from 'react';
 import * as d3 from 'd3';
 import { cn } from '../../utils/cn';
 import styles from './HierarchicalEdgeBundling.module.css';

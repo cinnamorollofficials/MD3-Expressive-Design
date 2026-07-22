@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import { ChoroplethMap, FeatureData, BivariateChoroplethMap, BivariateFeatureData, Card, CardContent } from '../../lib';
 import { DemoSection, PageTitle } from '../components/DemoSection';
 
@@ -297,4 +297,3 @@ export function MapsPage({ activeComponent }: MapsPageProps) {
     </div>
   );
 }
-

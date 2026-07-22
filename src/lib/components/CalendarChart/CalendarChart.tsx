@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState, useEffect } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import * as d3 from 'd3';
 import { cn } from '../../utils/cn';
 import styles from './CalendarChart.module.css';

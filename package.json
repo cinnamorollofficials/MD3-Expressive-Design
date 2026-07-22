@@ -56,29 +56,28 @@
     "react-dom": "^18.3.1 || ^19.0.0"
   },
   "dependencies": {
-    "@types/d3-geo": "^3.1.0",
-    "@types/d3-hexbin": "^0.2.5",
-    "@types/d3-sankey": "^0.12.5",
-    "@types/topojson-client": "^3.1.5",
-    "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "d3": "^7.9.0",
     "d3-geo": "^3.1.1",
     "d3-hexbin": "^0.2.2",
     "d3-sankey": "^0.12.3",
-    "topojson-client": "^3.1.0",
-    "us-atlas": "^3.0.1",
-    "world-atlas": "^2.0.2"
+    "topojson-client": "^3.1.0"
   },
   "devDependencies": {
     "@types/d3": "^7.4.3",
+    "@types/d3-geo": "^3.1.0",
+    "@types/d3-hexbin": "^0.2.5",
+    "@types/d3-sankey": "^0.12.5",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
+    "@types/topojson-client": "^3.1.5",
     "@vitejs/plugin-react-swc": "^3.7.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "typescript": "^5.6.3",
+    "us-atlas": "^3.0.1",
     "vite": "^5.4.10",
-    "vite-plugin-dts": "^4.3.0"
+    "vite-plugin-dts": "^4.3.0",
+    "world-atlas": "^2.0.2"
   }
 }

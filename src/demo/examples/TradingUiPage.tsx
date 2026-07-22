@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect } from 'react';
 import {
-  TopAppBar, IconButton, Badge, Search, Menu,
+  TopAppBar, IconButton, Search, Menu,
   SegmentedButton, Tabs, Chip, Snackbar, Tooltip,
   Divider, Card, Avatar, DataTable, Button, TextField,
   Slider, NavigationRail, CandlestickChart, type DataTableColumn
@@ -8,7 +8,7 @@ import {
 import { ExampleSourceSheet } from '../components/ExampleSourceSheet';
 import {
   WATCHLIST, TOP_GAINERS, INITIAL_POSITIONS, INITIAL_ORDERS, generateCandlestickData,
-  type TickerItem, type AccountPosition, type AccountOrder, type CandlestickPoint
+  type TickerItem, type AccountPosition, type AccountOrder
 } from './TradingUiPage.data';
 
 import pageSource from './TradingUiPage.tsx?raw';

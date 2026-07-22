@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState, useMemo, useCallback } from 'react';
-import * as d3 from 'd3';
 import { cn } from '../../utils/cn';
 import { NetworkNode, NetworkLink } from '../ForceDirectedGraph';
 import styles from './ArcDiagram.module.css';

@@ -261,8 +261,7 @@ export function IndentedTree({
           {/* Visible Tree Node Rows */}
           <g className="nodes-layer">
             {visibleNodes.map((item) => {
-              const { node, x, y, isParent, isCollapsed, value, leafCount } = item;
-              const isHovered = hoveredNode === item;
+              const { node, x, y, isParent, value, leafCount } = item;
 
               return (
                 <g

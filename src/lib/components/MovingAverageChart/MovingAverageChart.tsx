@@ -145,7 +145,6 @@ export function MovingAverageChart({
   // Dimensions
   const margin = { top: 20, right: 30, bottom: 40, left: 50 };
   const innerWidth = Math.max(100, containerWidth - margin.left - margin.right);
-  const innerHeight = Math.max(100, height - margin.top - margin.bottom);
 
   // Scales
   const xScale = useMemo(() => {

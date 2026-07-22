@@ -18,7 +18,7 @@ const CATEGORIES = [
   { id: 'hierarchies', icon: 'account_tree', title: 'Hierarchies', description: 'Explore nested structure from root to smallest detail.' },
 ] as const;
 
-function ComponentMiniVisual({ groupId, componentId, index }: { groupId: string; componentId: string; index: number }) {
+function ComponentMiniVisual({ groupId, componentId }: { groupId: string; componentId: string }) {
   if (groupId === 'buttons') {
     if (componentId === 'icon-button') return <span className={styles.miniIconButton}><Icon name="favorite" size={17} /></span>;
     if (componentId === 'fab') return <span className={styles.miniFab}><Icon name="add" size={19} /></span>;
@@ -163,10 +163,10 @@ export function OverviewPage({ groups }: { groups: GroupDef[] }) {
                   <span className={styles.categoryCount}>{components.length} components</span>
                 </div>
                 <div className={styles.componentGrid} aria-label={`${category.title} components`}>
-                  {components.map((component, componentIndex) => (
+                  {components.map((component) => (
                     <a href={`#${component.id}`} className={styles.componentPreview} key={component.id}>
                       <span className={styles.componentCanvas}>
-                        <ComponentMiniVisual groupId={category.id} componentId={component.id} index={componentIndex} />
+                        <ComponentMiniVisual groupId={category.id} componentId={component.id} />
                       </span>
                       <span className={styles.componentMeta}>
                         <strong>{component.label}</strong>

@@ -100,7 +100,7 @@ export function DivergingBarChart({
   const innerHeight = Math.max(0, height - resolvedMargin.top - resolvedMargin.bottom);
 
   // Scales — symmetric domain around 0
-  const { xScale, yScale, xExtent } = useMemo(() => {
+  const { xScale, yScale } = useMemo(() => {
     const vals = data.map(d => Number(d[xKey]) || 0);
     const absMax = Math.max(...vals.map(Math.abs)) * 1.1;
 

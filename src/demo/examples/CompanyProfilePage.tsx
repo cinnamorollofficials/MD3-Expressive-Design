@@ -540,7 +540,7 @@ export function CompanyProfilePage() {
                 <IconButton icon="open_in_new" label="View all" />
               </div>
               <List>
-                {CONTACTS.map((c, i) => (
+                {CONTACTS.map((c) => (
                   <ListItem
                     key={c.email}
                     headline={c.name}

@@ -593,10 +593,3 @@ export function DifferenceChart({
     </div>
   );
 }
-
-// Fallback formatter helper
-function numberFormatter(val: any): string {
-  const num = Number(val);
-  if (isNaN(num)) return String(val);
-  return new Intl.NumberFormat('en-US').format(num);
-}

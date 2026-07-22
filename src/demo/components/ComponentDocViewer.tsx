@@ -1,5 +1,5 @@
 import { ReactNode, useEffect, useState, useMemo } from 'react';
-import { getComponentMetadata, ComponentMetadata } from '../metadata/componentsRegistry';
+import { getComponentMetadata } from '../metadata/componentsRegistry';
 import { Icon } from '../../lib/components/Icon';
 import { cn } from '../../lib/utils/cn';
 import {

@@ -1,5 +1,5 @@
 import { DemoSection, PageTitle } from '../components/DemoSection';
-import { Card, CardContent, CardTitle, CardBody, Button, Icon } from '../../lib';
+import { Card, CardContent, Button } from '../../lib';
 import { useState } from 'react';
 import { CodeBlock } from '../components/CodeBlock';
 

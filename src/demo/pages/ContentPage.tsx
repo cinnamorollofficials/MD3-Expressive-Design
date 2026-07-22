@@ -3,7 +3,7 @@ import {
   List, ListItem, Divider, Carousel, Icon, IconButton,
   Avatar, AvatarGroup, Breadcrumbs, EmptyState, Skeleton, Stepper, Pagination,
   Timeline, DataTable, Accordion, Tree, Button, Chip,
-  type DataTableColumn, type DataTableVariant, type DataTableDensity,
+  type DataTableColumn, type DataTableVariant,
 } from '../../lib';
 import { DemoSection, PageTitle } from '../components/DemoSection';
 
@@ -162,7 +162,7 @@ function DataTableSelectionExpandableDemo() {
         onSelectedChange={setSelected}
         bulkActions={[
           { id: 'export', label: 'Export Selected', icon: 'download', onClick: keys => alert(`Exporting ${keys.size} items`) },
-          { id: 'delete', label: 'Delete Selected', icon: 'delete', tone: 'danger', onClick: keys => setSelected(new Set()) },
+          { id: 'delete', label: 'Delete Selected', icon: 'delete', tone: 'danger', onClick: () => setSelected(new Set()) },
         ]}
         expandableRow={{
           renderDetail: row => (

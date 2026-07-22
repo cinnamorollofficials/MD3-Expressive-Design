@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState, useMemo, useCallback } from 'react';
-import * as d3 from 'd3';
 import { cn } from '../../utils/cn';
 import styles from './TangledTree.module.css';
 

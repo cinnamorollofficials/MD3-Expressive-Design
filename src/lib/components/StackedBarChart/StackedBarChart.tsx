@@ -196,7 +196,7 @@ export function StackedBarChart({
 
       {/* Interactive Legend */}
       <div className={styles.legend}>
-        {keys.map((key, i) => {
+        {keys.map((key) => {
           const isDisabled = disabledKeys[key];
           return (
             <div
@@ -238,7 +238,7 @@ export function StackedBarChart({
                 const key = String(layer.key);
                 const color = colorScale(key);
 
-                return layer.map((d, i) => {
+                return layer.map((d) => {
                   const categoryVal = String(d.data[categoryKey]);
                   const barStart = d[0];
                   const barEnd = d[1];
@@ -265,7 +265,7 @@ export function StackedBarChart({
                   if (w <= 0 || h <= 0) return null;
 
                   // Hover positioning for tooltip
-                  const handleMouseEnter = (event: React.MouseEvent) => {
+                  const handleMouseEnter = () => {
                     if (!interactive) return;
 
                     let tipX = 0;

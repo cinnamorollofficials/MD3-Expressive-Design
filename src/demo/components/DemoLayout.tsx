@@ -1,4 +1,4 @@
-import { ReactNode, Fragment, useState, useMemo, useEffect } from 'react';
+import { ReactNode, useState, useEffect } from 'react';
 import { cn } from '../../lib/utils/cn';
 import { Icon } from '../../lib/components/Icon';
 import { Menu } from '../../lib/components/Menu';
@@ -36,7 +36,6 @@ function ProjectLogo({ size, className }: { size: number; className?: string }) 
 export function DemoLayout({
   current,
   activeGroup,
-  activeComponent,
   onNavigate,
   groups,
   children,
@@ -414,4 +413,3 @@ export function DemoLayout({
     </div>
   );
 }
-

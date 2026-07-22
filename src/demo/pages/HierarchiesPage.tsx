@@ -1,6 +1,6 @@
-import { useState, useMemo } from 'react';
+import { useMemo } from 'react';
 import * as d3 from 'd3';
-import { Treemap, TreemapNode, IndentedTree, IndentedTreeNode, TidyTree, TidyTreeNode, RadialTree, RadialTreeNode, SunburstChart, SunburstNode, TangledTree, TangledTreeNode, Card, CardContent } from '../../lib';
+import { Treemap, TreemapNode, IndentedTree, TidyTree, RadialTree, SunburstChart, TangledTree, TangledTreeNode, Card, CardContent } from '../../lib';
 import { DemoSection, PageTitle } from '../components/DemoSection';
 
 
@@ -415,7 +415,6 @@ export function HierarchiesPage({ activeComponent }: HierarchiesPageProps) {
     </div>
   );
 }
-
 
 
 
