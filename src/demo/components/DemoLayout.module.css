@@ -46,9 +46,57 @@
 }
 
 .sidebarCollapsed {
-  padding: 16px 8px;
+  padding: 16px 12px;
   align-items: center;
   overflow-x: hidden;
+}
+
+.sidebarCollapsed .scrollableNav {
+  width: 48px;
+  margin-right: 0;
+  padding-right: 0;
+  align-items: center;
+  scrollbar-width: none;
+  scrollbar-gutter: auto;
+}
+
+.sidebarCollapsed .scrollableNav::-webkit-scrollbar {
+  display: none;
+}
+
+.sidebarCollapsed .navItem,
+.sidebarCollapsed .groupHeader {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+  padding: 0;
+  gap: 0;
+  justify-content: center;
+  border-radius: var(--md-sys-shape-corner-full);
+}
+
+.sidebarCollapsed .groupContainer {
+  width: 48px;
+  align-items: center;
+}
+
+.sidebarCollapsed .sectionLabel {
+  width: 48px;
+  box-sizing: border-box;
+  padding: 16px 0 6px;
+  display: flex;
+  justify-content: center;
+}
+
+.sidebarCollapsed .collapsedDivider {
+  width: 28px;
+  margin: 0;
+}
+
+.sidebarCollapsed .navItem > :global(.material-symbols-rounded),
+.sidebarCollapsed .groupHeader > :global(.material-symbols-rounded) {
+  flex: 0 0 auto;
+  margin: 0;
 }
 
 .brandRow {
