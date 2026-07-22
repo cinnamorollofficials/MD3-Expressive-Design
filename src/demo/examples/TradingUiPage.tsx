@@ -3,7 +3,7 @@ import {
   TopAppBar, IconButton, Badge, Search, Menu,
   SegmentedButton, Tabs, Chip, Snackbar, Tooltip,
   Divider, Card, Avatar, DataTable, Button, TextField,
-  Slider, NavigationRail, MovingAverageChart, type DataTableColumn
+  Slider, NavigationRail, KernelDensityEstimation, type DataTableColumn
 } from '../../lib';
 import { ExampleSourceSheet } from '../components/ExampleSourceSheet';
 import {
@@ -331,11 +331,8 @@ export function TradingUiPage() {
     return generateCandlestickData(activeSymbol, 55);
   }, [activeSymbol]);
 
-  const movingAverageData = useMemo(() => {
-    return candleData.map(d => ({
-      date: d.dateStr,
-      value: d.close,
-    }));
+  const kdePriceData = useMemo(() => {
+    return candleData.map(d => d.close);
   }, [candleData]);
 
   const filteredWatchlist = useMemo(() => {
@@ -677,20 +674,20 @@ export function TradingUiPage() {
             </div>
           </div>
 
-          {/* Chart Card using MD3 MovingAverageChart Component from library */}
-          <Card variant="filled" style={{ borderRadius: 0, flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', padding: '0 8px' }}>
-            <MovingAverageChart
-              data={movingAverageData}
-              windowSize={9}
-              type="sma"
-              height={340}
-              rawColor={currentSymbolItem.change >= 0 ? '#00e676' : '#ff5252'}
-              maColor="#38bdf8"
-              rawMode="area"
+          {/* Chart Card using MD3 KernelDensityEstimation Component from library */}
+          <Card variant="filled" style={{ borderRadius: 0, flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', padding: '4px 8px' }}>
+            <KernelDensityEstimation
+              data={kdePriceData}
+              curveColor="#38bdf8"
+              barColor={currentSymbolItem.change >= 0 ? 'rgba(0, 230, 118, 0.25)' : 'rgba(255, 82, 82, 0.25)'}
+              showHistogram={true}
               showControls={false}
-              showPresets={false}
-              interactive={true}
-              valueFormatter={(val) => `${currentSymbolItem.currency === 'IDR' ? 'Rp' : '$'} ${val.toLocaleString()}`}
+              showKernelSelector={false}
+              height={340}
+              title={`Distribusi Estimasi Densitas Harga (KDE) — ${currentSymbolItem.symbol}`}
+              xAxisTitle={`Harga (${currentSymbolItem.currency})`}
+              yAxisTitle="Probabilitas Densitas"
+              xFormatter={(val) => `${currentSymbolItem.currency === 'IDR' ? 'Rp' : '$'} ${val.toLocaleString()}`}
             />
           </Card>
 
