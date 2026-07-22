@@ -31,6 +31,7 @@ export function InputPage({ activeComponent }: { activeComponent?: string }) {
   const [multiCountries, setMultiCountries] = useState<string[]>(['us', 'ca']);
   const [searchableCountry, setSearchableCountry] = useState<string>('us');
   const [flagCountry, setFlagCountry] = useState<string>('id');
+  const [errorCountry, setErrorCountry] = useState<string>('');
   const [city, setCity] = useState<string | undefined>('jp');
   const [qty, setQty] = useState(1);
   const [rating, setRating] = useState(3.5);
@@ -76,8 +77,8 @@ export function InputPage({ activeComponent }: { activeComponent?: string }) {
 
       {(showAll || activeComponent === 'select') && (
         <DemoSection
-          title="Select (Single, Multi, Searchable & Prefix Image Select)"
-          description="Popover-based picker supporting single selection, multi-selection with checkboxes, real-time search filtering, and custom prefix avatar/flag images."
+          title="Select (Single, Multi, Searchable, Prefix Image & Error State)"
+          description="Popover-based picker supporting single selection, multi-selection with checkboxes, real-time search filtering, custom prefix images, and error validation states."
           code={`{/* Single Select */}
 <Select label="Single Country" options={countries} value={country} onChange={setCountry} />
 
@@ -88,13 +89,17 @@ export function InputPage({ activeComponent }: { activeComponent?: string }) {
 <Select searchable label="Searchable Country" options={countries} value={searchableCountry} onChange={setSearchableCountry} />
 
 {/* Select with Prefix Image */}
-<Select searchable label="Country with Flag Image" options={FLAG_OPTIONS} value={flagCountry} onChange={setFlagCountry} />`}
+<Select searchable label="Country with Flag Image" options={FLAG_OPTIONS} value={flagCountry} onChange={setFlagCountry} />
+
+{/* Error State */}
+<Select error label="Select Country" helperText="Please select a valid country" options={countries} value={errorCountry} onChange={setErrorCountry} />`}
         >
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: 20, width: '100%' }}>
             <Select label="Single Country" options={COUNTRIES} value={country} onChange={setCountry} width="100%" />
             <Select multiple label="Multiple Countries" options={COUNTRIES} value={multiCountries} onChange={setMultiCountries} width="100%" />
             <Select searchable label="Searchable Country" options={COUNTRIES} value={searchableCountry} onChange={setSearchableCountry} width="100%" />
             <Select searchable label="Country with Flag Image" options={FLAG_OPTIONS} value={flagCountry} onChange={setFlagCountry} width="100%" />
+            <Select error label="Select Country (Error State)" helperText="Please select a valid country" options={COUNTRIES} value={errorCountry} onChange={setErrorCountry} width="100%" />
           </div>
         </DemoSection>
       )}
