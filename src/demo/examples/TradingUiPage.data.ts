@@ -11,6 +11,7 @@ export interface TickerItem {
 
 export interface CandlestickPoint {
   time: string;
+  date: Date;
   dateStr: string;
   open: number;
   high: number;
@@ -142,12 +143,18 @@ export function generateCandlestickData(symbol: string, count = 60): Candlestick
   const isIdr = baseItem.currency === 'IDR';
   const volatility = isIdr ? (price > 100000 ? 0.015 : 0.035) : 0.02;
 
-  const dates = [
-    'May 2', 'May 5', 'May 8', 'May 12', 'May 15', 'May 19', 'May 22', 'May 26', 'May 29',
-    'Jun 2', 'Jun 5', 'Jun 8', 'Jun 12', 'Jun 15', 'Jun 19', 'Jun 22', 'Jun 26', 'Jun 29',
-    'Jul 2', 'Jul 5', 'Jul 8', 'Jul 12', 'Jul 15', 'Jul 19', 'Jul 22', 'Jul 26', 'Jul 29',
-    'Aug 2', 'Aug 5', 'Aug 8', 'Aug 12', 'Aug 15', 'Aug 19', 'Aug 22'
-  ];
+  // Generate actual Date objects: last `count` trading days (Mon-Fri)
+  const tradingDates: Date[] = [];
+  const now = new Date();
+  now.setHours(0, 0, 0, 0);
+  let cursor = new Date(now);
+  while (tradingDates.length < count) {
+    const day = cursor.getDay();
+    if (day !== 0 && day !== 6) tradingDates.unshift(new Date(cursor));
+    cursor.setDate(cursor.getDate() - 1);
+  }
+
+  const formatDate = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
 
   const points: CandlestickPoint[] = [];
   const closes: number[] = [];
@@ -160,8 +167,12 @@ export function generateCandlestickData(symbol: string, count = 60): Candlestick
     const low = Math.min(open, close) * (1 - Math.random() * (volatility * 0.7));
     const volume = Math.floor(Math.random() * 50000 + 10000) * (isIdr ? 1 : 10);
 
-    const dateStr = dates[i % dates.length];
+    const d = tradingDates[i];
+    const dateStr = formatDate(d);
+    const timeStr = d.toISOString().slice(0, 10);
     closes.push(close);
+
+    const dp = isIdr && price < 10000 ? 2 : price > 10000 ? 0 : 2;
 
     // SMA 9 calculation
     let sma9 = close;
@@ -182,16 +193,17 @@ export function generateCandlestickData(symbol: string, count = 60): Candlestick
     }
 
     points.push({
-      time: `2026-07-${(i % 28 + 1).toString().padStart(2, '0')}`,
+      time: timeStr,
+      date: d,
       dateStr,
-      open: Number(open.toFixed(isIdr && price < 10000 ? 2 : (price > 10000 ? 0 : 2))),
-      high: Number(high.toFixed(isIdr && price < 10000 ? 2 : (price > 10000 ? 0 : 2))),
-      low: Number(low.toFixed(isIdr && price < 10000 ? 2 : (price > 10000 ? 0 : 2))),
-      close: Number(close.toFixed(isIdr && price < 10000 ? 2 : (price > 10000 ? 0 : 2))),
+      open: Number(open.toFixed(dp)),
+      high: Number(high.toFixed(dp)),
+      low: Number(low.toFixed(dp)),
+      close: Number(close.toFixed(dp)),
       volume,
-      sma9: Number(sma9.toFixed(isIdr && price < 10000 ? 2 : (price > 10000 ? 0 : 2))),
-      upperBand: Number(upperBand.toFixed(isIdr && price < 10000 ? 2 : (price > 10000 ? 0 : 2))),
-      lowerBand: Number(lowerBand.toFixed(isIdr && price < 10000 ? 2 : (price > 10000 ? 0 : 2))),
+      sma9: Number(sma9.toFixed(dp)),
+      upperBand: Number(upperBand.toFixed(dp)),
+      lowerBand: Number(lowerBand.toFixed(dp)),
     });
 
     price = close;

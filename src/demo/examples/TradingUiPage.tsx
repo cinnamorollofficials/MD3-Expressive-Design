@@ -81,7 +81,7 @@ export function TradingUiPage() {
   const candlestickChartData = useMemo(() => {
     return candleData.map(d => ({
       ...d,
-      date: d.dateStr,
+      date: d.date,
     }));
   }, [candleData]);
 
@@ -434,12 +434,15 @@ export function TradingUiPage() {
               height={340}
               showVolume={true}
               showSma={showSma}
+              smaPeriod={9}
               showBollinger={showBollinger}
-              upColor="#00e676"
-              downColor="#ff5252"
+              bollingerPeriod={20}
+              upColor="#26a69a"
+              downColor="#ef5350"
               maColor="#38bdf8"
               bollingerColor="#a78bfa"
               valueFormatter={(val) => `${currentSymbolItem.currency === 'IDR' ? 'Rp' : '$'} ${val.toLocaleString()}`}
+              dateFormatter={(d) => d.toLocaleDateString('id-ID', { day: 'numeric', month: 'short' })}
             />
           </Card>
 
