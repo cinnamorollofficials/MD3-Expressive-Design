@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState, useLayoutEffect } from 'react';
+import { useEffect, useId, useRef, useState, useLayoutEffect, useMemo } from 'react';
 import { createPortal } from 'react-dom';
 import { cn } from '../../utils/cn';
 import { useDensity, type ComponentDensity } from '../../hooks/useDensity';
@@ -28,6 +28,8 @@ export interface BaseSelectProps<T extends string = string> {
   size?: 'small' | 'medium' | 'large';
   usePortal?: boolean;
   density?: ComponentDensity;
+  searchable?: boolean;
+  searchPlaceholder?: string;
 }
 
 export interface SingleSelectProps<T extends string = string> extends BaseSelectProps<T> {
@@ -49,6 +51,7 @@ export function Select<T extends string = string>(props: SelectProps<T>) {
     options, value, label, variant, placeholder,
     disabled, helperText, error, leadingIcon, className,
     minWidth, width, size = 'large', usePortal = true, density: densityProp,
+    searchable, searchPlaceholder,
   } = props;
 
   const multiple = props.multiple === true;
@@ -56,10 +59,17 @@ export function Select<T extends string = string>(props: SelectProps<T>) {
 
   const [open, setOpen] = useState(false);
   const [active, setActive] = useState(-1);
+  const [searchQuery, setSearchQuery] = useState('');
   const [portalStyle, setPortalStyle] = useState<React.CSSProperties>({});
   const rootRef = useRef<HTMLDivElement>(null);
-  const menuRef = useRef<HTMLUListElement>(null);
+  const menuRef = useRef<HTMLDivElement>(null);
   const listboxId = useId();
+
+  const filteredOptions = useMemo(() => {
+    if (!searchable || !searchQuery.trim()) return options;
+    const q = searchQuery.toLowerCase();
+    return options.filter(o => o.label.toLowerCase().includes(q) || String(o.value).toLowerCase().includes(q));
+  }, [options, searchable, searchQuery]);
 
   const isOptionSelected = (optVal: T) => {
     if (multiple) {
@@ -78,10 +88,10 @@ export function Select<T extends string = string>(props: SelectProps<T>) {
     return selected?.label ?? '';
   };
 
-  const activeOption = active >= 0 ? options[active] : undefined;
+  const activeOption = active >= 0 ? filteredOptions[active] : undefined;
 
   const optionId = (optionValue: string) => `${listboxId}-option-${optionValue}`;
-  const firstEnabledIndex = () => Math.max(0, options.findIndex(o => !o.disabled));
+  const firstEnabledIndex = () => Math.max(0, filteredOptions.findIndex(o => !o.disabled));
 
   const choose = (opt: SelectOption<T> | undefined) => {
     if (!opt || opt.disabled) return;
@@ -97,7 +107,10 @@ export function Select<T extends string = string>(props: SelectProps<T>) {
   };
 
   useEffect(() => {
-    if (!open) return;
+    if (!open) {
+      setSearchQuery('');
+      return;
+    }
     const onDoc = (e: MouseEvent) => {
       if (rootRef.current && !rootRef.current.contains(e.target as Node)) {
         if (usePortal && menuRef.current && menuRef.current.contains(e.target as Node)) {
@@ -146,15 +159,15 @@ export function Select<T extends string = string>(props: SelectProps<T>) {
   const onKey = (e: React.KeyboardEvent) => {
     if (!open && (e.key === 'ArrowDown' || e.key === 'Enter' || e.key === ' ')) {
       e.preventDefault(); setOpen(true);
-      const selectedIndex = options.findIndex(o => isOptionSelected(o.value) && !o.disabled);
+      const selectedIndex = filteredOptions.findIndex(o => isOptionSelected(o.value) && !o.disabled);
       setActive(selectedIndex >= 0 ? selectedIndex : firstEnabledIndex());
     } else if (open) {
       if (e.key === 'Escape') { e.preventDefault(); setOpen(false); }
       else if (e.key === 'ArrowDown') {
         e.preventDefault();
         setActive(a => {
-          for (let i = Math.min(options.length - 1, a + 1); i < options.length; i += 1) {
-            if (!options[i].disabled) return i;
+          for (let i = Math.min(filteredOptions.length - 1, a + 1); i < filteredOptions.length; i += 1) {
+            if (!filteredOptions[i].disabled) return i;
           }
           return a;
         });
@@ -163,14 +176,14 @@ export function Select<T extends string = string>(props: SelectProps<T>) {
         e.preventDefault();
         setActive(a => {
           for (let i = Math.max(0, a - 1); i >= 0; i -= 1) {
-            if (!options[i].disabled) return i;
+            if (!filteredOptions[i].disabled) return i;
           }
           return a;
         });
       }
       else if (e.key === 'Enter') {
         e.preventDefault();
-        choose(options[active]);
+        choose(filteredOptions[active]);
       }
     }
   };
@@ -181,7 +194,7 @@ export function Select<T extends string = string>(props: SelectProps<T>) {
   };
 
   const menuElement = (
-    <ul
+    <div
       id={listboxId}
       ref={menuRef}
       role="listbox"
@@ -189,39 +202,68 @@ export function Select<T extends string = string>(props: SelectProps<T>) {
       className={cn(styles.menu, usePortal && styles.portalMenu, size && styles[size])}
       style={usePortal ? portalStyle : undefined}
     >
-      {options.map((o, i) => {
-        const isSel = isOptionSelected(o.value);
-        return (
-          <li key={o.value}>
+      {searchable && (
+        <div className={styles.searchHeader} onClick={e => e.stopPropagation()}>
+          <Icon name="search" size={18} className={styles.searchIcon} />
+          <input
+            type="text"
+            className={styles.searchInput}
+            placeholder={searchPlaceholder ?? 'Search options...'}
+            value={searchQuery}
+            onChange={e => setSearchQuery(e.target.value)}
+            onKeyDown={e => e.stopPropagation()}
+            autoFocus
+          />
+          {searchQuery && (
             <button
-              id={optionId(o.value)}
-              role="option"
-              aria-selected={isSel}
-              disabled={o.disabled}
-              className={cn(
-                styles.option,
-                isSel && styles.selected,
-                i === active && styles.active,
-                size && styles[size],
-              )}
-              onClick={() => choose(o)}
-              onMouseEnter={() => { if (!o.disabled) setActive(i); }}
+              type="button"
+              className={styles.clearSearchBtn}
+              onClick={e => { e.stopPropagation(); setSearchQuery(''); }}
             >
-              {multiple && (
-                <Icon
-                  name={isSel ? 'check_box' : 'check_box_outline_blank'}
-                  size={size === 'small' ? 16 : 20}
-                  className={isSel ? styles.checkboxActive : styles.checkboxInactive}
-                />
-              )}
-              {o.icon && <Icon name={o.icon} size={size === 'small' ? 16 : 20} />}
-              <span style={{ flex: 1 }}>{o.label}</span>
-              {!multiple && isSel && <Icon name="check" size={size === 'small' ? 16 : 20} />}
+              <Icon name="close" size={16} />
             </button>
-          </li>
-        );
-      })}
-    </ul>
+          )}
+        </div>
+      )}
+      <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+        {filteredOptions.length === 0 ? (
+          <div className={styles.emptyState}>No options found</div>
+        ) : (
+          filteredOptions.map((o, i) => {
+            const isSel = isOptionSelected(o.value);
+            return (
+              <li key={o.value}>
+                <button
+                  id={optionId(o.value)}
+                  role="option"
+                  aria-selected={isSel}
+                  disabled={o.disabled}
+                  className={cn(
+                    styles.option,
+                    isSel && styles.selected,
+                    i === active && styles.active,
+                    size && styles[size],
+                  )}
+                  onClick={() => choose(o)}
+                  onMouseEnter={() => { if (!o.disabled) setActive(i); }}
+                >
+                  {multiple && (
+                    <Icon
+                      name={isSel ? 'check_box' : 'check_box_outline_blank'}
+                      size={size === 'small' ? 16 : 20}
+                      className={isSel ? styles.checkboxActive : styles.checkboxInactive}
+                    />
+                  )}
+                  {o.icon && <Icon name={o.icon} size={size === 'small' ? 16 : 20} />}
+                  <span style={{ flex: 1 }}>{o.label}</span>
+                  {!multiple && isSel && <Icon name="check" size={size === 'small' ? 16 : 20} />}
+                </button>
+              </li>
+            );
+          })
+        )}
+      </ul>
+    </div>
   );
 
   return (
