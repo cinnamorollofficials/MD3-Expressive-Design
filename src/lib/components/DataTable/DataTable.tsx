@@ -421,7 +421,7 @@ export function DataTable<T>({
             {dateRangeFilter && (
               <div className={styles.dateFilterGroup}>
                 <div className={styles.dateInputWrap}>
-                  <Icon name="calendar_today" size={16} />
+                  <Icon name="calendar_today" size={18} />
                   <span>From:</span>
                   <input
                     type="date"
