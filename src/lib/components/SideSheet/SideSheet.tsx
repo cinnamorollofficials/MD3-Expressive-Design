@@ -12,6 +12,7 @@ export interface SideSheetProps {
   closeOnScrim?: boolean;
   ariaLabel?: string;
   ariaDescribedBy?: string;
+  size?: 'standard' | 'wide';
 }
 
 export function SideSheet({
@@ -22,6 +23,7 @@ export function SideSheet({
   closeOnScrim = true,
   ariaLabel,
   ariaDescribedBy,
+  size = 'standard',
 }: SideSheetProps) {
   const trap = useFocusTrap<HTMLDivElement>(open);
   useEffect(() => {
@@ -46,7 +48,7 @@ export function SideSheet({
         aria-modal="true"
         aria-label={ariaLabel}
         aria-describedby={ariaDescribedBy}
-        className={cn(styles.sheet, styles[side])}
+        className={cn(styles.sheet, styles[side], size === 'wide' && styles.wide)}
       >
         {children}
       </div>

@@ -4,7 +4,7 @@ import styles from './CodeBlock.module.css';
 
 export interface CodeBlockProps {
   code: string;
-  language?: 'jsx' | 'bash';
+  language?: 'jsx' | 'css' | 'bash';
   showLineNumbers?: boolean;
   embedded?: boolean;
 }
@@ -60,7 +60,7 @@ export function CodeBlock({ code, language = 'jsx', showLineNumbers = false, emb
   );
 }
 
-function highlight(code: string, lang: 'jsx' | 'bash'): ReactNode[] {
+function highlight(code: string, lang: 'jsx' | 'css' | 'bash'): ReactNode[] {
   if (lang === 'bash') {
     const bashRegex = new RegExp(
       [
@@ -99,6 +99,22 @@ function highlight(code: string, lang: 'jsx' | 'bash'): ReactNode[] {
       parts.push(code.substring(lastIndex));
     }
 
+    return parts;
+  }
+
+  if (lang === 'css') {
+    const cssRegex = /(\/\*[\s\S]*?\*\/)|([.#]?[a-zA-Z_][\w-]*)(?=\s*\{)|([\w-]+)(?=\s*:)|(:{1,2}[\w-]+)|(["'][^"']*["'])|(-?\d*\.?\d+(?:px|rem|em|%|vh|vw|s|ms)?)/g;
+    const parts: ReactNode[] = [];
+    let lastIndex = 0;
+    let match;
+    while ((match = cssRegex.exec(code)) !== null) {
+      if (match.index > lastIndex) parts.push(code.substring(lastIndex, match.index));
+      const [full, comment, selector, property, pseudo, str, num] = match;
+      const className = comment ? styles.comment : selector ? styles.tag : property ? styles.attr : pseudo ? styles.keyword : str ? styles.string : num ? styles.number : undefined;
+      parts.push(className ? <span key={match.index} className={className}>{full}</span> : full);
+      lastIndex = cssRegex.lastIndex;
+    }
+    if (lastIndex < code.length) parts.push(code.substring(lastIndex));
     return parts;
   }
 

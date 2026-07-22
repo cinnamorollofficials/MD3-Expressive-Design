@@ -19,8 +19,20 @@
   padding: 24px;
   z-index: 1001;
   overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--md-sys-color-outline) transparent;
   animation: slide var(--md-sys-motion-duration-long2) var(--md-sys-motion-easing-emphasized-decelerate);
 }
+.sheet::-webkit-scrollbar { width: 10px; height: 10px; }
+.sheet::-webkit-scrollbar-track { background: transparent; }
+.sheet::-webkit-scrollbar-thumb {
+  border: 2px solid var(--md-sys-color-surface-container-low);
+  border-radius: var(--md-sys-shape-corner-full);
+  background: var(--md-sys-color-outline);
+}
+.sheet::-webkit-scrollbar-thumb:hover { background: var(--md-sys-color-on-surface-variant); }
+.sheet::-webkit-scrollbar-corner { background: transparent; }
+.wide { width: min(760px, calc(100vw - 32px)); }
 .right { right: 0; border-radius: var(--md-sys-shape-corner-lg) 0 0 var(--md-sys-shape-corner-lg); animation-name: slideRight; }
 .left { left: 0; border-radius: 0 var(--md-sys-shape-corner-lg) var(--md-sys-shape-corner-lg) 0; animation-name: slideLeft; }
 @keyframes slideRight { from { transform: translateX(100%); } to { transform: none; } }

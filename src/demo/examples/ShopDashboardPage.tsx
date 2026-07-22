@@ -3,9 +3,12 @@ import {
   TopAppBar, IconButton, Badge, Search, Menu, Icon,
   SegmentedButton, Tabs, Chip, FAB, Snackbar, Tooltip,
   Divider, ProgressIndicator, Card, Avatar, DataTable,
-  type DataTableColumn,
+  Button, type DataTableColumn,
 } from '../../lib';
 import { cn } from '../../lib/utils/cn';
+import { ExampleSourceSheet } from '../components/ExampleSourceSheet';
+import pageSource from './ShopDashboardPage.tsx?raw';
+import styleSource from './ShopDashboardPage.module.css?raw';
 import styles from './ShopDashboardPage.module.css';
 
 // ---------------------- mock data ----------------------
@@ -140,6 +143,7 @@ export function ShopDashboardPage() {
   const [tab, setTab] = useState<TabId>('orders');
   const [statusFilter, setStatusFilter] = useState<OrderStatus[]>([]);
   const [snack, setSnack] = useState<string | null>(null);
+  const [sourceOpen, setSourceOpen] = useState(false);
 
   const revenue = REVENUE_BY_RANGE[range];
   const target = TARGET_BY_RANGE[range];
@@ -219,6 +223,7 @@ export function ShopDashboardPage() {
         start={<IconButton icon="storefront" label="Store" variant="tonal" />}
         end={
           <>
+            <Button variant="tonal" size="sm" startIcon="code" onClick={() => setSourceOpen(true)}>View source</Button>
             <Search placeholder="Search orders, products…" />
             <Tooltip label="Notifications">
               <Badge count={5}>
@@ -467,6 +472,7 @@ export function ShopDashboardPage() {
         action={{ label: 'Dismiss', onClick: () => setSnack(null) }}
         onClose={() => setSnack(null)}
       />
+      <ExampleSourceSheet open={sourceOpen} onClose={() => setSourceOpen(false)} title="ACME Store" pageSource={pageSource} styleSource={styleSource} />
     </div>
   );
 }

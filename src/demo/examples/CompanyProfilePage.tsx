@@ -8,6 +8,9 @@ import {
   type DataTableColumn,
 } from '../../lib';
 import { cn } from '../../lib/utils/cn';
+import { ExampleSourceSheet } from '../components/ExampleSourceSheet';
+import pageSource from './CompanyProfilePage.tsx?raw';
+import styleSource from './CompanyProfilePage.module.css?raw';
 import styles from './CompanyProfilePage.module.css';
 
 // ---------------------- mock data ----------------------
@@ -198,6 +201,7 @@ export function CompanyProfilePage() {
   const [page, setPage] = useState(1);
   const [doc, setDoc] = useState<string | null>('public/overview.pdf');
   const [snack, setSnack] = useState<string | null>(null);
+  const [sourceOpen, setSourceOpen] = useState(false);
 
   const filteredMembers = useMemo(
     () => deptFilter.length ? MEMBERS.filter(m => deptFilter.includes(m.department)) : MEMBERS,
@@ -224,6 +228,7 @@ export function CompanyProfilePage() {
         start={<IconButton icon="precision_manufacturing" label="Company" variant="tonal" />}
         end={
           <>
+            <Button variant="tonal" size="sm" startIcon="code" onClick={() => setSourceOpen(true)}>View source</Button>
             <Tooltip label="Share"><IconButton icon="share" label="Share" /></Tooltip>
             <Tooltip label="Bookmark"><IconButton icon="bookmark_border" label="Bookmark" /></Tooltip>
             <Tooltip label="Notifications">
@@ -590,6 +595,7 @@ export function CompanyProfilePage() {
         action={{ label: 'Dismiss', onClick: () => setSnack(null) }}
         onClose={() => setSnack(null)}
       />
+      <ExampleSourceSheet open={sourceOpen} onClose={() => setSourceOpen(false)} title="Company Profile" pageSource={pageSource} styleSource={styleSource} />
     </div>
   );
 }
