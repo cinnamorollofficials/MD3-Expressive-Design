@@ -9,10 +9,11 @@ interface ExampleSourceSheetProps {
   title: string;
   pageSource: string;
   styleSource: string;
+  dataSource?: string;
 }
 
-export function ExampleSourceSheet({ open, onClose, title, pageSource, styleSource }: ExampleSourceSheetProps) {
-  const [tab, setTab] = useState<'page' | 'styles'>('page');
+export function ExampleSourceSheet({ open, onClose, title, pageSource, styleSource, dataSource }: ExampleSourceSheetProps) {
+  const [tab, setTab] = useState<'page' | 'data' | 'styles'>('page');
   const copyReadyPageSource = pageSource
     .replace("from '../../lib';", "from '@hadi_gunawan/md3-expressive-ds';")
     .split('\n')
@@ -35,13 +36,17 @@ export function ExampleSourceSheet({ open, onClose, title, pageSource, styleSour
       </div>
       <p className={styles.description}>Source is loaded from the files used by this live example, so the code stays in sync with the UI.</p>
       <Tabs
-        items={[{ value: 'page', label: 'Page', icon: 'code' }, { value: 'styles', label: 'Styles', icon: 'css' }]}
+        items={[
+          { value: 'page', label: 'Page', icon: 'code' },
+          ...(dataSource ? [{ value: 'data', label: 'Data', icon: 'database' }] : []),
+          { value: 'styles', label: 'Styles', icon: 'css' },
+        ]}
         value={tab}
-        onChange={value => setTab(value as 'page' | 'styles')}
+        onChange={value => setTab(value as 'page' | 'data' | 'styles')}
       />
       <div className={styles.code}>
         <CodeBlock
-          code={tab === 'page' ? copyReadyPageSource : styleSource}
+          code={tab === 'page' ? copyReadyPageSource : tab === 'data' ? (dataSource ?? '') : styleSource}
           language={tab === 'page' ? 'jsx' : 'css'}
           showLineNumbers
         />
