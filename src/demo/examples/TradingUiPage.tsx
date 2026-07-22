@@ -3,7 +3,7 @@ import {
   TopAppBar, IconButton, Badge, Search, Menu,
   SegmentedButton, Tabs, Chip, Snackbar, Tooltip,
   Divider, Card, Avatar, DataTable, Button, TextField,
-  Slider, NavigationRail, KernelDensityEstimation, type DataTableColumn
+  Slider, NavigationRail, CandlestickChart, type DataTableColumn
 } from '../../lib';
 import { ExampleSourceSheet } from '../components/ExampleSourceSheet';
 import {
@@ -16,260 +16,7 @@ import dataSource from './TradingUiPage.data.ts?raw';
 import styleSource from './TradingUiPage.module.css?raw';
 import styles from './TradingUiPage.module.css';
 
-// SVG Candlestick Chart Component with Indicators
-function CandlestickChart({
-  data,
-  symbolItem,
-  showSma,
-  showBollinger,
-}: {
-  data: CandlestickPoint[];
-  symbolItem: TickerItem;
-  showSma: boolean;
-  showBollinger: boolean;
-}) {
-  const [hoverIndex, setHoverIndex] = useState<number | null>(null);
 
-  const width = 800;
-  const height = 360;
-  const padding = { top: 24, right: 65, bottom: 30, left: 10 };
-
-  const chartW = width - padding.left - padding.right;
-  const chartH = height - padding.top - padding.bottom;
-
-  const { minPrice, maxPrice, maxVol } = useMemo(() => {
-    if (!data.length) return { minPrice: 0, maxPrice: 100, maxVol: 100 };
-    let minP = Infinity;
-    let maxP = -Infinity;
-    let maxV = 0;
-    data.forEach(d => {
-      if (d.low < minP) minP = d.low;
-      if (d.high > maxP) maxP = d.high;
-      if (d.volume > maxV) maxV = d.volume;
-    });
-    const padP = (maxP - minP) * 0.05 || 10;
-    return {
-      minPrice: Math.max(0, minP - padP),
-      maxPrice: maxP + padP,
-      maxVol: maxV || 1,
-    };
-  }, [data]);
-
-  const candleW = Math.max(2, (chartW / data.length) * 0.65);
-  const stepX = chartW / (data.length || 1);
-
-  const getY = (val: number) => {
-    return padding.top + (1 - (val - minPrice) / (maxPrice - minPrice || 1)) * (chartH * 0.75);
-  };
-
-  const getVolY = (vol: number) => {
-    const volH = (vol / maxVol) * (chartH * 0.22);
-    return padding.top + chartH - volH;
-  };
-
-  const yTicks = useMemo(() => {
-    const ticksCount = 6;
-    const result = [];
-    const step = (maxPrice - minPrice) / (ticksCount - 1);
-    for (let i = 0; i < ticksCount; i++) {
-      result.push(minPrice + step * i);
-    }
-    return result;
-  }, [minPrice, maxPrice]);
-
-  const hoverPoint = hoverIndex !== null && data[hoverIndex] ? data[hoverIndex] : data[data.length - 1];
-
-  const smaPath = useMemo(() => {
-    if (!showSma || data.length < 2) return '';
-    return data
-      .map((d, i) => {
-        const x = padding.left + i * stepX + stepX / 2;
-        const y = getY(d.sma9 ?? d.close);
-        return `${i === 0 ? 'M' : 'L'} ${x} ${y}`;
-      })
-      .join(' ');
-  }, [data, showSma, stepX]);
-
-  const bollingerPaths = useMemo(() => {
-    if (!showBollinger || data.length < 2) return { upper: '', lower: '' };
-    const upper = data
-      .map((d, i) => {
-        const x = padding.left + i * stepX + stepX / 2;
-        const y = getY(d.upperBand ?? d.high);
-        return `${i === 0 ? 'M' : 'L'} ${x} ${y}`;
-      })
-      .join(' ');
-    const lower = data
-      .map((d, i) => {
-        const x = padding.left + i * stepX + stepX / 2;
-        const y = getY(d.lowerBand ?? d.low);
-        return `${i === 0 ? 'M' : 'L'} ${x} ${y}`;
-      })
-      .join(' ');
-    return { upper, lower };
-  }, [data, showBollinger, stepX]);
-
-  return (
-    <div className={styles.chartViewport} onMouseLeave={() => setHoverIndex(null)}>
-      <div className={styles.pairSummary}>
-        <span style={{ fontWeight: 700, color: 'var(--md-sys-color-on-surface, #fff)' }}>{symbolItem.symbol}</span>
-        {hoverPoint && (
-          <span>
-            O <span className={styles.pairOhlc}>{hoverPoint.open}</span>{' '}
-            H <span className={styles.pairOhlc}>{hoverPoint.high}</span>{' '}
-            L <span className={styles.pairOhlc}>{hoverPoint.low}</span>{' '}
-            C <span className={styles.pairOhlc}>{hoverPoint.close}</span>{' '}
-            <span style={{ color: symbolItem.change >= 0 ? '#00e676' : '#ff5252' }}>
-              {symbolItem.change >= 0 ? '+' : ''}{symbolItem.change} ({symbolItem.changePercent}%)
-            </span>
-          </span>
-        )}
-      </div>
-
-      <svg
-        className={styles.candlestickSvg}
-        viewBox={`0 0 ${width} ${height}`}
-        preserveAspectRatio="none"
-        onMouseMove={(e) => {
-          const rect = e.currentTarget.getBoundingClientRect();
-          const mouseX = e.clientX - rect.left - padding.left;
-          const idx = Math.min(data.length - 1, Math.max(0, Math.floor(mouseX / stepX)));
-          setHoverIndex(idx);
-        }}
-      >
-        {/* Grid lines */}
-        {yTicks.map((tick, i) => {
-          const y = getY(tick);
-          return (
-            <g key={i}>
-              <line x1={padding.left} y1={y} x2={width - padding.right} y2={y} stroke="var(--md-sys-color-outline-variant, #18202c)" strokeWidth="1" strokeDasharray="3 3" />
-              <text x={width - padding.right + 6} y={y + 3} fill="var(--md-sys-color-on-surface-variant, #64748b)" fontSize="10" fontFamily="sans-serif">
-                {tick > 10000 ? `${(tick / 1000).toFixed(0)}K` : tick.toFixed(1)}
-              </text>
-            </g>
-          );
-        })}
-
-        {/* Bollinger Bands Paths */}
-        {showBollinger && (
-          <>
-            <path d={bollingerPaths.upper} fill="none" stroke="#a78bfa" strokeWidth="1" strokeDasharray="2 2" />
-            <path d={bollingerPaths.lower} fill="none" stroke="#a78bfa" strokeWidth="1" strokeDasharray="2 2" />
-          </>
-        )}
-
-        {/* SMA 9 Path */}
-        {showSma && (
-          <path d={smaPath} fill="none" stroke="#38bdf8" strokeWidth="1.5" />
-        )}
-
-        {/* Current Price Line */}
-        {data.length > 0 && (
-          <g>
-            <line
-              x1={padding.left}
-              y1={getY(data[data.length - 1].close)}
-              x2={width - padding.right}
-              y2={getY(data[data.length - 1].close)}
-              stroke={symbolItem.change >= 0 ? '#00e676' : '#ff5252'}
-              strokeWidth="1"
-              strokeDasharray="2 2"
-            />
-            <rect
-              x={width - padding.right}
-              y={getY(data[data.length - 1].close) - 9}
-              width={60}
-              height={18}
-              rx={4}
-              fill={symbolItem.change >= 0 ? '#00e676' : '#ff5252'}
-            />
-            <text
-              x={width - padding.right + 6}
-              y={getY(data[data.length - 1].close) + 4}
-              fill="#000000"
-              fontSize="10"
-              fontWeight="bold"
-            >
-              {data[data.length - 1].close > 10000 ? `${(data[data.length - 1].close / 1000).toFixed(1)}K` : data[data.length - 1].close}
-            </text>
-          </g>
-        )}
-
-        {/* Volume Bars */}
-        {data.map((d, i) => {
-          const cx = padding.left + i * stepX + stepX / 2;
-          const isGreen = d.close >= d.open;
-          const volY = getVolY(d.volume);
-          const volH = padding.top + chartH - volY;
-          return (
-            <rect
-              key={`vol-${i}`}
-              x={cx - candleW / 2}
-              y={volY}
-              width={candleW}
-              height={volH}
-              fill={isGreen ? 'rgba(0, 230, 118, 0.25)' : 'rgba(255, 82, 82, 0.25)'}
-            />
-          );
-        })}
-
-        {/* Candlesticks */}
-        {data.map((d, i) => {
-          const cx = padding.left + i * stepX + stepX / 2;
-          const isGreen = d.close >= d.open;
-          const openY = getY(d.open);
-          const closeY = getY(d.close);
-          const highY = getY(d.high);
-          const lowY = getY(d.low);
-
-          const bodyY = Math.min(openY, closeY);
-          const bodyH = Math.max(1, Math.abs(closeY - openY));
-          const color = isGreen ? '#00e676' : '#ff5252';
-
-          return (
-            <g key={`candle-${i}`}>
-              <line x1={cx} y1={highY} x2={cx} y2={lowY} stroke={color} strokeWidth="1.2" />
-              <rect
-                x={cx - candleW / 2}
-                y={bodyY}
-                width={candleW}
-                height={bodyH}
-                fill={color}
-                stroke={color}
-              />
-            </g>
-          );
-        })}
-
-        {/* Hover Hairline */}
-        {hoverIndex !== null && (
-          <g>
-            <line
-              x1={padding.left + hoverIndex * stepX + stepX / 2}
-              y1={padding.top}
-              x2={padding.left + hoverIndex * stepX + stepX / 2}
-              y2={padding.top + chartH}
-              stroke="#94a3b8"
-              strokeWidth="0.8"
-              strokeDasharray="4 4"
-            />
-          </g>
-        )}
-
-        {/* Time X-axis Labels */}
-        {data.map((d, i) => {
-          if (i % 8 !== 0) return null;
-          const cx = padding.left + i * stepX + stepX / 2;
-          return (
-            <text key={`time-${i}`} x={cx} y={height - 10} fill="var(--md-sys-color-on-surface-variant, #64748b)" fontSize="9" textAnchor="middle">
-              {d.dateStr}
-            </text>
-          );
-        })}
-      </svg>
-    </div>
-  );
-}
 
 export function TradingUiPage() {
   const [navTab, setNavTab] = useState<string>('trade');
@@ -331,8 +78,11 @@ export function TradingUiPage() {
     return generateCandlestickData(activeSymbol, 55);
   }, [activeSymbol]);
 
-  const kdePriceData = useMemo(() => {
-    return candleData.map(d => d.close);
+  const candlestickChartData = useMemo(() => {
+    return candleData.map(d => ({
+      ...d,
+      date: d.dateStr,
+    }));
   }, [candleData]);
 
   const filteredWatchlist = useMemo(() => {
@@ -674,20 +424,19 @@ export function TradingUiPage() {
             </div>
           </div>
 
-          {/* Chart Card using MD3 KernelDensityEstimation Component from library */}
-          <Card variant="filled" style={{ borderRadius: 0, flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', padding: '4px 8px' }}>
-            <KernelDensityEstimation
-              data={kdePriceData}
-              curveColor="#38bdf8"
-              barColor={currentSymbolItem.change >= 0 ? 'rgba(0, 230, 118, 0.25)' : 'rgba(255, 82, 82, 0.25)'}
-              showHistogram={true}
-              showControls={false}
-              showKernelSelector={false}
+          {/* Candlestick Chart Card using MD3 CandlestickChart Component from library */}
+          <Card variant="filled" style={{ borderRadius: 0, flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+            <CandlestickChart
+              data={candlestickChartData}
               height={340}
-              title={`Distribusi Estimasi Densitas Harga (KDE) — ${currentSymbolItem.symbol}`}
-              xAxisTitle={`Harga (${currentSymbolItem.currency})`}
-              yAxisTitle="Probabilitas Densitas"
-              xFormatter={(val) => `${currentSymbolItem.currency === 'IDR' ? 'Rp' : '$'} ${val.toLocaleString()}`}
+              showVolume={true}
+              showSma={showSma}
+              showBollinger={showBollinger}
+              upColor="#00e676"
+              downColor="#ff5252"
+              maColor="#38bdf8"
+              bollingerColor="#a78bfa"
+              valueFormatter={(val) => `${currentSymbolItem.currency === 'IDR' ? 'Rp' : '$'} ${val.toLocaleString()}`}
             />
           </Card>
 

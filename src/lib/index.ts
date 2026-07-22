@@ -79,6 +79,7 @@ export * from './components/ChordDiagram';
 export * from './components/HierarchicalEdgeBundling';
 export * from './components/MovingAverageChart';
 export * from './components/BollingerBandsChart';
+export * from './components/CandlestickChart';
 export * from './components/BoxPlot';
 export * from './components/Histogram';
 export * from './components/KernelDensityEstimation';
