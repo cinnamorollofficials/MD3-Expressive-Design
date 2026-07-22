@@ -105,25 +105,6 @@ export function DemoLayout({
           </div>
         )}
 
-        {/* Click-to-open Command Palette search */}
-        {isDocsActive && (
-          <div
-            className={cn(styles.searchContainer, isCollapsed && styles.searchContainerCollapsed)}
-            onClick={onSearchClick}
-            title="Open Command Palette (Ctrl+K)"
-          >
-            <Icon name="search" size={20} className={styles.searchIcon} />
-            {!isCollapsed && (
-              <input
-                type="text"
-                placeholder="Search... (Ctrl+K)"
-                readOnly
-                className={styles.searchInput}
-              />
-            )}
-          </div>
-        )}
-
         <div className={styles.scrollableNav}>
           {isDocsActive ? (
             <>
@@ -361,6 +342,18 @@ export function DemoLayout({
 
           {/* Header Action Items (Right Aligned) */}
           <div className={styles.headerActions}>
+            {isDocsActive && (
+              <button
+                type="button"
+                className={styles.searchButton}
+                onClick={onSearchClick}
+                title="Search (Ctrl+K)"
+                aria-label="Open search"
+              >
+                <Icon name="search" size={22} />
+              </button>
+            )}
+
             {/* Version badge */}
             <span className={styles.versionBadge}>v0.5.0</span>
 
