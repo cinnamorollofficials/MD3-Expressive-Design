@@ -11,6 +11,42 @@ export function ChangelogPage() {
 
       <DemoSection title="Releases Timeline">
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24, width: '100%' }}>
+          {/* v0.6.0 */}
+          <div style={{ display: 'flex', gap: 16 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+              <div style={{ width: 16, height: 16, borderRadius: '50%', background: 'var(--md-sys-color-primary)', border: '4px solid var(--md-sys-color-primary-container)' }} />
+              <div style={{ flex: 1, width: 2, background: 'var(--md-sys-color-outline-variant)', marginTop: 8 }} />
+            </div>
+
+            <Card variant="outlined" style={{ flex: 1 }}>
+              <CardContent>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8, marginBottom: 8 }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                    <CardTitle>v0.6.0</CardTitle>
+                    <span style={{ background: 'var(--md-sys-color-primary-container)', color: 'var(--md-sys-color-on-primary-container)', padding: '2px 8px', borderRadius: 'var(--md-sys-shape-corner-full)', font: 'var(--md-sys-typescale-label-small)', fontWeight: 'bold' }}>
+                      Latest
+                    </span>
+                  </div>
+                  <span style={{ font: 'var(--md-sys-typescale-label-medium)', color: 'var(--md-sys-color-on-surface-variant)' }}>July 22, 2026</span>
+                </div>
+                <CardBody>
+                  <strong>Expressive Home & Component Discovery Release</strong>
+                  <p style={{ margin: '8px 0', fontSize: '12px', color: 'var(--md-sys-color-on-surface-variant)' }}>
+                    Introduced a full-width landing experience that makes every component a first-class, visually recognizable entry point into the design system.
+                  </p>
+                  <ul style={{ paddingLeft: 20, margin: '8px 0 0 0', display: 'flex', flexDirection: 'column', gap: 4 }}>
+                    <li><strong>New Root Home:</strong> Promoted the landing page to the root route, removed its sidebar, added clickable brand navigation, and preserved browser Back/Forward behavior.</li>
+                    <li><strong>Complete Component Gallery:</strong> Added equal-size responsive cards with a maximum of five columns and direct navigation to every component document.</li>
+                    <li><strong>Faithful UI Previews:</strong> Created dedicated miniatures for controls, content patterns, area and bar charts, networks, statistical analysis, maps, and hierarchy visualizations.</li>
+                    <li><strong>Expressive Hero:</strong> Added a full-width welcome banner, prominent calls to action, an enlarged dashboard visualization, and refined spacing.</li>
+                    <li><strong>Theme & Interaction Polish:</strong> Improved the closing CTA in dark mode and removed upward hover motion while retaining accessible feedback.</li>
+                    <li><strong>Stronger Typography Identity:</strong> Increased display, headline, title, and label weights across the token system.</li>
+                  </ul>
+                </CardBody>
+              </CardContent>
+            </Card>
+          </div>
+
           {/* v0.5.0 */}
           <div style={{ display: 'flex', gap: 16 }}>
             {/* Timeline track node */}
@@ -31,17 +67,6 @@ export function ChangelogPage() {
                 <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: 8, marginBottom: 8 }}>
                   <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                     <CardTitle>v0.5.0</CardTitle>
-
-                    <span style={{
-                      background: 'var(--md-sys-color-primary-container)',
-                      color: 'var(--md-sys-color-on-primary-container)',
-                      padding: '2px 8px',
-                      borderRadius: 'var(--md-sys-shape-corner-full)',
-                      font: 'var(--md-sys-typescale-label-small)',
-                      fontWeight: 'bold'
-                    }}>
-                      Latest
-                    </span>
                   </div>
                   <span style={{ font: 'var(--md-sys-typescale-label-medium)', color: 'var(--md-sys-color-on-surface-variant)' }}>July 22, 2026</span>
                 </div>
