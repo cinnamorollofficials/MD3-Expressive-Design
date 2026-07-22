@@ -101,16 +101,17 @@ export function DemoLayout({
   const isExamplesActive = ['examples', 'shop-dashboard', 'company-profile'].includes(activeGroup);
   const isDocsActive = !isExamplesActive;
   const isHome = current === 'overview';
+  const hasSidebar = !isHome && !isExamplesActive;
 
   return (
     <div
-      className={cn(styles.root, isCollapsed && styles.collapsedRoot, isHome && styles.homeRoot)}
+      className={cn(styles.root, isCollapsed && styles.collapsedRoot, !hasSidebar && styles.homeRoot)}
       style={{
-        gridTemplateColumns: isHome ? '1fr' : (isCollapsed ? '72px 1fr' : `${sidebarWidth}px 1fr`)
+        gridTemplateColumns: hasSidebar ? (isCollapsed ? '72px 1fr' : `${sidebarWidth}px 1fr`) : '1fr'
       }}
     >
       {/* Sidebar container */}
-      {!isHome && <aside className={cn(styles.sidebar, isCollapsed && styles.sidebarCollapsed)}>
+      {hasSidebar && <aside className={cn(styles.sidebar, isCollapsed && styles.sidebarCollapsed)}>
         {!isCollapsed ? (
           <>
             <button type="button" className={styles.brandRow} onClick={() => onNavigate('overview')} aria-label="Go to home">
@@ -333,7 +334,7 @@ export function DemoLayout({
       <div className={styles.mainArea}>
         {/* Top Header navbar */}
         <header className={cn(styles.header, isHome && styles.homeHeader)}>
-          {isHome ? (
+          {!hasSidebar ? (
             <button type="button" className={styles.homeBrand} onClick={() => onNavigate('overview')}>
               <ProjectLogo size={30} className={styles.brandLogo} />
               <span>MD3 Expressive</span>
