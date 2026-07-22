@@ -1,5 +1,6 @@
 import { ReactNode, useMemo, useState, useCallback, useRef, Fragment } from 'react';
 import { cn } from '../../utils/cn';
+import { useDensity } from '../../hooks/useDensity';
 import { Icon } from '../Icon';
 import { Checkbox } from '../Checkbox';
 import { Pagination } from '../Pagination';
@@ -172,7 +173,7 @@ export function DataTable<T>({
   className,
   ariaLabel,
 }: DataTableProps<T>) {
-  const density: DataTableDensity = densityProp ?? (dense ? 'compact' : 'medium');
+  const density: DataTableDensity = useDensity(densityProp ?? (dense ? 'compact' : undefined));
 
   // Internal Search State
   const [internalSearch, setInternalSearch] = useState('');

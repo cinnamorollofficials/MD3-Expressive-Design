@@ -1,7 +1,7 @@
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from './App';
-import { ThemeProvider } from './lib';
+import { ThemeProvider, DensityProvider } from './lib';
 import './styles/reset.css';
 import './styles/tokens/_base.css';
 import './styles/tokens/light-purple.css';
@@ -16,7 +16,9 @@ import './styles/global.css';
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <ThemeProvider>
-      <App />
+      <DensityProvider>
+        <App />
+      </DensityProvider>
     </ThemeProvider>
   </StrictMode>,
 );

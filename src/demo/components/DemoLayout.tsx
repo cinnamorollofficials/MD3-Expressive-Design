@@ -3,6 +3,7 @@ import { cn } from '../../lib/utils/cn';
 import { Icon } from '../../lib/components/Icon';
 import { Menu } from '../../lib/components/Menu';
 import { ThemeSwitcher } from './ThemeSwitcher';
+import { DensitySwitcher } from './DensitySwitcher';
 import styles from './DemoLayout.module.css';
 import { type GroupDef } from '../../App';
 
@@ -374,7 +375,8 @@ export function DemoLayout({
               </svg>
             </a>
 
-            {/* Dark/light and seed theme color switches */}
+            {/* Density switcher and Theme switcher */}
+            <DensitySwitcher />
             <ThemeSwitcher />
           </div>
         </header>

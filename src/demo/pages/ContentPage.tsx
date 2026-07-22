@@ -69,74 +69,44 @@ const TREE_DATA: FileTreeNode[] = [
 /* Dedicated Examples for DataTable Variants & Features                      */
 /* -------------------------------------------------------------------------- */
 
-function DataTableBasicDemo() {
-  const columns: DataTableColumn<ExtendedPerson>[] = [
-    { id: 'name', header: 'Name' },
-    { id: 'role', header: 'Role' },
-    { id: 'department', header: 'Department' },
-    { id: 'salary', header: 'Salary', numeric: true, cell: r => `$${r.salary.toLocaleString()}` },
-  ];
-  return <DataTable columns={columns} rows={EXTENDED_PEOPLE.slice(0, 4)} rowKey={r => r.id} />;
+function VariantSelector({ value, onChange }: { value: DataTableVariant; onChange: (v: DataTableVariant) => void }) {
+  return (
+    <div style={{ display: 'flex', gap: 6, alignItems: 'center', flexWrap: 'wrap', marginBottom: 12 }}>
+      <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--md-sys-color-on-surface-variant)' }}>
+        Variant:
+      </span>
+      {(['flat', 'outlined', 'striped', 'flush'] as DataTableVariant[]).map(v => (
+        <Button
+          key={v}
+          size="sm"
+          variant={value === v ? 'filled' : 'outlined'}
+          onClick={() => onChange(v)}
+        >
+          {v.charAt(0).toUpperCase() + v.slice(1)}
+        </Button>
+      ))}
+    </div>
+  );
 }
 
-function DataTableVariantsDensityDemo() {
+function DataTableBasicDemo() {
   const [variant, setVariant] = useState<DataTableVariant>('outlined');
-  const [density, setDensity] = useState<DataTableDensity>('compact');
-
   const columns: DataTableColumn<ExtendedPerson>[] = [
     { id: 'name', header: 'Name' },
     { id: 'role', header: 'Role' },
     { id: 'department', header: 'Department' },
     { id: 'salary', header: 'Salary', numeric: true, cell: r => `$${r.salary.toLocaleString()}` },
   ];
-  const sample = EXTENDED_PEOPLE.slice(0, 4);
-
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 16, width: '100%' }}>
-      {/* Mode Controls Bar */}
-      <div style={{ display: 'flex', gap: 20, alignItems: 'center', flexWrap: 'wrap' }}>
-        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-          <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--md-sys-color-on-surface-variant)' }}>Variant:</span>
-          {(['flat', 'outlined', 'striped', 'flush'] as DataTableVariant[]).map(v => (
-            <Button
-              key={v}
-              size="sm"
-              variant={variant === v ? 'filled' : 'outlined'}
-              onClick={() => setVariant(v)}
-            >
-              {v.charAt(0).toUpperCase() + v.slice(1)}
-            </Button>
-          ))}
-        </div>
-
-        <div style={{ display: 'flex', gap: 6, alignItems: 'center' }}>
-          <span style={{ fontSize: '0.85rem', fontWeight: 600, color: 'var(--md-sys-color-on-surface-variant)' }}>Density:</span>
-          {(['comfortable', 'compact'] as DataTableDensity[]).map(d => (
-            <Button
-              key={d}
-              size="sm"
-              variant={density === d ? 'filled' : 'outlined'}
-              onClick={() => setDensity(d)}
-            >
-              {d.charAt(0).toUpperCase() + d.slice(1)}
-            </Button>
-          ))}
-        </div>
-      </div>
-
-      {/* Single Dynamic Table */}
-      <DataTable
-        columns={columns}
-        rows={sample}
-        rowKey={r => r.id}
-        variant={variant}
-        density={density}
-      />
+    <div style={{ width: '100%' }}>
+      <VariantSelector value={variant} onChange={setVariant} />
+      <DataTable columns={columns} rows={EXTENDED_PEOPLE.slice(0, 4)} rowKey={r => r.id} variant={variant} />
     </div>
   );
 }
 
 function DataTableSearchPaginationDemo() {
+  const [variant, setVariant] = useState<DataTableVariant>('outlined');
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(4);
 
@@ -149,24 +119,28 @@ function DataTableSearchPaginationDemo() {
   ];
 
   return (
-    <DataTable
-      columns={columns}
-      rows={EXTENDED_PEOPLE}
-      rowKey={r => r.id}
-      variant="outlined"
-      searchable={{ title: 'Team Directory', placeholder: 'Search by name, role, email...' }}
-      pagination={{
-        page,
-        pageSize,
-        onPageChange: setPage,
-        onPageSizeChange: setPageSize,
-        pageSizeOptions: [4, 8],
-      }}
-    />
+    <div style={{ width: '100%' }}>
+      <VariantSelector value={variant} onChange={setVariant} />
+      <DataTable
+        columns={columns}
+        rows={EXTENDED_PEOPLE}
+        rowKey={r => r.id}
+        variant={variant}
+        searchable={{ title: 'Team Directory', placeholder: 'Search by name, role, email...' }}
+        pagination={{
+          page,
+          pageSize,
+          onPageChange: setPage,
+          onPageSizeChange: setPageSize,
+          pageSizeOptions: [4, 8],
+        }}
+      />
+    </div>
   );
 }
 
 function DataTableSelectionExpandableDemo() {
+  const [variant, setVariant] = useState<DataTableVariant>('outlined');
   const [selected, setSelected] = useState<Set<string | number>>(new Set([1, 2]));
 
   const columns: DataTableColumn<ExtendedPerson>[] = [
@@ -177,35 +151,39 @@ function DataTableSelectionExpandableDemo() {
   ];
 
   return (
-    <DataTable
-      columns={columns}
-      rows={EXTENDED_PEOPLE.slice(0, 4)}
-      rowKey={r => r.id}
-      variant="outlined"
-      selected={selected}
-      onSelectedChange={setSelected}
-      bulkActions={[
-        { id: 'export', label: 'Export Selected', icon: 'download', onClick: keys => alert(`Exporting ${keys.size} items`) },
-        { id: 'delete', label: 'Delete Selected', icon: 'delete', tone: 'danger', onClick: keys => setSelected(new Set()) },
-      ]}
-      expandableRow={{
-        renderDetail: row => (
-          <div style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
-            <Avatar name={row.name} size="lg" />
-            <div>
-              <div style={{ fontWeight: 600 }}>{row.name} ({row.role})</div>
-              <div style={{ fontSize: '0.85rem', color: 'var(--md-sys-color-on-surface-variant)' }}>
-                Email: {row.email} | Dept: {row.department} | Salary: ${row.salary.toLocaleString()}
+    <div style={{ width: '100%' }}>
+      <VariantSelector value={variant} onChange={setVariant} />
+      <DataTable
+        columns={columns}
+        rows={EXTENDED_PEOPLE.slice(0, 4)}
+        rowKey={r => r.id}
+        variant={variant}
+        selected={selected}
+        onSelectedChange={setSelected}
+        bulkActions={[
+          { id: 'export', label: 'Export Selected', icon: 'download', onClick: keys => alert(`Exporting ${keys.size} items`) },
+          { id: 'delete', label: 'Delete Selected', icon: 'delete', tone: 'danger', onClick: keys => setSelected(new Set()) },
+        ]}
+        expandableRow={{
+          renderDetail: row => (
+            <div style={{ display: 'flex', gap: 20, alignItems: 'center' }}>
+              <Avatar name={row.name} size="lg" />
+              <div>
+                <div style={{ fontWeight: 600 }}>{row.name} ({row.role})</div>
+                <div style={{ fontSize: '0.85rem', color: 'var(--md-sys-color-on-surface-variant)' }}>
+                  Email: {row.email} | Dept: {row.department} | Salary: ${row.salary.toLocaleString()}
+                </div>
               </div>
             </div>
-          </div>
-        ),
-      }}
-    />
+          ),
+        }}
+      />
+    </div>
   );
 }
 
 function DataTableTreeDemo() {
+  const [variant, setVariant] = useState<DataTableVariant>('outlined');
   const columns: DataTableColumn<FileTreeNode>[] = [
     { id: 'name', header: 'File / Folder Name', width: '240px' },
     { id: 'owner', header: 'Owner' },
@@ -214,17 +192,21 @@ function DataTableTreeDemo() {
   ];
 
   return (
-    <DataTable
-      columns={columns}
-      rows={TREE_DATA}
-      rowKey={r => r.id}
-      treeMode
-      variant="outlined"
-    />
+    <div style={{ width: '100%' }}>
+      <VariantSelector value={variant} onChange={setVariant} />
+      <DataTable
+        columns={columns}
+        rows={TREE_DATA}
+        rowKey={r => r.id}
+        treeMode
+        variant={variant}
+      />
+    </div>
   );
 }
 
 function DataTableInlineEditDemo() {
+  const [variant, setVariant] = useState<DataTableVariant>('outlined');
   const [data, setData] = useState(EXTENDED_PEOPLE.slice(0, 4));
 
   const columns: DataTableColumn<ExtendedPerson>[] = [
@@ -239,14 +221,17 @@ function DataTableInlineEditDemo() {
   };
 
   return (
-    <DataTable
-      columns={columns}
-      rows={data}
-      rowKey={r => r.id}
-      variant="outlined"
-      resizableColumns
-      onCellEdit={handleCellEdit}
-    />
+    <div style={{ width: '100%' }}>
+      <VariantSelector value={variant} onChange={setVariant} />
+      <DataTable
+        columns={columns}
+        rows={data}
+        rowKey={r => r.id}
+        variant={variant}
+        resizableColumns
+        onCellEdit={handleCellEdit}
+      />
+    </div>
   );
 }
 
@@ -270,6 +255,7 @@ const TRANSACTIONS: TransactionRecord[] = [
 ];
 
 function DataTableDateRangeDemo() {
+  const [variant, setVariant] = useState<DataTableVariant>('outlined');
   const [startDate, setStartDate] = useState<Date | null>(new Date('2026-07-10'));
   const [endDate, setEndDate] = useState<Date | null>(new Date('2026-07-22'));
 
@@ -291,6 +277,7 @@ function DataTableDateRangeDemo() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 12, width: '100%' }}>
+      <VariantSelector value={variant} onChange={setVariant} />
       {/* Quick Preset Buttons */}
       <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
         <span style={{ fontSize: '0.85rem', fontWeight: 600 }}>Quick Presets:</span>
@@ -347,7 +334,7 @@ function DataTableDateRangeDemo() {
         columns={columns}
         rows={TRANSACTIONS}
         rowKey={r => r.id}
-        variant="outlined"
+        variant={variant}
         searchable={{ title: 'Financial Audit Log', placeholder: 'Search transaction ID or customer...' }}
         dateRangeFilter={{
           columnId: 'date',
@@ -486,15 +473,6 @@ export function ContentPage({ activeComponent }: { activeComponent?: string }) {
             code={`<DataTable columns={columns} rows={rows} />`}
           >
             <DataTableBasicDemo />
-          </DemoSection>
-
-          <DemoSection
-            title="Data table — Styling variants & Density options"
-            description="Visual variants (outlined, striped) and row height density options (compact, comfortable) without filtering or sorting."
-            code={`<DataTable variant="outlined" density="compact" columns={columns} rows={rows} />
-<DataTable variant="striped" density="comfortable" columns={columns} rows={rows} />`}
-          >
-            <DataTableVariantsDensityDemo />
           </DemoSection>
 
           <DemoSection

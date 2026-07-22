@@ -8,6 +8,26 @@
   --md-sys-elevation-5: 0 4px 4px 0 rgba(0,0,0,0.30), 0 8px 12px 6px rgba(0,0,0,0.15);
 }
 
+/* Global Density Tokens */
+:root,
+:root[data-density="comfortable"] {
+  --md-sys-density-scale: 0;
+  --md-sys-density-padding-y: 12px;
+  --md-sys-density-padding-x: 16px;
+  --md-sys-density-gap: 12px;
+  --md-sys-density-input-height: 56px;
+  --md-sys-density-button-height: 40px;
+}
+
+:root[data-density="compact"] {
+  --md-sys-density-scale: -1;
+  --md-sys-density-padding-y: 6px;
+  --md-sys-density-padding-x: 12px;
+  --md-sys-density-gap: 8px;
+  --md-sys-density-input-height: 40px;
+  --md-sys-density-button-height: 32px;
+}
+
 html, body {
   background: var(--md-sys-color-background);
   color: var(--md-sys-color-on-background);

@@ -117,6 +117,9 @@ export * from './components/TangledTree';
 export { useTheme, ThemeProvider } from './hooks/useTheme';
 export type { ThemeName, ThemeMode, ThemePreference, ThemeContextValue, ThemeProviderProps } from './hooks/useTheme';
 
+export { useDensity, DensityProvider, useDensityContext } from './hooks/useDensity';
+export type { ComponentDensity, DensityContextValue, DensityProviderProps } from './hooks/useDensity';
+
 export { useRipple } from './hooks/useRipple';
 export { useFocusTrap } from './hooks/useFocusTrap';
 export { cn } from './utils/cn';

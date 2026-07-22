@@ -6,6 +6,11 @@
   --md-tf-label-left: 16px;
 }
 
+.root.compact .field {
+  height: var(--md-sys-density-input-height, 40px);
+  padding: 0 12px;
+}
+
 .hasLeading {
   --md-tf-label-left: 52px;
 }

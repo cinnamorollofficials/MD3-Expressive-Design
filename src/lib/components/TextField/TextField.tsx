@@ -1,5 +1,6 @@
 import { InputHTMLAttributes, forwardRef, useId, useState } from 'react';
 import { cn } from '../../utils/cn';
+import { useDensity, type ComponentDensity } from '../../hooks/useDensity';
 import { Icon } from '../Icon';
 import styles from './TextField.module.css';
 
@@ -13,12 +14,14 @@ export interface TextFieldProps extends Omit<InputHTMLAttributes<HTMLInputElemen
   helperText?: string;
   error?: boolean;
   size?: 'small' | 'medium' | 'large';
+  density?: ComponentDensity;
 }
 
 export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(function TextField(
-  { label, variant = 'outlined', leadingIcon, trailingIcon, helperText, error, className, value, defaultValue, onFocus, onBlur, id, size = 'large', ...rest },
+  { label, variant = 'outlined', leadingIcon, trailingIcon, helperText, error, className, value, defaultValue, onFocus, onBlur, id, size = 'large', density: densityProp, ...rest },
   ref,
 ) {
+  const density = useDensity(densityProp);
   const autoId = useId();
   const inputId = id || autoId;
   const [focused, setFocused] = useState(false);
@@ -28,7 +31,7 @@ export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(function T
   const floated = focused || (current != null && String(current).length > 0) || !!rest.placeholder;
 
   return (
-    <div className={cn(styles.root, styles[size], className)} data-md3-component="text-field">
+    <div className={cn(styles.root, styles[size], density === 'compact' && styles.compact, className)} data-md3-component="text-field">
       <div className={cn(styles.field, styles[variant], focused && styles.focused, error && styles.error, leadingIcon && styles.hasLeading, styles[size])}>
         {leadingIcon && <span className={styles.leading}><Icon name={leadingIcon} size={size === 'small' ? 18 : 24} /></span>}
         <input
