@@ -428,7 +428,7 @@ export function TradingUiPage() {
           </div>
 
           {/* Candlestick Chart Card using MD3 CandlestickChart Component from library */}
-          <Card variant="filled" style={{ borderRadius: 0, flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+          <Card variant="filled" style={{ borderRadius: 0, flex: 1, display: 'flex', flexDirection: 'column', overflow: 'hidden', backgroundColor: '#060810' }}>
             <CandlestickChart
               data={candlestickChartData}
               height={340}
